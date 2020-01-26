@@ -165,7 +165,7 @@ client.on("message", async message => {
   catch(err){
     console.error(error);
     var logChannel = client.channels.get(config.logChannel);
-    logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***COMMAND LOADING ERROR:***\n```js\nLikely connection reset.\nERR: ' + error + '\n```');
+    logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***COMMAND LOADING ERROR:***\n```js\nERR: ' + error + '\n```');
   }
 
   });
