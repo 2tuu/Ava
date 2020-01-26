@@ -124,8 +124,8 @@ client.on("message", async message => {
 
   if(message.guild){ //TODO: Clean this up
     if((message.content.toLowerCase().indexOf(config.prefix.toLowerCase()) !== 0) && 
-       (message.content.toLowerCase().indexOf(customPrefix.toLowerCase()) !== 0) &&
-        (message.content.toLowerCase().indexOf(botMention.toLowerCase()) !== 0) &&
+        (message.content.toLowerCase().indexOf(customPrefix.toLowerCase()) !== 0) &&
+          (message.content.toLowerCase().indexOf(botMention.toLowerCase()) !== 0) &&
           (message.content.toLowerCase().indexOf(botMentionX.toLowerCase()) !== 0 ))  return;
   }
 
@@ -163,7 +163,7 @@ client.on("message", async message => {
     commandFile.run(client, message, args, deletedMessage, sql, tossedSet, roles, queue);
   }
   catch(err){
-    console.error(error);
+    console.error(err);
     var logChannel = client.channels.get(config.logChannel);
     logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***COMMAND LOADING ERROR:***\n```js\nERR: ' + error + '\n```');
   }
