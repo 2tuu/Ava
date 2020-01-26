@@ -1,0 +1,10 @@
+{
+    "token": "DISCORD-TOKEN-HERE",
+    "prefix": "k?",
+    "owner": "YOUR-ID-HERE",
+    "logChannel": "LOG-CHANNEL-ID-HERE",
+    "evalAllow": ["YOUR-ID-HERE"],
+    "imgur": "IMGUR-APPLICATION-ID-HERE",
+    "youtube": "YOUTUBE-TOKEN-HERE",
+    "kitk_token": "KITK-SECRET-HERE"
+}

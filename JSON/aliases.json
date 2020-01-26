@@ -1,0 +1,62 @@
+{
+    "ping":{
+        "aliases": ["pong"]
+    },
+    "unroleban":{
+        "aliases": ["untoss"]
+    },
+    "owo":{
+        "aliases": ["uwu"]
+    },
+    "reboot":{
+        "aliases": ["die"]
+    },
+    "temp":{
+        "aliases": ["temperature"]
+    },
+    "birb":{
+        "aliases": ["bird"]
+    },
+    "roleban":{
+        "aliases": ["toss"]
+    },
+    "nonascii":{
+        "aliases": ["decancer"]
+    },
+    "cat":{
+        "aliases": ["cac", "meow", "mewo", "mew", "kitty", "kitten", "nya", "nyan", "nyah"]
+    },
+    "pat":{
+        "aliases": ["pet", "pap"]
+    },
+    "poke":{
+        "aliases": ["boop"]
+    },
+    "hug":{
+        "aliases": ["cuddle"]
+    },
+    "uinfo":{
+        "aliases": ["userinfo"]
+    },
+    "tag":{
+        "aliases": ["t"]
+    },
+    "coins":{
+        "aliases": ["quarters"]
+    },
+    "youtube":{
+        "aliases": ["yt"]
+    },
+    "avatar":{
+        "aliases": ["avy"]
+    },
+    "info":{
+        "aliases": ["stats"]
+    },
+    "music":{
+        "aliases": ["alexa"]
+    },
+    "prefix":{
+        "aliases": ["setprefix"]
+    }
+}

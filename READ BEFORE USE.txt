@@ -1,0 +1,28 @@
+
+  _  ___ _     ____        _   
+ | |/ (_) |   |  _ \      | |  
+ | ' / _| |_  | |_) | ___ | |_ 
+ |  < | | __| |  _ < / _ \| __|
+ | . \| | |_  | |_) | (_) | |_ 
+ |_|\_\_|\__| |____/ \___/ \__|
+                               
+                               
+UPDATED ON: 8/26/2018
+===============================
+Please read this before using
+===============================
+
+There are no SQLite databases included in the bot, they're generated on the bot's first start.
+The bot will have to be restarted before they will function correctly
+
+Dependancies will also need to be installed before functional.
+For this just run npm install.
+
+===============================
+Terms
+===============================
+
+By using this bot, and it's respective files, you promise to not take credit for any part of the file.
+Or otherwise modify it to hide that it is a clone of this repository.
+
+You also promise to not sell or otherwise distribute this program through anything but official channels.
