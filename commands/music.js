@@ -181,6 +181,7 @@ if(args[0] === "play"){
 }
 
 exports.conf = {
-    DM: false,
-    OwnerOnly: false
+    DM: true,
+    OwnerOnly: false,
+    alias: []
 }

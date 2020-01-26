@@ -50,5 +50,6 @@ if(!message.member.permissions.has('KICK_MEMBERS')) {
 
 exports.conf = {
     DM: true,
-    OwnerOnly: false
+    OwnerOnly: false,
+    alias: []
 }

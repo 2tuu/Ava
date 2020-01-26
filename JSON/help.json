@@ -159,6 +159,10 @@
         "name": "RPG Dice/Dice",
         "description": "Rolls a multiple sided die, a specified amount of times\n**[Usage: roll <number of dice>d<number of sides>]**"
     },
+    "modlog":{
+        "name": "Mod Logger",
+        "description": "Action Logger, logs different actions depending on configuration\n\n`k?modlog setchannel #channel` - Sets the logging channel\n`k?modlog toggle [optional: arg]` toggles the modlog entirely, or a different part\nArguments for `modlog toggle <arg>`:\n`logChannels, logMessages, logBans, logMembers, logRoles, logReactions`"
+    },
     "profile":{
         "name": "User Profiles",
         "description":"Creates a user profile, or views another user's.\n\n**Examples:**\n`k?profile @user` to view another user's, if already created, or `k?profile` to view your own.\n`k?profile create` to create their own\n`k?profile edit desc` to set the description text\n`k?profile edit color #hex` to set the accent color to a hex code\n`k?profile edit bg` - Sets a custom background to the attached image or a URL\n\n**Descriptions must be less than 360 chars**\n\n**Badges:**\nUse `profile badges` to view the list of badges\nUse `profile badges remove` to remove equipped badge"

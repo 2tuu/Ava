@@ -1,5 +1,8 @@
 const Discord = require('discord.js');
+var timer = 14;//How many hours until you can get coins again
+timer = timer*60*60*1000;
 
+//Timestamp to english translator
 function dhm(t){
 	var cd = 24 * 60 * 60 * 1000,
 		ch = 60 * 60 * 1000,
@@ -18,26 +21,21 @@ function dhm(t){
 
   var time = [d, pad(h), pad(m)];
 
-  return h + " hours and " + m + " minutes";
+  if(h === 0 && m === 0){
+	  return "a day";
+  } else {
+	  return h + " hours and " + m + " minutes";
+  }
 }
+
+
+
 
 exports.run = (client, message, args, deletedMessage, sql) => {
 
-	//return message.channel.send("This command is temporarily disabled");
-	
-    var kitSupport = client.guilds.find('id', '449263514436239360');
-    var donorArray = kitSupport.roles.find('id', '479013774880276502').members.array();
-    var donorIDArray = [];
-    
-    var i = 0;
-    while((i+1) <= donorArray.length){
-        donorIDArray[i] = donorArray[i].user.id;
-        i = i+1;
-    }
+	var donorIDArray = []; //TODO: fix both of these, update with database compatibility and such
 
-
-    var IDarray = donorIDArray;
-
+	//Get coins
 	if(args[0] === "add"){
 		sql.get(`SELECT * FROM profile WHERE userId ="${message.author.id}"`).then(row => {
 		
@@ -46,7 +44,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 					.setColor(0xF46242)
 					.setTimestamp()
 					.setDescription("Create a profile first")
-					.setFooter("Use k?profile create")
+					.setFooter("Use k?profile")
 					message.channel.send({embed});
 			} else {
 		
@@ -54,7 +52,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 
 				if(donorIDArray.includes(message.author.id)){
 					sql.run(`UPDATE profile SET quarters = "${parseInt(row.quarters) + 4}" WHERE userId = "${message.author.id}"`);
-					sql.run(`UPDATE profile SET qTime = "${message.createdTimestamp + 24*60*60*1000}" WHERE userId = "${message.author.id}"`);
+					sql.run(`UPDATE profile SET qTime = "${message.createdTimestamp + timer}" WHERE userId = "${message.author.id}"`);
 
 				const embed = new Discord.RichEmbed()
 
@@ -63,7 +61,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 				message.channel.send({embed});
 				} else {
 					sql.run(`UPDATE profile SET quarters = "${parseInt(row.quarters) + 1}" WHERE userId = "${message.author.id}"`);
-					sql.run(`UPDATE profile SET qTime = "${message.createdTimestamp + 24*60*60*1000}" WHERE userId = "${message.author.id}"`);
+					sql.run(`UPDATE profile SET qTime = "${message.createdTimestamp + timer}" WHERE userId = "${message.author.id}"`);
 
 				const embed = new Discord.RichEmbed()
 
@@ -169,14 +167,14 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 
 	} else {
 		//display sender's
-		sql.get(`SELECT quarters FROM profile WHERE userId ="${message.author.id}"`).then(row => {
+		sql.get(`SELECT * FROM profile WHERE userId ="${message.author.id}"`).then(row => {
 			if(!row){
 				//make profile first
 				const embed = new Discord.RichEmbed()
 					.setColor(0xF46242)
 					.setTimestamp()
 					.setDescription("Create a profile first")
-					.setFooter("Use k?profile create")
+					.setFooter("Use k?profile")
 					message.channel.send({embed});
 
 			} else {
@@ -208,5 +206,6 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 
 exports.conf = {
     DM: true,
-    OwnerOnly: false
+    OwnerOnly: false,
+    alias: ['quarters']
 }

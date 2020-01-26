@@ -1,6 +1,9 @@
 const Discord = require("discord.js");
+const data = require('./../JSON/data.json');
+/*
 const fs = require('fs');
 let data = JSON.parse(fs.readFileSync("./JSON/data.json", "utf8"));
+*/
 
 exports.run = (client, message) => {
 
@@ -23,8 +26,8 @@ exports.run = (client, message) => {
 	.setDescription(
 		"**Authors: **" + `${k}, ${s}` + "\n" + 
 		"**Guilds/Users: **" + `${client.guilds.size}/${client.users.size}` + "\n" +
-		//"**Art:** " + "V4LL Hall-A ([Reiesu](https://twitter.com/reiesurei))" + "\n" +
-		"**Website:** " + "[Link](https://bot.kitk.us/)"
+		"**Icon Source: ** " + data.icon_artist + " ([Link](" + data.icon_link + "))" + "\n" +
+		"**Website:** " + "[Link](https://kit-bot.2tu.dev/)"
 	)
 
 	.setFooter("v." + data.version)
@@ -35,7 +38,8 @@ exports.run = (client, message) => {
 	fetchUser();
  }
  
-exports.conf = {
+ exports.conf = {
     DM: true,
-    OwnerOnly: false
+    OwnerOnly: false,
+    alias: ['stats']
 }

@@ -29,5 +29,6 @@ let owoify = function (v) {
 
 exports.conf = {
     DM: true,
-    OwnerOnly: false
+    OwnerOnly: false,
+    alias: ['uwu']
 }

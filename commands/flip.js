@@ -10,7 +10,8 @@ exports.run = (client, message, args) => {
     message.channel.send(`You got ${response}`);
 }
     
-    exports.conf = {
-        DM: true,
-        OwnerOnly: false
-       }
+exports.conf = {
+    DM: true,
+    OwnerOnly: false,
+    alias: []
+}

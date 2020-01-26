@@ -23,5 +23,6 @@ getCat();
 
 exports.conf = {
     DM: true,
-    OwnerOnly: false
+    OwnerOnly: false,
+    alias: ["cac", "meow", "mewo", "mew", "kitty", "kitten", "nya", "nyan", "nyah"]
 }

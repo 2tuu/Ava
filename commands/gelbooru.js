@@ -59,7 +59,8 @@ exports.run = async (client, message, args) => {
 	}
 
 
-exports.conf = {
-    DM: true,
-    OwnerOnly: false
-}
+    exports.conf = {
+        DM: true,
+        OwnerOnly: false,
+        alias: []
+    }

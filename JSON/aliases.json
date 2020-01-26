@@ -58,5 +58,8 @@
     },
     "prefix":{
         "aliases": ["setprefix"]
+    },
+    "8ball":{
+        "aliases": ["am", "are", "is", "can", "do", "will"]
     }
 }

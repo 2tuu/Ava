@@ -9,6 +9,7 @@ message.channel.send("beep");
     }
 
     exports.conf = {
-        DM:  true,
-        OwnerOnly: false
-    }
+      DM: true,
+      OwnerOnly: false,
+      alias: []
+  }

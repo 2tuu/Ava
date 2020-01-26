@@ -42,7 +42,8 @@ usageMeter();
 
 }
     
-    exports.conf = {
-        DM: false,
-        OwnerOnly: false
-    }
+exports.conf = {
+    DM: true,
+    OwnerOnly: false,
+    alias: []
+}

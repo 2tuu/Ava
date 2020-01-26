@@ -12,7 +12,8 @@ var action = "shrug";
         message.channel.send({embed});
     }
     
-exports.conf = {
-    DM: true,
-    OwnerOnly: false
-}
+    exports.conf = {
+        DM: true,
+        OwnerOnly: false,
+        alias: []
+    }

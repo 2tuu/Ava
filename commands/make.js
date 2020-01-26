@@ -8,6 +8,7 @@ message.channel.send(tag.run());
 
 exports.conf = {
     DM: true,
-    OwnerOnly: false
+    OwnerOnly: false,
+    alias: []
 }
 

@@ -103,49 +103,14 @@ if(message.author.id === "378769654942007299"){
         if(!row){
             message.channel.send("No tags were found");
         } else {
-            //console.log(row);
-            var response = Math.floor(Math.random() * row.length); 
-            var taggerContent = row.tagContent;
-            taggerContent = taggerContent.replace("{caller}", message.author);
-            taggerContent = taggerContent.replace("{caller.name}", message.author.username);
+            //Import tag handler again - async is dumb
+            const tagHandler = require('./../plugins/tag.js');
             
-            var i = 1;
-            while(i < 1000){
-                var argI;
-                if(!args[i]){
-                   argI = "argmissing";
-                } else {
-                    argI = args[i];
-                }
-                taggerContent = taggerContent.replace(new RegExp("{arg" + i + "}", 'g'), argI);
-                i = i + 1;
+            async function tag(tag){
+                var t = await tag.read(row.tagContent,message,args);
+                message.channel.send('"' + row.tagName + '": ' + t);
             }
-
-            var a = 0;
-            while(a < 1000){
-                var rNum = Math.floor(Math.random() * a);
-                taggerContent = taggerContent.replace(new RegExp("{rand:" + a + "}", 'g'), rNum);
-                a = a + 1;
-            }
-
-            var tag = new Yna(taggerContent);
-
-            taggerContent = tag.run(args.slice(1));
-
-            var userVar = "Unknown";
-
-            async function fetchU(){
-            var user = await client.fetchUser(row.ownerID);
-
-            if(!user){
-                user = "Unknown User";
-            } else {
-            user = user.username;
-            }
-            
-            message.channel.send(user + "'s tag, \"" + row.tagName + "\"\n" + taggerContent.replace("  ", ""));
-            }
-            fetchU();
+            tag(tagHandler);
         }
       }).catch((error) => {
         console.log(error); //put no-tag error here
@@ -156,50 +121,14 @@ if(message.author.id === "378769654942007299"){
             if(!row){
                 message.channel.send("No tags were found");
             } else {
-                //console.log(row);
-                var response = Math.floor(Math.random() * row.length); 
-                var taggerContent = row.tagContent;
-                taggerContent = taggerContent.replace("{caller}", message.author);
-                taggerContent = taggerContent.replace("{caller.name}", message.author.username);
-                
-                var i = 1;
-                while(i < 1000){
-                    var argI;
-                    if(!args[i]){
-                       argI = "argmissing";
-                    } else {
-                        argI = args[i];
-                    }
-                    taggerContent = taggerContent.replace(new RegExp("{arg" + i + "}", 'g'), argI);
-                    i = i + 1;
-                }
-    
-                var a = 0;
-                while(a < 1000){
-                    var rNum = Math.floor(Math.random() * a);
-                    taggerContent = taggerContent.replace(new RegExp("{rand:" + a + "}", 'g'), rNum);
-                    a = a + 1;
-                }
+                //Import tag handler again - async is dumb
+                const tagHandler = require('./../plugins/tag.js');
 
-                taggerContent = taggerContent.replace(new RegExp("{n}", 'g'), "\n");
-                taggerContent = taggerContent.replace(new RegExp("{serverid}", 'g'), message.guild.id);
-            taggerContent = taggerContent.replace(new RegExp("{channelid}", 'g'), message.channel.id);
-            taggerContent = taggerContent.replace(new RegExp("{callerid}", 'g'), message.author.id);   
-            taggerContent = taggerContent.replace(new RegExp("{args}", 'g'), args.slice(1).join(' '));
-	    taggerContent = taggerContent.replace(new RegExp("{caller.name}", 'g'), message.author.username);
-    
-                async function fetchU(){
-                var user = await client.fetchUser(row.ownerID);
-    
-                if(!user){
-                    user = "Unknown User";
-                } else {
-                user = user.username;
+                async function tag(tag){
+                    var t = await tag.read(row.tagContent,message,args);
+                    message.channel.send('"' + row.tagName + '": ' + t);
                 }
-                
-                message.channel.send(user + "'s tag, \"" + row.tagName + "\"\n" + taggerContent.replace("  ", ""));
-                }
-                fetchU();
+                tag(tagHandler);
             }
           }).catch((error) => {
             console.log(error); //put no-tag error here
@@ -639,5 +568,6 @@ list().catch((err) => {message.reply(err)});
   
   exports.conf = {
     DM: true,
-    OwnerOnly: false
+    OwnerOnly: false,
+    alias: ['t']
 }

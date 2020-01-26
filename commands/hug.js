@@ -29,11 +29,12 @@ var action = "hug";
         const embed = new Discord.RichEmbed()
        .setDescription(message.author.username + " gave " + nameVar + " a " + action)
        .setImage(url.url)
-       .setFooter("Powered by KitK.us | " + url.name)
+       .setFooter("Powered by 2tu.dev | " + url.name)
         message.channel.send({embed});
     }
     
-exports.conf = {
-    DM: true,
-    OwnerOnly: false
-}
+    exports.conf = {
+        DM: true,
+        OwnerOnly: false,
+        alias: ['cuddle']
+    }

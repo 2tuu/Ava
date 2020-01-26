@@ -10,6 +10,7 @@ if(message.author.id === "378769654942007299"){
 }
 
 exports.conf = {
-	DM: true,
-	OwnerOnly: false
+    DM: true,
+    OwnerOnly: false,
+    alias: []
 }

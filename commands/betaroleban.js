@@ -201,5 +201,6 @@ exports.run = (client, message, args, deletedMessage, sql, tossedSet, roles) => 
     
     exports.conf = {
         DM: true,
-        OwnerOnly: false
+        OwnerOnly: false,
+        alias: []
     }

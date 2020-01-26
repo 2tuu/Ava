@@ -1,41 +1,36 @@
 //search
-var search = require('youtube-search');
+//var search = require('youtube-search');
+const ySearch =  require('yt-search');
 const config = require('./../config.json');
 
 exports.run = (client, message, args) => {
-    
-    var term = args.join(' ')
-    var opts = {
-      maxResults: 1,
-      key: config.youtube //Youtube API key
-    };
-    
-    //Search
-    search(term, opts, function(err, results) {
-      if(err) return console.log(err);
-    
-    var videoResult = JSON.stringify(results[0].link);
-        videoResult = videoResult.replace('"',"");
-        videoResult = videoResult.replace('"',"");
-        console.log("RESULT " + videoResult);
-    
-        videoTitle = JSON.stringify(results[0].title);
-        videoTitle = videoTitle.replace('"',"");
-        videoTitle = videoTitle.replace('"',"");
-        /*const embed = new Discord.RichEmbed()
-          .setColor(0x00AE86)
-          .setTimestamp()
-          .setTitle("Youtube Video search: " + videoTitle)
-        message.channel.send({embed});*/
-        
-    if(!results[0]){
-    videoResult = "Video not found";
-    }    
-    message.channel.send(videoResult);
-    });
-    }
-    
-    exports.conf = {
-      DM: true,
-      OwnerOnly: false
+
+  var searchTerms;
+
+  if(args[0]){
+    searchTerms = args.join(' ');
+  } else {
+    return message.channel.send('Please give me something to look for')
   }
+
+  ySearch( searchTerms, function ( err, r ) {
+    if ( err ) return message.channel.send('An error occured:\n```js' + err + '```');
+
+    const videos = r.videos
+
+    if(videos[0]){
+      var v = videos[0];
+      message.channel.send( `**${v.title}:** ${v.url}`);
+    } else {
+      message.channel.send('No results.');
+    }
+  });
+
+
+}
+    
+exports.conf = {
+  DM: true,
+  OwnerOnly: false,
+  alias: ['yt']
+}

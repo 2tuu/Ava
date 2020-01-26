@@ -19,5 +19,6 @@ exports.run = (client, message, args) => {
   
   exports.conf = {
     DM: true,
-    OwnerOnly: false
+    OwnerOnly: false,
+    alias: []
 }

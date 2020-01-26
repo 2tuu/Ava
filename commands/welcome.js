@@ -69,7 +69,8 @@ if(message.member.permissions.has('BAN_MEMBERS')){
 
 	}
 
-    exports.conf = {
-        DM: true,
-        OwnerOnly: false
-    }
+exports.conf = {
+	DM: true,
+	OwnerOnly: false,
+	alias: []
+}

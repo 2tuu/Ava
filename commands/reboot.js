@@ -1,8 +1,9 @@
 const Discord = require("discord.js");
+const config = require('./../config.json');
 
 exports.run = async (client, message, args) => {
     
-    if(message.author.id === "378769654942007299" || message.author.id === "365881235043516427"){
+    if(config.evalAllow.includes(message.author.id)){
 
 
         const embed = new Discord.RichEmbed()
@@ -25,5 +26,6 @@ exports.run = async (client, message, args) => {
   
   exports.conf = {
     DM: true,
-    OwnerOnly: false
+    OwnerOnly: false,
+    alias: ['die']
 }

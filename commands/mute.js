@@ -173,5 +173,6 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
     
     exports.conf = {
         DM: true,
-        OwnerOnly: false
+        OwnerOnly: false,
+        alias: []
     }

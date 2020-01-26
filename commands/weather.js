@@ -64,5 +64,6 @@ exports.run = (client, message, args, deletedMessage) => {
 
 exports.conf = {
   DM: true,
-  OwnerOnly: false
+  OwnerOnly: false,
+  alias: []
 }

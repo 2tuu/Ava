@@ -10,7 +10,7 @@ exports.run = (client, message, args) => {
         } else if(args[1] === "c"){
         message.channel.send("What are you trying to accomplish?")
         } else {
-            message.channel.send("Invalid structure (ie. kk!temp toc f 100)")
+            message.channel.send("Invalid structure (ie. k?temp toc f 100)")
         }
     } else if(args[0] === "tok"){
         if(args[1] === "c"){
@@ -22,7 +22,7 @@ exports.run = (client, message, args) => {
         } else if(args[1] === "k"){
             message.channel.send("What are you trying to accomplish?")
         } else {
-            message.channel.send("Invalid structure (ie. kk!temp toc f 100)")
+            message.channel.send("Invalid structure (ie. k?temp toc f 100)")
         }
     } else if(args[0] === "tof"){
         if(args[1] === "c"){
@@ -34,7 +34,7 @@ exports.run = (client, message, args) => {
             } else if(args[1] === "f"){
                 message.channel.send("What are you trying to accomplish?")
             } else {
-                message.channel.send("Invalid structure (ie. kk!temp toc f 100)")
+                message.channel.send("Invalid structure (ie. k?temp toc f 100)")
             }
     } else {
         message.channel.send("Invalid arguments");
@@ -44,5 +44,6 @@ exports.run = (client, message, args) => {
 
 exports.conf = {
     DM: true,
-    OwnerOnly: false
+    OwnerOnly: false,
+    alias: ['temperature']
 }

@@ -63,7 +63,8 @@ ${member.user.tag} for: ${reason}
     return;
  }
  
-exports.conf = {
-    DM: true,
-    OwnerOnly: false
+ exports.conf = {
+  DM: true,
+  OwnerOnly: false,
+  alias: []
 }

@@ -29,7 +29,8 @@ var action = "kiss";
         message.channel.send({embed});
     }
     
-exports.conf = {
-    DM: true,
-    OwnerOnly: false
-}
+    exports.conf = {
+        DM: true,
+        OwnerOnly: false,
+        alias: []
+    }

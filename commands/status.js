@@ -1,10 +1,10 @@
-
+const config = require("./../config.json");
 const Discord = require("discord.js");
 const fs = require('fs');
 let data = JSON.parse(fs.readFileSync("./JSON/data.json", "utf8"));
 
 exports.run = (client, message, args) => {
-    if(message.author.id === "378769654942007299" || message.author.id === "365881235043516427"){
+    if(config.evalAllow.includes(message.author.id)){
         var message2 = args.join(" ");
         data.status = message2;
         const embed = new Discord.RichEmbed()
@@ -30,5 +30,6 @@ exports.run = (client, message, args) => {
 
 exports.conf = {
   DM: true,
-  OwnerOnly: false
+  OwnerOnly: false,
+  alias: []
 }

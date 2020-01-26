@@ -6,5 +6,6 @@
     "evalAllow": ["YOUR-ID-HERE"],
     "imgur": "IMGUR-APPLICATION-ID-HERE",
     "youtube": "YOUTUBE-TOKEN-HERE",
-    "kitk_token": "KITK-SECRET-HERE"
+    "kitk_token": "KITK-SECRET-HERE",
+    "invite": "BOT'S PREFERED INVITE LINK"
 }
