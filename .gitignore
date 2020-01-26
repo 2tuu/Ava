@@ -12,3 +12,5 @@ node_modules/
 
 #extra detrious
 npm-debug.log
+package-lock.json
+package.json
