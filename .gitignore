@@ -3,3 +3,12 @@ config.json
 colorReference.txt
 temp.txt
 tags.sqlite
+
+# directories
+node_modules/
+
+#visual studio
+.vs
+
+#extra detrious
+npm-debug.log
