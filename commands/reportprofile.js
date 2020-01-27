@@ -57,7 +57,7 @@ if(!args[0]){
 exports.conf = {
     help: "Report someone's profile for innapropriate content",
     format: "k?reportprofile [ID]",
-    DM: falses,
+    DM: false,
     OwnerOnly: false,
     alias: []
 }

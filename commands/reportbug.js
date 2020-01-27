@@ -1,17 +1,14 @@
 const Discord = require("discord.js");
+const config = require('./../config.json');
 
 exports.run = (client, message, args) => {
 
-    var blacklist = [];
-    var serverBlacklist = [];
-
     if(!args[0]) return;
-    if(!blacklist.includes(message.author.id) && !serverBlacklist.includes(message.guild.id)){
     // get client from message's channel
 	let clientVar = message.channel.client;
 
 	// fetch user via given user id
-	let user = clientVar.fetchUser('378769654942007299')
+	let user = clientVar.fetchUser(config.owner)
 	    .then(user => {
             var letterAR = ["A", "B", "C", "D"];
             var rand = letterAR[Math.floor(Math.random() * letterAR.length)];
@@ -29,13 +26,13 @@ exports.run = (client, message, args) => {
                     user.send({embed: embed1}).then().catch(console.error);
                     
 
-                    var chan = client.channels.find('id', '473273549390610442');
+                    var chan = client.channels.get(config.reports);
 
                     const embed2 = new Discord.RichEmbed()
                     .setTitle("Error ID: " + errID)
                     .setThumbnail(message.author.avatarURL)
-					.addField("From", message.author.id + " (" + message.author.username + "#" + message.author.discriminator + ")")
-                    .addField("Sent in", message.guild.name + " (" + message.guild.id + ")")
+					.addField("From", message.author.username)
+                    .addField("Sent in", message.guild.name)
                     .addField("Report", args.join(' '))
                     .setTimestamp()
 					.setFooter("Error reported")
@@ -49,19 +46,12 @@ exports.run = (client, message, args) => {
         
         }).then().catch(console.error);
 
-    } else {
-        let embedVar = new Discord.RichEmbed()
-        .setColor(0xF46242)
-        .setTimestamp() //Write to JSON
-        .setTitle("Action can't be completed, your user ID or guild ID is on the blacklist, the bot will still function normally, but this function will be disabled.")
-        message.channel.send({embed: embedVar});
-    }
 }
 
 exports.conf = {
     help: "Report a bug to the bot; please include a detailed description of what triggered said bug",
     format: "k?reportbug [description]",
     DM: false,
-    OwnerOnly: true,//TODO: add message id to config, use here
+    OwnerOnly: false,
     alias: []
 }
