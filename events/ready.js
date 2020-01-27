@@ -2,7 +2,7 @@ const fs = require('fs');
 let data = JSON.parse(fs.readFileSync("./JSON/data.json", "utf8"));
 let config = JSON.parse(fs.readFileSync("./config.json", "utf8"));
 
-exports.run = (sdeletedMessage, sql, client) => {
+exports.run = async (sdeletedMessage, sql, client) => {
     console.log("Client Logon Successful");
 	console.log('\x1b[32m', "======================");
 	console.log("");
@@ -23,5 +23,18 @@ exports.run = (sdeletedMessage, sql, client) => {
 	User Cache: ${client.users.size}
 	Server Count: ${client.guilds.size}
 	\`\`\``)
+
+	try{
+		client.blacklist = await sql.all(`SELECT * FROM blacklist`);
+		console.log('Fetched blacklist');
+	} catch(err) {
+		console.error(err);
+	}
+
+	//Blacklist parser (initialized in events/ready)
+	client.blist = [];
+	client.blacklist.forEach(e => {
+  		client.blist.push(e.userid);
+	});
 	
   }
