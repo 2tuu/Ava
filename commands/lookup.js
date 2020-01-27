@@ -67,6 +67,8 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    help: "Look up a user by their ID",
+    format: "k?lookup [ID]",
     DM: true,
     OwnerOnly: false,
     alias: []

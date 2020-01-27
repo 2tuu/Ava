@@ -103,7 +103,9 @@ exports.run = (client, message, args, deletedMessage, talkedRecently, embeddedRe
 }
 
 exports.conf = {
-    DM: true,
+    help: "",
+    format: "",
+    DM: false,
     OwnerOnly: false,
     alias: ['userinfo']
 }

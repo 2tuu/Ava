@@ -1,34 +1,34 @@
-const Discord = require("discord.js");
+const Discord = require(`discord.js`);
 const client = new Discord.Client({
   disableEveryone: true,
   fetchAllMembers: true
 });
 
 //Extra dependancies/variables
-const fs = require("fs");
-const config = require("./config.json");
+const fs = require(`fs`);
+const config = require(`./config.json`);
 
 //TODO: Make a blacklist table on the db and define here
 
-//Temporary data sets - resets when the bot does
+//Temporary data sets
+client.aliases = new Map();
+client.help = new Map();
 const deletedMessage = new Set();
-client.commands = new Set();
-client.aliases = {};
 const roles = new Set();
 const tossedSet = new Set();
 const cooldown = new Set();
 let queue = {}; //NOTE - this can probably be removed
 
 //SQLite database file
-const sql = require("sqlite");
-sql.open("./tags.sqlite");
+const sql = require(`sqlite`);
+sql.open(`./tags.sqlite`);
 
 //Event loader (for scripts in ./events, each file is named after their event)
-fs.readdir("./events/", (err, files) => {
+fs.readdir(`./events/`, (err, files) => {
   if (err) return console.error(err);
   files.forEach(file => {
     let eventFunction = require(`./events/${file}`);
-    let eventName = file.split(".")[0];
+    let eventName = file.split(`.`)[0];
 
     client.on(eventName, (...args) => eventFunction.run(deletedMessage, sql, client, ...args));
   });
@@ -40,24 +40,27 @@ fs.readdir('./commands', (err, commands) => {
   function cLoader(c){
     try {
       const cmd = require(`./commands/${c}`);
-      var cmdName = c.replace('.js',''); //TODO: Replace this
+      var cmdName = c.substring(0, c.length-3);
       console.log('Loaded ' + cmdName);
 
       client.aliases[cmdName] = {aliases: []};
+      client.help[cmdName] = {help: '', format: ''};
+
+      client.help[cmdName].help = cmd.conf.help;
+      client.help[cmdName].format = cmd.conf.format;
 
       cmd.conf.alias.forEach((alias) => {
       client.aliases[cmdName].aliases.push(alias);
 
-        //client.aliases.push(alias, cmdName);
       });
       return false;
     } catch (err) {
-      console.error(">>Loading Error:<< " + err);
+      console.error(`Loading Error: ${err}`);
     }
   }
 
   commands.forEach((m) => {
-      console.log('Loading module: ' + m);
+      console.log(`Loading module: ${m}`);
       cLoader(m);
   });
 
@@ -70,12 +73,17 @@ fs.readdir('./commands', (err, commands) => {
 
 //On-message event
 client.on("message", async message => {
+
+  if(message.content === '<@435855803363360779>' || message.content === '<@!435855803363360779>'){
+    return message.channel.send('Need help? Try `@Kit help`');
+  }
+
   //Global variables
   const logChannel = client.channels.get(config.logChannel);
 
   //Extras
   //TODO: Fix DM compatibility
-  if(message.channel.type === "dm") return; //Return on DM
+  //if(message.channel.type === "dm") return; //Return on DM
   if (message.author.bot) return; //Return on bot messages (no infinite loops)
 
   //Mention variables (for other instances)
@@ -83,6 +91,7 @@ client.on("message", async message => {
   var botMentionX = "<@!" + client.user.id + ">";
 
   //Database updaters
+  if(message.guild){ //WIP DM compatibility (only executes in guilds)
     sql.get(`SELECT * FROM prefixes WHERE serverId ="${message.guild.id}"`).then(row => {
       if(row){
         returnPrefix = row.prefix;
@@ -93,7 +102,6 @@ client.on("message", async message => {
       console.error;
     });
 
-    if(message.guild){ //WIP DM compatibility (only executes in guilds)
       sql.get(`SELECT * FROM settings WHERE serverId ="${message.guild.id}"`).then(row => {
         if(!row){
           sql.run("INSERT INTO settings (serverId, banId) VALUES (?, ?)", [message.guild.id, null]);
@@ -114,7 +122,15 @@ client.on("message", async message => {
     }
 
   //Command handler
-  sql.get(`SELECT * FROM prefixes WHERE serverId ="${message.guild.id}"`).then(row => {
+  function dmCheck(){
+    if(message.guild){
+      return message.guild.id;
+    } else {
+      return 'default';
+    }
+  }
+
+  sql.get(`SELECT * FROM prefixes WHERE serverId ="${dmCheck()}"`).then(row => {
     if(!row){
       var customPrefix = "k?";
     } else {
@@ -157,15 +173,28 @@ client.on("message", async message => {
     return; //return if command file doesn't exist, errors are already reported in loading stage
   }
 
-  if(commandFile.conf.OwnerOnly === true && !config.evalAllow.includes(message.author.id)) return;
+  //Cooldown checker
+  if (cooldown.has(message.author.id)) {
+    return message.channel.send(`Please don't spam commands, ${message.author}.`);
+  } else {
+    cooldown.add(message.author.id);
+    setTimeout(() => {
+      cooldown.delete(message.author.id);
+    }, 1000);
+  }
 
+  //Return if the user isn't allowed to use the command - non-dm in dm or owner by non-owner
+  if(commandFile.conf.OwnerOnly === true && !config.evalAllow.includes(message.author.id)) return;
+  if(commandFile.conf.DM === false && !message.guild) return;
+
+  //Finally, run the command
   try{
     commandFile.run(client, message, args, deletedMessage, sql, tossedSet, roles, queue);
   }
   catch(err){
     console.error(err);
     var logChannel = client.channels.get(config.logChannel);
-    logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***COMMAND LOADING ERROR:***\n```js\nERR: ' + error + '\n```');
+    logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***COMMAND LOADING ERROR:***\n```js\nERR: ' + err + '\n```');
   }
 
   });
@@ -178,4 +207,4 @@ client.on("error", async error => {
 });
 
 //Login
-client.login(config.token);
+client.login(config.token_prod);

@@ -41,6 +41,8 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    help: "I don't wanna explain this",
+    format: "k?poopy",
     DM: true,
     OwnerOnly: false,
     alias: []

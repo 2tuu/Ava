@@ -6,7 +6,9 @@ exports.run = async (client, message, args) => {
 }
 
 exports.conf = {
+    help: "Ping me and gauge my response time (-API response times)",
+    format: "k?ping",
     DM: true,
     OwnerOnly: false,
-    alias: []
+    alias: ['pong']
 }

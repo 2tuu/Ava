@@ -34,6 +34,8 @@ var action = "hug";
     }
     
     exports.conf = {
+        help: "Hug the mentioned user",
+        format: "k?hug [@user]",
         DM: true,
         OwnerOnly: false,
         alias: ['cuddle']

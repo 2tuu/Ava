@@ -205,6 +205,8 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 }
 
 exports.conf = {
+    help: "View what's in your quarter bag",
+    format: "k?coins",
     DM: true,
     OwnerOnly: false,
     alias: ['quarters']

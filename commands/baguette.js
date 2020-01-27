@@ -3,6 +3,8 @@ exports.run = (client, message, args) => {
 }
     
 exports.conf = {
+    help: "oui oui",
+    format: "hon hon hon",
     DM: true,
     OwnerOnly: false,
     alias: []

@@ -13,6 +13,8 @@ var action = "shrug";
     }
     
     exports.conf = {
+        help: "Shrug at the mentioned user",
+        format: "k?shrug [@user/name]",
         DM: true,
         OwnerOnly: false,
         alias: []

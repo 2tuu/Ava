@@ -43,7 +43,9 @@ usageMeter();
 }
     
 exports.conf = {
+    help: "N/A",
+    format: "N/A",
     DM: true,
-    OwnerOnly: false,
+    OwnerOnly: true,
     alias: []
 }

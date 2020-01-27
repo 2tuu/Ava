@@ -23,7 +23,9 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 }
 
 exports.conf = {
-  DM: true,
+  help: "View this server's prefix",
+  format: "k?checkprefix / @kit checkprefix",
+  DM: false,
   OwnerOnly: false,
   alias: []
 }

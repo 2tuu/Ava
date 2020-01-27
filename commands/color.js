@@ -70,7 +70,9 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
-    DM: true,
+    help: "View a hex code's color, or generate a random one",
+    format: "k?color [random/#hex]",
+    DM: false,
     OwnerOnly: false,
     alias: []
 }

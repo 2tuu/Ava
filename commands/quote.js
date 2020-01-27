@@ -47,7 +47,9 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
-    DM: true,
+    help: "Quote a message from this channel, or another if specified",
+    format: "k?quote {optional: #channel} [Message ID]",
+    DM: false,
     OwnerOnly: false,
     alias: []
 }

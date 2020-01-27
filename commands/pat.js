@@ -30,6 +30,8 @@ var action = "pat";
     }
     
     exports.conf = {
+        help: "Pat the mentioned user",
+        format: "k?pat [@user]",
         DM: true,
         OwnerOnly: false,
         alias: ['pet', 'pap']

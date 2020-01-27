@@ -30,6 +30,8 @@ var action = "slap";
     }
     
     exports.conf = {
+        help: "Slap the mentioned user",
+        format: "k?slap [@user/name]",
         DM: true,
         OwnerOnly: false,
         alias: []

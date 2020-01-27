@@ -111,6 +111,8 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+  help: "Purge a bunch of messages, of a number, from a specific user, bots, or as many as the bot can",
+  format: "k?purge [all/u [ID]/bots/#]",
   DM: true,
   OwnerOnly: false,
   alias: []

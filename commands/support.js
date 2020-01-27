@@ -53,6 +53,8 @@ exports.run = async (client, message, args) => {
 }
     
 exports.conf = {
+    help: "",
+    format: "",
     DM: true,
     OwnerOnly: false,
     alias: []

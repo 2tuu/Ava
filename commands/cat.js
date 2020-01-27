@@ -22,7 +22,9 @@ getCat();
 }
 
 exports.conf = {
+    help: "view a cat",
+    format: "k?cat",
     DM: true,
-    OwnerOnly: false,
+    OwnerOnly: true,//TODO: fix this, find a new API or make one yourself
     alias: ["cac", "meow", "mewo", "mew", "kitty", "kitten", "nya", "nyan", "nyah"]
 }

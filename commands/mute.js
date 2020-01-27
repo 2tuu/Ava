@@ -172,7 +172,9 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
     }
     
     exports.conf = {
-        DM: true,
+        help: "Mute the mentioned user",
+        format: "k?mute [@user]",
+        DM: false,
         OwnerOnly: false,
         alias: []
     }

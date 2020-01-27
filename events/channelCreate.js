@@ -6,7 +6,7 @@ exports.run = async (deletedMessage, sql, client, channel) => {
     try{
     var guildID = channel.guild.id;
     } catch(err){
-        console.error(err);
+        return; //return on dm
     }
 
     sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`).then(row => {

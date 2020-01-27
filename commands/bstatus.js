@@ -34,7 +34,9 @@ status();
 }
 
 exports.conf = {
+    help: "N/A",
+    format: "N/A",
     DM: true,
-    OwnerOnly: false,
+    OwnerOnly: true,//TODO: get back to this when custom statuses can be given to bots
     alias: []
 }

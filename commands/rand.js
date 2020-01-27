@@ -23,6 +23,8 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    help: "Generate a random number, between 2 numbers or above 0",
+    format: "k?rand [#] {optional: #}",
     DM: true,
     OwnerOnly: false,
     alias: []

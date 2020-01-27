@@ -49,7 +49,9 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 }
 
 exports.conf = {
-  DM: true,
+  help: "Set my prefix to be used in this server",
+  format: "k?prefix [prefix]",
+  DM: false,
   OwnerOnly: false,
   alias: ['setprefix']
 }

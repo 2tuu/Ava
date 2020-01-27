@@ -13,6 +13,8 @@ var action = "dab";
     }
     
     exports.conf = {
+        help: "Dab",
+        format: "k?dab",
         DM: true,
         OwnerOnly: false,
         alias: []

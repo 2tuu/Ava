@@ -6,6 +6,8 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    help: "Ask a yes or no question and get a response",
+    format: "k?8ball [question]",
     DM: true,
     OwnerOnly: false,
     alias: ["am", "are", "is", "can", "do", "will"]

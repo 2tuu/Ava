@@ -30,6 +30,8 @@ exports.run = (client, message, args) => {
 }
     
 exports.conf = {
+  help: "Search youtube for something",
+  format: "k?youtube [search terms]",
   DM: true,
   OwnerOnly: false,
   alias: ['yt']

@@ -18,6 +18,8 @@ exports.run = (client, message, args) => {
   }
   
   exports.conf = {
+    help: "N/A",
+    format: "N/A",
     DM: true,
     OwnerOnly: true,
     alias: ['r']

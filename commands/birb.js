@@ -16,7 +16,9 @@ exports.run = (client, message, args) => {
     }
     
     exports.conf = {
+      help: "view a bird",
+      format: "k?birb",
       DM: true,
-      OwnerOnly: false,
+      OwnerOnly: true,//TODO: Find a new API or make your own
       alias: ['bird']
   }

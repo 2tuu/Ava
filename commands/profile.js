@@ -219,6 +219,8 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 }
 
 exports.conf = {
+  help: "View your profile card, or someone else's",
+  format: "k?profile {optional: @user/ID}",
   DM: true,
   OwnerOnly: false,
   alias: []

@@ -49,7 +49,9 @@ if(!message.member.permissions.has('KICK_MEMBERS')) {
 }
 
 exports.conf = {
-    DM: true,
+    help: "Enable slowmode in this channel",
+    format: "k?slowmode [off/1-120 seconds]",
+    DM: false,
     OwnerOnly: false,
     alias: []
 }

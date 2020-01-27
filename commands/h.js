@@ -3,6 +3,8 @@ exports.run = (client, message, args) => {
     }
     
     exports.conf = {
+        help: "h",
+        format: "h",
         DM: true,
         OwnerOnly: false,
         alias: []

@@ -63,7 +63,9 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 }
 
 exports.conf = {
-    DM: true,
+    help: "Make an announcement to a pre-determined channel, or another",
+    format: "k?announce setchannel [#channel]\nk?announce {#hex color} [announcement]\nk?announce {#channel} announcement",
+    DM: false,
     OwnerOnly: false,
     alias: []
 }

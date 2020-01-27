@@ -43,6 +43,8 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    help: "Convert Kelvin/Celsuis/Fahrenheit to any of those three",
+    format: "k?temp [toc/tof/tok] [f/k/c]",
     DM: true,
     OwnerOnly: false,
     alias: ['temperature']

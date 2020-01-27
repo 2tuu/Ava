@@ -62,8 +62,10 @@ ${member.user.tag} for: ${reason}
     return;
  }
  
- exports.conf = {
-  DM: true,
+exports.conf = {
+  help: "Ban the mentioned user from the server",
+  format: "k?ban [@user]",
+  DM: false,
   OwnerOnly: false,
-  alias: []
+  alias: ['bean']
 }

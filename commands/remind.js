@@ -57,6 +57,8 @@
     }
 
     exports.conf = {
+        help: "Remind yourself of something in the future",
+        format: "k?remind [minutes] {optional: hours}",
         DM: true,
         OwnerOnly: false,
         alias: []

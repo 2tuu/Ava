@@ -39,7 +39,9 @@ exports.run = (client, message) => {
  }
  
  exports.conf = {
-    DM: true,
+    help: "View my version information, the artist for my avatar, and other statistics",
+    format: "k?info",
+    DM: false,
     OwnerOnly: false,
     alias: ['stats']
 }

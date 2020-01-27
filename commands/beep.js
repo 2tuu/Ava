@@ -1,5 +1,4 @@
 exports.run = (client, message) => {
-message.channel.send("beep");
 		setTimeout(() => {
           message.channel.send("boop");
           setTimeout(() => {
@@ -9,6 +8,8 @@ message.channel.send("beep");
     }
 
     exports.conf = {
+      help: "boop",
+      format: "meow",
       DM: true,
       OwnerOnly: false,
       alias: []

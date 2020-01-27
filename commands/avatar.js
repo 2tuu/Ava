@@ -60,7 +60,9 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
-    DM: true,
+    help: "View your avatar or someone else's",
+    format: "k?avatar {@user/ID}",
+    DM: false,
     OwnerOnly: false,
     alias: ['avy']
 }

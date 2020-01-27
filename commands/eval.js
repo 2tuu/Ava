@@ -1,3 +1,5 @@
+const config = require(`./../config.json`);
+
 exports.run = (client, message, args) => {
 async function evalCMD(){
 
@@ -35,6 +37,8 @@ async function evalCMD(){
 }
 
 exports.conf = {
+  help: "You can't use this",
+  format: "N/A",
   DM: true,
   OwnerOnly: true,
   alias: []

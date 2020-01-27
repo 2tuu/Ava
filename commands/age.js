@@ -48,6 +48,8 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+	help: "Calculate the age of an account from it's ID",
+    format: "k?age [ID]",
     DM: true,
     OwnerOnly: false,
     alias: []

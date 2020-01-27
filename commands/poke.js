@@ -30,6 +30,8 @@ var action = "poke";
     }
     
     exports.conf = {
+        help: "Poke the mentioned user",
+        format: "k?poke [@user]",
         DM: true,
         OwnerOnly: false,
         alias: ['boop']

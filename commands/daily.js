@@ -7,6 +7,8 @@ exports.run = (client, message, args, deletedMessage, sql, tossedSet, roles, que
 }
 
 exports.conf = {
+    help: "Collect your daily quarter",
+    format: "k?daily",
     DM: true,
     OwnerOnly: false,
     alias: []

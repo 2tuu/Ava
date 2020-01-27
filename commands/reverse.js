@@ -16,6 +16,8 @@ if(!args[0]){
 }
 
 exports.conf = {
+    help: "Reverse the given text",
+    format: "k?reverse [text]",
     DM: true,
     OwnerOnly: false,
     alias: []

@@ -70,7 +70,9 @@ if(message.member.permissions.has('BAN_MEMBERS')){
 	}
 
 exports.conf = {
-	DM: true,
+	help: "Configure guild welcome messages",
+	format: "k?welcome toggle\nk?welcome edit\nk?welcome setchannel",
+	DM: false,
 	OwnerOnly: false,
 	alias: []
 }

@@ -28,6 +28,8 @@ let owoify = function (v) {
 }
 
 exports.conf = {
+    help: "What's this?",
+    format: "k?owo [text]",
     DM: true,
     OwnerOnly: false,
     alias: ['uwu']

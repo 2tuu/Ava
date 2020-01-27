@@ -30,6 +30,8 @@ var action = "kiss";
     }
     
     exports.conf = {
+        help: "Kiss the mentioned user~",
+        format: "k?kiss [@user]",
         DM: true,
         OwnerOnly: false,
         alias: []

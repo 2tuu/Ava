@@ -20,6 +20,8 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    help: "It's a calculator",
+    format: "k?calc [mathematical function]",
     DM: true,
     OwnerOnly: false,
     alias: []

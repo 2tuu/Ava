@@ -46,6 +46,8 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    help: "Pull an image from e926",
+    format: "k?e926 {tags}",
     DM: true,
     OwnerOnly: false,
     alias: []

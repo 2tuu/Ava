@@ -13,7 +13,9 @@ message.channel.send(converter.toFullWidth(messageStr));
     }
 
     exports.conf = {
+        help: "Convert the text to fullwidth font",
+        format: "k?expand [text]",
         DM: true,
         OwnerOnly: false,
-        alias: []
+        alias: ['vapor']
     }

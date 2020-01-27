@@ -5,7 +5,6 @@ const weatheredRecently = new Set();
 
 exports.run = (client, message, args, deletedMessage) => {
 
-    if(!message.guild) return message.channel.send("This command is disabled in DMs");
 	if (weatheredRecently.has(message.author.id)) {
 		return message.reply("please wait 20 seconds before using that command again");
 	} else {
@@ -63,7 +62,9 @@ exports.run = (client, message, args, deletedMessage) => {
 }
 
 exports.conf = {
-  DM: true,
+  help: "View the weather based on city",
+  format: "k?weather [city]",
+  DM: false,
   OwnerOnly: false,
   alias: []
 }

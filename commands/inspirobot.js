@@ -17,6 +17,8 @@ apiGet();
 }
 
 exports.conf = {
+    help: "Generate an image from insprobot.me",
+    format: "k?inspirobot",
     DM: true,
     OwnerOnly: false,
     alias: []

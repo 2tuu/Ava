@@ -64,7 +64,9 @@ ${member.user.tag} for: ${reason}
  }
  
  exports.conf = {
-  DM: true,
+  help: "Kick the mentioned user from the server",
+  format: "k?kick [@user]",
+  DM: false,
   OwnerOnly: false,
   alias: []
 }

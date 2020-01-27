@@ -28,6 +28,8 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    help: "Randomly capitalize letters in a given sentance",
+    format: "k?cancer [text]",
     DM: true,
     OwnerOnly: false,
     alias: []

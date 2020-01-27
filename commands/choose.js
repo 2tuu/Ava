@@ -10,6 +10,8 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    help: "Choose between multiple things",
+    format: "k?choose [thing1] [thing2] {thing3}...\nUse quotation marks for things with multiple words",
     DM: true,
     OwnerOnly: false,
     alias: []

@@ -7,6 +7,8 @@ message.channel.send(tag.run());
 }
 
 exports.conf = {
+    help: "nah",
+    format: "N/A",
     DM: true,
     OwnerOnly: false,
     alias: []

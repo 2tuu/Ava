@@ -34,6 +34,8 @@ if(!args[0]){
 }
 
 exports.conf = {
+    help: "View an emote's source image",
+    format: "k?enlarge [:emote:]",
     DM: true,
     OwnerOnly: false,
     alias: []

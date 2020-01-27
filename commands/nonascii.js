@@ -39,7 +39,9 @@ catch (err){
 }
 
 exports.conf = {
-    DM: true,
-    OwnerOnly: false,
+    help: "Remove non-ascii characters from a piece of text, or a nickname",
+    format: "k?nonascii [text/@user]",
+    DM: false,
+    OwnerOnly: true, //TODO: fix the nickname changer
     alias: ['decancer']
 }

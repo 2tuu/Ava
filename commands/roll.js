@@ -49,6 +49,8 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    help: "Roll an imaginary die, can be multi-sided if you use the #d# format",
+    format: "k?roll number",
     DM: true,
     OwnerOnly: false,
     alias: []

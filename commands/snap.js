@@ -28,6 +28,8 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    help: "Randomly destroy half the characters in a sentance",
+    format: "k?snap [text]",
     DM: true,
     OwnerOnly: false,
     alias: []

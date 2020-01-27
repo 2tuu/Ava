@@ -49,7 +49,9 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
-    DM: true,
-    OwnerOnly: false,
+    help: "Make a suggestion to the bot",
+    format: "k?suggest [suggestion]",
+    DM: false,
+    OwnerOnly: true, //TODO: add channel variables to the config
     alias: []
 }

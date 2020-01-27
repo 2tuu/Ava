@@ -45,7 +45,9 @@ exports.run = (client, message, args, deletedMessage) => {
 }
 
 exports.conf = {
-    DM: true,
+    help: "Show the last message that was deleted or edited",
+    format: "k?snipe",
+    DM: false,
     OwnerOnly: false,
     alias: []
 }

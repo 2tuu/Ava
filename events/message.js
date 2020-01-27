@@ -15,6 +15,8 @@ exports.run = (deletedMessage, sql, client, message) => {
         }
       });
 
+      if(!message.guild) return;
+
       sql.get(`SELECT * FROM announce WHERE guild ="${message.guild.id}"`).then(row => {
         if(!row){
           sql.run("INSERT INTO announce (guild, channel) VALUES (?, ?)", [message.guild.id, null]);

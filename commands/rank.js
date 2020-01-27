@@ -191,6 +191,8 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 }
 
 exports.conf = {
+  help: "View a small summary card of your profile progress, or someone else's",
+  format: "k?rank {optional: @user}",
   DM: true,
   OwnerOnly: false,
   alias: []
