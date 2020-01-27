@@ -92,6 +92,8 @@ client.on("message", async message => {
 
   //Database updaters
   if(message.guild){ //WIP DM compatibility (only executes in guilds)
+    if(client.blist.includes(message.author.id)) return; //blacklist handler
+
     sql.get(`SELECT * FROM prefixes WHERE serverId ="${message.guild.id}"`).then(row => {
       if(row){
         returnPrefix = row.prefix;
@@ -189,7 +191,7 @@ client.on("message", async message => {
 
   //Finally, run the command
   try{
-    commandFile.run(client, message, args, deletedMessage, sql, tossedSet, roles, queue);
+    commandFile.run(client, message, args, deletedMessage, sql, tossedSet, roles);
   }
   catch(err){
     console.error(err);

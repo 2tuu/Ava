@@ -20,7 +20,7 @@ exports.run = (client, message, args) => {
 		}, 5000);
 
 		async function apiGet(){
-			var request = await axios.get(`https://e621.net/post/index.json?tags=-cub,order:random,-gore,${args.join(",")}`);
+			var request = await axios.get(`https://e621.net/post/index.json?tags=-order:random,-gore,${args.join(",")}`);
 			
 			if(!request.data[0]){
 				message.channel.send("No results, make sure you're using less than 6 tags");
