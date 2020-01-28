@@ -24,7 +24,7 @@ exports.run = (client, message, args) => {
     middle = middle[Math.floor(Math.random() * middle.length)];
     last = last[Math.floor(Math.random() * last.length)];
 
-    message.channel.send(`\`YOUR MR. POOPY PANTS NAME IS: ${first} ${middle} ${last}\``, {
+    message.channel.send(`\`YOUR PROF. POOPY PANTS NAME IS: ${first} ${middle} ${last}\``, {
         files: []
       });
 
@@ -33,7 +33,7 @@ exports.run = (client, message, args) => {
         middle = middle[Math.floor(Math.random() * middle.length)];
         last = last[Math.floor(Math.random() * last.length)];
     
-        message.channel.send(`\`YOUR MR. POOPY PANTS NAME IS: ${first} ${middle} ${last}\``, {
+        message.channel.send(`\`YOUR PROF. POOPY PANTS NAME IS: ${first} ${middle} ${last}\``, {
             files: []
           });
     }

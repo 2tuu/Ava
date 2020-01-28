@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const help = require("./../JSON/help.json");
 
 exports.run = (client, message, args) => {
 
