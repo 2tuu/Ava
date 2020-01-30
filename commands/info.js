@@ -30,7 +30,7 @@ exports.run = (client, message) => {
 		"**Website:** " + "[Link](https://kit-bot.2tu.dev/)"
 	)
 
-	.setFooter("v." + data.version)
+	.setFooter(data.version)
 
 	message.channel.send({embed})
 
@@ -41,7 +41,7 @@ exports.run = (client, message) => {
  exports.conf = {
     help: "View my version information, the artist for my avatar, and other statistics",
     format: "k?info",
-    DM: false,
+    DM: true,
     OwnerOnly: false,
     alias: ['stats']
 }
