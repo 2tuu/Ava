@@ -1,11 +1,13 @@
 {
-    "token": "DISCORD-TOKEN-HERE",
+    "token_prod": "bot token here",
+    "suggestions": "suggestion channel id here",
+    "reports": "bug report channel here",
     "prefix": "k?",
-    "owner": "YOUR-ID-HERE",
-    "logChannel": "LOG-CHANNEL-ID-HERE",
-    "evalAllow": ["YOUR-ID-HERE"],
-    "imgur": "IMGUR-APPLICATION-ID-HERE",
-    "youtube": "YOUTUBE-TOKEN-HERE",
-    "kitk_token": "KITK-SECRET-HERE",
-    "invite": "BOT'S PREFERED INVITE LINK"
+    "owner": "your user id here",
+    "logChannel": "login log and whatnot channel id here",
+    "evalAllow": ["anyone you trust enough to use the eval command here"],
+    "imgur": "Imgur app id here",
+    "youtube": "youtube API token here",
+    "kitk_token": "hug api token here (request one from kab#9488)",
+    "invite": "link to the bot's invite here"
 }
