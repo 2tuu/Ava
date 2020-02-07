@@ -49,6 +49,6 @@ exports.conf = {
     help: "Pull an image from e621",
     format: "k?e621 {tags}",
     DM: true,
-    OwnerOnly: false,
+    OwnerOnly: true,
     alias: []
 }

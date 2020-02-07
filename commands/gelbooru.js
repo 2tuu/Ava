@@ -63,6 +63,6 @@ exports.run = async (client, message, args) => {
         help: "Pull an image from Gelbooru, a random one will be supplied if no tags are given",
         format: "k?gelbooru {tags}",
         DM: true,
-        OwnerOnly: false,
+        OwnerOnly: true,
         alias: ['gbooru']
     }
