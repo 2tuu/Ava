@@ -1,20 +1,20 @@
 var os = require('os');
 var cpuStat = require('cpu-stat');
 
+exports.run = async (client, message) => {
+
 var arr = [1, 2, 3, 4, 5, 6, 9, 7, 8, 9, 10];
 arr.reverse();
 
-var totalSeconds = process.uptime();
+var totalSeconds = await process.uptime();
 
-		let hours = Math.floor(totalSeconds / 3600);
-		totalSeconds %= 3600;
-		let minutes = Math.floor(totalSeconds / 60);
-		let uptimeVar = `${hours} Hours, and ${minutes} Minutes`;
+        let hours = Math.floor(totalSeconds / 3600);
+        totalSeconds %= 3600;
+        let minutes = Math.floor(totalSeconds / 60);
+        let uptimeVar = `${hours} Hours, and ${minutes} Minutes`;
         
 const used = process.memoryUsage().heapUsed / 1024 / 1024;
 const total = process.memoryUsage().heapTotal / 1024 / 1024;
-
-exports.run = (client, message) => {
 
 async function usageMeter(){
 
