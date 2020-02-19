@@ -1,13 +1,16 @@
 MIT License
 
-Copyright (c) 2018 Avery W. (GH: 2tuu)
+Copyright (c) 2020 Avery W. (GH: 2tuu)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge copies of the Software, not including distributing
-and selling copies of this Software and to permit persons to whom the Software 
-is furnished to do so, subject to the following conditions:
+to use, copy, modify, merge copies of the Software. This does not include 
+distributing and selling copies of this Software, or taking credit for what
+is included in the project.
+
+To permit persons to whom the Software is furnished to do so, subject to the
+following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
