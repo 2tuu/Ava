@@ -29,23 +29,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
   let reason = args.slice(1).join(' ');
   if(!reason) reason = "No reason was given";
 
-  await member.kick(`Kick by ${message.author.tag}: ` + reason).then(() => {
-
-    sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`).then(row => {
-        if(!row){
-          return;
-        } else if(row.enabled === "yes" && row.logBans === "yes"){
-          message.guild.channels.get(row.channel).send(`\`\`\`diff
--Member Kicked
-${member.user.tag} for: ${reason}
-          \`\`\``).catch((err) => {
-            return
-          });
-        }
-      });
-
-  })
-    .catch(error => {
+  await member.kick(`Kick by ${message.author.tag}: ` + reason).catch(error => {
       const embed = new Discord.RichEmbed()
       .setColor(0xF46242)
       .setTimestamp()
