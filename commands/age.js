@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 
-
 exports.run = (client, message, args) => {
 	let userID = message.author.id;
 
