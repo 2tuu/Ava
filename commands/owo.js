@@ -1,11 +1,7 @@
 exports.run = (client, message, args) => {
 var v = args.join(' ');
 
-//if(v.length >= 700) return message.channel.send("What's this? (ERR: Too many characters, use 700 or less)");
-
 let owoify = function (v) {
-
-    let faces = [";;w;;","owo","uwu",">w<","=w="];
   
     v = v.replace(/(?:r|l)/g, "w");
     v = v.replace(/(?:R|L)/g, "W");
@@ -13,8 +9,15 @@ let owoify = function (v) {
     v = v.replace(/N([aeiou])/g, 'Ny$1');
     v = v.replace(/N([AEIOU])/g, 'NY$1');
     v = v.replace(/ove/g, "uv");
-    v = v.replace(/\!+/g, " "+ faces[Math.floor(Math.random()*faces.length)]+ " ");
     v = v.replace(/\?+/g, " owo;;?? ");
+
+    var count = (v.match(/!/g) || []).length;
+    let faces = [";;w;;","owo","uwu",">w<","=w="];
+    var i;
+
+    for(i = 0; i < count; i++){
+        v = v.replace("!", " "+ faces[Math.floor(Math.random()*faces.length)]+ " ");
+    }
   
     return v;
   
