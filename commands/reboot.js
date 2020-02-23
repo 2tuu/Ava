@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const config = require('./../config.json');
 
-exports.run = async (client, message, args) => {
+exports.run = async (client, message) => {
         const embed = new Discord.RichEmbed()
                 .setColor(0xF46242)
                 .setTimestamp()

@@ -11,13 +11,12 @@ const config = require(`./config.json`);
 //TODO: Make a blacklist table on the db and define here
 
 //Temporary data sets
-client.aliases = new Map();
-client.help = new Map();
+      client.aliases = new Map();
+      client.help = new Map();
 const deletedMessage = new Set();
 const roles = new Set();
 const tossedSet = new Set();
 const cooldown = new Set();
-let queue = {}; //NOTE - this can probably be removed
 
 //SQLite database file
 const sql = require(`sqlite`);

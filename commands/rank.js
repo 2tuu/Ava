@@ -13,31 +13,7 @@ let Image = Canvas.Image;
 let canvas = Canvas.createCanvas(500, 150);
 let img = new Image();
 
-/*
-  Profile Database Structure
-
-  ID,Quart,Badge,Desc,Color,Comms,Coin Time
-
-*/
-
-/*
-  Templates
-
-  Text Writing:
-
-
-  Image Writing
-
-  img.src = fs.readFileSync(`./../images/image.png`);
-  ctx.drawImage(img, 0, 0, 500, 500);
-  
-*/
-
 exports.run = async (client, message, args, deletedMessage, sql) => {
-
-
-
-
 
   //Profile generator
   async function profileGen(id, color, icon, cmds, quarters, desc){

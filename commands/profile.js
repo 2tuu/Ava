@@ -21,32 +21,7 @@ let img = new Image();
 var staff = ["600119803528609863"];
 var conts = ["600119803528609863"];
 
-
-/*
-  Profile Database Structure
-
-  ID,Quart,Badge,Desc,Color,Comms,Coin Time
-
-*/
-
-/*
-  Templates
-
-  Text Writing:
-
-
-  Image Writing
-
-  img.src = fs.readFileSync(`./../images/image.png`);
-  ctx.drawImage(img, 0, 0, 500, 500);
-  
-*/
-
 exports.run = async (client, message, args, deletedMessage, sql) => {
-
-
-
-
 
   //Profile generator
   async function profileGen(id, color, icon, cmds, quarters, desc){

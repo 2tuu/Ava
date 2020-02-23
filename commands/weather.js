@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 
 const weatheredRecently = new Set();
 
-exports.run = (client, message, args, deletedMessage) => {
+exports.run = (client, message, args) => {
 
 	if (weatheredRecently.has(message.author.id)) {
 		return message.reply("please wait 20 seconds before using that command again");

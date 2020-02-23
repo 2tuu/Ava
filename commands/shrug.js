@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const api = require('./../plugins/api.js');
 
-exports.run = async (client, message, args) => {
+exports.run = async (client, message) => {
 
 var action = "shrug";
 

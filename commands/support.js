@@ -1,5 +1,5 @@
 const config = require('./../config.json');
-exports.run = async (client, message, args) => {
+exports.run = async (client, message) => {
 
     const supportChannel = client.channels.get('518907343438741505');
     
