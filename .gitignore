@@ -7,7 +7,6 @@ tags.sqlite
 # directories
 node_modules/
 backup/
-JSON/
 
 #visual studio
 .vs
@@ -15,4 +14,3 @@ JSON/
 #extra detrious
 npm-debug.log
 package-lock.json
-JSON/data.json
