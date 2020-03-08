@@ -7,7 +7,7 @@ tags.sqlite
 # directories
 node_modules/
 backup/
-/JSON/data.json
+JSON/
 
 #visual studio
 .vs
