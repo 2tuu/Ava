@@ -5,14 +5,14 @@
     },
     "name": "kit",
     "version": "6.1.9",
-    "license" : "SEE LICENSE IN ./LICENSE",
+    "license": "SEE LICENSE IN ./LICENSE",
     "dependencies": {
         "ascii-fullwidth-halfwidth-convert": "^0.1.1",
         "axios": "^0.19.2",
         "birb": "^1.2.2",
         "canvas": "^2.6.1",
         "cpu-stat": "^2.0.1",
-        "discord.js": "^11.5.1",
+        "discord.js": "^11.6.2",
         "droll": "^0.2.1",
         "imgur": "^0.3.1",
         "latinize": "^0.4.0",
@@ -28,6 +28,7 @@
         "touch": "^3.1.0",
         "unidecode": "^0.1.8",
         "weather-js": "^2.0.0",
+        "xml2js": "^0.4.23",
         "ynajs": "^6.2.2",
         "yt-search": "^1.1.2"
     }
