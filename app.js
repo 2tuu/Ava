@@ -1,7 +1,10 @@
 const Discord = require(`discord.js`);
 const client = new Discord.Client({
   disableEveryone: true,
-  fetchAllMembers: true
+  messageCacheMaxSize: 1000,
+  disableMentions: 'everyone',
+  messageSweepInterval: 86400, //24 hours
+  messageCacheLifetime: 86400
 });
 
 //Extra dependancies/variables
