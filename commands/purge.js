@@ -12,7 +12,7 @@ exports.run = (client, message, args) => {
           
           message.channel.fetchMessages().then(messages => {
             const botMessages = messages.filter(msg => msg.author.bot);
-            message.channel.bulkDelete(botMessages).catch((err) => {message.channel.send("Error: " + err);} );
+            message.channel.bulkDelete(botMessages, true).catch((err) => {message.channel.send("Error: " + err);} );
             messagesDeleted = botMessages.array().length; 
         
             message.channel.send('Deleted **' + messagesDeleted + '** bot messages')
@@ -36,7 +36,7 @@ exports.run = (client, message, args) => {
   
   message.channel.fetchMessages().then(messages => {
     const botMessages = messages;
-    message.channel.bulkDelete(botMessages).catch((err) => {message.channel.send("Error: " + err);} );
+    message.channel.bulkDelete(botMessages, true).catch((err) => {message.channel.send("Error: " + err);} );
     messagesDeleted = botMessages.array().length; 
 
     message.channel.send('Deleted **' + messagesDeleted + '** messages')
@@ -62,7 +62,7 @@ exports.run = (client, message, args) => {
           message.channel.fetchMessages().then(messages => {
             const botMessages = messages.filter(msg => msg.author.id === userID);
         
-            message.channel.bulkDelete(botMessages).catch(error => message.channel.send(`Couldn't delete messages because of: ${error}`));
+            message.channel.bulkDelete(botMessages, true).catch(error => message.channel.send(`Couldn't delete messages because of: ${error}`));
             messagesDeleted = botMessages.array().length; 
             
             message.channel.send('Deleted **' + messagesDeleted + '** messages from user id: '+ userID);
@@ -76,42 +76,36 @@ exports.run = (client, message, args) => {
 
     } else {
 
-    async function purge(){
-    if(!message.member.permissions.has('MANAGE_MESSAGES')){
+      async function purge(){
+      if(!message.member.permissions.has('MANAGE_MESSAGES')){
+        return message.reply("Sorry, you don't have permission to use this.");
+      }
 
-    return message.reply("Sorry, you don't have permission to use this.");
+      var deleteCount = parseInt(args[0], 10);
+
+      if(!deleteCount || deleteCount < 0 /*|| deleteCount > 100*/){
+        return message.reply("Please provide a number between 2 and 100 for the number of messages to delete (" + parseInt(args[0], 10) + ")");
+      }
+      const fetched = await message.channel.fetchMessages({count: deleteCount});
+
+      deleteCount = deleteCount + 1;
+
+      while(deleteCount > 100){
+        message.channel.bulkDelete(100, true);
+        deleteCount = deleteCount - 100;
+      }
+      message.channel.bulkDelete(deleteCount, true)
+      .catch(error => {
+        return message.reply(`Couldn't delete messages because of: \`\`\`${error}\`\`\``);
+      });
+      }
+      purge();
     }
-// This command removes all messages from all users in the channel, up to 100.
-  
-  // get the delete count, as an actual number.
-  var deleteCount = parseInt(args[0], 10);
-  
-  // Ooooh nice, combined conditions. <3
-  if(!deleteCount || deleteCount < 0 /*|| deleteCount > 100*/){
-    return message.reply("Please provide a number between 2 and 100 for the number of messages to delete (" + parseInt(args[0], 10) + ")");
-  }
-
-  // So we get our messages, and delete them. Simple enough, right?
-  const fetched = await message.channel.fetchMessages({count: deleteCount});
-  //console.log(fetched);
-  // fetched = fetched - 20;
-
-  deleteCount = deleteCount + 1;
-
-  while(deleteCount > 100){
-    message.channel.bulkDelete(100);
-    deleteCount = deleteCount - 100;
-  }
-  message.channel.bulkDelete(deleteCount)
-.catch(error => message.reply(`Couldn't delete messages because of: ${error}`));
-    }
-    purge();
-}
 
 }
 
 exports.conf = {
-  help: "Purge a bunch of messages, of a number, from a specific user, bots, or as many as the bot can",
+  help: "Purge a bunch of messages, of a number, from a specific user, bots, or up to 100\nThis only works on messages that're less than 2 weeks old",
   format: "k?purge [all/u [ID]/bots/#]",
   DM: true,
   OwnerOnly: false,
