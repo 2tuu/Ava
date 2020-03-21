@@ -20,13 +20,25 @@ exports.run = (client, message, args) => {
 		}, 5000);
 
 		async function apiGet(){
-			var request = await axios.get(`https://e621.net/posts.json?limit=5&tags=order:random+-cub+-gore+${args.join("+")}`);
-			//console.log(request.data.posts);
+			var request = await axios.get(`https://e621.net/posts.json?limit=15&tags=order:random+${args.join("+")}`);
 
-			if(!request.data.posts[0]){
-				message.channel.send("No results, make sure you're using less than 4 tags");
+			//Tags against ToS or hidden by E621 by default
+			var blacklist = [
+				"cub",
+				"scat",
+				"watersports",
+				"gore"
+			];
+
+			var results = request.data.posts;
+			var filterLogic = `'${blacklist.join("'||'")}'`; //ugly but functional
+			var final = results.filter(r => !r.tags.general.includes(eval(filterLogic))); //also ugly but also functional
+			
+
+			if(!final[0]){
+				message.channel.send("No results, make sure you're using less than 6 tags");
 			} else {
-			var result = request.data.posts[0];
+			var result = final[0];
 			
 			const embed = new Discord.RichEmbed()
 			 .setImage(result.file.url)
@@ -34,8 +46,7 @@ exports.run = (client, message, args) => {
 			 .setTimestamp()
 			 message.channel.send({embed});
 			
-			}
-			 
+			} 
 		}
 	
 	apiGet();
@@ -48,7 +59,7 @@ exports.run = (client, message, args) => {
 exports.conf = {
     help: "Pull an image from e621",
     format: "k?e621 {tags}",
-    DM: false,
-    OwnerOnly: false,
+    DM: true,
+    OwnerOnly: true,
     alias: []
 }
