@@ -1,3 +1,11 @@
+/*
+TODO:
+
+1. Use switch/case instead of if/else
+2. Remember bulkDelete(message-collection, true)<-
+3. While-loop delete on bunches above 50 to prevent error
+*/
+
 exports.run = (client, message, args) => {
 
     var option;
@@ -10,12 +18,18 @@ exports.run = (client, message, args) => {
     }
 
     async function fetchBlock(option, count){
-        var messages = await message.channel.messages.fetch({
-            limit: 50,
-          });
-        console.log(messages.size);
+        /*
+        var channel = await message.guild.channels.fetch(message.channel.id);
+        var messageBlock = channel.messages;
+        var messages = await messageBlock.fetch({ limit: 10 });
+        */
+        var channel = await message.guild.channels.get(message.channel.id);
+        channel.awaitMessages
+        message.channel.send(`${messages.size}`);
     }
 
+
+    //Options
     switch(option){
         case 'bots':
             //purge recent bots
