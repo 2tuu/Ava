@@ -21,19 +21,36 @@ exports.run = (client, message, args) => {
 
 		async function apiGet(){
 			var request = await axios.get(`https://e621.net/posts.json?limit=15&tags=order:random+${args.join("+")}`);
-
-			//Tags against ToS or hidden by E621 by default
+			/*
+			Tags against ToS or hidden by E621 by default
+			Also includes tags found disturbing by the majority of users
+			+ flash posts
+			*/
 			var blacklist = [
 				"cub",
 				"scat",
 				"watersports",
-				"gore"
+				"gore",
+				"loli",
+				"shota",
+				"flash"
+			];
+			/*
+			File types that don't embed properly or at all
+			*/
+			var fTypeBlacklist = [
+				"webm",
+				"swf",
+				"mp4"
 			];
 
 			var results = request.data.posts;
+			//console.log(results[0].file.ext);
 			var filterLogic = `'${blacklist.join("'||'")}'`; //ugly but functional
-			var final = results.filter(r => !r.tags.general.includes(eval(filterLogic))); //also ugly but also functional
+			var fileFilterLogic = `'${fTypeBlacklist.join("'||'")}'`;
 			
+			var final = results.filter(r => !r.tags.general.some(e=> blacklist.indexOf(e) >= 0)); //Tag blacklist handler
+			final = results.filter(r => fTypeBlacklist.indexOf(r.file.ext) === -1); //File type blacklist handler
 
 			if(!final[0]){
 				message.channel.send("No results, make sure you're using less than 6 tags");
@@ -60,6 +77,6 @@ exports.conf = {
     help: "Pull an image from e621",
     format: "k?e621 {tags}",
     DM: true,
-    OwnerOnly: true,
+    OwnerOnly: false,
     alias: []
 }
