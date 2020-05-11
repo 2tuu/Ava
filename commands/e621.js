@@ -51,6 +51,7 @@ exports.run = (client, message, args) => {
 			
 			var final = results.filter(r => !r.tags.general.some(e=> blacklist.indexOf(e) >= 0)); //Tag blacklist handler
 			final = results.filter(r => fTypeBlacklist.indexOf(r.file.ext) === -1); //File type blacklist handler
+			final = results.filter(r => r.file.url); //remove anything else that requires an account
 
 			if(!final[0]){
 				message.channel.send("No results, make sure you're using less than 6 tags");
