@@ -8,7 +8,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
   let member = message.mentions.members.first();
 
   if(!member){
-      const embed = new Discord.RichEmbed()
+      const embed = new Discord.MessageEmbed()
         .setColor(0xF46242)
         .setTimestamp()
         .setTitle("Please mention a valid member of this server")
@@ -17,7 +17,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
   }
 
   if(!member.bannable){
-      const embed = new Discord.RichEmbed()
+      const embed = new Discord.MessageEmbed()
         .setColor(0xF46242)
         .setTimestamp()
         .setTitle("This user is not bannable")
@@ -28,17 +28,19 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
   let reason = args.slice(1).join(' ');
   if(!reason) reason = "No reason was given";
 
-  await member.ban(`Ban by ${message.author.tag}: ` + reason).catch(error => {
-      const embed = new Discord.RichEmbed()
+  await member.ban({reason: `Ban by ${message.author.tag}: ` + reason}).catch(error => {
+      const embed = new Discord.MessageEmbed()
       .setColor(0xF46242)
       .setTimestamp()
       .setTitle("An error occured")
       .setFooter(error)
       message.channel.send({embed});
+
+      console.error(error.stack);
       return;
     });
 
-    const embed = new Discord.RichEmbed()
+    const embed = new Discord.MessageEmbed()
     .setColor(0xF46242)
     .setTimestamp()
     .addField("Member Banned", `${member.user.tag} has been banned by ${message.author.tag} because: ${reason}`)

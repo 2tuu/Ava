@@ -53,7 +53,7 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
     
     
     if(!message.member.permissions.has('MANAGE_ROLES')) {
-        const embed = new Discord.RichEmbed()
+        const embed = new Discord.MessageEmbed()
         .setColor(0xF46242)
         .setTimestamp()
         .setTitle("Sorry, you don't have permission to use this. (MANAGE_ROLES Required)")
@@ -68,11 +68,15 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
                     console.log("second");
                     sql.run("INSERT INTO settings (serverId, banId) VALUES (?, ?)", [message.guild.id, "null"]);
                 } 
-            
-                var tossedRole = message.guild.roles.find("name", args[1]);
+                
+                var roleList = message.guild.roles.cache; 
+                roleList = roleList.map(r=> ({name: r.name, id: r.id}));
+                
+                var tossedRole = roleList.filter(r => r.name.toLowerCase() === args[1].toLowerCase());
+                tossedRole = tossedRole[0];
     
                 if(!tossedRole){
-                    const embed = new Discord.RichEmbed()
+                    const embed = new Discord.MessageEmbed()
                     .setColor(0xF46242)
                     .setTimestamp() //Write to JSON
                     .setTitle("A role with this name was not found")
@@ -80,13 +84,13 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
                 } else {
     
                 sql.run(`UPDATE settings SET banId = "${tossedRole.id}" WHERE serverId = "${message.guild.id}"`).then(()=>{
-                    const embed = new Discord.RichEmbed()
+                    const embed = new Discord.MessageEmbed()
 
                 .setDescription("Role added")
                  message.channel.send({embed});
                 }).catch((err)=>{
     
-                    const embed = new Discord.RichEmbed()
+                    const embed = new Discord.MessageEmbed()
                     .setColor(0xF46242)
                     .setTimestamp() //Write to JSON
                     .setTitle("An error occured")
@@ -95,37 +99,37 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
                 });
                 
             }
-            }).catch(() => {
-    
+            }).catch((err) => {
+                console.error(err.stack);
             });
         } else {
             var argVar = args[0].replace("<@", "").replace("!", "").replace(">", "");
-            var  member = message.guild.members.get(argVar);
+            var  member = message.guild.members.cache.get(argVar);
             
             if(!member){
                 //invalid ID
             } else {
                 var db = await sql.get(`SELECT * FROM settings WHERE serverId ="${message.guild.id}"`);
 
-                if(!db.banId || !db || !message.guild.roles.get(db.banId)){
+                if(!db.banId || !db || !message.guild.roles.cache.get(db.banId)){
                     message.channel.send('A muted role is not set, or the one you did set is invalid');
                 } else {
                     //add role or remove role
                     try{
                         
-                        if(member.roles.map(r=>r.id).includes(db.banId)){ //already has role, remove
+                        if(member.roles.cache.map(r=>r.id).includes(db.banId)){ //already has role, remove
                             //Removed role
-                            const embed = new Discord.RichEmbed()
+                            const embed = new Discord.MessageEmbed()
                                 .setDescription(member.user.tag + " has been unmuted")
                             message.channel.send({embed});
 
-                            member.removeRole(db.banId);
+                            member.roles.remove(db.banId);
                         } else {
                             //Added role
-                            const embed = new Discord.RichEmbed()
+                            const embed = new Discord.MessageEmbed()
                                 .setDescription(member.user.tag + " has been muted")
                             message.channel.send({embed});
-                            member.addRole(db.banId);
+                            member.roles.add(db.banId);
                         }
 
                         
@@ -149,7 +153,7 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
                             } else {
                                 //help me
                                 setTimeout(() => {
-                                member.removeRole(db.banId).catch((err)=>{console.error(err.stack)});
+                                member.roles.remove(db.banId).catch((err)=>{console.error(err.stack)});
                                 }, num);
                             }
                         }
@@ -173,7 +177,7 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
     
     exports.conf = {
         help: "Mute the mentioned user",
-        format: "k?mute [@user]",
+        format: "k?mute [@user]\nk?mute roleadd [role-name]",
         DM: false,
         OwnerOnly: false,
         alias: []

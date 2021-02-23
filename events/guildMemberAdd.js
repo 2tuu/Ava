@@ -16,7 +16,7 @@ exports.run = (deletedMessage, sql, client, member) => {
           if(!row) return;
   
           if(row.enabled === "yes" && row.logLeaves === "yes"){
-             var ch = client.guilds.get(guildID).channels.get(row.channel);
+             var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
              ch.send("```diff\n+Member Joined: " + member.user.tag + "\nCurrent Count:" + member.guild.memberCount + "\n```")
           }
   
@@ -56,7 +56,10 @@ exports.run = (deletedMessage, sql, client, member) => {
           var WelcomeMessage = WelcomeMessage.replace(new RegExp("{member.username}", 'g'), mbr.username);
           var WelcomeMessage = WelcomeMessage.replace(new RegExp("{guild}", 'g'), gld.name);
     
-          guild.channels.get(row.welcomeChannel).send(WelcomeMessage).catch((error) => {return;});
+          guild.channels.cache.get(row.welcomeChannel).send(WelcomeMessage).catch((error) => {
+            console.error(error);
+            return;
+          });
         }
     
         welcome();

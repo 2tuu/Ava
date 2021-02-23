@@ -20,7 +20,7 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
         var auditLog = await audit.entries.first();
         }
         catch(err){
-            var ch = client.guilds.get(guildID).channels.get(row.channel);
+            var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
             return ch.send("```diff\n-An error occured when accessing the audit log, please make sure I have permission to view it" + "\n```")
         }
 
@@ -32,7 +32,7 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
         if(!row) return;
 
         if(row.enabled === "yes" && row.logBans === "yes"){
-           var ch = client.guilds.get(guildID).channels.get(row.channel);
+            var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
             ch.send("```diff\n-Member Banned: " + user.tag + `\nReason: ${reason}` + "\n```")
         }
 

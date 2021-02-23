@@ -11,7 +11,7 @@ exports.run = (deletedMessage, sql, client, messageReaction, user) => {
             if(!row) return;
     
             if(row.enabled === "yes" && row.logReactions === "yes"){
-               var ch = client.guilds.get(guildID).channels.get(row.channel);
+               var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
                ch.send("```diff\n-Reaction Removed:\n" + `User: ${user.tag}\nEmoji: ${messageReaction.emoji.name}\nMessage: \n+${messageReaction.message.author.tag}: ${messageReaction.message.content}`  + "```")
             }
     

@@ -4,7 +4,7 @@ let config = JSON.parse(fs.readFileSync("./config.json", "utf8"));
 exports.run = (deletedMessage, sql, client, guild) => {
 
     //Log channel variable
-    const logChannel = client.channels.get(config.logChannel);
+    const logChannel = client.channels.cache.get(config.logChannel);
 
     console.log(">>>Guild Left: " + guild.name + " (" + guild.id + ")");
     logChannel.send("```diff\n>>>Guild Left: " + guild.name + " (" + guild.id + ")\n->>>" + client.guilds.size + " Servers\n```");

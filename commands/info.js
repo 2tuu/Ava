@@ -9,25 +9,20 @@ exports.run = (client, message) => {
 
 	async function fetchUser(id){
 
-	var k = await client.users.get('378769654942007299');
-	var s = await client.users.get('454461184792461312');
+	var k = await client.users.fetch('378769654942007299');
 
 	k = k.username + "#" + k.discriminator;
-	s = s.username + "#" + s.discriminator;
 
-	
 
-	const embed = new Discord.RichEmbed()
+	const embed = new Discord.MessageEmbed()
 	.setTitle("")
 	.setAuthor(client.user.username, client.user.avatarURL)
-	//.setDescription("Icon by Gats")
-	//.setThumbnail(client.user.avatarURL)
 
 	.setDescription(
-		"**Authors: **" + `${k}, ${s}` + "\n" + 
-		"**Guilds/Users: **" + `${client.guilds.size}/${client.users.size}` + "\n" +
+		"**Authors: **" + `${k}` + "\n" + 
+		"**Guilds/Users: **" + `${client.guilds.cache.size}/${client.users.cache.size}` + "\n" +
 		"**Icon Source: ** " + data.icon_artist + " ([Link](" + data.icon_link + "))" + "\n" +
-		"**Website:** " + "[Link](https://kit-bot.2tu.dev/)"
+		"**Github:** " + "[Link](https://github.com/2tuu/Kit)"
 	)
 
 	.setFooter(data.version)

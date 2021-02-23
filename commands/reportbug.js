@@ -8,14 +8,14 @@ exports.run = (client, message, args) => {
 	let clientVar = message.channel.client;
 
 	// fetch user via given user id
-	let user = clientVar.fetchUser(config.owner)
+	let user = client.users.fetch(config.owner)
 	    .then(user => {
             var letterAR = ["A", "B", "C", "D"];
             var rand = letterAR[Math.floor(Math.random() * letterAR.length)];
 
             var errID = `${rand}-${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}-1`;
 
-        const embed1 = new Discord.RichEmbed()
+        const embed1 = new Discord.MessageEmbed()
                     .setTitle("Error ID: " + errID)
                     .setThumbnail(message.author.avatarURL)
 					.addField("From", message.author.id + " (" + message.author.username + "#" + message.author.discriminator + ")")
@@ -26,9 +26,9 @@ exports.run = (client, message, args) => {
                     user.send({embed: embed1}).then().catch(console.error);
                     
 
-                    var chan = client.channels.get(config.reports);
+                    var chan = client.channels.cache.fetch(config.reports);
 
-                    const embed2 = new Discord.RichEmbed()
+                    const embed2 = new Discord.MessageEmbed()
                     .setTitle("Error ID: " + errID)
                     .setThumbnail(message.author.avatarURL)
 					.addField("From", message.author.username)
@@ -38,7 +38,7 @@ exports.run = (client, message, args) => {
 					.setFooter("Error reported")
                     chan.send({embed: embed2}).then().catch(console.error);
         
-        let embedVar = new Discord.RichEmbed()
+        let embedVar = new Discord.MessageEmbed()
         .setColor(0xF46242)
         .setTimestamp() //Write to JSON
         .setTitle("Error has been reported, make sure to enable DMs on this server so that a follow-up message can be sent.")

@@ -43,7 +43,7 @@ exports.run = async (deletedMessage, sql, client, oldMessage, newMessage) => {
             if(!row) return;
     
             if(row.enabled === "yes" && row.logMessages === "yes" && oldMessage.author.bot === false){
-               var ch = client.guilds.get(guildID).channels.get(row.channel);
+               var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
                ch.send("```diff\n+Message Updated in " + oldMessage.channel.name + ':\n' + `${oldMessage.author.tag}: ${oldMessage.content} => ${newMessage.content}` + "\nMessage ID: " + oldMessage.id + "\n```")
             }
     

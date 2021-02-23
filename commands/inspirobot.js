@@ -6,7 +6,7 @@ exports.run = (client, message, args) => {
 		var request = await axios.get("http://inspirobot.me/api?generate=true");
 		console.log("INSP: " + request.data);
 
-		const embed = new Discord.RichEmbed()
+		const embed = new Discord.MessageEmbed()
 		 .setImage(request.data)
 		 .setFooter("Powered by Inspirobot")
 		 .setTimestamp()

@@ -6,7 +6,7 @@ exports.run = (client, message, args) => {
     
     if(!args[0]){
 
-        const embed = new Discord.RichEmbed()
+        const embed = new Discord.MessageEmbed()
         .setTitle("Command documentation")
         .setDescription("Use this command to view what a command does\n\nArguments surrounded by [] are required, ones surrounded by {} are optional\n")
         .addField('Commands', '```' + commandList.join(', ') + '```')
@@ -14,7 +14,7 @@ exports.run = (client, message, args) => {
 
     } else if(commandList.includes(args[0].toLowerCase())){
 
-        const embed = new Discord.RichEmbed()
+        const embed = new Discord.MessageEmbed()
         .setTitle("Command documentation")
         .addField("Description", client.help[args[0].toLowerCase()].help)
         .addField("Usage", '```' + client.help[args[0].toLowerCase()].format + '```')

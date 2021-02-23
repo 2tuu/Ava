@@ -4,12 +4,12 @@ const neko = new nekoClient();
 
 exports.run = (client, message, args) => {
     async function getCat(){
-	var hug = await neko.getSFWMeow();
+	var hug = await neko.sfw.meow();
 	var hugVar = JSON.stringify(hug.url);
 	hugVar = hugVar.replace(`"`,``);
 	hugVar = hugVar.replace(`"`,``);
 
-	const embed = new Discord.RichEmbed()
+	const embed = new Discord.MessageEmbed()
 	   .setTimestamp()
 	   .setImage(hugVar)
 	   .setFooter("Powered by Nekos.life")

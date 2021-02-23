@@ -13,7 +13,7 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
         if(!row) return;
 
         if(row.enabled === "yes" && row.logBans === "yes"){
-           var ch = client.guilds.get(guildID).channels.get(row.channel);
+           var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
            ch.send("```diff\n+Member Unbanned: " + user.tag + "\n```")
         }
 

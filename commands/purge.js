@@ -1,3 +1,4 @@
+//fixed for new framework
 exports.run = (client, message, args) => {
 
     if(args[0] === "bots"){
@@ -10,7 +11,7 @@ exports.run = (client, message, args) => {
           var deleteCount = parseInt(args[1], 10);
           deleteCount = deleteCount + 7;
           
-          message.channel.fetchMessages().then(messages => {
+          message.channel.messages.fetch({limit: deleteCount}).then(messages => {
             const botMessages = messages.filter(msg => msg.author.bot);
             message.channel.bulkDelete(botMessages, true).catch((err) => {message.channel.send("Error: " + err);} );
             messagesDeleted = botMessages.array().length; 
@@ -86,7 +87,6 @@ exports.run = (client, message, args) => {
       if(!deleteCount || deleteCount < 0 /*|| deleteCount > 100*/){
         return message.reply("Please provide a number between 2 and 100 for the number of messages to delete (" + parseInt(args[0], 10) + ")");
       }
-      const fetched = await message.channel.fetchMessages({count: deleteCount});
 
       deleteCount = deleteCount + 1;
 

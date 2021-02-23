@@ -9,17 +9,17 @@ exports.run = (client, message, args) => {
 
         console.log(ch);
 
-        var chan = message.guild.channels.find('id', ch);
-        var mVar = await chan.fetchMessage(id);
+        var chan = message.guild.channels.cache.get(ch);
+        var mVar = await chan.messages.cache.get(id);
     
         if(!mVar){
             //no message found
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
             .setColor(0xF46242)
             .setDescription("No message found")
             return message.channel.send({embed});
         } else {
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
             .setAuthor(mVar.author.username, mVar.author.avatarURL)
             .setDescription(mVar.content)
             return message.channel.send({embed});
@@ -37,7 +37,7 @@ exports.run = (client, message, args) => {
 
     fetchM(firstArg, secondArg).catch((err) => {
         //no message found
-        const embed = new Discord.RichEmbed()
+        const embed = new Discord.MessageEmbed()
         .setColor(0xF46242)
         .setDescription("No message found")
         .setFooter(err)

@@ -1,15 +1,12 @@
 const Discord = require(`discord.js`);
 const client = new Discord.Client({
-  disableEveryone: true,
-  messageCacheMaxSize: 1000,
-  disableMentions: 'everyone',
-  messageSweepInterval: 86400, //24 hours
-  messageCacheLifetime: 86400
+  disableMentions: 'everyone'
 });
 
 //Extra dependancies/variables
 const fs = require(`fs`);
 const config = require(`./config.json`);
+client.blacklist = [];
 
 //TODO: Make a blacklist table on the db and define here
 
@@ -81,7 +78,7 @@ client.on("message", async message => {
   }
 
   //Global variables
-  const logChannel = client.channels.get(config.logChannel);
+  const logChannel = client.channels.resolve(config.logChannel);
 
   //Extras
   //TODO: Fix DM compatibility
@@ -197,7 +194,7 @@ client.on("message", async message => {
   }
   catch(err){
     console.error(err);
-    var logChannel = client.channels.get(config.logChannel);
+    var logChannel = client.channels.resolve(config.logChannel);
     logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***COMMAND LOADING ERROR:***\n```js\nERR: ' + err + '\n```');
   }
 
@@ -206,7 +203,7 @@ client.on("message", async message => {
 
 client.on("error", async error => {
   console.error(error);
-  var logChannel = client.channels.get(config.logChannel);
+  var logChannel = client.channels.resolve(config.logChannel);
   await logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***ERROR:***\n```js\nLikely connection reset.\nERR: ' + error + '\n```');
 });
 

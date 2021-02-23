@@ -16,7 +16,7 @@ exports.run = (deletedMessage, sql, client, oldMember, newMember) => {
             if(!row) return;
     
             if(row.enabled === "yes" && row.logMembers === "yes"){
-               var ch = client.guilds.get(guildID).channels.get(row.channel);
+               var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
                ch.send("```diff\n+" + oldMember.user.tag + 
                " changed their nickname:\n" + oldMember.nickname + " => " + newMember.nickname + "\n```")
             }

@@ -33,7 +33,7 @@ exports.run = (client, message, args) => {
 	//console.log(searchUser);
 
     if(!searchUser){
-        const embed = new Discord.RichEmbed()
+        const embed = new Discord.MessageEmbed()
 						.setColor(0xF46242)
 						.setTimestamp() 
 						.setTitle("User not found")
@@ -78,7 +78,7 @@ exports.run = (client, message, args) => {
 		var roleList = " No Roles";
 	}
 
-	const embed = new Discord.RichEmbed()
+	const embed = new Discord.MessageEmbed()
 					.setColor(color)
 					.setThumbnail(searchUser.lastMessage.author.avatarURL)
 					.setDescription(`User Info\n\n` 
@@ -92,7 +92,7 @@ exports.run = (client, message, args) => {
         }
     }
     search().catch((err) => {
-        const embed = new Discord.RichEmbed()
+        const embed = new Discord.MessageEmbed()
 						.setColor(0xF46242)
 						.setTimestamp() 
                         .setTitle("User not found")

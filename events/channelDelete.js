@@ -14,7 +14,7 @@ exports.run = async (deletedMessage, sql, client, channel) => {
         if(!row) return;
 
         if(row.enabled === "yes" && row.logChannels === "yes"){
-           var ch = client.guilds.get(guildID).channels.get(row.channel);
+            var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
             ch.send("```diff\n-Channel Deleted\n" + channel.name + " (" + channel.id + ")\n```")
         }
 

@@ -9,7 +9,7 @@ exports.run = (client, message, args) => {
     if(!args || args.size < 1) return;
     delete require.cache[require.resolve(`./../events/${args[0]}.js`)];
 
-    let embedVar = new Discord.RichEmbed()
+    let embedVar = new Discord.MessageEmbed()
            .setTimestamp()
            .setDescription(`The event \`${args[0]}\` has been reloaded`)
            message.channel.send({embed: embedVar});

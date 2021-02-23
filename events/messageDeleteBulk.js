@@ -17,7 +17,7 @@ exports.run = async (deletedMessage, sql, client, messages) => {
             if(!row) return;
     
             if(row.enabled === "yes" && row.logMessages === "yes"){
-               var ch = client.guilds.get(guildID).channels.get(row.channel);
+               var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
 
                ch.send("```diff\n-Message Mass Deletion: Contents stored in the following text file\n```", {
                 files: [

@@ -11,7 +11,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
       var prefix = row.prefix;
     }
 
-    const embed = new Discord.RichEmbed()
+    const embed = new Discord.MessageEmbed()
           .setTimestamp() //Write to JSON
           .setTitle("This server: " + prefix)
         message.channel.send({embed});

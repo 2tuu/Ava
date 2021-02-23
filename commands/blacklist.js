@@ -11,7 +11,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         reason = args.slice(1).join(' ');
     }
 
-    const embed = new Discord.RichEmbed()
+    const embed = new Discord.MessageEmbed()
         .setDescription('User added to blacklist')
         .addField("Username", `${user.username}#${user.discriminator}`)
         .addField("User ID", `${user.id}`)

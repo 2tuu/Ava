@@ -16,11 +16,11 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 
             if (!row) {
               sql.run("INSERT INTO notes (note, ownerId) VALUES (?, ?)", [ "", message.author.id ]);
-              const embed = new Discord.RichEmbed()
+              const embed = new Discord.MessageEmbed()
               .setDescription("Note created")
               return message.channel.send({embed});
               } else {
-                const embed = new Discord.RichEmbed()
+                const embed = new Discord.MessageEmbed()
                    .setColor(0xF46242)
                    .setDescription("You already have a note")
                    return message.channel.send({embed});
@@ -39,14 +39,14 @@ exports.run = (client, message, args, deletedMessage, sql) => {
         sql.get(`SELECT * FROM notes WHERE ownerId ="${message.author.id}"`).then(row => {
 
             if (!row) {
-              const embed = new Discord.RichEmbed()
+              const embed = new Discord.MessageEmbed()
                    .setColor(0xF46242)
                    .setDescription("You don't have a note")
                    return message.channel.send({embed});
               } else {
 
                 if(`${row.note + "\n" + argV.slice(1).join(' ').replace(new RegExp(`"`, `g`), `''`)}`.length > 2000){
-                  const embed = new Discord.RichEmbed()
+                  const embed = new Discord.MessageEmbed()
                    .setColor(0xF46242)
                    .setDescription("Appended note exceeds character limit (2000 characters)")
                    return message.channel.send({embed});
@@ -67,13 +67,13 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 		// var argV = message.content.slice(config.prefix.length);
 
             if (!row) {
-              const embed = new Discord.RichEmbed()
+              const embed = new Discord.MessageEmbed()
                    .setColor(0xF46242)
                    .setDescription("You don't have a note")
                    return message.channel.send({embed});
               } else {
                 sql.run(`UPDATE notes SET note = "${argV.slice(1).join(' ').replace(new RegExp("{n}", 'g'), "\n").replace(new RegExp(`"`, 'g'), `''`)}" WHERE ownerId ="${message.author.id}"`);
-                 const embed = new Discord.RichEmbed()
+                 const embed = new Discord.MessageEmbed()
                    .setDescription("Note updated")
                    return message.channel.send({embed});
               }
@@ -88,14 +88,14 @@ exports.run = (client, message, args, deletedMessage, sql) => {
         sql.get(`SELECT * FROM notes WHERE ownerId ="${message.author.id}"`).then(row => {
 
             if (!row) {
-              const embed = new Discord.RichEmbed()
+              const embed = new Discord.MessageEmbed()
                    .setColor(0xF46242)
                    .setDescription("You don't have a note")
                    return message.channel.send({embed});
               } else {
 
                 sql.run(`UPDATE notes SET note = ""`);
-                 const embed = new Discord.RichEmbed()
+                 const embed = new Discord.MessageEmbed()
                    .setColor(0xF46242)
                    .setDescription("Note cleared")
                    return message.channel.send({embed});
@@ -111,7 +111,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
         sql.get(`SELECT * FROM notes WHERE ownerId ="${message.author.id}"`).then(row => {
 
             if (!row) {
-              const embed = new Discord.RichEmbed()
+              const embed = new Discord.MessageEmbed()
                    .setColor(0xF46242)
                    .setDescription("You don't have a note")
                    return message.channel.send({embed});

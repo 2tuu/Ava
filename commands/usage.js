@@ -29,7 +29,7 @@ async function usageMeter(){
     " - MEMORY (P): " + (Math.round(used * 100) / 100) + "/" + (Math.round(total * 100) / 100) + "mb" +
     "\n\n" + `+Process completed in ${Math.round(seconds*1000)}ms` + 
     "\n\n-BOT:" + "\nBot-Reaction: " + `${m.createdTimestamp - message.createdTimestamp}ms` + 
-    "\nAPI-Reaction:" + ` P:${Math.round(client.ping)}ms  A:${Math.round((client.pings[0] + client.pings[1] + client.pings[2])/3)}ms` +
+    "\nAPI-Reaction:" + ` P:${Math.round(client.ws.ping)}ms  A:${Math.round((client.ws.pings[0] + client.ws.pings[1] + client.ws.pings[2])/3)}ms` +
     "\n\nPROCESS UPTIME: " + uptimeVar +
     "\n```")
     .then(message.channel.stopTyping());

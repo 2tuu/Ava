@@ -5,7 +5,7 @@ const config = require("./../config.json");
 
 exports.run = (client, message, args) => {
 	if(message.channel.nsfw === false){
-		const embed = new Discord.RichEmbed()
+		const embed = new Discord.MessageEmbed()
 		.setTimestamp()
 		.setTitle("This command is only available in NSFW channels")
 		message.channel.send({embed});
@@ -51,13 +51,14 @@ exports.run = (client, message, args) => {
 			
 			var final = results.filter(r => !r.tags.general.some(e=> blacklist.indexOf(e) >= 0)); //Tag blacklist handler
 			final = results.filter(r => fTypeBlacklist.indexOf(r.file.ext) === -1); //File type blacklist handler
+			final = results.filter(r => r.file.url); //remove anything else that requires an account
 
 			if(!final[0]){
 				message.channel.send("No results, make sure you're using less than 6 tags");
 			} else {
 			var result = final[0];
 			
-			const embed = new Discord.RichEmbed()
+			const embed = new Discord.MessageEmbed()
 			 .setImage(result.file.url)
 			 .setDescription(`Artist: ${result.tags.artist.join(', ')}\n[link](https://e621.net/posts/${result.id})`)
 			 .setTimestamp()

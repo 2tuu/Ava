@@ -12,7 +12,7 @@ exports.run = (client, message, args) => {
 		var randomColor = message.mentions.members.first().displayHexColor;
 		var userVari = message.mentions.members.first();
 
-		const embed = new Discord.RichEmbed()
+		const embed = new Discord.MessageEmbed()
 		.setColor("0x" + randomColor.replace("#", ""))
 		.setImage("https://api.alexflipnote.xyz/colour/image/" + randomColor.replace("#", ""))
 		.setFooter(randomColor)
@@ -24,7 +24,7 @@ exports.run = (client, message, args) => {
 
 	var rawColor = randomColor.replace("0x", "");
 	rawColor = "#" + rawColor;
-	const embed = new Discord.RichEmbed()
+	const embed = new Discord.MessageEmbed()
 	.setColor(randomColor)
 	.setImage("https://api.alexflipnote.xyz/colour/image/" + rawColor.replace("#",""))
 	.setFooter(rawColor)
@@ -32,23 +32,23 @@ exports.run = (client, message, args) => {
 
 	  } else if(!args[0]){
 		
-		var randomColor = message.guild.members.find('id', message.author.id).displayHexColor;
+		var randomColor = message.guild.members.cache.get(message.author.id).displayHexColor;
 
-		const embed = new Discord.RichEmbed()
+		const embed = new Discord.MessageEmbed()
 		.setColor("0x" + randomColor.replace("#", ""))
 		.setImage("https://api.alexflipnote.xyz/colour/image/" + randomColor.replace("#", ""))
 		.setFooter(randomColor)
 		message.channel.send({embed});
 
 	  } else if(hex.test(args[0])){
-		const embed = new Discord.RichEmbed()
+		const embed = new Discord.MessageEmbed()
 		.setColor("0x" + args[0].replace("#", ""))
 		.setImage("https://api.alexflipnote.xyz/colour/image/" + args[0].replace("#", ""))
 		.setFooter(args[0])
 		message.channel.send({embed});
 		} else if(args[0]){
 
-		var usr = message.guild.members.get(args[0].replace("<@", "").replace(">", ""));
+		var usr = message.guild.members.cache.get(message.mentions.members.first());
 		
 		if(!usr){
 			message.channel.send("Please mention a valid user");
@@ -56,7 +56,7 @@ exports.run = (client, message, args) => {
 
 			var randomColor = usr.displayHexColor;
 
-		const embed = new Discord.RichEmbed()
+		const embed = new Discord.MessageEmbed()
 		.setColor("0x" + randomColor.replace("#", ""))
 		.setImage("https://api.alexflipnote.xyz/colour/image/" + randomColor.replace("#", ""))
 		.setFooter(randomColor)

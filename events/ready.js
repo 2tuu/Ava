@@ -9,19 +9,19 @@ exports.run = async (sdeletedMessage, sql, client) => {
 	console.log('\x1b[33m', `Version: ` + data.version);
 	console.log("");
 	console.log('\x1b[32m', "======================");
-	console.log('\x1b[33m', `${client.users.size} users - ${client.channels.size} channels - ${client.guilds.size} guilds.`);
+	console.log('\x1b[33m', `${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.size} guilds.`);
 	console.log('\x1b[32m', "=========log==========");
 
 	client.user.setActivity(data.status);
     client.user.setStatus('online');
     
-    const logChannel = client.channels.get(config.logChannel);
+    const logChannel = client.channels.resolve(config.logChannel);
     logChannel.send(`\`\`\`js
 	Log-in Success:
 	Version: ${data.version}
 
-	User Cache: ${client.users.size}
-	Server Count: ${client.guilds.size}
+	User Cache: ${client.users.cache.size}
+	Server Count: ${client.guilds.cache.size}
 	\`\`\``)
 
 	try{

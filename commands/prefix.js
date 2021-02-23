@@ -20,7 +20,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
         
                 sql.run(`UPDATE prefixes SET prefix = "${args[0].replace("\"", "").replace("\"", "")}" WHERE serverId = ${message.guild.id}`);
 
-                const embed = new Discord.RichEmbed()
+                const embed = new Discord.MessageEmbed()
                 .setTimestamp()
                 .setTitle("Server prefix changed to: \"" + args[0].replace("\"", "").replace("\"", "") + "\"")
                 message.channel.send({embed});
@@ -32,7 +32,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
                 });
 
             } else {
-                const embed = new Discord.RichEmbed()
+                const embed = new Discord.MessageEmbed()
                 .setColor(0xF46242)
                 .setTimestamp()
                 .setTitle("You do not have permission to do this. (Admin required)")

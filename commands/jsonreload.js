@@ -5,7 +5,7 @@ exports.run = (client, message, args) => {
     if(!args || args.size < 1) return;
     delete require.cache[require.resolve(`./../JSON/${args[0]}.json`)];
 
-    let embedVar = new Discord.RichEmbed()
+    let embedVar = new Discord.MessageEmbed()
            .setTimestamp()
            .setDescription(`The JSON \`${args[0]}.json\` has been reloaded`)
            message.channel.send({embed: embedVar});

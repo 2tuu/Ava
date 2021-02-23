@@ -48,7 +48,7 @@ exports.run = (client, message, args) => {
         });
             }
             catch(err){
-                const embed = new Discord.RichEmbed()
+                const embed = new Discord.MessageEmbed()
                 .setColor(0xF46242)
                 //.setTimestamp()
                 .setTitle("This search turned up blank")

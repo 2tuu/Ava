@@ -10,7 +10,7 @@ exports.run = (client, message, args, deletedMessage) => {
 
 				var type = deletedMessage[message.guild.id + "-" + args[0].replace("<#", "").replace(">", "")].type;
 
-				const embed = new Discord.RichEmbed()
+				const embed = new Discord.MessageEmbed()
 				.setAuthor(deletedMessage[message.guild.id + "-" + args[0].replace("<#", "").replace(">", "")].author + " (" + type + ")", deletedMessage[message.guild.id + "-" + channelIDVar].avatar)
 
 				.setDescription(deletedMessage[message.guild.id + "-" + args[0].replace("<#", "").replace(">", "")].message)
@@ -24,7 +24,7 @@ exports.run = (client, message, args, deletedMessage) => {
 			
 			var type = deletedMessage[message.guild.id + "-" + channelIDVar].type;
 
-				const embed = new Discord.RichEmbed()
+				const embed = new Discord.MessageEmbed()
 				.setAuthor(deletedMessage[message.guild.id + "-" + channelIDVar].author, deletedMessage[message.guild.id + "-" + channelIDVar].avatar)
 
 				.setDescription(deletedMessage[message.guild.id + "-" + channelIDVar].message)
@@ -36,7 +36,7 @@ exports.run = (client, message, args, deletedMessage) => {
 			}
 		} 
 		catch (err) {
-			const embed = new Discord.RichEmbed()
+			const embed = new Discord.MessageEmbed()
 
 			.setTitle("No deleted messages in this channel")
 			message.channel.send({embed});

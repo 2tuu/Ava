@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const config = require('./../config.json');
 
 exports.run = async (client, message) => {
-        const embed = new Discord.RichEmbed()
+        const embed = new Discord.MessageEmbed()
                 .setColor(0xF46242)
                 .setTimestamp()
                 .setTitle("Process restarting...")

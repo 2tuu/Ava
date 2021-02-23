@@ -1,9 +1,9 @@
 const Discord = require('discord.js');
 
 exports.run = async (client, message, args) => {
-    var user = client.users.get(args[0]);
+    var user = client.users.cache.get(args[0]);
 
-    const embed1 = new Discord.RichEmbed()
+    const embed1 = new Discord.MessageEmbed()
                     .setTitle("Suggestion/Report Reply")
                     .setThumbnail(message.author.avatarURL)
 					.addField("From", message.author.id + " (" + message.author.username + "#" + message.author.discriminator + ")")

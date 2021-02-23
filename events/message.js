@@ -23,5 +23,5 @@ exports.run = (deletedMessage, sql, client, message) => {
           console.log("added to announcement");
         }
       });
-	
+
   }

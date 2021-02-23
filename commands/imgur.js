@@ -24,7 +24,7 @@ exports.run = (client, message, args) => {
 		message.channel.send("<" + json.data.link + ">");
 	}).catch((err) => {
 	
-		const embed = new Discord.RichEmbed()
+		const embed = new Discord.MessageEmbed()
 		.setColor(0xF46242)
 		.setTitle("An Error Occured")
 		.setFooter(err.message.message);

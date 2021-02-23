@@ -274,7 +274,7 @@ if(message.author.id === "378769654942007299"){
 
         //console.log(Object.keys(contentVar).length);
         //console.log(contentVar)
-    const embed = new Discord.RichEmbed()
+    const embed = new Discord.MessageEmbed()
 
     .setTimestamp() //Write to JSON
     .setTitle("There are " + (row.length) + " tags stored")
@@ -291,7 +291,7 @@ if(message.author.id === "378769654942007299"){
 
         //console.log(Object.keys(contentVar).length);
         console.log(contentVar)
-    const embed = new Discord.RichEmbed()
+    const embed = new Discord.MessageEmbed()
 
     .setTimestamp() //Write to JSON
     .setTitle("You have " + (row.length) + " tags over all guilds")
@@ -366,7 +366,7 @@ if(message.author.id === "378769654942007299"){
              //user.send("**Tag list:**\n" + messageVar).catch((err) => {return message.channel.send("**An error occured, please enable DMs on this server**");});
             })
     }).catch((err)=>{
-		const embed = new Discord.RichEmbed()
+		const embed = new Discord.MessageEmbed()
 	.setColor(0xF46242)
 	.setTimestamp() //Write to JSON
 	.setTitle("Error sending list")
@@ -423,7 +423,7 @@ list().catch((err) => {message.reply(err)});
              user.send("**Global Tag List:**\n" + messageVar.replace("undefined", "")).catch((err) => {return message.channel.send("**An error occured, please enable DMs on this server**");});
             })
     }).catch((err)=>{
-		const embed = new Discord.RichEmbed()
+		const embed = new Discord.MessageEmbed()
 	.setColor(0xF46242)
 	.setTimestamp() //Write to JSON
 	.setTitle("Error sending list")
@@ -522,7 +522,7 @@ list().catch((err) => {message.reply(err)});
                 var rowContent = row.tagContent;
             }
 
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
             .setTimestamp() //Write to JSON
             .setTitle("Tag info")
             .addField("Owner", ownerName)

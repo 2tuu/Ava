@@ -35,7 +35,7 @@ exports.run = (client, message, args) => {
 	  return [d, pad(h), pad(m)].join(':');
 	}
 
-	client.fetchUser(userID).then((member) => {
+	client.users.fetch(userID).then((member) => {
 
 		if(!member) return;
 
@@ -55,7 +55,7 @@ exports.run = (client, message, args) => {
 			lUsername = lUsername + ' <:botTag:230105988211015680>';
 		}
 
-		const embed = new Discord.RichEmbed()
+		const embed = new Discord.MessageEmbed()
 				.setAuthor(`User Lookup`, `${message.author.avatarURL}`)
 				.setThumbnail(`${thumbnailVar}`)
 				.addField("Username", `${lUsername}`)
@@ -70,6 +70,8 @@ exports.conf = {
     help: "Look up a user by their ID",
     format: "k?lookup [ID]",
     DM: true,
-    OwnerOnly: false,
+    OwnerOnly: true,
     alias: []
 }
+
+//figure out an alternative if it's even needed

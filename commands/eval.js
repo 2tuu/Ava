@@ -25,7 +25,7 @@ async function evalCMD(){
       }
 
     } else {
-      const embed = new Discord.RichEmbed()
+      const embed = new Discord.MessageEmbed()
         .setColor(0xF46242)
         .setTimestamp()
         .setTitle("You do not have permission to do this. (Bot Owner required)")

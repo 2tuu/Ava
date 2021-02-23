@@ -39,7 +39,7 @@ exports.run = async (deletedMessage, sql, client, message) => {
             if(!row) return;
     
             if(row.enabled === "yes" && row.logMessages === "yes" && message.author.bot === false){
-               var ch = client.guilds.get(guildID).channels.get(row.channel);
+               var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
 
                if(Attachment[0]){
                 ch.send("```diff\n-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + ":\nMessage ID: " + message.id + "\n```\n"+

@@ -5,7 +5,7 @@ exports.run = (client, message, args) => {
 
     birb.random()
       .then(url => {
-        let embedVar = new Discord.RichEmbed()
+        let embedVar = new Discord.MessageEmbed()
            .setImage(url)
            .setTimestamp()
            .setFooter("Powered by Random.Birb.Pw")

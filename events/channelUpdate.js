@@ -19,7 +19,7 @@ exports.run = async (deletedMessage, sql, client, newChannel, oldChannel) => {
             if(newChannel.name === oldChannel.name && newChannel.topic === oldChannel.topic && newChannel.parent.name === oldChannel.parent.name){
                 return;
             } else {
-           var ch = client.guilds.get(guildID).channels.get(row.channel);
+           var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
             ch.send("```diff\n+Channel Updated``````diff\n" + 
             "-Old Channel:\nName: " + newChannel.name +
             "\nTopic: " + newChannel.topic + 
