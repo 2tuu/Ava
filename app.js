@@ -9,6 +9,8 @@ const config = require(`./config.json`);
 client.blacklist = [];
 
 //TODO: Make a blacklist table on the db and define here
+//placeholder
+client.blist = [];
 
 //Temporary data sets
       client.aliases = new Map();
