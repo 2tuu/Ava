@@ -1,35 +1,20 @@
 {
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/2tuu/Kit.git"
-    },
-    "name": "kit",
-    "version": "6.1.9",
-    "license": "SEE LICENSE IN ./LICENSE",
-    "dependencies": {
-        "ascii-fullwidth-halfwidth-convert": "^0.1.1",
-        "axios": "^0.19.2",
-        "birb": "^1.2.2",
-        "canvas": "^2.6.1",
-        "cpu-stat": "^2.0.1",
-        "discord.js": "^11.6.2",
-        "droll": "^0.2.1",
-        "imgur": "^0.3.1",
-        "latinize": "^0.4.0",
-        "nan": "^2.14.0",
-        "nekocurl": "^1.5.1",
-        "nekos.life": "^2.0.5",
-        "node-pre-gyp": "^0.14.0",
-        "os": "^0.1.1",
-        "remove-accents": "^0.4.2",
-        "scalc": "^2.0.1",
-        "simple-get": "^3.1.0",
-        "sqlite": "^3.0.3",
-        "touch": "^3.1.0",
-        "unidecode": "^0.1.8",
-        "weather-js": "^2.0.0",
-        "xml2js": "^0.4.23",
-        "ynajs": "^6.2.2",
-        "yt-search": "^1.1.2"
-    }
+  "dependencies": {
+    "ascii-fullwidth-halfwidth-convert": "^0.1.1",
+    "axios": "^0.21.1",
+    "birb": "^1.2.2",
+    "cpu-stat": "^2.0.1",
+    "discord.js": "^12.5.1",
+    "droll": "^0.2.1",
+    "imgur": "^0.3.1",
+    "latinize": "^0.5.0",
+    "nekos.life": "^2.0.7",
+    "remove-accents": "^0.4.2",
+    "scalc": "^2.0.1",
+    "sqlite": "^3.0.3",
+    "sqlite3": "^5.0.2",
+    "weather-js": "^2.0.0",
+    "ynajs": "^6.2.2",
+    "yt-search": "^2.7.3"
+  }
 }
