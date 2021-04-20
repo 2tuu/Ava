@@ -26,7 +26,7 @@ exports.run = (client, message, args) => {
                     user.send({embed: embed1}).then().catch(console.error);
                     
 
-                    var chan = client.channels.cache.fetch(config.reports);
+                    var chan = client.channels.cache.get(config.reports);
 
                     const embed2 = new Discord.MessageEmbed()
                     .setTitle("Error ID: " + errID)
