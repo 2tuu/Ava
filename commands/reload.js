@@ -8,6 +8,7 @@ exports.run = (client, message, args) => {
 
     if(!args || args.size < 1) return;
     delete require.cache[require.resolve(`./${args[0]}.js`)];
+    console.log('Reloaded module: ' + args[0]);
 
     let embedVar = new Discord.MessageEmbed()
            .setTimestamp()
