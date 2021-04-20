@@ -1,65 +1,62 @@
-    exports.run = async (client, message, args) => {
+const { jsonfy } = require("booru/dist/Utils");
 
-        if(isNaN(args[0])){
-            return message.channel.send("Please enter a valid number of minutes");
+exports.run = async (client, message, args, deletedMessage, sql) => {
+
+    var user = message.author.id;
+    var channel = message.channel.id;
+
+    if(isNaN(args[0])){
+        return message.channel.send("Please enter a valid number of minutes");
+    } else if(!args[1]){ //minute given but no message
+        return message.channel.send("Please give me a message for your reminder.");
+    } else if(!isNaN(args[1]) && !args[2]){ //hour given but no message
+        return message.channel.send("Please give me a message for your reminder.");
+    }
+
+    //usage: k?remind [minutes] [hours] message
+
+        var minutes = args[0] * 60000;
+        var hours = 0;
+
+        if(!isNaN(args[1])){
+           hours = args[1] * 3600000;
         }
 
-        //usage: k?remind [minutes] [hours] message
+        var time = minutes+hours;
+
+        if(time/60000 == 1){
+            var min = 'minute';
+        } else if(time < 0 || time > 604800001){
+            return message.channel.send("Please enter a time between 0 minutes and 7 days");
+        } else {
+            var min = 'minutes';
+        }
+
+        var endtime = Date.now() + time;
+        var timerMessage;
 
         if(isNaN(args[1])){
-
-            var time = args[0] * 60000;
-
-            console.log('1: ' + time);
-
-            if(time/60000 == 1){
-                var min = 'minute';
-            } else {
-                var min = 'minutes';
-            }
-
-            message.channel.send(`I will tell you: \`${args.slice(1).join(' ')}\` in ${time/60000} ${min}`)
-
-            async function funct() {
-                message.channel.send('<@' + message.author.id + `>, ${time/60000} ${min} ago, you told me to tell you: \`` + args.slice(1).join(' ') + '`')
-            }
-  
-            setTimeout(funct,time);
-
+            timerMessage = args.slice(1).join(' ');
         } else {
-            
-
-            var minutes = args[0] * 60000;
-            var hours = args[1] * 3600000;
-
-            var time = minutes+hours;
-
-            console.log('2: ' + time);
-
-            if(time/60000 == 1){
-                var min = 'minute';
-            } else if(time < 0 || time > 604800001){
-                return message.channel.send("Please enter a time between 0 minutes and 7 days");
-            } else {
-                var min = 'minutes';
-            }
-
-            message.channel.send(`I will tell you: \`${args.slice(2).join(' ')}\` in ${time/60000} ${min}`)
-
-            async function funct() {
-                message.channel.send('<@' + message.author.id + `>, ${time/60000} ${min} ago, you told me to tell you: \`` + args.slice(2).join(' ') + '`')
-            }
-  
-            setTimeout(funct,time);
-
+            timerMessage = args.slice(2).join(' ');
         }
 
-    }
+        message.channel.send(`I will tell you: \`${timerMessage}\` in ${time/60000} ${min}`);
 
-    exports.conf = {
-        help: "Remind yourself of something in the future",
-        format: "k?remind [minutes] {optional: hours}",
-        DM: true,
-        OwnerOnly: false,
-        alias: []
-    }
+        //sql
+        var row = await sql.get(`SELECT * FROM timer WHERE user ="${user}"`);
+        if(!row){ //no timers exist
+            sql.run("INSERT INTO timer (endtime, user, channelcreated, message) VALUES (?, ?, ?, ?)", [endtime, user, channel, timerMessage]);
+        } else { //timer already exists (limit 1 per user)
+            message.channel.send(`You already have a timer expiring in ${time/60000} ${min}`);
+        }
+
+}
+
+exports.conf = {
+    help: "Remind yourself of something in the future",
+    format: "k?remind [minutes] {optional: hours}",
+    DM: true,
+    OwnerOnly: true,
+    alias: []
+}

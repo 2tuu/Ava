@@ -2,6 +2,9 @@ const fs = require('fs');
 let data = JSON.parse(fs.readFileSync("./JSON/data.json", "utf8"));
 let config = JSON.parse(fs.readFileSync("./config.json", "utf8"));
 
+const cron = require('node-cron');
+const express = require('express');
+
 exports.run = async (sdeletedMessage, sql, client) => {
     console.log("Client Logon Successful");
 	console.log('\x1b[32m', "======================");
@@ -30,6 +33,25 @@ exports.run = async (sdeletedMessage, sql, client) => {
 	} catch(err) {
 		console.error(err);
 	}
+
+	cron.schedule('* * * * *', async function() {
+
+		var currentTime = Date.now();
+		var remind = await sql.all(`SELECT * FROM timer`);
+
+		remind.forEach(e=> {
+			if(e.endtime < currentTime){
+				client.channels.fetch(e.channelcreated) //replace with real id, make this repeat for each
+				.then(channel => {
+					channel.send(`<@${e.user}>, earlier you reminded me to tell you \`${e.message}\``);
+					sql.run(`DELETE FROM timer WHERE user ="${e.user}"`);
+				})
+				.catch(console.error);	
+			}
+		});
+	
+	});
+
 
 	//Blacklist parser (initialized in events/ready)
 	client.blist = [];
