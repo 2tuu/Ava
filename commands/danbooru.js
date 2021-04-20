@@ -6,25 +6,25 @@ const apikey = config.e6apikey;
 
 const booru = require('booru');
 
-const taglimit = 6;
+const taglimit = 2;
 
 exports.run = (client, message, args) => {
 
 	try{
 
-		if(args.length > taglimit){
+        if(args.length > taglimit){
             const embed = new Discord.MessageEmbed()
 		        .setTimestamp()
 		        .setTitle("This site has a limit of " + taglimit + " tags.")
 		    return message.channel.send({embed});
         }
-
-	  if(message.channel.nsfw === false){
-		  const embed = new Discord.MessageEmbed()
-		    .setTimestamp()
-		    .setTitle("This command is only available in NSFW channels")
-		  message.channel.send({embed});
-	  } else {
+    
+	    if(message.channel.nsfw === false){
+		    const embed = new Discord.MessageEmbed()
+		        .setTimestamp()
+		        .setTitle("This command is only available in NSFW channels")
+		     message.channel.send({embed});
+	    } else {
 
 		if (cooldown.has(message.author.id)) {
 			return message.reply("please wait 5 seconds before using that command again");
@@ -37,7 +37,7 @@ exports.run = (client, message, args) => {
 
 		  async function grab(tags){
 
-			  var result = await booru.search('e621', tags, { limit: 10, random: true })
+			  var result = await booru.search('danbooru', tags, { limit: 10, random: true })
 			  //found commonly disturbing or against discord's content rules
         var blacklist = [
 				  "cub",

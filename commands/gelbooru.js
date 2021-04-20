@@ -6,7 +6,7 @@ const apikey = config.e6apikey;
 
 const booru = require('booru');
 
-const taglimit = 6;
+const taglimit = 10;
 
 exports.run = (client, message, args) => {
 
@@ -37,7 +37,7 @@ exports.run = (client, message, args) => {
 
 		  async function grab(tags){
 
-			  var result = await booru.search('e621', tags, { limit: 10, random: true })
+			  var result = await booru.search('gelbooru', tags, { limit: 10, random: true })
 			  //found commonly disturbing or against discord's content rules
         var blacklist = [
 				  "cub",
