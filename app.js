@@ -67,6 +67,34 @@ fs.readdir('./commands', (err, commands) => {
 
 });
 
+//experimental command loader
+fs.readdir('./commands-locked', (err, commands) => {
+
+  function cLoader(c){
+    try {
+      const cmd = require(`./commands-locked/${c}`);
+      var cmdName = c.substring(0, c.length-3);
+      console.log('Loaded ' + cmdName);
+
+      client.aliases[cmdName] = {aliases: []};
+
+      cmd.conf.alias.forEach((alias) => {
+      client.aliases[cmdName].aliases.push(alias);
+
+      });
+      return false;
+    } catch (err) {
+      console.error(`Loading Error: ${err}`);
+    }
+  }
+
+  commands.forEach((m) => {
+      console.log(`Loading module: ${m}`);
+      cLoader(m);
+  });
+
+});
+
 
 
 
@@ -173,7 +201,12 @@ client.on("message", async message => {
   try{
     commandFile = require(`./commands/${command}.js`);
   } catch(err){
-    return; //return if command file doesn't exist, errors are already reported in loading stage
+    try{
+      commandFile = require(`./commands-locked/${command}.js`);
+    }catch(err){
+      return; //return if command file doesn't exist, errors are already reported in loading stage
+    }
+    
   }
 
   //Cooldown checker
