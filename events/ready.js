@@ -41,7 +41,7 @@ exports.run = async (sdeletedMessage, sql, client) => {
 
 		remind.forEach(e=> {
 			if(e.endtime < currentTime){
-				client.channels.fetch(e.channelcreated) //replace with real id, make this repeat for each
+				client.channels.fetch(e.channelcreated)
 				.then(channel => {
 					channel.send(`<@${e.user}>, earlier you reminded me to tell you \`${e.message}\``);
 					sql.run(`DELETE FROM timer WHERE user ="${e.user}"`);
