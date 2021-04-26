@@ -5,6 +5,16 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
     var user = message.author.id;
     var channel = message.channel.id;
 
+    if(args[0] === "cancel"){
+        var row = await sql.get(`SELECT * FROM timer WHERE user ="${message.author.id}"`);
+        if(!row){ //no timers exist
+            return message.channel.send("You have no timers running");
+        } else { //timer already exists (limit 1 per user)
+            sql.run(`DELETE FROM timer WHERE user ="${message.author.id}"`);
+            return message.channel.send("Your timer has been deleted");
+        }
+    }
+
     if(isNaN(args[0])){
         return message.channel.send("Please enter a valid number of minutes");
     } else if(!args[1]){ //minute given but no message
@@ -41,6 +51,10 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             timerMessage = args.slice(2).join(' ');
         }
 
+        if(timerMessage.length > 1921){
+            return message.channel.send("Please give me a message below 1,920 characters");
+        }
+
         message.channel.send(`I will tell you: \`${timerMessage}\` in ${time/60000} ${min}`);
 
         //sql
@@ -48,7 +62,9 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         if(!row){ //no timers exist
             sql.run("INSERT INTO timer (endtime, user, channelcreated, message) VALUES (?, ?, ?, ?)", [endtime, user, channel, timerMessage]);
         } else { //timer already exists (limit 1 per user)
-            message.channel.send(`You already have a timer expiring in ${time/60000} ${min}`);
+            var timerEnd = Date.now();
+                timerEnd = row.endtime - timerEnd;
+            message.channel.send(`You already have a timer expiring in ${Math.round(timerEnd/60000) + 0.4} ${min}`);
         }
 
 }
