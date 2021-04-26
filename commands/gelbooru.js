@@ -46,7 +46,8 @@ exports.run = (client, message, args) => {
 				  "gore",
 				  "loli",
 				  "shota",
-				  "flash"
+				  "flash",
+				  "video"
 			  ];
 
         result.posts = result.posts.filter(r => !r.tags.some(e=> blacklist.indexOf(e) >= 0)); //Tag blacklist handler
@@ -92,7 +93,7 @@ exports.run = (client, message, args) => {
 exports.conf = {
     help: "Pull an image from e621",
     format: "k?e621 {tags}",
-    DM: true,
+    DM: false,
     OwnerOnly: false,
     alias: []
 }
