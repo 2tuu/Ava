@@ -36,14 +36,20 @@ exports.run = async (sdeletedMessage, sql, client) => {
 
 	cron.schedule('* * * * *', async function() {
 
-		var currentTime = Date.now();
+		var currenttime = Date.now();
 		var remind = await sql.all(`SELECT * FROM timer`);
 
 		remind.forEach(e=> {
-			if(e.endtime < currentTime){
+			var status = '';
+			if(e.endtime < currenttime){
+
+				if(currenttime - e.endtime > 300000){
+					status = ' (delayed)';
+				}
+
 				client.channels.fetch(e.channelcreated)
 				.then(channel => {
-					channel.send(`<@${e.user}>, earlier you reminded me to tell you \`${e.message}\``);
+					channel.send(`<@${e.user}>, earlier you reminded me to tell you \`${e.message}\`` + status);
 					sql.run(`DELETE FROM timer WHERE user ="${e.user}"`);
 				})
 				.catch(console.error);	
