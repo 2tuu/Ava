@@ -49,7 +49,7 @@ exports.run = async (sdeletedMessage, sql, client) => {
 
 				client.channels.fetch(e.channelcreated)
 				.then(channel => {
-					channel.send(`<@${e.user}>, earlier you reminded me to tell you \`${e.message}\`` + status);
+					channel.send(`<@${e.user}>, earlier you reminded me to tell you \`${e.message.replace(/[`]/g, '')}\`` + status);
 					sql.run(`DELETE FROM timer WHERE user ="${e.user}"`);
 				})
 				.catch(console.error);	
