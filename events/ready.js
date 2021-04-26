@@ -5,12 +5,10 @@ let config = JSON.parse(fs.readFileSync("./config.json", "utf8"));
 const cron = require('node-cron');
 const express = require('express');
 
-exports.run = async (sdeletedMessage, sql, client) => {
+exports.run = async (deletedMessage, sql, client) => {
     console.log("Client Logon Successful");
-	console.log('\x1b[32m', "======================");
-	console.log("");
-	console.log('\x1b[33m', `Version: ` + data.version);
-	console.log("");
+	console.log('\x1b[32m', "======================\n");
+	console.log('\x1b[33m', `Version: ` + data.version + '\n');
 	console.log('\x1b[32m', "======================");
 	console.log('\x1b[33m', `${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.size} guilds.`);
 	console.log('\x1b[32m', "=========log==========");
