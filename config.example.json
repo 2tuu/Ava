@@ -1,13 +1,10 @@
 {
-    "token_prod": "bot token here",
-    "suggestions": "suggestion channel id here",
-    "reports": "bug report channel here",
+    "token_prod": "BOT TOKEN HERE",
     "prefix": "k?",
-    "owner": "your user id here",
-    "logChannel": "login log and whatnot channel id here",
-    "evalAllow": ["anyone you trust enough to use the eval command here"],
-    "imgur": "Imgur app id here",
-    "youtube": "youtube API token here",
-    "kitk_token": "hug api token here (request one from kab#9488)",
-    "invite": "link to the bot's invite here"
+    "owner": "YOUR USER ID HERE",
+    "logChannel": "BOT LOG CHANNEL ID HERE",
+    "evalAllow": ["YOUR ID HERE", "ANYONE ELSE YOU WOULD LKE TO BE ABLE TO USE THE EVAL COMMAND"],
+    "imgur": "IMGUR API KEY HERE",
+    "youtube": "YOUTUBE API KEY HERE",
+    "invite": "BOT INVITE LINK HERE"
 }

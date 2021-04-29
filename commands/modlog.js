@@ -1,18 +1,19 @@
 const Discord = require('discord.js');
 
     exports.run = (client, message, args, deletedMessage, sql) => {
+
         if(message.member.permissions.has('KICK_MEMBERS') || message.author.id === '378769654942007299') {
 
             if(args[1]){ args[1] = args[1].toLowerCase(); }
 
             if(args[0] === "toggle"){
                 if(!args[1]){
-                    sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`).then(row => {
+                    var row  = sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`);
                         if(!row){
                             const embed = new Discord.MessageEmbed()
                                     .setDescription("Modlog module Enabled")
                                     message.channel.send({embed});
-                             sql.run("INSERT INTO modlog (logKicks, logReactions, logChannels, logEmojis, logBans, logLeaves, logMembers, logMessages, logRoles, serverId, enabled, channel) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", ['no', 'no','no','no','no','no','no','no','no',message.guild.id,'yes',null ]);
+                             sql.run(`INSERT INTO modlog (logKicks, logReactions, logChannels, logEmojis, logBans, logLeaves, logMembers, logMessages, logRoles, serverId, enabled, channel) VALUES ('no', 'no','no','no','no','no','no','no','no',${message.guild.id},'yes',${null})`);
                         } else {
                             if(row.enabled === "yes"){
                                 console.log(row.enabled);
@@ -29,12 +30,11 @@ const Discord = require('discord.js');
                                 sql.run(`UPDATE modlog SET enabled = "yes" WHERE serverId = "${message.guild.id}"`);
                             }
                         }
-                    });
 
 
                 } else if(args[1] === "logroles"){
 
-                    sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`).then(row => {
+                    var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`);
                         if(!row){
                             //enable first
                         } else {
@@ -51,11 +51,10 @@ const Discord = require('discord.js');
                                 sql.run(`UPDATE modlog SET logRoles = "yes" WHERE serverId = "${message.guild.id}"`);
                             }
                         }
-                    });
 
                 } else if(args[1] === "logreactions"){
 
-                    sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`).then(row => {
+                    var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`);
                         if(!row){
                             //enable first
                         } else {
@@ -72,12 +71,11 @@ const Discord = require('discord.js');
                                 sql.run(`UPDATE modlog SET logReactions = "yes" WHERE serverId = "${message.guild.id}"`);
                             }
                         }
-                    });
 
 
                 } else if(args[1] === "logmessages"){
 
-                    sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`).then(row => {
+                    var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`);
                         if(!row){
                             //enable first
                         } else {
@@ -94,11 +92,10 @@ const Discord = require('discord.js');
                                 sql.run(`UPDATE modlog SET logMessages = "yes" WHERE serverId = "${message.guild.id}"`);
                             }
                         }
-                    });
 
                 } else if(args[1] === "logmembers"){
 
-                    sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`).then(row => {
+                    var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`);
                         if(!row){
                             //enable first
                         } else {
@@ -115,11 +112,10 @@ const Discord = require('discord.js');
                                 sql.run(`UPDATE modlog SET logMembers = "yes" WHERE serverId = "${message.guild.id}"`);
                             }
                         }
-                    });
 
                 } else if(args[1] === "logbans"){
 
-                    sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`).then(row => {
+                    var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`);
                         if(!row){
                             //enable first
                         } else {
@@ -136,12 +132,11 @@ const Discord = require('discord.js');
                                 sql.run(`UPDATE modlog SET logBans = "yes" WHERE serverId = "${message.guild.id}"`);
                             }
                         }
-                    });
 
 
                 } else if(args[1] === "logleaves"){
 
-                    sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`).then(row => {
+                    var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`);
                         if(!row){
                             //enable first
                         } else {
@@ -158,11 +153,10 @@ const Discord = require('discord.js');
                                 sql.run(`UPDATE modlog SET logLeaves = "yes" WHERE serverId = "${message.guild.id}"`);
                             }
                         }
-                    });
 
                 } else if(args[1] === "logchannels"){
 
-                    sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`).then(row => {
+                    var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`);
                         if(!row){
                             //enable first
                         } else {
@@ -179,11 +173,10 @@ const Discord = require('discord.js');
                                 sql.run(`UPDATE modlog SET logChannels = "yes" WHERE serverId = "${message.guild.id}"`);
                             }
                         }
-                    });
 
                 } else if(args[1] === "logemojis"){
 
-                    sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`).then(row => {
+                    var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`);
                         if(!row){
                             //enable first
                         } else {
@@ -200,11 +193,10 @@ const Discord = require('discord.js');
                                 sql.run(`UPDATE modlog SET logEmojis = "yes" WHERE serverId = "${message.guild.id}"`);
                             }
                         }
-                    });
 
                 } else if(args[1] === "logkicks"){
 
-                    sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`).then(row => {
+                    var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`);
                         if(!row){
                             const embed = new Discord.MessageEmbed()
 			                            .setColor(0xF46242)
@@ -224,12 +216,11 @@ const Discord = require('discord.js');
                                 sql.run(`UPDATE modlog SET logKicks = "yes" WHERE serverId = "${message.guild.id}"`);
                             }
                         }
-                    });
 
                 }
             } else if(args[0] === "setchannel"){
 
-                sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`).then(row => {
+                var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${message.guild.id}"`);
                     if(!row){
                         const embed = new Discord.MessageEmbed()
 			                .setColor(0xF46242)
@@ -245,7 +236,6 @@ const Discord = require('discord.js');
 			                message.channel.send({embed});
                         }
                     }
-                });
 
 
             }

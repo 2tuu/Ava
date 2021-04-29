@@ -10,8 +10,10 @@ exports.run = (deletedMessage, sql, client, member) => {
       } catch(err){
           console.error(err);
       }
+
+      var row;
   
-      sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`).then(row => {
+      row = sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`);
   
           if(!row) return;
   
@@ -20,18 +22,16 @@ exports.run = (deletedMessage, sql, client, member) => {
              ch.send("```diff\n+Member Joined: " + member.user.tag + "\nCurrent Count:" + member.guild.memberCount + "\n```")
           }
   
-      });
 
     //Extra additions that may not exist in inactive guilds
-    sql.get(`SELECT * FROM announce WHERE guild ="${member.guild.id}"`).then(row => {
+    row = sql.get(`SELECT * FROM announce WHERE guild ="${member.guild.id}"`)
       if(!row){
         sql.run("INSERT INTO announce (guild, channel) VALUES (?, ?)", [member.guild.id, null]);
         console.log("added to announcement");
       }
-    });
   
     //Welcome message setting store, goes in the same table as the prefixes
-    sql.get(`SELECT * FROM prefixes WHERE serverId ="${member.guild.id}"`).then(row => {
+    row = sql.get(`SELECT * FROM prefixes WHERE serverId ="${member.guild.id}"`)
       if(!row){
         sql.run("INSERT INTO prefixes (prefix, welcomeMessage, welcomeChannel, shouldWelcome, serverId) VALUES (?, ?, ?, ?, ?)", ["k?", "This is a placeholder", "null", "false", member.guild.id]);
         console.log("added to prefixes");
@@ -66,9 +66,6 @@ exports.run = (deletedMessage, sql, client, member) => {
 
     }
   
-    }).catch(() => {
-      console.error;
-    });
   
       
     

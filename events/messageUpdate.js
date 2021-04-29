@@ -38,15 +38,12 @@ exports.run = async (deletedMessage, sql, client, oldMessage, newMessage) => {
             console.error(err);
         }
     
-        sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`).then(row => {
-    
+        var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`);
             if(!row) return;
     
             if(row.enabled === "yes" && row.logMessages === "yes" && oldMessage.author.bot === false){
                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
                ch.send("```diff\n+Message Updated in " + oldMessage.channel.name + ':\n' + `${oldMessage.author.tag}: ${oldMessage.content} => ${newMessage.content}` + "\nMessage ID: " + oldMessage.id + "\n```")
             }
-    
-        });
         
   }

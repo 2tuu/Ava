@@ -9,7 +9,7 @@ exports.run = async (deletedMessage, sql, client, channel) => {
         return; //return on dm
     }
 
-    sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`).then(row => {
+    var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`);
 
         if(!row) return;
 
@@ -18,6 +18,5 @@ exports.run = async (deletedMessage, sql, client, channel) => {
             ch.send("```diff\n+Channel Created\n" + channel.name + " (" + channel.id + ")\n```")
         }
 
-    });
    
 }

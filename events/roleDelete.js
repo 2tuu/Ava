@@ -7,7 +7,7 @@ exports.run = (deletedMessage, sql, client, role) => {
             console.error(err);
         }
     
-        sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`).then(row => {
+        var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`);
     
             if(!row) return console.log('no row');
     
@@ -15,7 +15,5 @@ exports.run = (deletedMessage, sql, client, role) => {
                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
                ch.send("```diff\n-Role Deleted:\n" + `Color: ${role.color} | Name: ${role.name}`  + "```");
             }
-    
-        });
    
 }

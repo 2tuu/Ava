@@ -9,7 +9,7 @@ exports.run = async (deletedMessage, sql, client, newChannel, oldChannel) => {
         console.error(err);
     }
 
-    sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`).then(row => {
+    var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`);
 
         if(!row) return;
         if(newChannel.nsfw === oldChannel.nsfw && newChannel.topic === oldChannel.topic && oldChannel.name === newChannel.name) return;
@@ -31,7 +31,5 @@ exports.run = async (deletedMessage, sql, client, newChannel, oldChannel) => {
             "\nCategory: " + oldChannel.parent.name + "\n```\n")
            }
         }
-
-    });
    
 }

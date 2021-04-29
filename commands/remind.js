@@ -1,12 +1,11 @@
-const { jsonfy } = require("booru/dist/Utils");
-
 exports.run = async (client, message, args, deletedMessage, sql) => {
 
     var user = message.author.id;
     var channel = message.channel.id;
+    var row;
 
     if(args[0] === "cancel"){
-        var row = await sql.get(`SELECT * FROM timer WHERE user ="${message.author.id}"`);
+        row = sql.get(`SELECT * FROM timer WHERE user ="${message.author.id}"`);
         if(!row){ //no timers exist
             return message.channel.send("You have no timers running");
         } else { //timer already exists (limit 1 per user)
@@ -58,9 +57,9 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         message.channel.send(`I will tell you: \`${timerMessage}\` in ${time/60000} ${min}`);
 
         //sql
-        var row = await sql.get(`SELECT * FROM timer WHERE user ="${user}"`);
+        row = sql.get(`SELECT * FROM timer WHERE user ="${user}"`);
         if(!row){ //no timers exist
-            sql.run("INSERT INTO timer (endtime, user, channelcreated, message) VALUES (?, ?, ?, ?)", [endtime, user, channel, timerMessage]);
+            sql.run(`INSERT INTO timer (endtime, user, channelcreated, message) VALUES ('${endtime}', '${user}', '${channel}', '${timerMessage}')`);
         } else { //timer already exists (limit 1 per user)
             var timerEnd = Date.now();
                 timerEnd = row.endtime - timerEnd;

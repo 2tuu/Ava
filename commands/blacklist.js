@@ -18,9 +18,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         .addField("Reason", reason);
     message.channel.send({embed});
     
-    sql.run("INSERT INTO blacklist (userid, reason) VALUES (?, ?)", [user.id, reason]).catch((err) => {
-        return message.channel.send('Database error:\n```js\n' + err + '\n```');
-    });
+    sql.run(`INSERT INTO blacklist (userid, reason) VALUES (${user.id}, ${reason})`);
     
 }
 

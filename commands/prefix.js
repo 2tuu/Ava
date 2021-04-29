@@ -5,18 +5,17 @@ exports.run = (client, message, args, deletedMessage, sql) => {
        
        //return message.channel.send("Custom prefixes are disabled until the database is reworked.");
 
-       sql.get(`SELECT * FROM prefixes WHERE serverId ="${message.guild.id}"`).then(row => {
+       var row = sql.get(`SELECT * FROM prefixes WHERE serverId ="${message.guild.id}"`);
         if(!row){
-          sql.run("INSERT INTO prefixes (prefix, welcomeMessage, welcomeChannel, shouldWelcome, serverId) VALUES (?, ?, ?, ?, ?)", ["k?", "This is a placeholder", "null", "false", message.guild.id]);
+          sql.run(`INSERT INTO prefixes (prefix, welcomeMessage, welcomeChannel, shouldWelcome, serverId) VALUES ("k?", "This is a placeholder", "null", "false", ${message.guild.id})`);
           console.log("added to prefixes");
         }
 
         if(message.member.permissions.has('ADMINISTRATOR') || message.author.id === "378769654942007299"){
-            sql.get(`SELECT * FROM prefixes WHERE serverId ="${message.guild.id}"`).then(row => {
+            row = sql.get(`SELECT * FROM prefixes WHERE serverId ="${message.guild.id}"`);
             if(args.length === 0){
-               message.channel.send("Please enter a valid prefix");
-                return;
-                }
+              return message.channel.send("Please enter a valid prefix");
+            }
         
                 sql.run(`UPDATE prefixes SET prefix = "${args[0].replace("\"", "").replace("\"", "")}" WHERE serverId = ${message.guild.id}`);
 
@@ -27,9 +26,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
             
                 console.log('\x1b[36m%s\x1b[0m', "Server prefix for GUILD ID: " + message.guild.id);
                 console.log('\x1b[36m%s\x1b[0m', "Changed to: " + args[0]);
-                //Write to JSON
-                
-                });
+              
 
             } else {
                 const embed = new Discord.MessageEmbed()
@@ -41,9 +38,6 @@ exports.run = (client, message, args, deletedMessage, sql) => {
                  }
 
 
-            }).catch(() => {
-              console.error;
-            });
     
        
 }

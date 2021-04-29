@@ -6,8 +6,7 @@ exports.run = (deletedMessage, sql, client, messageReaction, user) => {
             console.error(err);
         }
     
-        sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`).then(row => {
-    
+        var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`);
             if(!row) return;
     
             if(row.enabled === "yes" && row.logReactions === "yes"){
@@ -15,6 +14,5 @@ exports.run = (deletedMessage, sql, client, messageReaction, user) => {
                ch.send("```diff\n-Reaction Removed:\n" + `User: ${user.tag}\nEmoji: ${messageReaction.emoji.name}\nMessage: \n+${messageReaction.message.author.tag}: ${messageReaction.message.content}`  + "```")
             }
     
-        });
 
 }

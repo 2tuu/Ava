@@ -1,41 +1,15 @@
 const Discord = require("discord.js");
-//const unroleban = require("./silentunroleban.js");
-
-/*
-                        if(args.join(' ').match(/-t (.*)/g)){
-
-                            function getSeconds(str) {
-                                var seconds = 0;
-                                var days = str.match(/(\d+)\s*d/);
-                                var hours = str.match(/(\d+)\s*h/);
-                                var minutes = str.match(/(\d+)\s*m/);
-                                if (days) { seconds += parseInt(days[1])*86400; }
-                                if (hours) { seconds += parseInt(hours[1])*3600; }
-                                if (minutes) { seconds += parseInt(minutes[1])*60; }
-                                return seconds * 1000;
-                              }
-
-                            var num = args.join(' ').match(/-t (.*)/g)[0].replace('-t ', '');
-                            num = getSeconds(num.toString());
-                            if(isNaN(num) || num < 1){
-                                return message.channel.send('The time given was invalid, use `-t #h #m`\nThe member was rolebanned normally');
-                            } else {
-                                //help me
-                                setTimeout(() => {
-                                unroleban.run(client, message, [roleVar.id], deletedMessage, sql, tossedSet, roles);
-                                }, num);
-                            }
-                        }
-*/
 
 exports.run = async (client, message, args, deletedMessage, sql, tossedSet, roles) => {
+
+    var row;
 
     if(!args[0]) return message.channel.send('Please enter a user ID or mention');
 
     try{
 
 
-    sql.get(`SELECT * FROM settings WHERE serverId ="${message.guild.id}"`).then(row => {
+    row = sql.get(`SELECT * FROM settings WHERE serverId ="${message.guild.id}"`);
         async function profileA(){
         if (!row) {
             console.log("first");
@@ -45,9 +19,6 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
     
     profileA();
     
-    }).catch((err) => {
-        message.channel.send('err: ' + err)
-    });
     
     
     
@@ -62,11 +33,11 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
     
         if(args[0] === "roleadd"){
     
-            sql.get(`SELECT * FROM settings WHERE serverId ="${message.guild.id}"`).then(row => {
+            row = sql.get(`SELECT * FROM settings WHERE serverId ="${message.guild.id}"`);
                 
                 if (!row) {
                     console.log("second");
-                    sql.run("INSERT INTO settings (serverId, banId) VALUES (?, ?)", [message.guild.id, "null"]);
+                    sql.run(`INSERT INTO settings (serverId, banId) VALUES (${message.guild.id}, "${null}")`);
                 } 
                 
                 var roleList = message.guild.roles.cache; 
@@ -78,30 +49,18 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
                 if(!tossedRole){
                     const embed = new Discord.MessageEmbed()
                     .setColor(0xF46242)
-                    .setTimestamp() //Write to JSON
+                    .setTimestamp()
                     .setTitle("A role with this name was not found")
                     return message.channel.send({embed});
                 } else {
     
-                sql.run(`UPDATE settings SET banId = "${tossedRole.id}" WHERE serverId = "${message.guild.id}"`).then(()=>{
+                row = sql.run(`UPDATE settings SET banId = "${tossedRole.id}" WHERE serverId = "${message.guild.id}"`);
                     const embed = new Discord.MessageEmbed()
 
                 .setDescription("Role added")
                  message.channel.send({embed});
-                }).catch((err)=>{
-    
-                    const embed = new Discord.MessageEmbed()
-                    .setColor(0xF46242)
-                    .setTimestamp() //Write to JSON
-                    .setTitle("An error occured")
-                    .setFooter(err)
-                    return message.channel.send({embed});
-                });
                 
             }
-            }).catch((err) => {
-                console.error(err.stack);
-            });
         } else {
             var argVar = args[0].replace("<@", "").replace("!", "").replace(">", "");
             var  member = message.guild.members.cache.get(argVar);

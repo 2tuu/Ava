@@ -12,10 +12,10 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 
     if(args[0] === "create"){
 
-        sql.get(`SELECT * FROM notes WHERE ownerId ="${message.author.id}"`).then(row => {
+        var row = sql.get(`SELECT * FROM notes WHERE ownerId ="${message.author.id}"`);
 
             if (!row) {
-              sql.run("INSERT INTO notes (note, ownerId) VALUES (?, ?)", [ "", message.author.id ]);
+              sql.run(`INSERT INTO notes (note, ownerId) VALUES ("", ${message.author.id})`);
               const embed = new Discord.MessageEmbed()
               .setDescription("Note created")
               return message.channel.send({embed});
@@ -27,16 +27,11 @@ exports.run = (client, message, args, deletedMessage, sql) => {
               }
         
     
-          }).catch((err) => {
-            console.error(err);
-            sql.run("CREATE TABLE IF NOT EXISTS notes (note BLOB, ownerId TEXT)").then(() => {
-            });
-          });
     
 //don't change
     } else if(args[0] === "append"){
 
-        sql.get(`SELECT * FROM notes WHERE ownerId ="${message.author.id}"`).then(row => {
+        var row = sql.get(`SELECT * FROM notes WHERE ownerId ="${message.author.id}"`);
 
             if (!row) {
               const embed = new Discord.MessageEmbed()
@@ -55,16 +50,10 @@ exports.run = (client, message, args, deletedMessage, sql) => {
                 message.channel.send(`\`${argV.slice(1).join(' ')}\` Added to note`)
                 }
               }     
-          }).catch((err) => {
-            console.error(err);
-           
-          });
 
     } else if(args[0] === "edit"){
 
-        sql.get(`SELECT * FROM notes WHERE ownerId ="${message.author.id}"`).then(row => {
-
-		// var argV = message.content.slice(config.prefix.length);
+        var row = sql.get(`SELECT * FROM notes WHERE ownerId ="${message.author.id}"`);
 
             if (!row) {
               const embed = new Discord.MessageEmbed()
@@ -78,14 +67,10 @@ exports.run = (client, message, args, deletedMessage, sql) => {
                    return message.channel.send({embed});
               }
 
-          }).catch((err) => {
-            console.error(err);
-
-          });
 
     }else if(args[0] === "clear"){
 
-        sql.get(`SELECT * FROM notes WHERE ownerId ="${message.author.id}"`).then(row => {
+        var row = sql.get(`SELECT * FROM notes WHERE ownerId ="${message.author.id}"`);
 
             if (!row) {
               const embed = new Discord.MessageEmbed()
@@ -100,15 +85,10 @@ exports.run = (client, message, args, deletedMessage, sql) => {
                    .setDescription("Note cleared")
                    return message.channel.send({embed});
               } 
-    
-          }).catch((err) => {
-            console.error(err);
-           
-          });
 
     } else if(!args[0]){
 
-        sql.get(`SELECT * FROM notes WHERE ownerId ="${message.author.id}"`).then(row => {
+        var row = sql.get(`SELECT * FROM notes WHERE ownerId ="${message.author.id}"`);
 
             if (!row) {
               const embed = new Discord.MessageEmbed()
@@ -125,14 +105,11 @@ exports.run = (client, message, args, deletedMessage, sql) => {
                 message.channel.send('```py\nNote: ' + message.author.tag + '\n```');
                 message.channel.send('```md\n' + rowNote + '\n```');
               } 
-    
-          }).catch((err) => {
-            console.error(err);
-           
-          });
+
 
     } else {
         //invalid sub command
+        return;
     }
 
 
@@ -140,7 +117,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 
 exports.conf = {
   help: "Create a note, view a note or edit it",
-  format: "k?note {append/edit}",
+  format: "k?note {create/append/edit}",
   DM: true,
   OwnerOnly: false,
   alias: []

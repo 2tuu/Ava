@@ -11,7 +11,7 @@ exports.run = (deletedMessage, sql, client, oldMember, newMember) => {
             console.error(err);
         }
     
-        sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`).then(row => {
+        var row = (`SELECT * FROM modlog WHERE serverId ="${guildID}"`);
     
             if(!row) return;
     
@@ -21,6 +21,5 @@ exports.run = (deletedMessage, sql, client, oldMember, newMember) => {
                " changed their nickname:\n" + oldMember.nickname + " => " + newMember.nickname + "\n```")
             }
     
-        });
 
 }

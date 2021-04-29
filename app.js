@@ -20,9 +20,12 @@ const roles = new Set();
 const tossedSet = new Set();
 const cooldown = new Set();
 
+const logChannel = client.channels.resolve(config.logChannel);
 //SQLite database file
-const sql = require(`sqlite`);
-sql.open(`./tags.sqlite`);
+//const sql = require(`sqlite`);
+//sql.open(`./tags.sqlite`);
+
+const sql = require('./plugins/sql.js');
 
 //Event loader (for scripts in ./events, each file is named after their event)
 fs.readdir(`./events/`, (err, files) => {
@@ -89,7 +92,7 @@ fs.readdir('./commands-locked', (err, commands) => {
   }
 
   commands.forEach((m) => {
-      console.log(`Loading module: ${m}`);
+      console.log(`Loading special module: ${m}`);
       cLoader(m);
   });
 
@@ -123,33 +126,26 @@ client.on("message", async message => {
   if(message.guild){ //WIP DM compatibility (only executes in guilds)
     if(client.blist.includes(message.author.id)) return; //blacklist handler
 
-    sql.get(`SELECT * FROM prefixes WHERE serverId ="${message.guild.id}"`).then(row => {
-      if(row){
-        returnPrefix = row.prefix;
+    var prefixRow = sql.run(`SELECT * FROM prefixes WHERE serverId ="${message.guild.id}"`);
+      if(prefixRow){
+        returnPrefix = prefixRow.prefix;
       } else {
         returnPrefix = 'k?';
       }
-    }).catch(() => {
-      console.error;
-    });
 
-      sql.get(`SELECT * FROM settings WHERE serverId ="${message.guild.id}"`).then(row => {
-        if(!row){
-          sql.run("INSERT INTO settings (serverId, banId) VALUES (?, ?)", [message.guild.id, null]);
+
+    var settingsRow = sql.run(`SELECT * FROM settings WHERE serverId ="${message.guild.id}"`);
+        if(!settingsRow){
+          sql.run(`INSERT INTO settings (serverId, banId) VALUES ("${message.guild.id}", "${null}")`);
+          console.log('added settingsRow')
         }
-      }).catch(() => {
-        console.error;
-      });
+
   
-  
-      sql.get(`SELECT * FROM prefixes WHERE serverId ="${message.guild.id}"`).then(row => {
-        if(!row){
-          sql.run("INSERT INTO prefixes (prefix, welcomeMessage, welcomeChannel, shouldWelcome, serverId) VALUES (?, ?, ?, ?, ?)", ["k?", "This is a placeholder", "null", "false", message.guild.id]);
-          console.log("added to prefixes");
+    var prefixesRow = sql.run(`SELECT * FROM prefixes WHERE serverId =${message.guild.id}`);
+        if(!prefixesRow){
+          sql.run(`INSERT INTO prefixes (prefix, welcomeMessage, welcomeChannel, shouldWelcome, serverId) VALUES ("k?", "This is a placeholder", "null", "false", "${message.guild.id}")`);
+          console.log("added to prefixes!");
         }
-      }).catch(() => {
-        console.error;
-      });
     }
 
   //Command handler
@@ -161,11 +157,10 @@ client.on("message", async message => {
     }
   }
 
-  sql.get(`SELECT * FROM prefixes WHERE serverId ="${dmCheck()}"`).then(row => {
-    if(!row){
-      var customPrefix = "k?";
-    } else {
-      var customPrefix = row.prefix;
+  var customPrefix = 'k?';
+  var customPrefixRow = sql.get(`SELECT * FROM prefixes WHERE serverId ="${dmCheck()}"`);
+    if(customPrefixRow){
+      customPrefix = customPrefixRow.prefix;
     }
 
 
@@ -226,14 +221,31 @@ client.on("message", async message => {
   //Finally, run the command
   try{
     commandFile.run(client, message, args, deletedMessage, sql, tossedSet, roles);
+    //debug junk - deleting later
+
+    try{
+    logChannel.send(`\`\`\`js
+    Command: ${command}
+    Args: ${args}
+    Server: ${message.guild.name} (${message.guild.id})
+	  \`\`\``)
+
+    console.log(`
+    ==--==
+    Command: ${command}
+    Args: ${args}
+    Server: ${message.guild.name} (${message.guild.id})
+    ==--==
+    `)
+    }catch(err){
+      //ignore dms
+    }
   }
   catch(err){
     console.error(err);
-    var logChannel = client.channels.resolve(config.logChannel);
     logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***COMMAND LOADING ERROR:***\n```js\nERR: ' + err + '\n```');
   }
 
-  });
 });
 
 client.on("error", async error => {

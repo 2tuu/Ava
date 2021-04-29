@@ -8,7 +8,7 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
         console.error(err);
     }
 
-    sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`).then(row => {
+    var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`);
 
         if(!row) return;
 
@@ -16,9 +16,5 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
            var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
            ch.send("```diff\n+Member Unbanned: " + user.tag + "\n```")
         }
-
-    });
-
-    //console.log(channel.id);
    
 }

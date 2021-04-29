@@ -10,7 +10,7 @@ exports.run = async (deletedMessage, sql, client) => {
 	console.log('\x1b[32m', "======================\n");
 	console.log('\x1b[33m', `Version: ` + data.version + '\n');
 	console.log('\x1b[32m', "======================");
-	console.log('\x1b[33m', `${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.size} guilds.`);
+	console.log('\x1b[33m', `${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.cache.size} guild(s).`);
 	console.log('\x1b[32m', "=========log==========");
 
 	client.user.setActivity(data.status);
@@ -26,7 +26,7 @@ exports.run = async (deletedMessage, sql, client) => {
 	\`\`\``)
 
 	try{
-		client.blacklist = await sql.all(`SELECT * FROM blacklist`);
+		client.blacklist = sql.all(`SELECT * FROM blacklist`);
 		console.log('Fetched blacklist');
 	} catch(err) {
 		console.error(err);
@@ -35,7 +35,7 @@ exports.run = async (deletedMessage, sql, client) => {
 	cron.schedule('* * * * *', async function() {
 
 		var currenttime = Date.now();
-		var remind = await sql.all(`SELECT * FROM timer`);
+		var remind = sql.all(`SELECT * FROM timer`);
 
 		remind.forEach(e=> {
 			var status = '';
