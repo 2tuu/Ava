@@ -6,5 +6,6 @@
     "evalAllow": ["YOUR ID HERE", "ANYONE ELSE YOU WOULD LKE TO BE ABLE TO USE THE EVAL COMMAND"],
     "imgur": "IMGUR API KEY HERE",
     "youtube": "YOUTUBE API KEY HERE",
-    "invite": "BOT INVITE LINK HERE"
+    "invite": "BOT INVITE LINK HERE",
+    "note": "do not mindlessly give this bot administrator, generate a link with only the permissions it needs"
 }
