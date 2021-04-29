@@ -1,0 +1,9 @@
+@echo off
+echo Installing node modules...
+npm i
+echo Setting up MySQL database...
+node setup.js
+echo Installing PM2 daemon...
+npm i -g pm2
+echo Setup complete.
+pause
