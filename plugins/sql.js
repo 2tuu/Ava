@@ -1,9 +1,11 @@
-var mysql      = require('mysql');
+var mysql = require('mysql');
+var config = require('./../config.json');
+
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'root',
-  password : 'toor',
-  database : 'kit'
+  user     : config.dbuser,
+  password : config.dbpasswd,
+  database : config.dbname
 });
 
 const delay = 50;
