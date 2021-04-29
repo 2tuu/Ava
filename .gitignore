@@ -10,7 +10,7 @@ backup/
 commands-locked/
 
 #dev commands
-commands/reportbug.js
+commands\reportbug.js
 
 #visual studio
 .vs
