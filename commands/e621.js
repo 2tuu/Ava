@@ -1,8 +1,5 @@
 const Discord = require("discord.js");
-var axios = require("axios");
 const cooldown = new Set();
-const config = require("./../config.json");
-const apikey = config.e6apikey;
 
 const booru = require('booru');
 
