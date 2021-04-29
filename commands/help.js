@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 
 exports.run = (client, message, args) => {
 
-    var commandList = Object.keys(client.aliases);
+    var commandList = Object.keys(client.help);
     
     if(!args[0]){
 
