@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 var config = require('./../config.json');
 
-var connection = mysql.createConnection({
+var connection = mysql.createPool({
   host     : 'localhost',
   user     : config.dbuser,
   password : config.dbpasswd,
@@ -30,12 +30,13 @@ exports.run = (que) => {
     }
 
     require('deasync').sleep(delay);
-
-    //connection.end();
  
     return exportvar[0];
     
 }
+
+
+
 
 exports.get = (que) => {
 
@@ -55,14 +56,16 @@ exports.get = (que) => {
     }
 
     require('deasync').sleep(delay);
-
-    //connection.end();
  
     return exportvar[0];
     
 }
 
-exports.all = (que) => {    
+
+
+
+
+exports.all = (que) => {
 
     connection.query(que, function(err, rows){
         if(err) {
@@ -81,8 +84,6 @@ exports.all = (que) => {
 
 
     require('deasync').sleep(delay);
-
-    //connection.end();
  
     return exportvar;
     
