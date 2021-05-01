@@ -7,7 +7,7 @@ tags.sqlite
 # directories
 node_modules/
 backup/
-commands-locked/*
+commands-locked/
 
 #dev commands
 commands\reportbug.js
