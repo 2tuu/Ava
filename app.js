@@ -73,28 +73,34 @@ fs.readdir('./commands', (err, commands) => {
 //experimental command loader
 fs.readdir('./commands-locked', (err, commands) => {
 
-  function cLoader(c){
-    try {
-      const cmd = require(`./commands-locked/${c}`);
-      var cmdName = c.substring(0, c.length-3);
-      console.log('Loaded ' + cmdName);
+  if(err){
+    //folder isn't present in github version, this will ignore it
+  } else {
 
-      client.aliases[cmdName] = {aliases: []};
+    function cLoader(c){
+      try {
+        const cmd = require(`./commands-locked/${c}`);
+        var cmdName = c.substring(0, c.length-3);
+        console.log('Loaded ' + cmdName);
 
-      cmd.conf.alias.forEach((alias) => {
-      client.aliases[cmdName].aliases.push(alias);
+        client.aliases[cmdName] = {aliases: []};
 
-      });
-      return false;
-    } catch (err) {
-      console.error(`Loading Error: ${err}`);
+        cmd.conf.alias.forEach((alias) => {
+        client.aliases[cmdName].aliases.push(alias);
+
+        });
+        return false;
+      } catch (err) {
+        console.error(`Loading Error: ${err}`);
+      }
     }
-  }
 
-  commands.forEach((m) => {
-      console.log(`Loading special module: ${m}`);
-      cLoader(m);
-  });
+    commands.forEach((m) => {
+        console.log(`Loading special module: ${m}`);
+        cLoader(m);
+    });
+
+  }
 
 });
 
@@ -221,22 +227,9 @@ client.on("message", async message => {
   //Finally, run the command
   try{
     commandFile.run(client, message, args, deletedMessage, sql, tossedSet, roles);
-    //debug junk - deleting later
 
     try{
-    logChannel.send(`\`\`\`js
-    Command: ${command}
-    Args: ${args}
-    Server: ${message.guild.name} (${message.guild.id})
-	  \`\`\``)
-
-    console.log(`
-    ==--==
-    Command: ${command}
-    Args: ${args}
-    Server: ${message.guild.name} (${message.guild.id})
-    ==--==
-    `)
+        //put command stat counter here
     }catch(err){
       //ignore dms
     }
