@@ -32,6 +32,16 @@ exports.run = async (deletedMessage, sql, client) => {
 		console.error(err);
 	}
 
+	//API's been shit lately, this will check if the connection is still there every 10 minutes
+	//TODO: find more efficient method
+	cron.schedule('*/10 * * * *', async function() {
+		try{
+			client.user.setStatus('dnd');
+		}catch(err){
+			console.error('Keep-alive script error: ' + err);
+		}
+	});
+
 	cron.schedule('* * * * *', async function() {
 
 		var currenttime = Date.now();
