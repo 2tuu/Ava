@@ -26,7 +26,7 @@ exports.run = (deletedMessage, sql, client, member) => {
     sql.query(`SELECT * FROM announce WHERE guild ='${member.guild.id}'`).then(row => {
       row = row.rows[0];
       if(!row){
-        sql.run("INSERT INTO announce (guild, channel) VALUES (?, ?)", [member.guild.id, null]);
+        sql.query(`INSERT INTO announce (guild, channel) VALUES (${member.guild.id}, null)`);
         console.log("added to announcement");
       }
     });
@@ -36,11 +36,11 @@ exports.run = (deletedMessage, sql, client, member) => {
   
       const guild = member.guild;
     
-      if(row.shouldWelcome === "false") return;
+      if(row.shouldwelcome === "false") return;
     
-      if(row.welcomeChannel === "null"){
+      if(row.welcomechannel === "null"){
         return;
-      } else if(row.shouldWelcome === "true"){
+      } else if(row.shouldwelcome === "true"){
     
         async function welcome(){
     
@@ -48,11 +48,11 @@ exports.run = (deletedMessage, sql, client, member) => {
           var gld = mbr.guild;
           var mbr = mbr.user;
     
-          var WelcomeMessage = row.welcomeMessage.replace(new RegExp("{member}", 'g'), "<@" + mbr.id + ">");
-          var WelcomeMessage = WelcomeMessage.replace(new RegExp("{member.username}", 'g'), mbr.username);
-          var WelcomeMessage = WelcomeMessage.replace(new RegExp("{guild}", 'g'), gld.name);
+          var WelcomeMessage = row.welcomemessage.replace(new RegExp("{member}", 'g'), "<@" + mbr.id + ">");
+          var WelcomeMessage = Welcomemessage.replace(new RegExp("{member.username}", 'g'), mbr.username);
+          var WelcomeMessage = Welcomemessage.replace(new RegExp("{guild}", 'g'), gld.name);
     
-          guild.channels.cache.get(row.welcomeChannel).send(WelcomeMessage).catch((error) => {
+          guild.channels.cache.get(row.welcomechannel).send(WelcomeMessage).catch((error) => {
             console.error(error);
             return;
           });
