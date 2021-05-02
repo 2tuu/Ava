@@ -6,13 +6,15 @@ exports.run = (deletedMessage, sql, client, messageReaction, user) => {
             console.error(err);
         }
     
-        var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`);
-            if(!row) return;
+        sql.query(`SELECT * FROM modlog WHERE serverid ='${guildID}'`).then(row => {
+            row = row.rows[0];
+            if(!row) return;    
     
-            if(row.enabled === "yes" && row.logReactions === "yes"){
+            if(row.enabled === "yes" && row.logreactions === "yes"){
                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
                ch.send("```diff\n-Reaction Removed:\n" + `User: ${user.tag}\nEmoji: ${messageReaction.emoji.name}\nMessage: \n+${messageReaction.message.author.tag}: ${messageReaction.message.content}`  + "```")
             }
     
+        });
 
 }

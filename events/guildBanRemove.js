@@ -8,13 +8,17 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
         console.error(err);
     }
 
-    var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`);
-
+    sql.query(`SELECT * FROM modlog WHERE serverid ='${guildID}'`).then(row => {
+        row = row.rows[0];
         if(!row) return;
 
-        if(row.enabled === "yes" && row.logBans === "yes"){
+        if(row.enabled === "yes" && row.logbans === "yes"){
            var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
            ch.send("```diff\n+Member Unbanned: " + user.tag + "\n```")
         }
+
+    });
+
+    //console.log(channel.id);
    
 }

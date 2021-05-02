@@ -1,17 +1,33 @@
 const Discord = require("discord.js");
 const tag = require('./../plugins/tag.js');
-const config = require("./../config.json");
+
+//Template
+/*
+exports.name = (client, message, args, defaultColor) => {
+  //code
+}
+*/
+
+const Yna = require('ynajs');
 
 exports.run = async (client, message, args, deletedMessage, sql) => {
 
-    var row;
+    const embed = new Discord.MessageEmbed()
+    .setColor(0xF46242)
+    .setDescription("Tags are disabled for now")
+    return message.channel.send({embed});
 
-    //maybe get rid of this
-    row = sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}"`);
+    sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}"`).then(row => {
         if (!row) {
-          sql.run(`INSERT INTO tags (serverId, tagName, tagContent, ownerID, selfDelete) VALUES (${message.guild.id}, "tags", "This command saves a tag with a specified content", ${client.user.id}, "false")`);
+          sql.run("INSERT INTO tags (serverId, tagName, tagContent, ownerID, selfDelete) VALUES (?, ?, ?, ?, ?)", [message.guild.id, "tags", "This command saves a tag with a specified content", client.user.id, "false"]);
         } 
 
+      }).catch(() => {
+        //console.error;
+        sql.run("CREATE TABLE IF NOT EXISTS tags (serverID TEXT, tagName TEXT, tagContent TEXT, ownerID TEXT, selfDelete TEXT)").then(() => {
+          sql.run("INSERT INTO tags (serverId, tagName, tagContent, ownerID, selfDelete) VALUES (?, ?, ?, ?, ?)", [message.guild.id, "tags", "This command saves a tag with a specified content", client.user.id, "false"]);
+        });
+      });
     
 
     var tagContentVar = args.join(' ');
@@ -24,24 +40,46 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
     console.log("TagContent: " + tagContentVar);
     console.log("Attach: " + Attachment.map(r => r.url).join(', '));
 
+    //Open database file
 
 if(args[0] === "create"){
 
-    row = sql.get(`SELECT tagName FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`);
+    sql.get(`SELECT tagName FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`).then(row => {
         if(!tagContentVar || tagContentVar.length == 0 || !args[1]){ 
             message.channel.send("A tag's name and content cannot be blank");
         } else if(args[1].length > 30){
             return message.channel.send("This tag name is too long (Limit: 30 Characters)");
         } else if(!row){
-          sql.run(`INSERT INTO tags (serverId, tagName, tagContent, ownerID, selfDelete) VALUES ('${message.guild.id}', '${args[1].toLowerCase()}', '${tagContentVar}', '${message.author.id}', 'false')`);
+
+          sql.run("INSERT INTO tags (serverId, tagName, tagContent, ownerID, selfDelete) VALUES (?, ?, ?, ?, ?)", [message.guild.id, args[1].toLowerCase(), tagContentVar, message.author.id, "false"]);
           message.channel.send("Your tag has been created");
         } else {
             message.channel.send("A tag with this name already exists");
         }
 
-    }else if(args[0] === "search"){
+      }).catch((error) => {
+        console.log(error); //put no-tag error here
+      });
+    }else if(args[0] === "gcreate"){
+if(message.author.id === "378769654942007299"){
+        sql.get(`SELECT tagName FROM tags WHERE serverId ="GLOBAL" AND tagName = "${args[1].toLowerCase()}"`).then(row => {
+            if(!args[2]){ 
+                message.channel.send("A tag's name and content cannot be blank")
+            } else if(!row){
+              sql.run("INSERT INTO tags (serverId, tagName, tagContent, ownerID, selfDelete) VALUES (?, ?, ?, ?, ?)", ["GLOBAL", args[1].toLowerCase(), tagContentVar, message.author.id, "false"]);
+              message.channel.send("Your global tag has been created");
+            } else {
+                message.channel.send("A global tag with this name already exists");
+            }
+    
+          }).catch((error) => {
+            console.log(error); //put no-tag error here
+          });
+        }
 
-    row = sql.all(`SELECT tagName FROM tags WHERE serverId = "${message.guild.id}" AND tagName LIKE "%${args[1]}%" `);
+}else if(args[0] === "search"){
+
+    sql.all(`SELECT tagName FROM tags WHERE serverId = "${message.guild.id}" AND tagName LIKE "%${args[1]}%" `).then(row => {
         if(!row){
             message.channel.send("No tags were found");
         
@@ -61,11 +99,12 @@ if(args[0] === "create"){
 
             message.channel.send(row.length + " Results:\n" + tagList.join(', '));
         }
+    });
     
 }else if(args[0] === "random"){
 
     if(!args[1]){
-    row = sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" ORDER BY RAND() LIMIT 1`);
+    sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" ORDER BY RANDOM() LIMIT 1`).then(row => {
         if(!row){
             message.channel.send("No tags were found");
         } else {
@@ -78,9 +117,12 @@ if(args[0] === "create"){
             }
             tag(tagHandler);
         }
+      }).catch((error) => {
+        console.log(error); //put no-tag error here
+      });
     } else {
         //LIKE '%${args.slice().join(' ')}%'
-        row = sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName LIKE "%${args.slice(1).join(' ')}%" ORDER BY RAND() LIMIT 1`);
+        sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName LIKE "%${args.slice(1).join(' ')}%" ORDER BY RANDOM() LIMIT 1`).then(row => {
             if(!row){
                 message.channel.send("No tags were found");
             } else {
@@ -93,11 +135,14 @@ if(args[0] === "create"){
                 }
                 tag(tagHandler);
             }
+          }).catch((error) => {
+            console.log(error); //put no-tag error here
+          });
     }
 
 } else if(args[0] === "edit"){
 
-    row = sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`);
+    sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`).then(row => {
 
         console.log(row);
         if(!row){
@@ -117,12 +162,15 @@ if(args[0] === "create"){
             message.channel.send("This tag has been edited");
             }
         }
+      }).catch((error) => {
+        console.log(error); //put no-tag error here
+      });
     
-      //Caller delete - don't know if I want this here anymore
-    } /*else if(args[0] === "cdel"){
+      //Caller delete
+    } else if(args[0] === "cdel"){
 
-        row = sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`);
-
+        sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`).then(row => {
+    
             console.log(row);
             if(!row){
                 message.channel.send("A tag with this name does not exist");
@@ -132,7 +180,7 @@ if(args[0] === "create"){
                 var tagContentVari = (args.join(' ')).replace(args[0], "");
                 tagContentVari = tagContentVari.replace(args[1], "");
     
-                if(authorID !== row.ownerID){
+                if(authorID !== `${row.ownerID}`){
                     message.channel.send(`OwnerID: ${row.ownerID} \nAuthorID: ${authorID}\n You do not own this tag`);
                 } else {
                     if(!args[2]){
@@ -149,11 +197,37 @@ if(args[0] === "create"){
                     }
             }
             }
+          }).catch((error) => {
+            console.log(error); //put no-tag error here
+          });
         
-    }*/
- else if(args[0] === "delete") {
+    } else if(args[0] === "gedit"){
+        if(message.author.id === "378769654942007299"){
+        sql.get(`SELECT * FROM tags WHERE serverId ="GLOBAL" AND tagName = "${args[1].toLowerCase()}"`).then(row => {
+    
+            console.log(row);
+            if(!row){
+                message.channel.send("A tag with this name does not exist");
+            } else {
+                var authorID = (message.author.id).toString();
+    
+                var tagContentVari = (args.join(' ')).replace(args[0], "");
+                tagContentVari = tagContentVari.replace(args[1], "");
+    
+                if(authorID !== `${row.ownerID}`){
+                    message.channel.send(`OwnerID: ${row.ownerID} \nAuthorID: ${authorID}\n You do not own this tag`);
+                } else {
+                sql.run(`UPDATE tags SET tagContent = "${tagContentVari}" WHERE serverId ="GLOBAL" AND tagName = "${args[1].toLowerCase()}"`);
+                message.channel.send("This tag has been edited");
+                }
+            }
+          }).catch((error) => {
+            console.log(error); //put no-tag error here
+          });
+        }
+} else if(args[0] === "delete") {
 
-    row = sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`);
+    sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`).then(row => {
 
         console.log(row);
         if(!row){
@@ -161,30 +235,81 @@ if(args[0] === "create"){
         } else {
             var authorID = (message.author.id).toString();
 
-            if(authorID !== row.ownerID){
+            //!message.member.permissions.has('BAN_MEMBERS') || 
+
+            if(authorID !== `${row.ownerID}`){
                 message.channel.send(`OwnerID: ${row.ownerID} \nAuthorID: ${authorID}\n You do not own this tag \nUse kk!t forcedelete if you are staff`);
             } else {
             sql.run(`DELETE FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`);
             message.channel.send("This tag has been deleted");
             }
         }
+      }).catch((error) => {
+        console.log(error); //put no-tag error here
+      });
+//end
+} else if(args[0] === "gdelete") {
+    if(message.author.id === "378769654942007299"){
+    sql.get(`SELECT * FROM tags WHERE serverId ="GLOBAL" AND tagName = "${args[1].toLowerCase()}"`).then(row => {
 
+        console.log(row);
+        if(!row){
+            message.channel.send("A tag with this name does not exist");
+        } else {
+            var authorID = (message.author.id).toString();
+
+            //!message.member.permissions.has('BAN_MEMBERS') || 
+
+            sql.run(`DELETE FROM tags WHERE serverId ="GLOBAL" AND tagName = "${args[1].toLowerCase()}"`);
+            message.channel.send("This global tag has been deleted");
+
+        }
+      }).catch((error) => {
+        console.log(error); //put no-tag error here
+      });
+    }
+//end
 }else if(args[0] === "size"){
 
-    if(!message.author.id === config.owner) return;
+    if(!message.author.id === "378769654942007299") return;
     
-    row = sql.all(`SELECT ownerID FROM tags`);
+    sql.all(`SELECT ownerID FROM tags`).then(row => {
+
+        var contentVar = JSON.stringify(row, null, 2);
+
+        //console.log(Object.keys(contentVar).length);
+        //console.log(contentVar)
     const embed = new Discord.MessageEmbed()
+
     .setTimestamp() //Write to JSON
     .setTitle("There are " + (row.length) + " tags stored")
     message.channel.send({embed});
+    });
 
-}else if(args[0] === "list"){
+}else if(args[0] === "list-size"){
+
+    //if(!message.author.id === "378769654942007299") return;
+    
+    sql.all(`SELECT ownerID FROM tags WHERE ownerID="${message.author.id}"`).then(row => {
+
+        var contentVar = JSON.stringify(row, null, 2);
+
+        //console.log(Object.keys(contentVar).length);
+        console.log(contentVar)
+    const embed = new Discord.MessageEmbed()
+
+    .setTimestamp() //Write to JSON
+    .setTitle("You have " + (row.length) + " tags over all guilds")
+    message.channel.send({embed});
+    });
+
+
+} else if(args[0] === "list"){
     async function list(){
-    let user = await client.users.fetch(message.author.id)
+    let user = await client.fetchUser(message.author.id)
     .then(user => {
         // once promise returns with user, send user a DM
-        row = sql.all(`SELECT tagName FROM tags WHERE serverId ="${message.guild.id}" AND ownerID = "${message.author.id}"`);
+        sql.all(`SELECT tagName FROM tags WHERE serverId ="${message.guild.id}" AND ownerID = "${message.author.id}"`).then(row => {
             
             if(!row) return message.channel.send("You have no tags");
 
@@ -244,22 +369,106 @@ if(args[0] === "create"){
 
              user.send();
              //user.send("**Tag list:**\n" + messageVar).catch((err) => {return message.channel.send("**An error occured, please enable DMs on this server**");});
+            })
     }).catch((err)=>{
 		const embed = new Discord.MessageEmbed()
 	.setColor(0xF46242)
 	.setTimestamp() //Write to JSON
-	.setTitle("Error sending list, please make sure you have DMs enabled")
+	.setTitle("Error sending list")
 	.setFooter(err)
 	message.channel.send({embed});
     });
 }
 list().catch((err) => {message.reply(err)});
 
+} else if(args[0] === "glist"){
+    async function list(){
+    let user = await client.fetchUser(message.author.id)
+    .then(user => {
+        // once promise returns with user, send user a DM
+        sql.all(`SELECT tagName FROM tags WHERE serverId ="GLOBAL"`).then(row => {
+            
+            var contentVar = JSON.stringify(row, null, 2);
+            console.log(row.length);
+
+            var messageVar;
+            //var messageArray;
+
+            var i = 1;
+            
+            var loops = Math.ceil(row.length/10);
+            
+            while(i < row.length){
+                //messageArray[i] = row[i-1].tagName;
+                messageVar = messageVar + row[i-1].tagName + "\n";
+            contentVar.replace('{', '-');
+            contentVar.replace("},", " ");
+            contentVar.replace("\"tagName\":", " ");
+            contentVar.replace("\"", " ");
+            i = i + 1;
+            }
+
+            /*
+            while(i < row.length){
+                messageVar = messageVar + row[i-1].tagName + "\n";
+            contentVar.replace('{', '-');
+            contentVar.replace("},", " ");
+            contentVar.replace("\"tagName\":", " ");
+            contentVar.replace("\"", " ");
+            i = i + 1;
+            }
+            */
+             //console.log(contentVar);
+             //console.log("MVAR: " + messageVar)
+             if(row.length === 0){
+                messageVar = "You have no tags";
+            }
+
+             //console.log(messageArray);
+             user.send("**Global Tag List:**\n" + messageVar.replace("undefined", "")).catch((err) => {return message.channel.send("**An error occured, please enable DMs on this server**");});
+            })
+    }).catch((err)=>{
+		const embed = new Discord.MessageEmbed()
+	.setColor(0xF46242)
+	.setTimestamp() //Write to JSON
+	.setTitle("Error sending list")
+	.setFooter(err)
+	message.channel.send({embed});
+    });
+}
+list().catch((err) => {message.reply(err)});
+} else if(args[0] === "forceedit") {
+    if(!message.member.permissions.has('KICK_MEMBERS')){
+        message.channel.send("This requires KICK_MEMBERS");
+    } else {
+        sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`).then(row => {
+
+            console.log(row);
+            if(!row){
+                message.channel.send("A tag with this name does not exist");
+            } else {
+                var authorID = (message.author.id).toString();
+
+            var tagContentVari = (args.join(' ')).replace(args[0], "");
+            tagContentVari = tagContentVari.replace(args[1], "");
+
+            
+                if(!args[2]) return message.channel.send("A tag cannot be empty");
+
+            sql.run(`UPDATE tags SET tagContent = "${tagContentVari}" WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`);
+            message.channel.send("This tag has been edited");
+            
+                
+            }
+          }).catch((error) => {
+            console.log(error); //put no-tag error here
+          });
+    }
 } else if(args[0] === "forcedelete") {
     if(!message.member.permissions.has('KICK_MEMBERS')){
         message.channel.send("This requires KICK_MEMBERS");
     } else {
-        row = sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`);
+        sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`).then(row => {
 
             console.log(row);
             if(!row){
@@ -271,6 +480,9 @@ list().catch((err) => {message.reply(err)});
                 message.channel.send("This tag has been deleted");
                 
             }
+          }).catch((error) => {
+            console.log(error); //put no-tag error here
+          });
     }
 } else if(args[0] === "eval"){
 
@@ -283,7 +495,7 @@ list().catch((err) => {message.reply(err)});
     }
 
 } else if(args[0] === "raw"){
-    row = sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`);
+    sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`).then(row => {
 
         if(!row) return message.channel.send("There are no tags with that name")
 
@@ -291,8 +503,9 @@ list().catch((err) => {message.reply(err)});
             row.tagContent
         });
 
+    });
 } else if(args[0] === "info" || args[0] === "owner"){
-    row  = sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`);
+    sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[1].toLowerCase()}"`).then(row => {
         if(!row){
             message.channel.send("The tag name you gave me is invalid");
         } else {
@@ -325,8 +538,24 @@ list().catch((err) => {message.reply(err)});
             }
             EmbedF();
         }
+      }).catch((error) => {
+        console.log(error); //put no-tag error here
+      });
+    } else if(args[0] === "g") {
+        var row = await sql.get(`SELECT tagContent FROM tags WHERE serverId ="GLOBAL" AND tagName = "${args[1].toLowerCase()}"`);
+            if(!row){
+                message.channel.send("A global tag with this name does not exist");
+            } else {
+                try{
+                    var t = await tag.read(row.tagContent,message,args);
+                    message.channel.send(t);
+                    } catch(err){
+                    console.log(err);
+                    }
+            }
 
-    } else {
+    
+} else {
     var row = await sql.get(`SELECT * FROM tags WHERE serverId ="${message.guild.id}" AND tagName = "${args[0].toLowerCase()}"`);
         if(!row){
             message.channel.send("A tag with this name does not exist");

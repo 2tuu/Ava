@@ -7,13 +7,15 @@ exports.run = (deletedMessage, sql, client, role) => {
             console.error(err);
         }
     
-        var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`);
+        sql.query(`SELECT * FROM modlog WHERE serverid ='${guildID}'`).then(row => {
+            row = row.rows[0];
+            if(!row) return;
     
-            if(!row) return console.log('no row');
-    
-            if(row.enabled === "yes" && row.logRoles === "yes"){
+            if(row.enabled === "yes" && row.logroles === "yes"){
                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
                ch.send("```diff\n-Role Deleted:\n" + `Color: ${role.color} | Name: ${role.name}`  + "```");
             }
+    
+        });
    
 }

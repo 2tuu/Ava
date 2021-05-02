@@ -20,12 +20,16 @@ const roles = new Set();
 const tossedSet = new Set();
 const cooldown = new Set();
 
-const logChannel = client.channels.resolve(config.logChannel);
 //SQLite database file
-//const sql = require(`sqlite`);
-//sql.open(`./tags.sqlite`);
-
-const sql = require('./plugins/sql.js');
+const { Pool } = require('pg')
+const pool = new Pool({
+  user: 'postgres',
+  database: 'kit',
+  password: 'toor',
+  idleTimeoutMillis: 100,
+  connectionTimeoutMillis: 100,
+  max: 0
+});
 
 //Event loader (for scripts in ./events, each file is named after their event)
 fs.readdir(`./events/`, (err, files) => {
@@ -34,7 +38,7 @@ fs.readdir(`./events/`, (err, files) => {
     let eventFunction = require(`./events/${file}`);
     let eventName = file.split(`.`)[0];
 
-    client.on(eventName, (...args) => eventFunction.run(deletedMessage, sql, client, ...args));
+    client.on(eventName, (...args) => eventFunction.run(deletedMessage, pool, client, ...args));
   });
 });
 
@@ -73,40 +77,30 @@ fs.readdir('./commands', (err, commands) => {
 //experimental command loader
 fs.readdir('./commands-locked', (err, commands) => {
 
-  if(err){
-    //folder isn't present in github version, this will ignore it
-  } else {
+  function cLoader(c){
+    try {
+      const cmd = require(`./commands-locked/${c}`);
+      var cmdName = c.substring(0, c.length-3);
+      console.log('Loaded ' + cmdName);
 
-    function cLoader(c){
-      try {
-        const cmd = require(`./commands-locked/${c}`);
-        var cmdName = c.substring(0, c.length-3);
-        console.log('Loaded ' + cmdName);
+      client.aliases[cmdName] = {aliases: []};
 
-        client.aliases[cmdName] = {aliases: []};
+      cmd.conf.alias.forEach((alias) => {
+      client.aliases[cmdName].aliases.push(alias);
 
-        cmd.conf.alias.forEach((alias) => {
-        client.aliases[cmdName].aliases.push(alias);
-
-        });
-        return false;
-      } catch (err) {
-        console.error(`Loading Error: ${err}`);
-      }
+      });
+      return false;
+    } catch (err) {
+      console.error(`Loading Error: ${err}`);
     }
-
-    commands.forEach((m) => {
-        console.log(`Loading special module: ${m}`);
-        cLoader(m);
-    });
-
   }
 
+  commands.forEach((m) => {
+      console.log(`Loading module: ${m}`);
+      cLoader(m);
+  });
+
 });
-
-
-
-
 
 
 //On-message event
@@ -132,26 +126,26 @@ client.on("message", async message => {
   if(message.guild){ //WIP DM compatibility (only executes in guilds)
     if(client.blist.includes(message.author.id)) return; //blacklist handler
 
-    var prefixRow = sql.run(`SELECT * FROM prefixes WHERE serverId ="${message.guild.id}"`);
-      if(prefixRow){
-        returnPrefix = prefixRow.prefix;
+    pool.query(`SELECT * FROM prefixes WHERE serverId ='${message.guild.id}'`).then(row => {
+      row = row.rows;
+      if(row){
+        returnPrefix = row.prefix;
       } else {
         returnPrefix = 'k?';
       }
+    }).catch(() => {
+      console.error;
+    });
 
-
-    var settingsRow = sql.run(`SELECT * FROM settings WHERE serverId ="${message.guild.id}"`);
-        if(!settingsRow){
-          sql.run(`INSERT INTO settings (serverId, banId) VALUES ("${message.guild.id}", "${null}")`);
-          console.log('added settingsRow')
+    pool.query(`SELECT * FROM settings WHERE serverId ='${message.guild.id}'`).then(row => {
+      row = row.rows;
+        if(!row){
+          pool.query(`INSERT INTO settings (serverId, banId) VALUES ('${message.guild.id}', null)`);
         }
-
+      }).catch(() => {
+        console.error;
+      });
   
-    var prefixesRow = sql.run(`SELECT * FROM prefixes WHERE serverId =${message.guild.id}`);
-        if(!prefixesRow){
-          sql.run(`INSERT INTO prefixes (prefix, welcomeMessage, welcomeChannel, shouldWelcome, serverId) VALUES ("k?", "This is a placeholder", "null", "false", "${message.guild.id}")`);
-          console.log("added to prefixes!");
-        }
     }
 
   //Command handler
@@ -163,10 +157,13 @@ client.on("message", async message => {
     }
   }
 
-  var customPrefix = 'k?';
-  var customPrefixRow = sql.get(`SELECT * FROM prefixes WHERE serverId ="${dmCheck()}"`);
-    if(customPrefixRow){
-      customPrefix = customPrefixRow.prefix;
+  pool.query(`SELECT * FROM prefixes WHERE serverId ='${dmCheck()}'`).then(row => {
+    row = row.rows;
+    if(row[0] === undefined){
+      var customPrefix = "k?";
+    } else {
+      //console.log(row);
+      var customPrefix = row[0].prefix;
     }
 
 
@@ -226,19 +223,35 @@ client.on("message", async message => {
 
   //Finally, run the command
   try{
-    commandFile.run(client, message, args, deletedMessage, sql, tossedSet, roles);
+    commandFile.run(client, message, args, deletedMessage, pool, tossedSet, roles);
+    //debug junk - deleting later
 
     try{
-        //put command stat counter here
+    const logChannel = client.channels.resolve(config.logChannel);
+    logChannel.send(`\`\`\`js
+    Command: ${command}
+    Args: ${args}
+    Server: ${message.guild.name} (${message.guild.id})
+	  \`\`\``)
+
+    console.log(`
+    ==--==
+    Command: ${command}
+    Args: ${args}
+    Server: ${message.guild.name} (${message.guild.id})
+    ==--==
+    `)
     }catch(err){
       //ignore dms
     }
   }
   catch(err){
     console.error(err);
+    var logChannel = client.channels.resolve(config.logChannel);
     logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***COMMAND LOADING ERROR:***\n```js\nERR: ' + err + '\n```');
   }
 
+  });
 });
 
 client.on("error", async error => {

@@ -2,23 +2,26 @@ const Discord = require("discord.js");
 
 exports.run = async (client, message, args, deletedMessage, sql, tossedSet, roles) => {
 
-    var row;
-
     if(!args[0]) return message.channel.send('Please enter a user ID or mention');
 
     try{
 
 
-    row = sql.get(`SELECT * FROM settings WHERE serverId ="${message.guild.id}"`);
+    sql.query(`SELECT * FROM settings WHERE serverId ='${message.guild.id}'`).then(row => {
+        row = row.rows[0];
+
         async function profileA(){
         if (!row) {
             console.log("first");
-            await sql.run("INSERT INTO settings (serverId, banId) VALUES (?, ?)", [message.guild.id, "null"]);
+            await sql.query(`INSERT INTO settings (serverId, banId) VALUES (${message.guild.id}, 'null')`);
         } 
     }
     
     profileA();
     
+    }).catch((err) => {
+        message.channel.send('err: ' + err)
+    });
     
     
     
@@ -33,11 +36,10 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
     
         if(args[0] === "roleadd"){
     
-            row = sql.get(`SELECT * FROM settings WHERE serverId ="${message.guild.id}"`);
+            sql.query(`SELECT * FROM settings WHERE serverId ='${message.guild.id}'`).then(row => {
                 
                 if (!row) {
-                    console.log("second");
-                    sql.run(`INSERT INTO settings (serverId, banId) VALUES (${message.guild.id}, "${null}")`);
+                    sql.query(`INSERT INTO settings (serverId, banId) VALUES (${message.guild.id}, 'null')`);
                 } 
                 
                 var roleList = message.guild.roles.cache; 
@@ -49,18 +51,30 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
                 if(!tossedRole){
                     const embed = new Discord.MessageEmbed()
                     .setColor(0xF46242)
-                    .setTimestamp()
+                    .setTimestamp() //Write to JSON
                     .setTitle("A role with this name was not found")
                     return message.channel.send({embed});
                 } else {
     
-                row = sql.run(`UPDATE settings SET banId = "${tossedRole.id}" WHERE serverId = "${message.guild.id}"`);
+                sql.query(`UPDATE settings SET banId = '${tossedRole.id}' WHERE serverId = '${message.guild.id}'`).then(()=>{
                     const embed = new Discord.MessageEmbed()
 
                 .setDescription("Role added")
                  message.channel.send({embed});
+                }).catch((err)=>{
+    
+                    const embed = new Discord.MessageEmbed()
+                    .setColor(0xF46242)
+                    .setTimestamp() //Write to JSON
+                    .setTitle("An error occured")
+                    .setFooter(err)
+                    return message.channel.send({embed});
+                });
                 
             }
+            }).catch((err) => {
+                console.error(err.stack);
+            });
         } else {
             var argVar = args[0].replace("<@", "").replace("!", "").replace(">", "");
             var  member = message.guild.members.cache.get(argVar);
@@ -68,27 +82,28 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
             if(!member){
                 //invalid ID
             } else {
-                var db = await sql.get(`SELECT * FROM settings WHERE serverId ="${message.guild.id}"`);
+                var db = await sql.query(`SELECT * FROM settings WHERE serverId ='${message.guild.id}'`);
+                    db = db.rows[0];
 
-                if(!db.banId || !db || !message.guild.roles.cache.get(db.banId)){
+                if(!db.banid || !db || !message.guild.roles.cache.get(db.banid)){
                     message.channel.send('A muted role is not set, or the one you did set is invalid');
                 } else {
                     //add role or remove role
                     try{
                         
-                        if(member.roles.cache.map(r=>r.id).includes(db.banId)){ //already has role, remove
+                        if(member.roles.cache.map(r=>r.id).includes(db.banid)){ //already has role, remove
                             //Removed role
                             const embed = new Discord.MessageEmbed()
                                 .setDescription(member.user.tag + " has been unmuted")
                             message.channel.send({embed});
 
-                            member.roles.remove(db.banId);
+                            member.roles.remove(db.banid);
                         } else {
                             //Added role
                             const embed = new Discord.MessageEmbed()
                                 .setDescription(member.user.tag + " has been muted")
                             message.channel.send({embed});
-                            member.roles.add(db.banId);
+                            member.roles.add(db.banid);
                         }
 
                         
@@ -112,7 +127,7 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
                             } else {
                                 //help me
                                 setTimeout(() => {
-                                member.roles.remove(db.banId).catch((err)=>{console.error(err.stack)});
+                                member.roles.remove(db.banid).catch((err)=>{console.error(err.stack)});
                                 }, num);
                             }
                         }

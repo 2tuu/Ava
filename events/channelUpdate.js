@@ -9,12 +9,12 @@ exports.run = async (deletedMessage, sql, client, newChannel, oldChannel) => {
         console.error(err);
     }
 
-    var row = sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`);
-
+    sql.query(`SELECT * FROM modlog WHERE serverid ='${guildID}'`).then(row => {
+        row = row.rows[0];
         if(!row) return;
         if(newChannel.nsfw === oldChannel.nsfw && newChannel.topic === oldChannel.topic && oldChannel.name === newChannel.name) return;
 
-        if(row.enabled === "yes" && row.logChannels === "yes"){
+        if(row.enabled === "yes" && row.logchannels === "yes"){
 
             if(newChannel.name === oldChannel.name && newChannel.topic === oldChannel.topic && newChannel.parent.name === oldChannel.parent.name){
                 return;
@@ -31,5 +31,7 @@ exports.run = async (deletedMessage, sql, client, newChannel, oldChannel) => {
             "\nCategory: " + oldChannel.parent.name + "\n```\n")
            }
         }
+
+    });
    
 }

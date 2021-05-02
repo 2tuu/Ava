@@ -5,16 +5,16 @@ let config = JSON.parse(fs.readFileSync("./config.json", "utf8"));
 const cron = require('node-cron');
 const express = require('express');
 
-exports.run = async (deletedMessage, sql, client) => {
+exports.run = async (deletedMessage, pool, client) => {
     console.log("Client Logon Successful");
 	console.log('\x1b[32m', "======================\n");
 	console.log('\x1b[33m', `Version: ` + data.version + '\n');
 	console.log('\x1b[32m', "======================");
-	console.log('\x1b[33m', `${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.cache.size} guild(s).`);
+	console.log('\x1b[33m', `${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.size} guilds.`);
 	console.log('\x1b[32m', "=========log==========");
 
 	client.user.setActivity(data.status);
-    client.user.setStatus('online');
+    client.user.setStatus('dnd');
     
     const logChannel = client.channels.resolve(config.logChannel);
     logChannel.send(`\`\`\`js
@@ -26,26 +26,18 @@ exports.run = async (deletedMessage, sql, client) => {
 	\`\`\``)
 
 	try{
-		client.blacklist = sql.all(`SELECT * FROM blacklist`);
+		client.blacklist = await pool.query(`SELECT * FROM blacklist`);
+		client.blacklist = client.blacklist.rows;
 		console.log('Fetched blacklist');
 	} catch(err) {
 		console.error(err);
 	}
 
-	//API's been shit lately, this will check if the connection is still there every 10 minutes
-	//TODO: find more efficient method
-	cron.schedule('*/10 * * * *', async function() {
-		try{
-			client.user.setStatus('dnd');
-		}catch(err){
-			console.error('Keep-alive script error: ' + err);
-		}
-	});
-
 	cron.schedule('* * * * *', async function() {
 
 		var currenttime = Date.now();
-		var remind = sql.all(`SELECT * FROM timer`);
+		var remind = await pool.query(`SELECT * FROM timer`);
+			remind = remind.rows;
 
 		remind.forEach(e=> {
 			var status = '';
@@ -58,7 +50,7 @@ exports.run = async (deletedMessage, sql, client) => {
 				client.channels.fetch(e.channelcreated)
 				.then(channel => {
 					channel.send(`<@${e.user}>, earlier you reminded me to tell you \`${e.message.replace(/[`]/g, '')}\`` + status);
-					sql.run(`DELETE FROM timer WHERE user ="${e.user}"`);
+					pool.query(`DELETE FROM timer WHERE "user" ='${e.user}'`);
 				})
 				.catch(console.error);	
 			}
@@ -66,11 +58,12 @@ exports.run = async (deletedMessage, sql, client) => {
 	
 	});
 
-
 	//Blacklist parser (initialized in events/ready)
+	/* FIX
 	client.blist = [];
 	client.blacklist.forEach(e => {
   		client.blist.push(e.userid);
 	});
+	*/
 	
   }

@@ -1,6 +1,5 @@
 //tag.read(taggerContent,message,args);
-//why did I feel the need to put this here
-//like anybody else on the planet is gonna use this
+
 /*
 K-Tag v1.3
 (c) Avery W. 2018 (Github: 2tuu)
@@ -187,3 +186,4 @@ exports.read = async (taggerContent, message, args) => {
 
     return taggerContent;
 }
+

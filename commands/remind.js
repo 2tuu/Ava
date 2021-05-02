@@ -1,15 +1,17 @@
+const { jsonfy } = require("booru/dist/Utils");
+
 exports.run = async (client, message, args, deletedMessage, sql) => {
 
     var user = message.author.id;
     var channel = message.channel.id;
-    var row;
 
     if(args[0] === "cancel"){
-        row = sql.get(`SELECT * FROM timer WHERE user ="${message.author.id}"`);
+        var row = await sql.query(`SELECT * FROM timer WHERE "user" ='${message.author.id}'`);
+            row = row.rows[0];
         if(!row){ //no timers exist
             return message.channel.send("You have no timers running");
         } else { //timer already exists (limit 1 per user)
-            sql.run(`DELETE FROM timer WHERE user ="${message.author.id}"`);
+            sql.query(`DELETE FROM timer WHERE "user" ='${message.author.id}'`);
             return message.channel.send("Your timer has been deleted");
         }
     }
@@ -57,9 +59,10 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         message.channel.send(`I will tell you: \`${timerMessage}\` in ${time/60000} ${min}`);
 
         //sql
-        row = sql.get(`SELECT * FROM timer WHERE user ="${user}"`);
+        var row = await sql.query(`SELECT * FROM timer WHERE "user" ='${user}'`);
+            row = row.rows[0];
         if(!row){ //no timers exist
-            sql.run(`INSERT INTO timer (endtime, user, channelcreated, message) VALUES ('${endtime}', '${user}', '${channel}', '${timerMessage}')`);
+            sql.query(`INSERT INTO timer (endtime, "user", channelcreated, message) VALUES ('${endtime}', '${user}', '${channel}', '${timerMessage}')`);
         } else { //timer already exists (limit 1 per user)
             var timerEnd = Date.now();
                 timerEnd = row.endtime - timerEnd;

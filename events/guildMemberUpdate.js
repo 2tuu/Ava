@@ -11,15 +11,16 @@ exports.run = (deletedMessage, sql, client, oldMember, newMember) => {
             console.error(err);
         }
     
-        var row = (`SELECT * FROM modlog WHERE serverId ="${guildID}"`);
-    
+        sql.query(`SELECT * FROM modlog WHERE serverid ='${guildID}'`).then(row => {
+            row = row.rows[0];
             if(!row) return;
     
-            if(row.enabled === "yes" && row.logMembers === "yes"){
+            if(row.enabled === "yes" && row.logmembers === "yes"){
                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
                ch.send("```diff\n+" + oldMember.user.tag + 
                " changed their nickname:\n" + oldMember.nickname + " => " + newMember.nickname + "\n```")
             }
     
+        });
 
 }

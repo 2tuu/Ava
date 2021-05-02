@@ -10,7 +10,7 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
         console.error(err);
     }
 
-    var row = await sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`);
+    var row = await sql.query(`SELECT * FROM modlog WHERE serverid ='${guildID}'`);
 
         var audit = await guild.fetchAuditLogs();
 
@@ -31,7 +31,7 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
         
         if(!row) return;
 
-        if(row.enabled === "yes" && row.logBans === "yes"){
+        if(row.enabled === "yes" && row.logbans === "yes"){
             var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
             ch.send("```diff\n-Member Banned: " + user.tag + `\nReason: ${reason}` + "\n```")
         }

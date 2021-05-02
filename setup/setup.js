@@ -16,11 +16,11 @@ var connection = mysql.createConnection({
     console.log('Created "blacklist" table successfully');
   });
 
-    connection.query('CREATE TABLE modlog (logKicks TEXT, logReactions TEXT, logChannels TEXT, logEmojis TEXT, logBans TEXT, logLeaves TEXT, logMembers TEXT, logMessages TEXT, logRoles TEXT, serverId TEXT, enabled TEXT, channel TEXT);', function(err, rows){
+    connection.query('CREATE TABLE modlog (logkicks TEXT, logreactions TEXT, logchannels TEXT, logemojis TEXT, logbans TEXT, logleaves TEXT, logmembers TEXT, logmessages TEXT, logroles TEXT, serverid TEXT, enabled TEXT, channel TEXT);', function(err, rows){
     console.log('Created "modlog" table successfully');
   });
 
-  connection.query('CREATE TABLE note (note BLOB, ownerId TEXT);', function(err, rows){
+  connection.query('CREATE TABLE note (note TEXT, ownerid TEXT);', function(err, rows){
     console.log('Created "note" table successfully');
   });
 
@@ -41,15 +41,15 @@ var connection = mysql.createConnection({
     console.log('Created "prefixes" table successfully');
   });
 
-  connection.query('CREATE TABLE settings (serverId TEXT, banId TEXT);', function(err, rows){
+  connection.query('CREATE TABLE settings (serverid TEXT, banid TEXT);', function(err, rows){
     console.log('Created "settings" table successfully');
   });
 
   connection.query('CREATE TABLE tags (serverID TEXT, tagName TEXT, tagContent TEXT, ownerID TEXT, selfDelete TEXT);', function(err, rows){
     console.log('Created "tags" table successfully');
   });
-
-  connection.query('CREATE TABLE timer (endtime TEXT, user TEXT, channelcreated TEXT, message TEXT);', function(err, rows){
+                                                //user is a reserved term
+  connection.query('CREATE TABLE timer (endtime TEXT, "user" TEXT, channelcreated TEXT, message TEXT);', function(err, rows){
     console.log('Created "time" table successfully');
   });
 

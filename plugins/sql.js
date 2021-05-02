@@ -1,90 +1,23 @@
-var mysql = require('mysql');
-var config = require('./../config.json');
+const { Pool, Client } = require('pg');
 
-var connection = mysql.createPool({
-  host     : 'localhost',
-  user     : config.dbuser,
-  password : config.dbpasswd,
-  database : config.dbname
-});
+exports.get = async (que) => {
 
-const delay = 50;
+  const pool = new Pool({
+    user: 'postgres',
+    database: 'kit',
+    password: 'toor'
+  })
 
-var exportvar = [];
+  var delay = 25;
+  
+  var exitvar;
+  
+  let result = pool.query(que, (err, res) => {
+    if(err) return console.error(err);
+    if(res.rows) exitvar = res.rows[0];
+    pool.end()
+  });
 
-exports.run = (que) => {
-
-    connection.query(que, function(err, rows){
-        if(err) {
-          throw err;
-        } else {
-          setValue(rows);
-        }
-      });
-    
-    //console.log(result);
-
-    function setValue(value) {
-        exportvar = value;
-        //console.log(exportvar);
-    }
-
-    require('deasync').sleep(delay);
- 
-    return exportvar[0];
-    
-}
-
-
-
-
-exports.get = (que) => {
-
-    connection.query(que, function(err, rows){
-        if(err) {
-          throw err;
-        } else {
-          setValue(rows);
-        }
-      });
-    
-    //console.log(result);
-
-    function setValue(value) {
-        exportvar = value;
-        //console.log(exportvar);
-    }
-
-    require('deasync').sleep(delay);
- 
-    return exportvar[0];
-    
-}
-
-
-
-
-
-exports.all = (que) => {
-
-    connection.query(que, function(err, rows){
-        if(err) {
-          throw err;
-        } else {
-          setValue(rows);
-        }
-      });
-    
-    //console.log(result);
-
-    function setValue(value) {
-        exportvar = value;
-        //console.log(exportvar);
-    }
-
-
-    require('deasync').sleep(delay);
- 
-    return exportvar;
+  return result;
     
 }

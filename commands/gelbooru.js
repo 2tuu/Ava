@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const cooldown = new Set();
+
 const booru = require('booru');
 
 const taglimit = 10;

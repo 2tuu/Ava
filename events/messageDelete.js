@@ -29,7 +29,8 @@ exports.run = async (deletedMessage, sql, client, message) => {
             console.error(err);
         }
     
-        var row = await sql.get(`SELECT * FROM modlog WHERE serverId ="${guildID}"`);
+        var row = await sql.query(`SELECT * FROM modlog WHERE serverid ='${guildID}'`);
+            row = row.rows[0];
 
             if(message.attachments){
             Attachment = message.attachments.array().map(m => m.url);
@@ -38,7 +39,7 @@ exports.run = async (deletedMessage, sql, client, message) => {
     
             if(!row) return;
     
-            if(row.enabled === "yes" && row.logMessages === "yes" && message.author.bot === false){
+            if(row.enabled === "yes" && row.logmessages === "yes" && message.author.bot === false){
                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
 
                if(Attachment[0]){
