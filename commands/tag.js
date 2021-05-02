@@ -575,6 +575,6 @@ list().catch((err) => {message.reply(err)});
     help: "Create, destroy or edit a tag - For more information on how to structure a tag, click [here](https://github.com/2tuu/Kit/blob/master/docs/tags.md)",
     format: "k?tag [tag-name/create/edit/delete/search/random]",
     DM: false,
-    OwnerOnly: false,
+    OwnerOnly: true,
     alias: ['t']
 }
