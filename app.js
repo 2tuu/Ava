@@ -106,7 +106,7 @@ fs.readdir('./commands-locked', (err, commands) => {
 //On-message event
 client.on("message", async message => {
 
-  if(message.content === '<@435855803363360779>' || message.content === '<@!435855803363360779>'){
+  if(message.content === `<@${client.user.id}>` || message.content === `<@!${client.user.id}>`){
     return message.channel.send('Need help? Try `@Kit help`');
   }
 
@@ -131,7 +131,7 @@ client.on("message", async message => {
       if(row){
         returnPrefix = row.prefix;
       } else {
-        returnPrefix = 'k?';
+        returnPrefix = config.prefix;
       }
     }).catch(() => {
       console.error;
@@ -160,7 +160,7 @@ client.on("message", async message => {
   pool.query(`SELECT * FROM prefixes WHERE serverId ='${dmCheck()}'`).then(row => {
     row = row.rows;
     if(row[0] === undefined){
-      var customPrefix = "k?";
+      var customPrefix = config.prefix;
     } else {
       //console.log(row);
       var customPrefix = row[0].prefix;
