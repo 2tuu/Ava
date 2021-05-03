@@ -224,26 +224,6 @@ client.on("message", async message => {
   //Finally, run the command
   try{
     commandFile.run(client, message, args, deletedMessage, pool, tossedSet, roles);
-    //debug junk - deleting later
-
-    try{
-    const logChannel = client.channels.resolve(config.logChannel);
-    logChannel.send(`\`\`\`js
-    Command: ${command}
-    Args: ${args}
-    Server: ${message.guild.name} (${message.guild.id})
-	  \`\`\``)
-
-    console.log(`
-    ==--==
-    Command: ${command}
-    Args: ${args}
-    Server: ${message.guild.name} (${message.guild.id})
-    ==--==
-    `)
-    }catch(err){
-      //ignore dms
-    }
   }
   catch(err){
     console.error(err);
