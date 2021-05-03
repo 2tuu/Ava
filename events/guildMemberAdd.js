@@ -15,7 +15,7 @@ exports.run = (deletedMessage, sql, client, member) => {
         row = row.rows[0];
         if(!row) return;
   
-          if(row.enabled === "yes" && row.logLeaves === "yes"){
+          if(row.enabled === "yes" && row.logleaves === "yes"){
              var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
              ch.send("```diff\n+Member Joined: " + member.user.tag + "\nCurrent Count:" + member.guild.memberCount + "\n```")
           }
@@ -33,6 +33,7 @@ exports.run = (deletedMessage, sql, client, member) => {
   
     //Welcome message setting store, goes in the same table as the prefixes
     sql.query(`SELECT * FROM prefixes WHERE serverId ='${member.guild.id}'`).then(row => {
+      row = row[0].rows;
   
       const guild = member.guild;
     
