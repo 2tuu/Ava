@@ -5,7 +5,7 @@ K-Tag v1.3
 (c) Avery W. 2018 (Github: 2tuu)
 Last revision: 12/25/19
 */
-exports.read = async (taggerContent, message, args) => {
+exports.read = (taggerContent, message, args) => {
 
 
     //{set;;}; and {var.*};
