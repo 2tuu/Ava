@@ -1,48 +1,17 @@
 const Discord = require('discord.js');
 
-exports.run = (client, message, args) => {
+exports.run = async (client, message, args) => {
 
-    async function search(){
+	try{
+
 
     if(!args[0]){
-        var searchUser = await message.guild.members.find('id', message.author.id);
+        var searchUser = await message.guild.members.fetch(message.author.id);
     } else {
-
-        var argVar = args[0].replace("<@", "").replace(">", "").replace("!", "");
-
-            var searchbyID = await message.guild.members.find('id', argVar);
-            var searchbyUName = await message.guild.members.find('username', args[0]);
-            var searchbyDName = await message.guild.members.find('displayName', args[0]);
-            var searchbyTag = await message.guild.members.find('tag', args[0]);
-        
-
-            if(searchbyID){
-                var searchUser = searchbyID;
-            }
-            if(searchbyUName){
-                var searchUser = searchbyUName;
-            }
-            if(searchbyDName){
-                var searchUser = searchbyDName;
-            }
-            if(searchbyTag){
-                var searchUser = searchbyTag;
-            }
-    }
-
-	//console.log(searchUser);
-
-    if(!searchUser){
-        const embed = new Discord.MessageEmbed()
-						.setColor(0xF46242)
-						.setTimestamp() 
-						.setTitle("User not found")
-						return message.channel.send({embed});
-    } else {
-
-        //console.log(searchUser);
-        
-        var Umessage = searchUser.lastMessage;
+		var id = args[0].replace('<@', '').replace('>', '').replace('!', '');
+		console.log(id);
+		var searchUser = await message.guild.members.fetch(id);
+	}
 
 	function dhm(t){
 		var cd = 24 * 60 * 60 * 1000,
@@ -63,42 +32,47 @@ exports.run = (client, message, args) => {
 	}
 
 	var age = dhm((message.createdTimestamp) - (searchUser.joinedTimestamp));
-	var roleVar =  searchUser.lastMessage.member.roles.map(a => a.id);
-	roleVar = roleVar.slice(1);
-
+	if(!searchUser.displayHexColor){
+		var color = "#ffffff";
+	} else {
+		var color = searchUser.displayHexColor;
+	}
 	if(!searchUser.displayHexColor){
 		var color = "#ffffff";
 	} else {
 		var color = searchUser.displayHexColor;
 	}
 
-	if(roleVar.length > 0){
+	var roleVar =  searchUser._roles;
+	//return console.log('roles: ' + searchUser._roles);
+
+	
+	if(roleVar.length > 1){
 		var roleList = " <@&" + roleVar.join(">\n <@&") + ">";
+	} else if(roleVar.length === 1){
+		var roleList = " <@&" + roleVar + ">"
 	} else {
 		var roleList = " No Roles";
 	}
 
-	const embed = new Discord.MessageEmbed()
-					.setColor(color)
-					.setThumbnail(searchUser.lastMessage.author.avatarURL)
-					.setDescription(`User Info\n\n` 
-					+ "**User ID:** " + searchUser.id
-					+ "\n**Username:** " + searchUser.lastMessage.author.username + "#" + searchUser.lastMessage.author.discriminator
-					+ "\n**Bot:** " + searchUser.lastMessage.author.bot
-					+ "\n**Time since join:** " + age
-					+ "\n**Account Age:** " + dhm((Date.parse(new Date(searchUser.id /4194304 + 1420070400000))) - Date.now()).replace("-", "")
-					+ "\n \n**Roles:**\n" + roleList)
-					message.channel.send({embed});
-        }
-    }
-    search().catch((err) => {
-        const embed = new Discord.MessageEmbed()
-						.setColor(0xF46242)
-						.setTimestamp() 
-                        .setTitle("User not found")
-                        .setFooter(err)
-						return message.channel.send({embed});
-    });
+		const embed = new Discord.MessageEmbed()
+			.setColor(color)
+			.setThumbnail(`https://cdn.discordapp.com/avatars/${searchUser.id}/${searchUser.user.avatar}.webp`)
+			.setDescription(`User Info\n\n` 
+			+ "**User ID:** " + searchUser.id
+			+ "\n**Username:** " + searchUser.user.username + "#" + searchUser.user.discriminator
+			+ "\n**Bot:** " + searchUser.user.bot
+			+ "\n**Time since join:** " + age
+			+ "\n**Account Age:** " + dhm((Date.parse(new Date(searchUser.id /4194304 + 1420070400000))) - Date.now()).replace("-", "")
+			+ "\n \n**Roles:**\n" + roleList)
+			message.channel.send({embed});
+
+	}catch(err){
+		const embed = new Discord.MessageEmbed()
+		.setColor(0xF46242)
+		.setDescription("No user found")
+		return message.channel.send({embed});
+	}
 
 }
 
