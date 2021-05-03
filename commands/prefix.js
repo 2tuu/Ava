@@ -1,9 +1,6 @@
 const Discord = require("discord.js");
 
 exports.run = (client, message, args, deletedMessage, pool) => {
-       //Check for permissions
-       
-       //return message.channel.send("Custom prefixes are disabled until the database is reworked.");
 
        pool.query(`SELECT * FROM prefixes WHERE serverId ='${message.guild.id}'`).then(row => {
          row = row.rows;
@@ -26,16 +23,15 @@ exports.run = (client, message, args, deletedMessage, pool) => {
             
                 console.log('\x1b[36m%s\x1b[0m', "Server prefix for GUILD ID: " + message.guild.id);
                 console.log('\x1b[36m%s\x1b[0m', "Changed to: " + args[0]);
-                //Write to JSON
 
             } else {
-                const embed = new Discord.MessageEmbed()
+              const embed = new Discord.MessageEmbed()
                 .setColor(0xF46242)
                 .setTimestamp()
                 .setTitle("You do not have permission to do this. (Admin required)")
-                message.channel.send({embed});
+              message.channel.send({embed});
             
-                 }
+            }
 
 
             }).catch(() => {
