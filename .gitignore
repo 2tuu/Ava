@@ -4,10 +4,6 @@ colorReference.txt
 temp.txt
 tags.sqlite
 
-#commands nobody else needs
-commands/announcement.js
-commands/betapurge.js
-
 # directories
 node_modules/
 backup/
