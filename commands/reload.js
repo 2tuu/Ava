@@ -7,7 +7,15 @@ exports.run = (client, message, args) => {
   } else {
 
     if(!args || args.size < 1) return;
+    try{
     delete require.cache[require.resolve(`./${args[0]}.js`)];
+    } catch (err) {
+      try{
+        delete require.cache[require.resolve(`./../commands-locked/${args[0]}.js`)];
+      } catch(err){
+        message.channel.send('Can\'t: \n```js' + err + '\n```');
+      }
+    }
     console.log('Reloaded module: ' + args[0]);
 
     let embedVar = new Discord.MessageEmbed()
