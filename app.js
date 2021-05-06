@@ -95,12 +95,14 @@ fs.readdir('./commands-locked', (err, commands) => {
     }
   }
 
+  try{
   commands.forEach((m) => {
       console.log(`Loading module: ${m}`);
       cLoader(m);
   });
+  }catch(err){}
 
-});
+})
 
 
 //On-message event
