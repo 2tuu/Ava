@@ -4,10 +4,13 @@ let config = JSON.parse(fs.readFileSync("./config.json", "utf8"));
 const axios = require('axios');
 
 const cron = require('node-cron');
-const express = require('express');
 
 exports.run = async (deletedMessage, pool, client) => {
-	var current = await axios.get('https://raw.githubusercontent.com/2tuu/Kit/master/plugins/update.txt');
+	var current = 0
+		current = await axios.get('https://raw.githubusercontent.com/2tuu/Kit/master/plugins/update.txt').catch((err)=>{
+		console.error('There was an error finding the current version.')
+	});
+
 		current = current.data;
 	let loaded = JSON.parse(fs.readFileSync("./plugins/update.txt", "utf8"));
 
