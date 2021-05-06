@@ -9,5 +9,8 @@
     "imgur": "Imgur app id here",
     "youtube": "youtube API token here",
     "kitk_token": "hug api token here (request one from kab#9488)",
-    "invite": "link to the bot's invite here"
+    "invite": "link to the bot's invite here",
+    "dbuser": "database username (probably postgres/root)",
+    "dbname": "the name of the database you want Kit to use",
+    "dbpass": "the password for the user you want Kit to use"
 }
