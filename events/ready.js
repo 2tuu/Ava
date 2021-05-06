@@ -1,16 +1,25 @@
 const fs = require('fs');
 let data = JSON.parse(fs.readFileSync("./JSON/data.json", "utf8"));
 let config = JSON.parse(fs.readFileSync("./config.json", "utf8"));
+const axios = require('axios');
 
 const cron = require('node-cron');
 const express = require('express');
 
 exports.run = async (deletedMessage, pool, client) => {
+	var current = await axios.get('https://raw.githubusercontent.com/2tuu/Kit/master/plugins/update.txt');
+		current = current.data;
+	let loaded = JSON.parse(fs.readFileSync("./plugins/update.txt", "utf8"));
+
     console.log("Client Logon Successful");
 	console.log('\x1b[32m', "======================\n");
-	console.log('\x1b[33m', `Version: ` + data.version + '\n');
+	if(parseInt(loaded) < parseInt(current)){
+		console.log('\x1b[33m', `New version available` + '\n');
+		console.log('\x1b[33m', `Your version is ${loaded}, the newest version is ${current}` + '\n');
+	}
+	console.log('\x1b[33m', `Version: ` + loaded + '\n');
 	console.log('\x1b[32m', "======================");
-	console.log('\x1b[33m', `${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.size} guilds.`);
+	console.log('\x1b[33m', `${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.cache.size} guilds.`);
 	console.log('\x1b[32m', "=========log==========");
     
 	client.user.setStatus('dnd');
