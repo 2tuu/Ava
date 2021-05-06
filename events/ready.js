@@ -7,20 +7,15 @@ const cron = require('node-cron');
 
 exports.run = async (deletedMessage, pool, client) => {
 	var current = 0
-		current = await axios.get('https://raw.githubusercontent.com/2tuu/Kit/master/plugins/update.txt').catch((err)=>{
-		console.error('There was an error finding the current version.')
-	});
-
+		current = await axios.get('https://raw.githubusercontent.com/2tuu/Kit/master/plugins/update.txt');
 		current = current.data;
+
 	let loaded = JSON.parse(fs.readFileSync("./plugins/update.txt", "utf8"));
 
     console.log("Client Logon Successful");
 	console.log('\x1b[32m', "======================\n");
-	if(parseInt(loaded) < parseInt(current)){
-		console.log('\x1b[33m', `New version available` + '\n');
-		console.log('\x1b[33m', `Your version is ${loaded}, the newest version is ${current}` + '\n');
-	}
 	console.log('\x1b[33m', `Version: ` + loaded + '\n');
+	console.log('\x1b[33m', `Current Github Version: ` + current + '\n');
 	console.log('\x1b[32m', "======================");
 	console.log('\x1b[33m', `${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.cache.size} guilds.`);
 	console.log('\x1b[32m', "=========log==========");
