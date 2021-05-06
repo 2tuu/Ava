@@ -1,7 +1,4 @@
-const config = require('./../config.json').catch((err)=>{
-  return console.error('ERROR - config.json is missing, make sure you\'ve filled out and renamed config.example.json:\n'+err);
-});
-
+const config = require('./../config.json');
 //default content of config.example.json db section
 const defaults = {
   "dbuser": "database username (probably postgres/root)",
