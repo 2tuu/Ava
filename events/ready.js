@@ -12,10 +12,9 @@ exports.run = async (deletedMessage, pool, client) => {
 	console.log('\x1b[32m', "======================");
 	console.log('\x1b[33m', `${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.size} guilds.`);
 	console.log('\x1b[32m', "=========log==========");
-
-	client.user.setActivity(data.status);
-    client.user.setStatus('dnd');
     
+	client.user.setStatus('dnd');
+
     const logChannel = client.channels.resolve(config.logChannel);
     logChannel.send(`\`\`\`js
 	Log-in Success:
@@ -57,6 +56,8 @@ exports.run = async (deletedMessage, pool, client) => {
 		});
 	
 	});
+
+	client.logChannel = client.channels.resolve(config.logChannel);
 
 	//Blacklist parser (initialized in events/ready)
 	/* FIX

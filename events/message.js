@@ -2,7 +2,7 @@ const fs = require('fs');
 let data = JSON.parse(fs.readFileSync("./JSON/data.json", "utf8"));
 let config = JSON.parse(fs.readFileSync("./config.json", "utf8"));
 
-exports.run = (deletedMessage, pool, client, message) => {
+exports.run = async (deletedMessage, pool, client, message) => {
       if(!message.guild) return;
       pool.query(`SELECT * FROM prefixes WHERE serverId ='${message.guild.id}'`).then(row => {
         if(!row.rows[0]){
@@ -17,5 +17,11 @@ exports.run = (deletedMessage, pool, client, message) => {
           console.log("added to announcement");
         }
       });
+
+      var currentStatus = await client.presence.activities;
+      if(!currentStatus[0]){
+        client.user.setActivity(data.status);
+        console.log('Automatically set status to: ' + data.status);
+      }
 
   }

@@ -23,9 +23,9 @@ const cooldown = new Set();
 //SQLite database file
 const { Pool } = require('pg')
 const pool = new Pool({
-  user: 'postgres',
-  database: 'kit',
-  password: 'toor',
+  user: config.dbuser,
+  database: config.dbname,
+  password: config.dbpass,
   idleTimeoutMillis: 100,
   connectionTimeoutMillis: 100,
   max: 0

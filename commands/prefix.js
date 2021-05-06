@@ -5,7 +5,7 @@ exports.run = (client, message, args, deletedMessage, pool) => {
        pool.query(`SELECT * FROM prefixes WHERE serverId ='${message.guild.id}'`).then(row => {
          row = row.rows;
         if(!row[0]){
-          sql.run(`INSERT INTO prefixes (prefix, welcomeMessage, welcomeChannel, shouldWelcome, serverId) VALUES ('k?', 'This is a placeholder', 'null', 'false', '${message.guild.id}')`);
+          sql.query(`INSERT INTO prefixes (prefix, welcomeMessage, welcomeChannel, shouldWelcome, serverId) VALUES ('k?', 'This is a placeholder', 'null', 'false', '${message.guild.id}')`);
           console.log("added to prefixes");
         }
 
