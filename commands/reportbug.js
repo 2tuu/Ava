@@ -15,28 +15,28 @@ exports.run = (client, message, args) => {
 
             var errID = `${rand}-${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}-1`;
 
-        const embed1 = new Discord.MessageEmbed()
-                    .setTitle("Error ID: " + errID)
-                    .setThumbnail(message.author.avatarURL)
-					.addField("From", message.author.id + " (" + message.author.username + "#" + message.author.discriminator + ")")
-                    .addField("Sent in", message.guild.name + " (" + message.guild.id + ")")
-                    .addField("Report", args.join(' '))
-                    .setTimestamp()
-					.setFooter("Error reported")
-                    user.send({embed: embed1}).then().catch(console.error);
-                    
+            const embed1 = new Discord.MessageEmbed()
+                .setTitle("Error ID: " + errID)
+                .setThumbnail(message.author.avatarURL)
+                .addField("From", message.author.id + " (" + message.author.username + "#" + message.author.discriminator + ")")
+                .addField("Sent in", message.guild.name + " (" + message.guild.id + ")")
+                .addField("Report", args.join(' '))
+                .setTimestamp()
+                .setFooter("Error reported")
+                user.send({embed: embed1}).then().catch(console.error);
+                
 
-                    var chan = client.channels.cache.get(config.reports);
+                var chan = client.channels.cache.get(config.reports);
 
-                    const embed2 = new Discord.MessageEmbed()
-                    .setTitle("Error ID: " + errID)
-                    .setThumbnail(message.author.avatarURL)
-					.addField("From", message.author.username)
-                    .addField("Sent in", message.guild.name)
-                    .addField("Report", args.join(' '))
-                    .setTimestamp()
-					.setFooter("Error reported")
-                    chan.send({embed: embed2}).then().catch(console.error);
+                const embed2 = new Discord.MessageEmbed()
+                .setTitle("Error ID: " + errID)
+                .setThumbnail(message.author.avatarURL)
+                .addField("From", message.author.username)
+                .addField("Sent in", message.guild.name)
+                .addField("Report", args.join(' '))
+                .setTimestamp()
+                .setFooter("Error reported")
+                chan.send({embed: embed2}).then().catch(console.error);
         
         let embedVar = new Discord.MessageEmbed()
         .setColor(0xF46242)
