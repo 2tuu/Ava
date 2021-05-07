@@ -13,11 +13,9 @@ exports.run = (client, message, args, deletedMessage, sql) => {
     }
 
     const embed = new Discord.MessageEmbed()
-          .setTimestamp() //Write to JSON
-          .setTitle("This server: " + prefix)
-        message.channel.send({embed});
-
-
+      .setTimestamp()
+      .setTitle("This server: " + prefix)
+    message.channel.send({embed});
   });
     
        
