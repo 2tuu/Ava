@@ -7,7 +7,6 @@ exports.run = (client, message, args) => {
 	if(args.join(' ').startsWith("<@") || args.join(' ').startsWith("<!@")){
 		userID = args[0];
 		userID = userID.replace("<@", "");
-		userID = userID.replace("<@!", "");
 		userID = userID.replace(">", "");
 		userID = userID.replace("!", "");
 	} else if(!args[0]){
@@ -19,17 +18,14 @@ exports.run = (client, message, args) => {
 	} else if(args[0].match(/^\d/)){
 		userID = args[0];
 	} else {
-		try{
-			userID = message.guild.members.find("displayName", args.join(' ')).id;
-		}
-		catch(err){
+
 			const embed = new Discord.MessageEmbed()
 				.setColor(0xF46242)
 				.setTimestamp() 
-				.setTitle("Error: Invalid User ID, Username or Mention (Use exact display name)")
+				.setTitle("Error: Invalid User ID or argument")
 			message.channel.send({embed});
 			return;
-		}
+		
 	}
 	if(userID === ""){
 		const embed = new Discord.MessageEmbed()
@@ -58,8 +54,8 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
-    help: "View your avatar or someone else's",
-    format: "k?avatar {@user/ID}",
+    help: "View your avatar, the server's icon or someone else's avatar",
+    format: "k?avatar {@user/User ID/'server'}",
     DM: false,
     OwnerOnly: false,
     alias: ['avy']
