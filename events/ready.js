@@ -11,6 +11,7 @@ exports.run = async (deletedMessage, pool, client) => {
 		current = current.data;
 
 	let loaded = JSON.parse(fs.readFileSync("./plugins/update.txt", "utf8"));
+		client.version = loaded;
 
     console.log("Client Logon Successful");
 	console.log('\x1b[32m', "======================\n");

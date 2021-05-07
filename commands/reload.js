@@ -13,20 +13,20 @@ exports.run = (client, message, args) => {
       try{
         delete require.cache[require.resolve(`./../commands-locked/${args[0]}.js`)];
       } catch(err){
-        message.channel.send('Can\'t: \n```js' + err + '\n```');
+        return message.channel.send('Can\'t: \n```js' + err + '\n```');
       }
     }
     console.log('Reloaded module: ' + args[0]);
 
     let embedVar = new Discord.MessageEmbed()
-           .setTimestamp()
-           .setDescription(`The module \`${args[0]}\` has been reloaded`)
-           message.channel.send({embed: embedVar});
+      .setTimestamp()
+      .setDescription(`The module \`${args[0]}\` has been reloaded`)
+      message.channel.send({embed: embedVar});
 
   }
-  }
+}
   
-  exports.conf = {
+exports.conf = {
     help: "N/A",
     format: "N/A",
     DM: true,

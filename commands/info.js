@@ -19,13 +19,13 @@ exports.run = (client, message) => {
 	.setAuthor(client.user.username, client.user.avatarURL)
 
 	.setDescription(
-		"**Authors: **" + `${k}` + "\n" + 
+		"**Author: **" + `${k}` + "\n" + 
 		"**Guilds/Users: **" + `${client.guilds.cache.size}/${client.users.cache.size}` + "\n" +
 		"**Icon Source: ** " + data.icon_artist + " ([Link](" + data.icon_link + "))" + "\n" +
 		"**Github:** " + "[Link](https://github.com/2tuu/Kit)"
 	)
 
-	.setFooter(data.version)
+	.setFooter('Installed Framework: v.' + client.version)
 
 	message.channel.send({embed})
 
