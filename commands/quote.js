@@ -1,4 +1,6 @@
 const Discord = require('discord.js');
+
+//TODO: reformat for new lib
 exports.run = (client, message, args) => {
 
     async function fetchM(id, ch){
@@ -50,6 +52,6 @@ exports.conf = {
     help: "Quote a message from this channel, or another if specified",
     format: "k?quote {optional: #channel} [Message ID]",
     DM: false,
-    OwnerOnly: false,
+    OwnerOnly: true,
     alias: []
 }
