@@ -11,7 +11,7 @@ exports.run = (client, message, args) => {
 }
     
 exports.conf = {
-    help: "Flip a non-existant coin",
+    help: "Flip an imaginary coin",
     format: "k?flip",
     DM: true,
     OwnerOnly: false,
