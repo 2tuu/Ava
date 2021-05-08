@@ -15,8 +15,13 @@ exports.run = async (deletedMessage, pool, client) => {
 
     console.log("Client Logon Successful");
 	console.log('\x1b[32m', "======================\n");
-	console.log('\x1b[33m', `Version: ` + loaded + '\n');
-	console.log('\x1b[33m', `Current Github Version: ` + current + '\n');
+	if(current > loaded){
+		console.log('\x1b[33m', 'Your framework is out of date');
+		console.log('\x1b[33m', `The current Github version is: ` + current + '\n');
+		console.log('\x1b[33m', `Your version is: ` + loaded + '\n');
+	} else {
+		console.log('\x1b[33m', `Version: ` + loaded + '\n');
+	}
 	console.log('\x1b[32m', "======================");
 	console.log('\x1b[33m', `${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.cache.size} guilds.`);
 	console.log('\x1b[32m', "=========log==========");
