@@ -10,6 +10,8 @@ exports.run = async (deletedMessage, pool, client) => {
 		current = await axios.get('https://raw.githubusercontent.com/2tuu/Kit/master/plugins/update.txt');
 		current = current.data;
 
+	client.currentVersion = current;
+
 	let loaded = JSON.parse(fs.readFileSync("./plugins/update.txt", "utf8"));
 		client.version = loaded;
 
