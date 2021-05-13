@@ -25,7 +25,7 @@ exports.run = (client, message) => {
 		"**Github:** " + "[Link](https://github.com/2tuu/Kit)"
 	)
 
-	.setFooter('Installed Framework: v.' + client.version)
+	.setFooter('v.' + client.version + ' (current: ' + client.currentVersion + ')')
 
 	message.channel.send({embed})
 
