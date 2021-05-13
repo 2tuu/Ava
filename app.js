@@ -43,6 +43,8 @@ fs.readdir(`./events/`, (err, files) => {
 });
 
 //Require every command, cache conf for each
+
+client.failedCommands = [];//list of commands that failed to load
 fs.readdir('./commands', (err, commands) => {
 
   function cLoader(c){
@@ -64,6 +66,7 @@ fs.readdir('./commands', (err, commands) => {
       return false;
     } catch (err) {
       console.error(`Loading Error: ${err}`);
+      client.failedCommands.push(c);
     }
   }
 
@@ -126,7 +129,6 @@ client.on("message", async message => {
 
   //Database updaters
   if(message.guild){ //WIP DM compatibility (only executes in guilds)
-    if(client.blist.includes(message.author.id)) return; //blacklist handler
 
     pool.query(`SELECT * FROM prefixes WHERE serverId ='${message.guild.id}'`).then(row => {
       row = row.rows;
@@ -222,6 +224,8 @@ client.on("message", async message => {
   //Return if the user isn't allowed to use the command - non-dm in dm or owner by non-owner
   if(commandFile.conf.OwnerOnly === true && !config.evalAllow.includes(message.author.id)) return;
   if(commandFile.conf.DM === false && !message.guild) return;
+  if(client.blacklist.includes(message.author.id)) return; //blacklist handler
+
 
   //Finally, run the command
   try{
@@ -229,8 +233,7 @@ client.on("message", async message => {
   }
   catch(err){
     console.error(err);
-    var logChannel = client.channels.resolve(config.logChannel);
-    logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***COMMAND LOADING ERROR:***\n```js\nERR: ' + err + '\n```');
+    client.logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***COMMAND ERROR:***\n```js\nERR: ' + err + '\n```');
   }
 
   });
