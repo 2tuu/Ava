@@ -36,10 +36,15 @@ exports.run = async (deletedMessage, pool, client) => {
 	User Cache: ${client.users.cache.size}
 	Server Count: ${client.guilds.cache.size}
 	\`\`\``)
+	if(client.failedCommands.length>0){
+		logChannel.send(`\`\`\`js
+		ERROR LOADING COMMANDS: ${client.failedCommands}
+		\`\`\``)
+	}
 
 	try{
 		client.blacklist = await pool.query(`SELECT * FROM blacklist`);
-		client.blacklist = client.blacklist.rows;
+		client.blacklist = client.blacklist.rows.map(g=>g.userid);
 		console.log('Fetched blacklist');
 	} catch(err) {
 		console.error(err);
