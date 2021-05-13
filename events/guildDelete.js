@@ -7,6 +7,6 @@ exports.run = (deletedMessage, sql, client, guild) => {
     const logChannel = client.channels.cache.get(config.logChannel);
 
     console.log(">>>Guild Left: " + guild.name + " (" + guild.id + ")");
-    logChannel.send("```diff\n>>>Guild Left: " + guild.name + " (" + guild.id + ")\n->>>" + client.guilds.size + " Servers\n```");
+    logChannel.send("```diff\n>>>Guild Left: " + guild.name + " (" + guild.id + ")\n->>>" + client.guilds.cache.size + " Servers\n```");
 
 }
