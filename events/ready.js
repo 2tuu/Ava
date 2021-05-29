@@ -78,13 +78,5 @@ exports.run = async (deletedMessage, pool, client) => {
 	});
 
 	client.logChannel = client.channels.resolve(config.logChannel);
-
-	//Blacklist parser (initialized in events/ready)
-	/* FIX
-	client.blist = [];
-	client.blacklist.forEach(e => {
-  		client.blist.push(e.userid);
-	});
-	*/
 	
   }
