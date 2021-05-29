@@ -48,5 +48,5 @@ exports.conf = {
     format: "k?color [random/#hex]",
     DM: false,
     OwnerOnly: false,
-    alias: []
+    alias: ['colour'] //innit
 }
