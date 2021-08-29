@@ -1,15 +1,15 @@
 const axios = require('axios');
 const config = require('./../config.json');
-const authToken = config.kitk_token;
+const authToken = config.kitpass;
 
 exports.rawGet = async (endpoint) => {
-    var request = await axios.get(`https://api.2tu.dev/v3/${endpoint}/`);
+    var request = await axios.get(`https://api.twotu.xyz/v3/${endpoint}/`);
     var final = request.data;
     return final;
     }
 
     exports.getHug = async () => {
-        var request = await axios.get(`https://api.2tu.dev/v3/hug`, {
+        var request = await axios.get(`https://api.twotu.xyz/v3/hug`, {
     headers: {
         "Authorization" : `${authToken}`
       }
@@ -19,7 +19,7 @@ exports.rawGet = async (endpoint) => {
         }
         
         exports.getKiss = async () => {
-            var request = await axios.get(`https://api.2tu.dev/v3/kiss/`, {
+            var request = await axios.get(`https://api.twotu.xyz/v3/kiss/`, {
                 headers: {
                     "Authorization" : `${authToken}`
                   }
@@ -29,7 +29,7 @@ exports.rawGet = async (endpoint) => {
             }
 
             exports.getPoke = async () => {
-                var request = await axios.get(`https://api.2tu.dev/v3/poke/`, {
+                var request = await axios.get(`https://api.twotu.xyz/v3/poke/`, {
                     headers: {
                         "Authorization" : `${authToken}`
                       }
@@ -39,7 +39,7 @@ exports.rawGet = async (endpoint) => {
                 }
 
                 exports.getShrug = async () => {
-                    var request = await axios.get(`https://api.2tu.dev/v3/shrug/`, {
+                    var request = await axios.get(`https://api.twotu.xyz/v3/shrug/`, {
                         headers: {
                             "Authorization" : `${authToken}`
                           }
@@ -49,7 +49,7 @@ exports.rawGet = async (endpoint) => {
                     }
 
                     exports.getPat = async () => {
-                        var request = await axios.get(`https://api.2tu.dev/v3/pat/`, {
+                        var request = await axios.get(`https://api.twotu.xyz/v3/pat/`, {
                             headers: {
                                 "Authorization" : `${authToken}`
                               }
@@ -59,7 +59,7 @@ exports.rawGet = async (endpoint) => {
                         }
 
                         exports.getSlap = async () => {
-                            var request = await axios.get(`https://api.2tu.dev/v3/slap/`, {
+                            var request = await axios.get(`https://api.twotu.xyz/v3/slap/`, {
                                 headers: {
                                     "Authorization" : `${authToken}`
                                   }
@@ -69,7 +69,7 @@ exports.rawGet = async (endpoint) => {
                             }
 
                             exports.getSlap = async () => {
-                                var request = await axios.get(`https://api.2tu.dev/v3/loss/`, {
+                                var request = await axios.get(`https://api.twotu.xyz/v3/loss/`, {
                                     headers: {
                                         "Authorization" : `${authToken}`
                                       }
@@ -79,7 +79,7 @@ exports.rawGet = async (endpoint) => {
                                 }
 
                             exports.get = async (endpoint) => {
-                                var request = await axios.get(`https://api.2tu.dev/v3/${endpoint}/`, {
+                                var request = await axios.get(`https://api.twotu.xyz/v3/${endpoint}/`, {
                                     headers: {
                                         "Authorization" : `${authToken}`
                                       }
@@ -89,9 +89,9 @@ exports.rawGet = async (endpoint) => {
                                 }
 
                                 exports.getV = async (endpoint) => {
-                                    var request = await axios.get(`https://api.2tu.dev/v3/${endpoint}/`, {
+                                    var request = await axios.get(`https://api.twotu.xyz/v3/${endpoint}/`, {
                                         headers: {
-                                            "AUTHORIZATION" : `${authToken}`
+                                            "authorization" : `${authToken}`
                                           }
                                       });
 
