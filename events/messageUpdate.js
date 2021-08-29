@@ -25,9 +25,9 @@ exports.run = async (deletedMessage, sql, client, oldMessage, newMessage) => {
         };
     }
         
-    deletedMessage[oldMessage.guild.id + "-" + channelID].message = oldMessageVar + " ⇨ " + newMessageVar;
-    deletedMessage[oldMessage.guild.id + "-" + channelID].author = oldMessage.author.username;
-    deletedMessage[oldMessage.guild.id + "-" + channelID].avatar = oldMessage.author.avatarURL;
+    deletedMessage[oldMessage.guild.id + "-" + channelID].message = oldMessageVar + " ⇨ " + newMessageVar.content;
+    deletedMessage[oldMessage.guild.id + "-" + channelID].author = oldMessage.author.username + '#' + oldMessage.author.discriminator;
+    deletedMessage[oldMessage.guild.id + "-" + channelID].avatar = newMessage.author.avatarURL();
 
     //Dana's mod log
     if(oldMessage.content === newMessage.content) return;

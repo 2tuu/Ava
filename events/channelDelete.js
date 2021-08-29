@@ -1,8 +1,6 @@
 const Discord = require(`discord.js`);
 
 exports.run = async (deletedMessage, sql, client, channel) => {
-
-    var channelID = channel.id;
     try{
     var guildID = channel.guild.id;
     } catch(err){
@@ -17,7 +15,5 @@ exports.run = async (deletedMessage, sql, client, channel) => {
             var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
             ch.send("```diff\n-Channel Deleted\n" + channel.name + " (" + channel.id + ")\n```")
         }
-
     });
-   
 }

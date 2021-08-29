@@ -1,7 +1,6 @@
 const Discord = require(`discord.js`);
 
 exports.run = async (deletedMessage, sql, client, newChannel, oldChannel) => {
-
     var channel = newChannel;
     try{
     var guildID = channel.guild.id;
@@ -31,7 +30,5 @@ exports.run = async (deletedMessage, sql, client, newChannel, oldChannel) => {
             "\nCategory: " + oldChannel.parent.name + "\n```\n")
            }
         }
-
     });
-   
 }
