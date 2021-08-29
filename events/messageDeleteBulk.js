@@ -1,7 +1,34 @@
 exports.run = async (deletedMessage, sql, client, messages) => {
 
-   var messagesAr = messages.map(m => `${m.author.tag} (${m.id}): ${m.content} | Attachments: ${m.attachments.array().map(g=>g.url).join(', ')}`);
-   var messageBuf = 'Tag (Message ID): Content | Attachments: [Link to attachments if any]\r\n' + messagesAr.join('\r\n');
+
+   var messagesAr = [];
+
+   messages.forEach(m => {
+
+    if(!m.attachments.array()[0]){
+      messagesAr.push({
+        "content": `${client.timeCon(m.createdTimestamp)} ${m.author.tag} (${m.id}): ${m.content}`,
+        "time": m.createdTimestamp
+      });
+    } else {
+      messagesAr.push({
+        "content": `${client.timeCon(m.createdTimestamp)} ${m.author.tag} (${m.id}): ${m.content} | Attachments: ${m.attachments.array().map(g=>g.url).join(', ')}`,
+        "time": m.createdTimestamp
+      });
+    }
+
+    messagesAr.sort(function(a, b) {
+      if (a.time < b.time) return -1;
+      if (a.time > b.time) return 1;
+      return 0;
+    });
+
+
+
+   })
+
+
+   var messageBuf = 'Tag (Message ID): Content | Attachments: [Link to attachments if any]\r\n' + messagesAr.map(b=>b.content).join('\r\n');
    var buf = Buffer.from(messageBuf, 'utf8');
 
     try{
