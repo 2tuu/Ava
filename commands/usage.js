@@ -23,8 +23,11 @@ async function usageMeter(){
  
     cpuStat.usagePercent(function(err, percent, seconds) {
 
-    m.edit("```diff\n-STATISTICS:\n" + 
+    m.edit("```diff\n-STATISTICS:\n" +
+    "CPU(s): " + os.cpus()[0] .model + ' (x' + os.cpus().length + ')\n'+
+    "OS: " +  os.platform() + ' ' + os.release() + '\n\n' +
     "CPU USAGE: " + Math.round(percent) + "%\n" +
+    " + Load: " + os.loadavg() + '\n' +
     "MEMORY (G): " + Math.round((os.totalmem - os.freemem)/1000000000) + "gb/" + Math.round(os.totalmem/1000000000) + "gb" +
     " - MEMORY (P): " + (Math.round(used * 100) / 100) + "/" + (Math.round(total * 100) / 100) + "mb" +
     "\n\n" + `+Process completed in ${Math.round(seconds*1000)}ms` + 
