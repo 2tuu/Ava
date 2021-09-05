@@ -1,4 +1,4 @@
 ## Current State of Development
-The current database is being shifted forward from an old framework, until it is finalized custom prefixes may not be saved permanently
+The current code has been shifted to another machine following complications with the old machine, and due to *even more* complications when trying to transfer all files from the old machine to the new one, the database file was not able to be transfered with it.
 
-Some commands may also not work correctly or at all for the time being, the only disabled command at the moment is `welcome` while I work on new database fixes
+As a result, any customizations made (log channels, modlog settings, custom prefixes, welcome messages, etc.) have been reset and will need to be set again.
