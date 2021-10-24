@@ -2,8 +2,7 @@ const Discord = require("discord.js");
 
 exports.run = async (client, message, args, deletedMessage, sql) => {
     
-  if(!message.member.permissions.has('BAN_MEMBERS')) 
-    return message.reply("Sorry, you don't have permission to use this.");
+  if(!message.member.permissions.has('BAN_MEMBERS')) return message.reply("Sorry, you don't have permission to use this.");
 
   let member = message.mentions.members.first();
 
@@ -49,6 +48,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
  }
  
 exports.conf = {
+  name: "Ban",
   help: "Ban the mentioned user from the server",
   format: "k?ban [@user]",
   DM: false,
