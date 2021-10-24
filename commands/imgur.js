@@ -36,9 +36,10 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+	name: "Imgur",
     help: "Generate an imgur link for the attached image, or a linked image",
     format: "k?imur {link}\n- if link is not provided, an image n=must be attached",
     DM: true,
-    OwnerOnly: false,
+    OwnerOnly: true, //disabled until fixed
     alias: []
 }
