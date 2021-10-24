@@ -47,8 +47,8 @@ if(message.member.permissions.has('BAN_MEMBERS')){
 		sql.query(`UPDATE prefixes SET shouldWelcome = 'true' WHERE serverId = '${message.guild.id}'`);
 			}
 				
-				}).catch(() => {
-				  console.error;
+				}).catch((err) => {
+				  console.error(err);
 				});
 
 	
@@ -71,10 +71,11 @@ if(message.member.permissions.has('BAN_MEMBERS')){
 	}
 
 exports.conf = {
+	name: "Welcome",
 	help: "Configure guild welcome messages",
 	format: "k?welcome toggle\nk?welcome edit\nk?welcome setchannel\n\n{member} is replaced with @user\n{member.username} is replaced with the user's username\n{guild} is replaced with the server's name",
 	DM: false,
-	OwnerOnly: true,
+	OwnerOnly: false,
 	alias: []
 }
 
