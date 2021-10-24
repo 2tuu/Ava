@@ -6,32 +6,46 @@ var row = await sql.query(`SELECT * FROM modlog WHERE serverid ='${member.guild.
 row = row.rows[0];
 if(!row) return;
     
-  var audit = await member.guild.fetchAuditLogs();
+  var audit = await member.guild.fetchAuditLogs(20);
   var auditLog = await audit.entries.first();
 
+  console.log (auditLog.target.id)
+
   var currentTime = Date.now();
-  var auditTime = Date.parse(audit.entries.first().createdAt);
+  var auditTime = audit.entries.first().createdTimestamp;
 
   var wasKick = false;
+  var wasRecent = false;
 
-  if(auditLog.action === "MEMBER_KICK"){
-      if(currentTime-1500 < auditTime && auditTime < currentTime+1500){
-        wasKick = true;
+  var diffe = currentTime - auditTime;
+
+      if(diffe > 1000){
+        wasKick = false;
+      } else {
+        waskick = true;
+        wasRecent = true;
       }
-  }
 
-    try{
+      if(audit.entries.first().target.id === member.id && wasRecent === true){
+        wasKick = true;
+      } else {
+        wasKick = false;
+      }
+  
+  
+      try{
         var guildID = member.guild.id;
         } catch(err){
             console.error(err);
         }
     
-        if(wasKick && row.logKicks === 'yes'){
-            var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
-            ch.send("```diff\n-Member Kicked\nReason: '" + auditLog.reason + "'\nMember: " + member.user.tag + "\nCurrent Count:" + member.guild.memberCount + "\n```")
-           }
     
             if(row.enabled === "yes" && row.logleaves === "yes"){
+
+              if(wasKick){
+                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
+                ch.send("```diff\n-Member Kicked/Banned\nExecutor: " + auditLog.executor.tag + "\nReason: '" + auditLog.reason + "'\nMember: " + member.user.tag + "\n```")
+               }
 
               var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
               ch.send("```diff\n-Member Left: " + member.user.tag + "\nCurrent Count:" + member.guild.memberCount + "\n```")
