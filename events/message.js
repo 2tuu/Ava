@@ -7,14 +7,14 @@ exports.run = async (deletedMessage, pool, client, message) => {
       pool.query(`SELECT * FROM prefixes WHERE serverId ='${message.guild.id}'`).then(row => {
         if(!row.rows[0]){
           pool.query(`INSERT INTO prefixes (prefix, welcomeMessage, welcomeChannel, shouldWelcome, serverId) VALUES ('${config.prefix}', 'This is a placeholder welcome message', 'null', 'false', '${message.guild.id}')`);
-          console.log("added to prefixes");
+          console.log("added to prefixes (GUILD ID: " + message.guild.id + ")");
         }
       });
 
       pool.query(`SELECT * FROM announce WHERE guild ='${message.guild.id}'`).then(row => {
         if(!row.rows[0]){
           pool.query(`INSERT INTO announce (guild, channel) VALUES ('${message.guild.id}', null)`);
-          console.log("added to announcement");
+          console.log("added to announcement (GUILD ID: " + message.guild.id + ")");
         }
       });
 
