@@ -1,5 +1,7 @@
 ## This project is not yet prepared to be installed by anyone else, once I have completed the installation scripts this message will be removed. Until then, only install this if you know what you're doing.
 
+## In addition, this project is not finished, and will likely not be updated frequently.
+
 ## Documentation
 Command documentation is available within the `k?help`.
 
