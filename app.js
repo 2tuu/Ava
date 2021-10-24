@@ -19,6 +19,7 @@ const pool = new Pool({
       client.blist = [];
       client.aliases = new Map();
       client.help = new Map();
+      client.commandStats = {};
 const deletedMessage = new Set();
 const roles = new Set();
 const tossedSet = new Set();
@@ -139,6 +140,8 @@ client.on("message", async message => {
         handledPrefix = botMentionX;
       } else if(message.content.startsWith(config.prefix)){
         handledPrefix = config.prefix;
+      } else if(!message.guild){
+        handledPrefix = '';
       } else {
         return;
       }
@@ -172,6 +175,13 @@ client.on("message", async message => {
     
       try{
         commandFile.run(client, message, args, deletedMessage, pool, tossedSet, roles);
+        var cName = commandFile.conf.name;
+
+        if(client.commandStats[cName]){
+          client.commandStats[cName] = client.commandStats[cName]+1
+        } else {
+          client.commandStats[cName] = 1;
+        }
       }
       catch(err){
         console.error(err);
