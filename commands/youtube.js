@@ -30,6 +30,7 @@ exports.run = (client, message, args) => {
 }
     
 exports.conf = {
+  name: "Youtube",
   help: "Search youtube for something",
   format: "k?youtube [search terms]",
   DM: true,
