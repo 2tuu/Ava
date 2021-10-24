@@ -13,9 +13,10 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "Expand",
     help: "Convert the text to fullwidth font",
     format: "k?expand [text]",
     DM: true,
     OwnerOnly: false,
-    alias: ['vapor']
+    alias: ['vapor', 'vapour'] //innit
 }
