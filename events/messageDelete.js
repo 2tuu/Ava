@@ -43,11 +43,11 @@ exports.run = async (deletedMessage, sql, client, message) => {
                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
 
                if(Attachment[0]){
-                ch.send("```diff\n-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + ":\nMessage ID: " + message.id + "\n```\n"+
+                ch.send("```diff\n-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + "\nMessage ID: " + message.id + "\n```\n"+
                         "```diff\n+Attachments:\n" + Attachment + "\n```");
 
                } else {
-               ch.send("```diff\n-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + ":\nMessage ID: " + message.id + "\n```");
+               ch.send("```diff\n-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + "\nMessage ID: " + message.id + "\n```");
                }
             }
 
