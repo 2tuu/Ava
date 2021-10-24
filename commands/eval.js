@@ -37,6 +37,7 @@ async function evalCMD(){
 }
 
 exports.conf = {
+  name: "N/A (dev command)",
   help: "You can't use this",
   format: "N/A",
   DM: true,

@@ -23,8 +23,9 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 }
 
 exports.conf = {
+    name: "N/A (dev command)",
     help: "Add a user to the blacklist",
-    format: "k?blacklist [ID]",
+    format: "This is not for you",
     DM: true,
     OwnerOnly: true,
     alias: ['blist']

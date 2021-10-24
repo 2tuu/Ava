@@ -49,6 +49,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "N/A (dev command)",
     help: "Report a bug to the bot; please include a detailed description of what triggered said bug",
     format: "k?reportbug [description]",
     DM: false,

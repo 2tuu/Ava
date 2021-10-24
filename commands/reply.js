@@ -22,6 +22,7 @@ exports.run = async (client, message, args) => {
 }
 
 exports.conf = {
+    name: "N/A (dev command)",
     help: "N/A",
     format: "N/A",
     DM: true,

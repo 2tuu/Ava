@@ -123,6 +123,7 @@ const Discord = require('discord.js');
     }
 
     exports.conf = {
+        name: "Modlog",
         help: "Manage the mod logging modules",
         format: "k?modlog toggle [logKicks/logEmojis/logChannels/logLeaves/logBans/logMembers/logMessages/logReactions]\nk?modlog toggle\nk?modlog setchannel [#channel]",
         DM: false,

@@ -62,6 +62,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+  name: "Weather",
   help: "View the weather based on city",
   format: "k?weather [city]",
   DM: false,

@@ -77,6 +77,7 @@ exports.run = async (client, message, args) => {
 }
 
 exports.conf = {
+	name: "Uinfo",
     help: "",
     format: "",
     DM: false,

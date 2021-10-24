@@ -6,6 +6,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "8ball",
     help: "Ask a yes or no question and get a response",
     format: "k?8ball [question]",
     DM: true,

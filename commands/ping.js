@@ -6,6 +6,7 @@ exports.run = async (client, message, args) => {
 }
 
 exports.conf = {
+    name: "Ping",
     help: "Ping me and gauge my response time (-API response times)",
     format: "k?ping",
     DM: true,

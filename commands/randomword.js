@@ -24,6 +24,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "Randomword",
     help: "Generate something that's technically a word",
     format: "k?randomword",
     DM: true,

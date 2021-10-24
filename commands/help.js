@@ -27,6 +27,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "Help",
     help: "Why do you need help with this one?",
     format: "k?help [command]",
     DM: true,

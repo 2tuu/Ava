@@ -20,6 +20,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "Calculator",
     help: "It's a calculator",
     format: "k?calc [mathematical function]",
     DM: true,

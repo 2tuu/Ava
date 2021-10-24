@@ -72,6 +72,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 }
 
 exports.conf = {
+    name: "Remind",
     help: "Remind yourself of something in the future",
     format: "k?remind [minutes] {optional: hours}",
     DM: true,

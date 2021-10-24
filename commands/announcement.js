@@ -9,6 +9,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "Announcement",
     help: "Temporary announcement command",
     format: "n/a",
     DM: true,

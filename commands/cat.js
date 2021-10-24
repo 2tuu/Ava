@@ -14,6 +14,7 @@ var action = "cat";
     }
     
     exports.conf = {
+        name: "Cat",
         help: "meow",
         format: "k?cats",
         DM: true,

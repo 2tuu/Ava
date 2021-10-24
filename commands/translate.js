@@ -36,6 +36,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    name: "Translate",
     help: "Translate anything to or from base64 or binary",
     format: "k?translate [fromb64/frombinary/tob64/tobinary] [text to be translated]",
     DM: true,

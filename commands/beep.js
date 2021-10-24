@@ -8,6 +8,7 @@ exports.run = (client, message) => {
     }
 
     exports.conf = {
+      name: "Beep",
       help: "boop",
       format: "meow",
       DM: true,

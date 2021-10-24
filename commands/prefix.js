@@ -41,6 +41,7 @@ exports.run = (client, message, args, deletedMessage, pool) => {
 }
 
 exports.conf = {
+  name: "Prefix",
   help: "Set my prefix to be used in this server",
   format: "k?prefix [prefix]",
   DM: false,

@@ -48,6 +48,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
  }
  
  exports.conf = {
+  name: "Kick",
   help: "Kick the mentioned user from the server",
   format: "k?kick [@user]",
   DM: false,

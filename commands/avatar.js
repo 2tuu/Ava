@@ -54,6 +54,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+	name: "Avatar",
     help: "View your avatar, the server's icon or someone else's avatar",
     format: "k?avatar {@user/User ID/'server'}",
     DM: false,
