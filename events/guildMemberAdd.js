@@ -1,12 +1,10 @@
 exports.run = (deletedMessage, sql, client, member) => {
 
-    //Ignore these action for newly invited bots
     if(member.bot) return;
   
-    //Dana's member join logger, only works if it's enabled by the end user
     try{
       var guildID = member.guild.id;
-      //console.log(guildID);
+
       } catch(err){
           console.error(err);
       }
@@ -22,18 +20,19 @@ exports.run = (deletedMessage, sql, client, member) => {
   
       });
 
-    //Extra additions that may not exist in inactive guilds
     sql.query(`SELECT * FROM announce WHERE guild ='${member.guild.id}'`).then(row => {
       row = row.rows[0];
       if(!row){
         sql.query(`INSERT INTO announce (guild, channel) VALUES (${member.guild.id}, null)`);
-        console.log("added to announcement");
+        console.log("added to announcement (GUILD ID: " + message.guild.id + ")");
       }
     });
   
-    //Welcome message setting store, goes in the same table as the prefixes
-    sql.query(`SELECT * FROM prefixes WHERE serverId ='${member.guild.id}'`).then(row => {
-      row = row[0].rows;
+    sql.query(`SELECT * FROM prefixes WHERE serverid ='${member.guild.id}'`).then(row => {
+      row = row.rows[0];
+      console.log('welcomerow: ' + JSON.stringify(row));
+
+      if(!row.welcomemessage) return;
   
       const guild = member.guild;
     
@@ -50,12 +49,12 @@ exports.run = (deletedMessage, sql, client, member) => {
           var mbr = mbr.user;
     
           var WelcomeMessage = row.welcomemessage.replace(new RegExp("{member}", 'g'), "<@" + mbr.id + ">");
-          var WelcomeMessage = Welcomemessage.replace(new RegExp("{member.username}", 'g'), mbr.username);
-          var WelcomeMessage = Welcomemessage.replace(new RegExp("{guild}", 'g'), gld.name);
+          var WelcomeMessage = WelcomeMessage.replace(new RegExp("{member.username}", 'g'), mbr.username);
+          var WelcomeMessage = WelcomeMessage.replace(new RegExp("{guild}", 'g'), gld.name);
     
-          guild.channels.cache.get(row.welcomechannel).send(WelcomeMessage).catch((error) => {
+          var ch = client.guilds.cache.get(guildID).channels.cache.get(row.welcomechannel);
+          ch.send(WelcomeMessage).catch((error) => {
             console.error(error);
-            return;
           });
         }
     
@@ -63,8 +62,8 @@ exports.run = (deletedMessage, sql, client, member) => {
 
     }
   
-    }).catch(() => {
-      console.error;
+    }).catch((err) => {
+      console.error(err);
     });
   
       
