@@ -24,14 +24,11 @@ exports.run = (deletedMessage, sql, client, member) => {
       row = row.rows[0];
       if(!row){
         sql.query(`INSERT INTO announce (guild, channel) VALUES (${member.guild.id}, null)`);
-        console.log("added to announcement (GUILD ID: " + message.guild.id + ")");
       }
     });
   
     sql.query(`SELECT * FROM prefixes WHERE serverid ='${member.guild.id}'`).then(row => {
       row = row.rows[0];
-      console.log('welcomerow: ' + JSON.stringify(row));
-
       if(!row.welcomemessage) return;
   
       const guild = member.guild;
