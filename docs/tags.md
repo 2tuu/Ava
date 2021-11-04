@@ -5,7 +5,7 @@ This page includes all possible attributes for KTag, it will be updated as featu
 Allows you to insert different parts of the current time (In PST, more timezones + math coming soon)
 ```
 {time.hour}     -   Displays the current hour
-{time.minue}    -   Displays the current minute, relative to the current hour
+{time.minute}   -   Displays the current minute, relative to the current hour
 {time.year}     -   Displays the current gregorian year
 {time.day}      -   Displays the current day as an integer (To be stringified)
 ```
