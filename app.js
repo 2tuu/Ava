@@ -48,6 +48,8 @@ fs.readdir(`./events/`, (err, files) => {
 });
 
 client.failedCommands = [];
+client.totalCommands = 0;
+
 fs.readdir('./commands', (err, commands) => {
     function cLoader(c){
         try {
@@ -66,9 +68,37 @@ fs.readdir('./commands', (err, commands) => {
         }
     }
     console.log('Loading commands...');
-    commands.forEach((m) => { cLoader(m); });
+    commands.forEach((m) => { cLoader(m); client.totalCommands = client.totalCommands + 1;});
+
+    
 });
 
+//beta command loader - DELETE THIS BLOCK IF SELF-HOSTING
+fs.readdir('./commands-locked', (err, commands) => {
+  function cLoader(c){
+      try {
+          const cmd = require(`./commands-locked/${c}`);
+          var cmdName = c.substring(0, c.length-3);
+
+          //client.aliases[cmdName] = {aliases: []};
+          //client.help[cmdName] = {help: cmd.conf.help, format: cmd.conf.format};
+
+          cmd.conf.alias.forEach((alias) => { client.aliases[cmdName].aliases.push(alias); });
+          
+          return false;
+      } catch (err) {
+          console.error(`Beta Loading Error: ${err}`);
+          client.failedCommands.push(c);
+      }
+  }
+  console.log('Loading beta commands...');
+  commands.forEach((m) => { cLoader(m); client.totalCommands = client.totalCommands + 1;});
+
+  
+});
+//end of block
+
+console.log('Starting...');
 
 
 //Message event
@@ -131,7 +161,7 @@ client.on("message", async message => {
       }
     
       var handledPrefix; //Which prefix is being used
-    
+
       if(message.content.startsWith(customPrefix)){
         handledPrefix = customPrefix;
       } else if(message.content.startsWith(botMention)){
@@ -152,10 +182,14 @@ client.on("message", async message => {
       //Find command file from alias
       for (const key of Object.keys(client.aliases)) if (client.aliases[key].aliases.includes(command)) command = key;
     
-      //Continue command loading
+      //Continue command loading - woo yea baby nested try/catch
       try{
         commandFile = require(`./commands/${command}.js`);
-      } catch(err){return}
+      } catch(err){try{
+        commandFile = require(`./commands-locked/${command}.js`);
+      }catch(err){
+        return; //oops
+      }}
     
       //Cooldown checker
       if (cooldown.has(message.author.id)) {
