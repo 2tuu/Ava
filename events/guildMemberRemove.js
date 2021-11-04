@@ -12,7 +12,10 @@ if(!row) return;
   console.log (auditLog.target.id)
 
   var currentTime = Date.now();
+  try{
   var auditTime = audit.entries.first().createdTimestamp;
+  } catch(err){} //ignore 2fa error
+
 
   var wasKick = false;
   var wasRecent = false;
