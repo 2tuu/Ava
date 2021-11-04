@@ -18,7 +18,5 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
         }
 
     });
-
-    //console.log(channel.id);
    
 }
