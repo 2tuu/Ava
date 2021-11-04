@@ -10,10 +10,10 @@ exports.run = (deletedMessage, sql, client, guild) => {
     
     //Guild blacklist autoleave
     if(blacklist.includes(guild.id)){
-        logChannel.send("```diff\n>>>Guild Joined: " + guild.name + " (" + guild.id + ")\n+>>>" + client.guilds.cache.size + " Servers\n->>>Guild blacklisted, leaving```");
+        logChannel.send("```diff\n>>>Guild Joined: " + guild.name + " - ID: " + guild.id + "\n+>>>" + client.guilds.cache.size + " Servers\n->>>Guild blacklisted, leaving```");
         guild.leave();
     } else {
-        logChannel.send("```diff\n>>>Guild Joined: " + guild.name + " (" + guild.id + ")\n+>>>" + client.guilds.cache.size + " Servers\n```");
+        logChannel.send("```diff\n>>>Guild Joined: " + guild.name + " - ID: " + guild.id + "\n+>>>" + client.guilds.cache.size + " Servers\n```");
     }
    
 }
