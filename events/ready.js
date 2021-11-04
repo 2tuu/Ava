@@ -16,7 +16,7 @@ exports.run = async (deletedMessage, pool, client) => {
 		client.version = version.version;
 		client.codename = version.codename;
 
-    console.log("Client Logon Successful");
+	console.log (`Loaded ${client.totalCommands} modules - ${client.failedCommands.length} failed`)
 	console.log('\x1b[32m', "======================\n");
 	if(parseInt(current) > parseInt(client.version) && parseInt(client.version) !== 0){
 		console.error('Your framework is out of date');
@@ -28,9 +28,8 @@ exports.run = async (deletedMessage, pool, client) => {
 		//disable version report
 	} else {
 		console.log('\x1b[33m', `Version: ` + client.version + ' - ' + client.codename + '\n');
-		console.log('\x1b[32m', "======================");
 	}
-	console.log('\x1b[33m', `${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.cache.size} guilds.`);
+	console.log('\x1b[33m', `${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.cache.size} guilds`);
 	console.log('\x1b[32m', "=========log==========");
     
 	client.user.setStatus('dnd');
