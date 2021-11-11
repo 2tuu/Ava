@@ -12,5 +12,6 @@
     "invite": "link to the bot's invite here",
     "dbuser": "database username (probably postgres/root)",
     "dbname": "the name of the database you want Kit to use",
-    "dbpass": "the password for the user you want Kit to use"
+    "dbpass": "the password for the user you want Kit to use",
+    "toggle_beta": "n"
 }
