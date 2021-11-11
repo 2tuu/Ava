@@ -67,38 +67,41 @@ fs.readdir('./commands', (err, commands) => {
             client.failedCommands.push(c);
         }
     }
-    console.log('Loading commands...');
+    console.log('\x1b[32m','Loading commands...');
     commands.forEach((m) => { cLoader(m); client.totalCommands = client.totalCommands + 1;});
 
     
 });
 
-//beta command loader - DELETE THIS BLOCK IF SELF-HOSTING
-fs.readdir('./commands-locked', (err, commands) => {
-  function cLoader(c){
-      try {
-          const cmd = require(`./commands-locked/${c}`);
-          var cmdName = c.substring(0, c.length-3);
+//beta command loader - ignore this block if self-hosting
+if(config.toggle_beta === "y"){
+  fs.readdir('./commands-locked', (err, commands) => {
+    function cLoader(c){
+        try {
+            const cmd = require(`./commands-locked/${c}`);
+            var cmdName = c.substring(0, c.length-3);
 
-          //client.aliases[cmdName] = {aliases: []};
-          //client.help[cmdName] = {help: cmd.conf.help, format: cmd.conf.format};
+            //ignore for help file
+            //client.aliases[cmdName] = {aliases: []};
+            //client.help[cmdName] = {help: cmd.conf.help, format: cmd.conf.format};
 
-          cmd.conf.alias.forEach((alias) => { client.aliases[cmdName].aliases.push(alias); });
-          
-          return false;
-      } catch (err) {
-          console.error(`Beta Loading Error: ${err}`);
-          client.failedCommands.push(c);
-      }
-  }
-  console.log('Loading beta commands...');
-  commands.forEach((m) => { cLoader(m); client.totalCommands = client.totalCommands + 1;});
+            cmd.conf.alias.forEach((alias) => { client.aliases[cmdName].aliases.push(alias); });
+            
+            return false;
+        } catch (err) {
+            console.error(`Beta Loading Error: ${err}`);
+            client.failedCommands.push(c);
+        }
+    }
+    console.log('\x1b[32m','Loading beta commands...');
+    commands.forEach((m) => { cLoader(m); client.totalCommands = client.totalCommands + 1;});
 
-  
-});
+    
+  });
+}
 //end of block
 
-console.log('Starting...');
+console.log('\x1b[32m','Starting...');
 
 
 //Message event
