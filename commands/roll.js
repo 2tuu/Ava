@@ -11,7 +11,7 @@ exports.run = (client, message, args) => {
 	if(parseInt(numbers[0]) > 120){
 		return message.channel.send("One number was too high");
 	} else if(numbers[1]){
-		if(parseInt(numbers[1]) > 120){
+		if(parseInt(numbers[1]) > 250){
 			return message.channel.send("One number was too high");
 		} else {
 			var result = rpgdice.roll(numbers[0] + "d" +  numbers[1]);
