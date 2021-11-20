@@ -1,3 +1,4 @@
+const Discord = require(`discord.js`);
 exports.run = (deletedMessage, sql, client, member) => {
 
     if(member.bot) return;
@@ -8,6 +9,19 @@ exports.run = (deletedMessage, sql, client, member) => {
       } catch(err){
           console.error(err);
       }
+
+      sql.query(`SELECT * FROM xban WHERE serverid ='${guildID}'`).then(row => {
+        row = row.rows[0];
+        if(!row) return;
+
+        var bannedUsers = row.userarray.split(',');
+
+        if(bannedUsers.includes(member.id)){
+          console.log(`auto-banning ${member.user.username} (${member.id})`)
+          member.ban({reason: `Automated ban by ${client.user.tag}`}).catch(error => {});// don't clog u the log if improper permissions were set
+        }
+
+      });
   
       sql.query(`SELECT * FROM modlog WHERE serverid ='${guildID}'`).then(row => {
         row = row.rows[0];
@@ -15,7 +29,10 @@ exports.run = (deletedMessage, sql, client, member) => {
   
           if(row.enabled === "yes" && row.logleaves === "yes"){
              var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
-             ch.send("```diff\n+Member Joined: " + member.user.tag + "\nCurrent Count:" + member.guild.memberCount + "\n```")
+             const embed = new Discord.MessageEmbed()
+             .setColor(0x00FFA6)
+             .setDescription("```diff\n+Member Joined: " + member.user.tag + "\nCurrent Count:" + member.guild.memberCount + "\n```")
+             return ch.send({embed});
           }
   
       });
