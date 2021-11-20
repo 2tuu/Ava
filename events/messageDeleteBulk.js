@@ -1,9 +1,12 @@
+const Discord = require(`discord.js`);
 exports.run = async (deletedMessage, sql, client, messages) => {
 
-
    var messagesAr = [];
+   var channelID;
 
    messages.forEach(m => {
+
+    channelID = m.channel.id;
 
     if(!m.attachments.array()[0]){
       messagesAr.push({
@@ -41,13 +44,14 @@ exports.run = async (deletedMessage, sql, client, messages) => {
         var row = await sql.query(`SELECT * FROM modlog WHERE serverid ='${guildID}'`);
             row = row.rows[0];
 
+            if(row.ignore.split(',').includes(channelID)) return;
     
             if(!row) return;
     
             if(row.enabled === "yes" && row.logmessages === "yes"){
                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
 
-               ch.send("```diff\n-Message Mass Deletion: Contents stored in the following text file\n```", {
+               ch.send("```diff\n-Message Mass Deletion (Channel: " + channelID + "): Contents stored in the following text file\n```", {
                 files: [
                     {
                         attachment: buf,

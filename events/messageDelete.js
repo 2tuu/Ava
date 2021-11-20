@@ -1,3 +1,4 @@
+const Discord = require(`discord.js`);
 exports.run = async (deletedMessage, sql, client, message) => {
 
     //Deleted message logger, for mod log and snipe command (quick-delete catcher)
@@ -32,6 +33,8 @@ exports.run = async (deletedMessage, sql, client, message) => {
         var row = await sql.query(`SELECT * FROM modlog WHERE serverid ='${guildID}'`);
             row = row.rows[0];
 
+            if(row.ignore.split(',').includes(message.channel.id)) return;
+
             if(message.attachments){
             Attachment = message.attachments.array().map(m => m.url);
             Attachment = Attachment.join(', ');
@@ -43,11 +46,17 @@ exports.run = async (deletedMessage, sql, client, message) => {
                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
 
                if(Attachment[0]){
-                ch.send("```diff\n-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + "\nMessage ID: " + message.id + "\n```\n"+
-                        "```diff\n+Attachments:\n" + Attachment + "\n```");
+                const embed = new Discord.MessageEmbed()
+                .setColor(0xFF4D00)
+                .setDescription("```diff\n-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + "\nMessage ID: " + message.id + "\n```\n"+
+                            "```diff\n+Attachments:\n" + Attachment + "\n```")
+                return ch.send({embed});
 
                } else {
-               ch.send("```diff\n-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + "\nMessage ID: " + message.id + "\n```");
+                const embed = new Discord.MessageEmbed()
+                .setColor(0xFF4D00)
+                .setDescription("```diff\n-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + "\nMessage ID: " + message.id + "\n```")
+                return ch.send({embed});
                }
             }
 

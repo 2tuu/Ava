@@ -14,7 +14,10 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
 
         if(row.enabled === "yes" && row.logbans === "yes"){
            var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
-           ch.send("```diff\n+Member Unbanned: " + user.tag + "\n```")
+           const embed = new Discord.MessageEmbed()
+           .setColor(0x00FFA6)
+           .setDescription("```diff\n+Member Unbanned: " + user.tag + "\n```")
+           return ch.send({embed});
         }
 
     });

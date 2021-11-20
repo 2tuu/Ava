@@ -1,3 +1,4 @@
+const Discord = require(`discord.js`);
 exports.run = async (deletedMessage, sql, client, oldMessage, newMessage) => {
     if(oldMessage.author.bot) return;
 
@@ -41,10 +42,15 @@ exports.run = async (deletedMessage, sql, client, oldMessage, newMessage) => {
         sql.query(`SELECT * FROM modlog WHERE serverid ='${guildID}'`).then(row => {
             row = row.rows[0];
             if(!row) return;    
+
+            if(row.ignore.split(',').includes(channelID)) return;
     
             if(row.enabled === "yes" && row.logmessages === "yes" && oldMessage.author.bot === false){
                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
-               ch.send("```diff\n+Message Updated in " + oldMessage.channel.name + ':\n' + `${oldMessage.author.tag}: ${oldMessage.content} => ${newMessage.content}` + "\nMessage ID: " + oldMessage.id + "\n```")
+               const embed = new Discord.MessageEmbed()
+                .setColor(0xFFF200)
+                .setDescription("```diff\n+Message Updated in " + oldMessage.channel.name + ':\n' + `${oldMessage.author.tag}: ${oldMessage.content} => ${newMessage.content}` + "\nMessage ID: " + oldMessage.id + "\n```")
+                return ch.send({embed});
             }
     
         });

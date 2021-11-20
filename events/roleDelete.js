@@ -1,3 +1,4 @@
+const Discord = require(`discord.js`);
 exports.run = (deletedMessage, sql, client, role) => {
 
     try{
@@ -13,7 +14,10 @@ exports.run = (deletedMessage, sql, client, role) => {
     
             if(row.enabled === "yes" && row.logroles === "yes"){
                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
-               ch.send("```diff\n-Role Deleted:\n" + `Color: ${role.color} | Name: ${role.name}`  + "```");
+               const embed = new Discord.MessageEmbed()
+               .setColor(0xFF4D00)
+               .setDescription("```diff\n-Role Deleted:\n" + `Color: ${role.color} | Name: ${role.name}`  + "```")
+               return ch.send({embed});
             }
     
         });

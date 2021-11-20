@@ -19,15 +19,18 @@ exports.run = async (deletedMessage, sql, client, newChannel, oldChannel) => {
                 return;
             } else {
            var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
-            ch.send("```diff\n+Channel Updated``````diff\n" + 
-            "-Old Channel:\nName: " + newChannel.name +
-            "\nTopic: " + newChannel.topic + 
-            "\nNSFW: " + newChannel.nsfw + 
-            "\n Category: " + newChannel.parent.name + "\n``````diff\n" + 
-            "+New Channel:\nName: " + oldChannel.name +
-            "\nTopic: " + oldChannel.topic + 
-            "\nNSFW: " + oldChannel.nsfw + 
-            "\nCategory: " + oldChannel.parent.name + "\n```\n")
+           const embed = new Discord.MessageEmbed()
+           .setColor(0xFFF200)
+           .setDescription("```diff\n+Channel Updated``````diff\n" + 
+           "-Old Channel:\nName: " + newChannel.name +
+           "\nTopic: " + newChannel.topic + 
+           "\nNSFW: " + newChannel.nsfw + 
+           "\n Category: " + newChannel.parent.name + "\n``````diff\n" + 
+           "+New Channel:\nName: " + oldChannel.name +
+           "\nTopic: " + oldChannel.topic + 
+           "\nNSFW: " + oldChannel.nsfw + 
+           "\nCategory: " + oldChannel.parent.name + "\n```\n")
+           return ch.send({embed});
            }
         }
     });
