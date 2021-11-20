@@ -1,5 +1,5 @@
 const config = require('./../config.json');
-//default content of config.example.json db section
+//default content of config.example.json db section - DO NOT EDIT THIS
 const defaults = {
   "dbuser": "database username (probably postgres/root)",
   "dbname": "the name of the database you want Kit to use",
@@ -25,7 +25,7 @@ connection.query('CREATE TABLE blacklist (userid TEXT, reason TEXT);').then(row=
   console.log('Created "blacklist" table successfully');
 });
 
-connection.query('CREATE TABLE modlog (logkicks TEXT, logreactions TEXT, logchannels TEXT, logemojis TEXT, logbans TEXT, logleaves TEXT, logmembers TEXT, logmessages TEXT, logroles TEXT, serverid TEXT, enabled TEXT, channel TEXT);', function(err, rows){
+connection.query('CREATE TABLE modlog (logkicks TEXT, logreactions TEXT, logchannels TEXT, logemojis TEXT, logbans TEXT, logleaves TEXT, logmembers TEXT, logmessages TEXT, logroles TEXT, serverid TEXT, enabled TEXT, channel TEXT, ignore TEXT);', function(err, rows){
   console.log('Created "modlog" table successfully');
 });
 
@@ -59,6 +59,14 @@ connection.query('CREATE TABLE tags (serverID TEXT, tagName TEXT, tagContent TEX
                                             //user is a reserved term
 connection.query('CREATE TABLE timer (endtime TEXT, "user" TEXT, channelcreated TEXT, message TEXT);').then(row=>{
   console.log('Created "time" table successfully');
+});
+
+connection.query('CREATE TABLE giverole (serverid TEXT, rolearray TEXT);').then(row=>{
+  console.log('Created "giverole" table successfully');
+});
+
+connection.query('CREATE TABLE xban (serverid TEXT, userarray TEXT);').then(row=>{
+  console.log('Created "xban" table successfully');
 });
 
 
