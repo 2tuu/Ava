@@ -17,12 +17,47 @@ const Discord = require('discord.js');
                 option = option.toLowerCase();
                 setting = setting.toLowerCase();
                 //option exchange for args[0], repeat
-                if(option === 'toggle'){
+                if(option === 'ignore'){
+                    sql.query(`SELECT * FROM modlog WHERE serverid ='${message.guild.id}'`).then(row => {
+                        row = row.rows[0];
+                        if(!row) return;
+
+                        if(!row.ignore) row.ignore = ''; //for old db entries
+                        var ignoredChannels = row.ignore.split(',');
+
+                        if(args[1].toLowerCase() === 'list'){
+                            res = 'Ignored Channels:\n' + row.ignore.split(',').join('\n');
+                            const embed = new Discord.MessageEmbed()
+                            .setColor(0xFFF200)
+                            .setDescription("```" + res + "```")
+                            return message.channel.send({embed});
+                        }
+
+                        if(!setting) return message.channel.send("I need a channel to ignore");
+                        var channelToIgnore = setting.replace('<#','').replace('>','');
+
+                        var res = message.guild.channels.cache.find(r => r.id === channelToIgnore);
+                        if(!res) return message.channel.send("Sorry, I can't find that channel");
+
+                        if(ignoredChannels.includes(channelToIgnore)){
+                            ignoredChannels = ignoredChannels.filter(e => e !== res.id).join(',');
+                            message.channel.send(`<#${res.id}> has been removed from the list`);
+
+                            sql.query(`UPDATE modlog SET ignore = '${ignoredChannels}' WHERE serverid ='${message.guild.id}'`);
+                        } else {
+                            ignoredChannels.push(res.id);
+                            message.channel.send(`<#${res.id}> has been added to the list`);
+
+                            sql.query(`UPDATE modlog SET ignore = '${ignoredChannels}' WHERE serverid ='${message.guild.id}'`);
+                        }
+
+                    });
+                } else if(option === 'toggle'){
                     //toggle code here
                     sql.query(`SELECT * FROM modlog WHERE serverId ='${message.guild.id}'`).then(row => {
                         row = row.rows[0];
                         if(!row){
-                            sql.query(`INSERT INTO modlog (logkicks, logreactions, logchannels, logemojis, logbans, logleaves, logmembers, logmessages, logroles, serverid, enabled, channel) VALUES ('no', 'no','no','no','no','no','no','no','no', '${message.guild.id}','yes',null)`);
+                            sql.query(`INSERT INTO modlog (logkicks, logreactions, logchannels, logemojis, logbans, logleaves, logmembers, logmessages, logroles, serverid, enabled, channel, ignore) VALUES ('no', 'no','no','no','no','no','no','no','no', '${message.guild.id}','yes',null,'')`);
                             const embed = new Discord.MessageEmbed()
                                     .setDescription("Modlog module Enabled")
                                     return message.channel.send({embed});
@@ -92,7 +127,7 @@ const Discord = require('discord.js');
             //end script
 
             //replace this with a switch statement later
-            if(args[0] === "toggle"){
+            if(args[0].toLowerCase() === "toggle"){
                 if(!args[1]){
                     
                     optionApply('toggle', 'n/a');
@@ -100,7 +135,9 @@ const Discord = require('discord.js');
                 } else {
                     optionApply('toggleoption', args[1]);
                 }
-            } else if(args[0] === "setchannel"){
+            } else if(args[0].toLowerCase() === "ignore") {
+                optionApply('ignore', args[1]);
+            } else if(args[0].toLowerCase() === "setchannel"){
 
                 sql.query(`SELECT * FROM modlog WHERE serverId ='${message.guild.id}'`).then(row => {
                     row = row.rows[0];
@@ -123,6 +160,7 @@ const Discord = require('discord.js');
     }
 
     exports.conf = {
+        category: "Moderation",
         name: "Modlog",
         help: "Manage the mod logging modules",
         format: "k?modlog toggle [logKicks/logEmojis/logChannels/logLeaves/logBans/logMembers/logMessages/logReactions]\nk?modlog toggle\nk?modlog setchannel [#channel]",
