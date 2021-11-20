@@ -32,12 +32,12 @@ exports.run = async (deletedMessage, pool, client) => {
 	console.log('\x1b[36m%s\x1b[0m', `${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.cache.size} guilds`);
 	console.log('\x1b[34m%s\x1b[0m', "=========log==========");
     
-	client.user.setStatus('dnd');
+	//client.user.setStatus('dnd');
 
     const logChannel = client.channels.resolve(config.logChannel);
     logChannel.send(`\`\`\`js
 	Log-in Success:
-	Version: ${data.version}
+	Version: ${client.version}
 
 	User Cache: ${client.users.cache.size}
 	Server Count: ${client.guilds.cache.size}
