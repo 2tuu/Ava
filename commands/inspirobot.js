@@ -11,6 +11,7 @@ exports.run = async (client, message, args) => {
 }
 
 exports.conf = {
+	category: "Fun",
 	name: "Inspirobot",
     help: "Generate an image from insprobot.me",
     format: "k?inspirobot",

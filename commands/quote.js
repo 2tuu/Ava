@@ -49,6 +49,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    category: "Utility",
     name: "Quote",
     help: "Quote a message from this channel, or another if specified",
     format: "k?quote {optional: #channel} [Message ID]",

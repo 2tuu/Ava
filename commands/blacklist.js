@@ -23,6 +23,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 }
 
 exports.conf = {
+    category: "Admin",
     name: "N/A (dev command)",
     help: "Add a user to the blacklist",
     format: "This is not for you",

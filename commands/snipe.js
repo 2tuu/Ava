@@ -45,6 +45,7 @@ exports.run = (client, message, args, deletedMessage) => {
 }
 
 exports.conf = {
+	category: "Moderation",
 	name: "Snipe",
     help: "Show the last message that was deleted or edited",
     format: "k?snipe",

@@ -36,6 +36,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    category: "Fun",
     name: "Enlarge",
     help: "View an emote's source image",
     format: "k?enlarge [:emote:]",

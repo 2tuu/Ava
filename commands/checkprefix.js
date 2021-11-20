@@ -22,6 +22,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 }
 
 exports.conf = {
+  category: "Utility",
   name: "Checkprefix",
   help: "View this server's prefix",
   format: "k?checkprefix / @kit checkprefix",

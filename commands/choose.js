@@ -8,6 +8,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    category: "Fun",
     name: "Choose",
     help: "Choose between multiple things",
     format: "k?choose [thing1] [thing2] {thing3}...\nUse quotation marks for things with multiple words",

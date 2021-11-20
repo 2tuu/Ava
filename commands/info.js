@@ -37,6 +37,7 @@ exports.run = (client, message) => {
  }
  
  exports.conf = {
+	category: "Admin",
 	name: "N/A (dev command)",
     help: "View my version information, the artist for my avatar, and other statistics",
     format: "k?info",

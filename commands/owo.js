@@ -31,6 +31,7 @@ let owoify = function (v) {
 }
 
 exports.conf = {
+    category: "Fun",
     name: "OWO/UWU",
     help: "What's this?",
     format: "k?owo [text]",

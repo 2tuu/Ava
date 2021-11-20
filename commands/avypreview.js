@@ -56,6 +56,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 }
 
 exports.conf = {
+  category: "In Development",
   name: "N/A (dev command)",
   help: "N/A",
   format: "Under Construction",

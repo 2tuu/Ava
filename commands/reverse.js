@@ -16,6 +16,7 @@ if(!args[0]){
 }
 
 exports.conf = {
+    category: "Fun",
     name: "Reverse",
     help: "Reverse the given text",
     format: "k?reverse [text]",

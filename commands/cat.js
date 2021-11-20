@@ -14,6 +14,7 @@ var action = "cat";
     }
     
     exports.conf = {
+        category: "Fun",
         name: "Cat",
         help: "meow",
         format: "k?cats",

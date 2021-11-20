@@ -150,6 +150,7 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
     }
     
     exports.conf = {
+        category: "Moderation",
         name: "Mute",
         help: "Mute the mentioned user",
         format: "k?mute [@user]\nk?mute roleadd [role-name]",

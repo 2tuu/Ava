@@ -12,6 +12,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    category: "Utility",
     name: "Invite",
     help: "Print out my invite",
     format: "k?invite",

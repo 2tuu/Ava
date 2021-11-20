@@ -13,6 +13,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    category: "Fun",
     name: "Expand",
     help: "Convert the text to fullwidth font",
     format: "k?expand [text]",

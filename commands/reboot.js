@@ -13,10 +13,11 @@ exports.run = async (client, message) => {
   };
   
   exports.conf = {
-    name: "N/A (dev command)",
-    help: "N/A",
-    format: "N/A",
-    DM: true,
-    OwnerOnly: true,
-    alias: ['die']
+        category: "Admin",
+        name: "N/A (dev command)",
+        help: "N/A",
+        format: "N/A",
+        DM: true,
+        OwnerOnly: true,
+        alias: ['die']
 }

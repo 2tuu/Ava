@@ -136,6 +136,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 }
 
 exports.conf = {
+  category: "Utility",
   name: "Note",
   help: "Create a note, view a note or edit it",
   format: "k?note {append/edit}",

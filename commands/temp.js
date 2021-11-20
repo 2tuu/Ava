@@ -43,6 +43,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    category: "Fun",
     name: "Temp",
     help: "Convert Kelvin/Celsuis/Fahrenheit to any of those three",
     format: "k?temp [toc/tof/tok] [f/k/c]",

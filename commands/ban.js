@@ -48,6 +48,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
  }
  
 exports.conf = {
+  category: "Moderation",
   name: "Ban",
   help: "Ban the mentioned user from the server",
   format: "k?ban [@user]",

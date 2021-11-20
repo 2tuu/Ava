@@ -44,6 +44,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+	category: "Fun",
 	name: "Color",
     help: "View a hex code's color, or generate a random one",
     format: "k?color [random/#hex]",

@@ -5,6 +5,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+    category: "Admin",
     name: "N/A (dev command)",
     help: "N/A",
     format: "N/A",

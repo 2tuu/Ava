@@ -36,6 +36,7 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
+	category: "Utility",
 	name: "Imgur",
     help: "Generate an imgur link for the attached image, or a linked image",
     format: "k?imur {link}\n- if link is not provided, an image n=must be attached",
