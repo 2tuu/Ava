@@ -19,7 +19,17 @@ async function evalCMD(){
         if (typeof evaled !== "string")
           evaled = require("util").inspect(evaled);
 
-        message.channel.send(clean(evaled), {code:"xl"});
+          var res = clean(evaled);
+              res = res.replace(new RegExp(config.token_prod, 'g'), '[TOKEN]');
+              res = res.replace(new RegExp(config.token_beta, 'g'), '[TOKEN]');
+
+              res = res.replace(new RegExp(config.dbpass, 'g'), '[REDACTED]');
+              res = res.replace(new RegExp(config.e6apikey, 'g'), '[REDACTED]');
+              res = res.replace(new RegExp(config.kitk_token, 'g'), '[REDACTED]');
+              res = res.replace(new RegExp(config.youtube, 'g'), '[REDACTED]');
+              res = res.replace(new RegExp(config.imgur, 'g'), '[REDACTED]');
+
+        message.channel.send(res, {code:"xl"});
       } catch (err) {
         message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
       }
@@ -37,6 +47,7 @@ async function evalCMD(){
 }
 
 exports.conf = {
+  category: "Admin",
   name: "N/A (dev command)",
   help: "You can't use this",
   format: "N/A",
