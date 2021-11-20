@@ -37,6 +37,8 @@ const cooldown = new Set();
   return formattedTime;
 }
 
+process.on('uncaughtException', function(err) { client.logchannel.send('Caught exception: ' + err); });
+
 //Module loaders
 fs.readdir(`./events/`, (err, files) => {
     if (err) return console.error(err);
@@ -52,18 +54,18 @@ client.totalCommands = 0;
 
 fs.readdir('./commands', (err, commands) => {
     function cLoader(c){
-        try {
-            const cmd = require(`./commands/${c}`);
-            var cmdName = c.substring(0, c.length-3);
+      const cmd = require(`./commands/${c}`);
+      var cmdName = c.substring(0, c.length-3);
 
+        try {
             client.aliases[cmdName] = {aliases: []};
-            client.help[cmdName] = {help: cmd.conf.help, format: cmd.conf.format};
+            client.help[cmdName] = {help: cmd.conf.help, format: cmd.conf.format, category: cmd.conf.category, filename: cmdName};
 
             cmd.conf.alias.forEach((alias) => { client.aliases[cmdName].aliases.push(alias); });
             
             return false;
         } catch (err) {
-            console.error(`Loading Error: ${err}`);
+            return console.error(`Loading Error (${cmdName}): ${err}`);
             client.failedCommands.push(c);
         }
     }
