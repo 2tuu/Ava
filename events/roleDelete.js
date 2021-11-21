@@ -3,7 +3,6 @@ exports.run = (deletedMessage, sql, client, role) => {
 
     try{
         var guildID = role.guild.id;
-        console.log(guildID);
         } catch(err){
             console.error(err);
         }

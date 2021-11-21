@@ -17,7 +17,6 @@ exports.run = (deletedMessage, sql, client, member) => {
         var bannedUsers = row.userarray.split(',');
 
         if(bannedUsers.includes(member.id)){
-          console.log(`auto-banning ${member.user.username} (${member.id})`)
           member.ban({reason: `Automated ban by ${client.user.tag}`}).catch(error => {});// don't clog u the log if improper permissions were set
         }
 

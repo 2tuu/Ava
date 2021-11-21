@@ -9,8 +9,6 @@ if(!row) return;
   var audit = await member.guild.fetchAuditLogs(20);
   var auditLog = await audit.entries.first();
 
-  console.log (auditLog.target.id)
-
   var currentTime = Date.now();
   try{
   var auditTime = audit.entries.first().createdTimestamp;
