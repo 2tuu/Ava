@@ -9,7 +9,6 @@ exports.run = async (client, message, args) => {
         var searchUser = await message.guild.members.fetch(message.author.id);
     } else {
 		var id = args[0].replace('<@', '').replace('>', '').replace('!', '');
-		console.log(id);
 		var searchUser = await message.guild.members.fetch(id);
 	}
 
@@ -44,7 +43,6 @@ exports.run = async (client, message, args) => {
 	}
 
 	var roleVar =  searchUser._roles;
-	//return console.log('roles: ' + searchUser._roles);
 
 	
 	if(roleVar.length > 1){

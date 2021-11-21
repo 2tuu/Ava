@@ -4,9 +4,7 @@ const Discord = require('discord.js');
 exports.run = (client, message, args) => {
 	if(args[0]){
 
-		console.log(args[0]);
 	var numbers  = args[0].match(/\d+/g);
-	console.log(numbers);
 
 	if(parseInt(numbers[0]) > 120){
 		return message.channel.send("One number was too high");

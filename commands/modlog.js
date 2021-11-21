@@ -13,10 +13,9 @@ const Discord = require('discord.js');
             if(args[1]){ args[1] = args[1].toLowerCase(); }
 
             function optionApply(option, setting){
-                //option = args[0], setting = args[1]
                 option = option.toLowerCase();
                 setting = setting.toLowerCase();
-                //option exchange for args[0], repeat
+
                 if(option === 'ignore'){
                     sql.query(`SELECT * FROM modlog WHERE serverid ='${message.guild.id}'`).then(row => {
                         row = row.rows[0];
@@ -53,7 +52,6 @@ const Discord = require('discord.js');
 
                     });
                 } else if(option === 'toggle'){
-                    //toggle code here
                     sql.query(`SELECT * FROM modlog WHERE serverId ='${message.guild.id}'`).then(row => {
                         row = row.rows[0];
                         if(!row){
@@ -63,14 +61,12 @@ const Discord = require('discord.js');
                                     return message.channel.send({embed});
                         } else {
                             if(row.enabled === "yes"){
-                                console.log(row.enabled);
                                     const embed = new Discord.MessageEmbed()
 			                            .setColor(0xF46242)
 			                            .setDescription("Modlog module Disabled")
 			                            message.channel.send({embed});
                                 sql.query(`UPDATE modlog SET enabled = 'no' WHERE serverId = '${message.guild.id}'`);
                             } else {
-                                console.log(row.enabled);
                                     const embed = new Discord.MessageEmbed()
                                         .setDescription("Modlog module Enabled")
                                         message.channel.send({embed});

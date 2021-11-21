@@ -3,7 +3,6 @@ const Discord = require("discord.js");
 exports.run = (client, message, args) => {
 
     var commandList = Object.keys(client.help);
-    //console.log(commandList);
     var list = {};
 
     Object.keys(client.help).forEach(function(key) {
@@ -27,16 +26,12 @@ exports.run = (client, message, args) => {
         preFinal[key] = list[key].join(', ');
     });
 
-    //console.log(preFinal);
-
     var final;
     Object.keys(preFinal).forEach(function(key) {
         final = final + `**${key}**\n\`\`\``;
         final = final + preFinal[key];
         final = final + '```\n'
     });
-
-    //console.log(final);
 
     
     if(!args[0]){

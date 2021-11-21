@@ -17,10 +17,7 @@ exports.run = (client, message, args) => {
     
     weather.find({search: args.join(' '), degreeType: 'F'}, function(err, result) {
         var time = new Date();
-        console.log("Weather info generated for " + "\"" + args.join(' ') + "\"" + " -- " + time.getHours() + ":" + time.getMinutes());
         try{
-
-         // console.log(result);
 
             var info = result[0];
         var windSpeed = info.current.windspeed;
@@ -55,7 +52,6 @@ exports.run = (client, message, args) => {
                 .setFooter(err)
                 message.channel.send({embed});
               }
-        //console.log(info);
       });
 
 

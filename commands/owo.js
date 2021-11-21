@@ -3,6 +3,8 @@ var v = args.join(' ');
 
 let owoify = function (v) {
   
+    //This command is the bane of my existence
+
     v = v.replace(/(?:r|l)/g, "w");
     v = v.replace(/(?:R|L)/g, "W");
     v = v.replace(/n([aeiou])/g, 'ny$1');

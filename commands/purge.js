@@ -19,7 +19,6 @@ exports.run = (client, message, args) => {
             message.channel.send('Deleted **' + messagesDeleted + '** bot messages')
         }).catch(err => {
             message.channel.send('Error: ' + err);
-            //console.log(err);
         });
         
           }
@@ -43,7 +42,6 @@ exports.run = (client, message, args) => {
     message.channel.send('Deleted **' + messagesDeleted + '** messages')
 }).catch(err => {
     message.channel.send('Error: ' + err);
-    //console.log(err);
 });
 
   }
@@ -69,7 +67,6 @@ exports.run = (client, message, args) => {
             message.channel.send('Deleted **' + messagesDeleted + '** messages from user id: '+ userID);
         }).catch(err => {
             message.channel.send('Error: ' + err + " **Please specify a valid user ID**");
-            //console.log(err);
         });
         
           }

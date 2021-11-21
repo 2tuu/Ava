@@ -6,7 +6,6 @@ exports.run = (client, message, args, deletedMessage, pool) => {
   row = row.rows;
     if(!row[0]){
       sql.query(`INSERT INTO prefixes (prefix, welcomeMessage, welcomeChannel, shouldWelcome, serverId) VALUES ('k?', 'This is a placeholder', 'null', 'false', '${message.guild.id}')`);
-      console.log("added to prefixes");
     }
 
     if(message.member.permissions.has('ADMINISTRATOR') || message.author.id === "378769654942007299"){

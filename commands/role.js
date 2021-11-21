@@ -41,7 +41,6 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             if(!row.rolearray.split(',').includes(res.id)){
                 var final = row.rolearray.split(',');
                     final.push(res.id);
-                    //console.log('final: ' + final)
                     final = final.filter(e => e !== '');
                     final = final.join(',');
 
@@ -66,7 +65,6 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             if(!row.rolearray.split(',').includes(res.id)){
                 var final = row.rolearray.split(',');
                     final.push(res.id);
-                    //console.log('final: ' + final)
                     final = final.filter(e => e !== '');
                     final = final.join(',');
 
@@ -91,7 +89,6 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             if(!row.rolearray.split(',').includes(res.id)){
                 var final = row.rolearray.split(',');
                     final.push(res.id);
-                    //console.log('final: ' + final)
                     final = final.filter(e => e !== '');
                     final = final.join(',');
 

@@ -32,8 +32,6 @@ exports.run = (client, message, args) => {
     //Options
     switch(option){
         case 'bots':
-            //purge recent bots
-            console.log('bots');
             break;
         case 'test':
             fetchBlock();

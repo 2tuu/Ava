@@ -12,7 +12,6 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
 
         async function profileA(){
         if (!row) {
-            console.log("first");
             await sql.query(`INSERT INTO settings (serverId, banId) VALUES (${message.guild.id}, 'null')`);
         } 
     }
@@ -20,7 +19,7 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
     profileA();
     
     }).catch((err) => {
-        message.channel.send('err: ' + err)
+        message.channel.send('Error: ' + err)
     });
     
     

@@ -9,8 +9,6 @@ exports.run = (client, message, args) => {
 
         ch = ch.replace("<#", "").replace(">", "");
 
-        console.log(ch);
-
         var chan = message.guild.channels.cache.get(ch);
         var mVar = await chan.messages.cache.get(id);
     
