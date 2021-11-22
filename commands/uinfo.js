@@ -12,25 +12,8 @@ exports.run = async (client, message, args) => {
 		var searchUser = await message.guild.members.fetch(id);
 	}
 
-	function dhm(t){
-		var cd = 24 * 60 * 60 * 1000,
-			ch = 60 * 60 * 1000,
-			d = Math.floor(t / cd),
-			h = Math.floor( (t - d * cd) / ch),
-			m = Math.round( (t - d * cd - h * ch) / 60000),
-			pad = function(n){ return n < 10 ? '0' + n : n; };
-	  if( m === 60 ){
-		h++;
-		m = 0;
-	  }
-	  if( h === 24 ){
-		d++;
-		h = 0;
-	  }
-	  return [d, pad(h), pad(m)].join(':');
-	}
 
-	var age = dhm((message.createdTimestamp) - (searchUser.joinedTimestamp));
+	var age = Math.round((Date.now() - ((message.createdTimestamp) - (searchUser.joinedTimestamp)))/1000);
 	if(!searchUser.displayHexColor){
 		var color = "#ffffff";
 	} else {
@@ -60,8 +43,8 @@ exports.run = async (client, message, args) => {
 			+ "**User ID:** " + searchUser.id
 			+ "\n**Username:** " + searchUser.user.username + "#" + searchUser.user.discriminator
 			+ "\n**Bot:** " + searchUser.user.bot
-			+ "\n**Time since join:** " + age
-			+ "\n**Account Age:** " + dhm((Date.parse(new Date(searchUser.id /4194304 + 1420070400000))) - Date.now()).replace("-", "")
+			+ "\n**Joined Server:** " + '<t:'+age+':R>'
+			+ "\n**Joined Discord:** " + '<t:'+Math.round(Date.parse(new Date(searchUser.id /4194304 + 1420070400000))/1000)+':R>'
 			+ "\n \n**Roles:**\n" + roleList)
 			message.channel.send({embed});
 
