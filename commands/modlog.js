@@ -87,9 +87,7 @@ const Discord = require('discord.js');
                         //remember to feed this option if args[1] exists, top if only args[0]
                         var optionlist = [
                             'logkicks',
-                            'logreactions',
                             'logchannels',
-                            'logemojis',
                             'logbans',
                             'logleaves',
                             'logmembers',
@@ -159,7 +157,7 @@ const Discord = require('discord.js');
         category: "Moderation",
         name: "Modlog",
         help: "Manage the mod logging modules",
-        format: "k?modlog toggle [logKicks/logEmojis/logChannels/logLeaves/logBans/logMembers/logMessages/logReactions]\nk?modlog toggle\nk?modlog setchannel [#channel]",
+        format: "k?modlog toggle [logKicks/logChannels/logLeaves/logBans/logMembers/logMessages]\nk?modlog toggle\nk?modlog setchannel [#channel]",
         DM: false,
         OwnerOnly: false,
         alias: []
