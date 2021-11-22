@@ -7,6 +7,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 	var roleArray = dbResult.rows[0].rolearray;
 
     roleArray = roleArray.split(',');
+    roleArray = roleArray.filter(e => e !== '');
     roleArrayText = [];
 
     if(!args[0]) return message.channel.send("I need more information than that");
@@ -24,11 +25,9 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
     } else if(args[0].toLowerCase() === 'add'){
 
         if(!args[1]) return message.channel.send("I need more information than that");
-        var nono = ['list','add','delete','missing'];
+        var nono = ['list','add','delete','missing','remove'];
         if(nono.includes(args[1].toLowerCase())) return message.channel.send("Please use another name for your role");
         if(!message.member.permissions.has('MANAGE_ROLES')) return message.reply("Sorry, you don't have permission to use this.");
-
-        var roleID;
 
         if(!isNaN(parseInt(args[1]))){ //ugly - fix later
             var res = message.guild.roles.cache.find(r => r.id === args[1]);
@@ -147,7 +146,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
                 friendlynames = friendlynames.filter(e => e.name.includes(args[0].toLowerCase()));
                 names = friendlynames.map(a=>a.name);
-                names = closestMatch(args[0], names);
+                names = closestMatch(args.join(' ').toLowerCase(), names);
                 friendlynames = friendlynames.filter(e => e.name === names);
 
 
@@ -186,7 +185,7 @@ exports.conf = {
     category: "Utility",
     name: "Roles [BETA]",
     help: "Give yourself a role from a pre-determined list",
-    format: "k?role list\nk?role <role> <- gives and removes role\nk?roll add <role ID / @role / role name>\nk?role delete <role name>\n\nDoes a role on the list not exist anymore? Use 'k?role delete missing'",
+    format: "k?role list\nk?role <role> <- gives and removes role\nk?roll add <role ID / @role / role name>\nk?role delete/remove <role name>\n\nDoes a role on the list not exist anymore? Use 'k?role delete missing'",
     DM: false,
     OwnerOnly: false,
     alias: ['giveme', 'gimme', 'roles']
