@@ -11,6 +11,7 @@ commands/betapurge.js
 node_modules/
 backup/
 commands-locked/
+discontinued/
 
 #visual studio
 .vs
