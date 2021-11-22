@@ -2,10 +2,6 @@
 config.json
 colorReference.txt
 temp.txt
-tags.sqlite
-
-commands/announcement.js
-commands/betapurge.js
 
 # directories
 node_modules/
