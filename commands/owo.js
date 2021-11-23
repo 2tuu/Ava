@@ -20,9 +20,7 @@ let owoify = function (v) {
     for(i = 0; i < count; i++){
         v = v.replace("!", " "+ faces[Math.floor(Math.random()*faces.length)]+ " ");
     }
-  
     return v;
-  
   }
 
   if(!args[0]){

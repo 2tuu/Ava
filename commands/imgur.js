@@ -25,7 +25,7 @@ exports.run = (client, message, args) => {
 	}).catch((err) => {
 	
 		const embed = new Discord.MessageEmbed()
-		.setColor(0xF46242)
+		.setColor(`0x${client.colors.bad}`)
 		.setTitle("An Error Occured")
 		.setFooter(err.message.message);
 		message.channel.send({embed});

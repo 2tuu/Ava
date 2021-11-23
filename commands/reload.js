@@ -19,7 +19,7 @@ exports.run = (client, message, args) => {
     console.log('Reloaded module: ' + args[0]);
 
     let embedVar = new Discord.MessageEmbed()
-      .setTimestamp()
+      .setColor(`0x${client.colors.neutral}`)
       .setDescription(`The module \`${args[0]}\` has been reloaded`)
       message.channel.send({embed: embedVar});
 

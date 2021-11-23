@@ -10,8 +10,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
   if(!member){
       const embed = new Discord.MessageEmbed()
-      .setColor(0xF46242)
-      .setTimestamp()
+      .setColor(`0x${client.colors.bad}`)
       .setTitle("Please mention a valid member of this server")
       message.channel.send({embed});
       return;
@@ -19,9 +18,8 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
   if(!member.bannable){
       const embed = new Discord.MessageEmbed()
-      .setColor(0xF46242)
-      .setTimestamp()
-      .setTitle("This user is not bannable")
+      .setColor(`0x${client.colors.bad}`)
+      .setTitle("This user is not kickable")
       message.channel.send({embed});
       return;
   }
@@ -31,8 +29,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
   await member.kick(`Kick by ${message.author.tag}: ` + reason).catch(error => {
       const embed = new Discord.MessageEmbed()
-      .setColor(0xF46242)
-      .setTimestamp()
+      .setColor(`0x${client.colors.bad}`)
       .setTitle("An error occured")
       .setFooter(error)
       message.channel.send({embed});
@@ -40,8 +37,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
     });
 
     const embed = new Discord.MessageEmbed()
-    .setColor(0xF46242)
-    .setTimestamp()
+    .setColor(`0x${client.colors.good}`)
     .addField("Member Kicked", `${member.user.tag} has been kicked by ${message.author.tag} because: ${reason}`)
     message.channel.send({embed});
     return;

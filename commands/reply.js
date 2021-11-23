@@ -8,7 +8,6 @@ exports.run = async (client, message, args) => {
         .setThumbnail(message.author.avatarURL)
         .addField("From", message.author.id + " (" + message.author.username + "#" + message.author.discriminator + ")")
         .addField("Reply", args.slice(1).join(' '))
-        .setTimestamp()
         .setFooter("DO NOT REPLY, THIS WORKS ONE WAY")
         
     try{

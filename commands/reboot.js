@@ -3,16 +3,14 @@ const config = require('./../config.json');
 
 exports.run = async (client, message) => {
         const embed = new Discord.MessageEmbed()
-                .setColor(0xF46242)
-                .setTimestamp()
+                .setColor(`0x${client.colors.neutral}`)
                 .setTitle("Process restarting...")
 
-               await message.channel.send({embed});
-               process.exit(0);
+        await message.channel.send({embed});
+        process.exit(0);
+};
 
-  };
-  
-  exports.conf = {
+exports.conf = {
         category: "Admin",
         name: "N/A (dev command)",
         help: "N/A",

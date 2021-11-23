@@ -1,7 +1,21 @@
 const Discord = require("discord.js");
 const config = require('./../config.json');
 
+const reportedRecently = new Set();
+
 exports.run = (client, message, args) => {
+
+    if (reportedRecently.has(message.author.id)) {
+        let embedVar = new Discord.MessageEmbed()
+        .setColor(`0x${client.colors.bad}`)
+        .setTitle("Please wait at least 4 hours before reporting another error")
+        return message.channel.send({embed: embedVar});
+      } else {
+        reportedRecently.add(message.author.id);
+        setTimeout(() => {
+        reportedRecently.delete(message.author.id);
+        }, 14400000);
+      }
 
     if(!args[0]) return;
     // get client from message's channel
@@ -39,8 +53,7 @@ exports.run = (client, message, args) => {
                 chan.send({embed: embed2}).then().catch(console.error);
         
         let embedVar = new Discord.MessageEmbed()
-        .setColor(0xF46242)
-        .setTimestamp() //Write to JSON
+        .setColor(`0x${client.colors.good}`)
         .setTitle("Error has been reported, make sure to enable DMs on this server so that a follow-up message can be sent.")
         message.channel.send({embed: embedVar});
         

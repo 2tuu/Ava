@@ -13,7 +13,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
     if(!args[0]){
         const embed = new Discord.MessageEmbed()
-        .setColor(0xF46242)
+        .setColor(`0x${client.colors.bad}`)
         .setDescription("This command needs at least 1 argument")
         message.channel.send({embed});
     }
@@ -29,7 +29,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
             if(tagContentVar.length < 1){
                 const embed = new Discord.MessageEmbed()
-                .setColor(0xF46242)
+                .setColor(`0x${client.colors.bad}`)
                 .setDescription("Give me something to put in the tag")
                 return message.channel.send({embed});
             }
@@ -43,7 +43,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 return message.channel.send({embed});
             } else {
                 const embed = new Discord.MessageEmbed()
-                .setColor(0xF46242)
+                .setColor(`0x${client.colors.bad}`)
                 .setDescription("This tag already exists")
                 return message.channel.send({embed});
             }
@@ -53,19 +53,19 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             var tag = await sql.query(`SELECT * FROM tags WHERE serverid ='${message.guild.id}' AND tagname = '${args[1].toLowerCase()}'`);
             if(!tag.rows[0]){
                 const embed = new Discord.MessageEmbed()
-                .setColor(0xF46242)
+                .setColor(`0x${client.colors.bad}`)
                 .setDescription("This tag doesn't exist")
                 return message.channel.send({embed});
             } else {
                 if(tag.rows[0].ownerid !== message.author.id){
                     const embed = new Discord.MessageEmbed()
-                    .setColor(0xF46242)
+                    .setColor(`0x${client.colors.bad}`)
                     .setDescription("This tag doesn't belong to you")
                     return message.channel.send({embed});
                 }
                 if(args.slice(2).join(' ').length < 1){
                     const embed = new Discord.MessageEmbed()
-                    .setColor(0xF46242)
+                    .setColor(`0x${client.colors.bad}`)
                     .setDescription("Your tag can't be empty")
                     return message.channel.send({embed});
                 }
@@ -80,19 +80,19 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             var tag = await sql.query(`SELECT * FROM tags WHERE serverid ='${message.guild.id}' AND tagname = '${args[1].toLowerCase()}'`);
             if(!tag.rows[0]){
                 const embed = new Discord.MessageEmbed()
-                .setColor(0xF46242)
+                .setColor(`0x${client.colors.bad}`)
                 .setDescription("This doesn't exist")
                 return message.channel.send({embed});
             } else {
                 if(tag.rows[0].ownerid !== message.author.id){
                     const embed = new Discord.MessageEmbed()
-                    .setColor(0xF46242)
+                    .setColor(`0x${client.colors.bad}`)
                     .setDescription("This tag doesn't belong to you")
                     return message.channel.send({embed});
                 }
                 sql.query(`DELETE FROM tags WHERE serverId ='${message.guild.id}' AND tagName = '${args[1].toLowerCase()}'`);
                 const embed = new Discord.MessageEmbed()
-                .setColor(0xF46242)
+                .setColor(`0x${client.colors.bad}`)
                 .setDescription("This tag has been deleted")
                 return message.channel.send({embed});
             }
@@ -103,7 +103,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             
             if(!tag.rows[0]){
                 const embed = new Discord.MessageEmbed()
-                .setColor(0xF46242)
+                .setColor(`0x${client.colors.bad}`)
                 .setDescription("No tags were found")
                 return message.channel.send({embed});
             } else {
@@ -118,7 +118,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             var tag = await sql.query(`SELECT * FROM tags WHERE serverId ='${message.guild.id}' ORDER BY RANDOM() LIMIT 1`);
             if(!tag.rows[0]){
                 const embed = new Discord.MessageEmbed()
-                .setColor(0xF46242)
+                .setColor(`0x${client.colors.bad}`)
                 .setDescription("No tags were found")
                 return message.channel.send({embed});
             } else {
@@ -136,7 +136,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
                 if(results.length < 1){
                     const embed = new Discord.MessageEmbed()
-                    .setColor(0xF46242)
+                    .setColor(`0x${client.colors.bad}`)
                     .setDescription("You don't have any tags")
                     return message.channel.send({embed});
                 }
@@ -161,7 +161,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
                     sendUser.send('List:').catch((err)=>{
                         const embed = new Discord.MessageEmbed()
-                        .setColor(0xF46242)
+                        .setColor(`0x${client.colors.bad}`)
                         .setDescription("An error occured: `" + err + "`")
                         return message.channel.send({embed});
                     });
@@ -180,13 +180,13 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 var t = tagReader.read(results.tagcontent,message,args);
                     message.channel.send(t).catch((err)=>{
                         const embed = new Discord.MessageEmbed()
-                        .setColor(0xF46242)
+                        .setColor(`0x${client.colors.bad}`)
                         .setDescription("An error occured: `" + err + "`")
                         return message.channel.send({embed});
                     });
             } else {
                 const embed = new Discord.MessageEmbed()
-                    .setColor(0xF46242)
+                    .setColor(`0x${client.colors.bad}`)
                     .setDescription("There is no tag with that name")
                     return message.channel.send({embed});
             }

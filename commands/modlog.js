@@ -27,7 +27,6 @@ const Discord = require('discord.js');
                         if(args[1].toLowerCase() === 'list'){
                             res = 'Ignored Channels:\n' + row.ignore.split(',').join('\n');
                             const embed = new Discord.MessageEmbed()
-                            .setColor(0xFFF200)
                             .setDescription("```" + res + "```")
                             return message.channel.send({embed});
                         }
@@ -57,17 +56,19 @@ const Discord = require('discord.js');
                         if(!row){
                             sql.query(`INSERT INTO modlog (logkicks, logreactions, logchannels, logemojis, logbans, logleaves, logmembers, logmessages, logroles, serverid, enabled, channel, ignore) VALUES ('no', 'no','no','no','no','no','no','no','no', '${message.guild.id}','yes',null,'')`);
                             const embed = new Discord.MessageEmbed()
-                                    .setDescription("Modlog module Enabled")
-                                    return message.channel.send({embed});
+                                .setColor(`0x${client.colors.good}`)
+                                .setDescription("Modlog module Enabled")
+                            return message.channel.send({embed});
                         } else {
                             if(row.enabled === "yes"){
                                     const embed = new Discord.MessageEmbed()
-			                            .setColor(0xF46242)
+                                       .setColor(`0x${client.colors.bad}`)
 			                            .setDescription("Modlog module Disabled")
 			                            message.channel.send({embed});
                                 sql.query(`UPDATE modlog SET enabled = 'no' WHERE serverId = '${message.guild.id}'`);
                             } else {
                                     const embed = new Discord.MessageEmbed()
+                                        .setColor(`0x${client.colors.good}`)
                                         .setDescription("Modlog module Enabled")
                                         message.channel.send({embed});
                                 sql.query(`UPDATE modlog SET enabled = 'yes' WHERE serverId = '${message.guild.id}'`);
@@ -98,20 +99,21 @@ const Discord = require('discord.js');
                             if(row[setting] === 'no'){
                                 //set yes
                                 const embed = new Discord.MessageEmbed()
+                                .setColor(`0x${client.colors.good}`)
                                 .setDescription(setting + " module enabled.")
                                 message.channel.send({embed});
                                 sql.query(`UPDATE modlog SET ${setting} = 'yes' WHERE serverId = '${message.guild.id}'`);
                             } else {
                                 //set no
                                 const embed = new Discord.MessageEmbed()
-                                .setColor(0xF46242)
+                                .setColor(`0x${client.colors.bad}`)
                                 .setDescription(setting + " module disabled.")
                                 message.channel.send({embed});
                                 sql.query(`UPDATE modlog SET ${setting} = 'no' WHERE serverId = '${message.guild.id}'`);
                             }
                         } else {
                             const embed = new Discord.MessageEmbed()
-                                .setColor(0xF46242)
+                                .setColor(`0x${client.colors.bad}`)
                                 .setDescription('Invalid setting')
                                 message.channel.send({embed});
                         }
@@ -119,13 +121,9 @@ const Discord = require('discord.js');
                 }
             }
             //end script
-
-            //replace this with a switch statement later
             if(args[0].toLowerCase() === "toggle"){
                 if(!args[1]){
-                    
                     optionApply('toggle', 'n/a');
-
                 } else {
                     optionApply('toggleoption', args[1]);
                 }
@@ -142,13 +140,11 @@ const Discord = require('discord.js');
                             sql.query(`UPDATE modlog SET channel = '${channelID}' WHERE serverId = '${message.guild.id}'`);
                             //confirmation
                             const embed = new Discord.MessageEmbed()
+                            .setColor(`0x${client.colors.good}`)
 			                .setDescription(`Public log set to <#${channelID}> (${channelID})`)
 			                message.channel.send({embed});
                         }
-            
                 });
-
-
             }
 
     }

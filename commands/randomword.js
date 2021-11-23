@@ -1,5 +1,4 @@
-exports.run = (client, message, args) => {
-
+exports.run = (client, message) => {
     var v = ["a","e","i","o","u"];
     var c = ["b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","v","x","z"];
 

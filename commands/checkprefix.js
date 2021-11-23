@@ -1,8 +1,6 @@
 const Discord = require("discord.js");
 
 exports.run = (client, message, args, deletedMessage, sql) => {
-   
-
   sql.query(`SELECT * FROM prefixes WHERE serverId ='${message.guild.id}'`).then(row => {
     row = row.rows;
 
@@ -13,12 +11,10 @@ exports.run = (client, message, args, deletedMessage, sql) => {
     }
 
     const embed = new Discord.MessageEmbed()
-      .setTimestamp()
+      .setColor(`0x${client.colors.good}`)
       .setTitle("This server: " + prefix)
     message.channel.send({embed});
   });
-    
-       
 }
 
 exports.conf = {

@@ -63,14 +63,15 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 
             if (!row) {
               const embed = new Discord.MessageEmbed()
-                   .setColor(0xF46242)
+                   .setColor(`0x${client.colors.bad}`)
                    .setDescription("You don't have a note")
                    return message.channel.send({embed});
               } else {
                 sql.query(`UPDATE note SET note = '${argV.slice(1).join(' ').replace(new RegExp("{n}", 'g'), "\n").replace(new RegExp(`"`, 'g'), `''`)}' WHERE ownerId ='${message.author.id}'`);
                  const embed = new Discord.MessageEmbed()
-                   .setDescription("Note updated")
-                   return message.channel.send({embed});
+                  .setColor(`0x${client.colors.good}`)
+                  .setDescription("Note updated")
+                  return message.channel.send({embed});
               }
 
           }).catch((err) => {
@@ -85,14 +86,13 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 
             if (!row) {
               const embed = new Discord.MessageEmbed()
-                   .setColor(0xF46242)
-                   .setDescription("You don't have a note")
-                   return message.channel.send({embed});
+                  .setColor(`0x${client.colors.bad}`)
+                  .setDescription("You don't have a note")
+                  return message.channel.send({embed});
               } else {
 
                 sql.query(`UPDATE note SET note = '' WHERE ownerid ='${message.author.id}'`);
                  const embed = new Discord.MessageEmbed()
-                   .setColor(0xF46242)
                    .setDescription("Note cleared")
                    return message.channel.send({embed});
               } 
@@ -109,7 +109,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 
             if (!row) {
               const embed = new Discord.MessageEmbed()
-                   .setColor(0xF46242)
+                   .setColor(`0x${client.colors.bad}`)
                    .setDescription("You don't have a note")
                    return message.channel.send({embed});
               } else {

@@ -16,7 +16,6 @@ exports.run = (client, message, args, deletedMessage, pool) => {
       pool.query(`UPDATE prefixes SET prefix = '${args[0].replace("\"", "").replace("\"", "")}' WHERE serverId = '${message.guild.id}'`);
 
       const embed = new Discord.MessageEmbed()
-        .setTimestamp()
         .setTitle("Server prefix changed to: \"" + args[0].replace("\"", "").replace("\"", "") + "\"")
       message.channel.send({embed});
 
@@ -25,8 +24,7 @@ exports.run = (client, message, args, deletedMessage, pool) => {
 
     } else {
       const embed = new Discord.MessageEmbed()
-        .setColor(0xF46242)
-        .setTimestamp()
+        .setColor(`0x${client.colors.bad}`)
         .setTitle("You do not have permission to do this. (Admin required)")
       message.channel.send({embed});
 

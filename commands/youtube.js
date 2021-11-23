@@ -1,10 +1,9 @@
-//search
-//var search = require('youtube-search');
 const ySearch =  require('yt-search');
 const config = require('./../config.json');
 
-exports.run = (client, message, args) => {
+const Discord = require("discord.js"); 
 
+exports.run = (client, message, args) => {
   var searchTerms;
 
   if(args[0]){
@@ -20,13 +19,15 @@ exports.run = (client, message, args) => {
 
     if(videos[0]){
       var v = videos[0];
-      message.channel.send( `**${v.title}:** ${v.url}`);
+      const embed = new Discord.MessageEmbed()
+        .setColor(`0x${client.colors.bad}`)
+        .setDescription(`**${v.title}**`)
+      message.channel.send({embed});
+      message.channel.send(`${v.url}`);
     } else {
       message.channel.send('No results.');
     }
   });
-
-
 }
     
 exports.conf = {

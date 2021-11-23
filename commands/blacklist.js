@@ -11,6 +11,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
     }
 
     const embed = new Discord.MessageEmbed()
+        .setColor(`0x${client.colors.good}`)
         .setDescription('User added to blacklist')
         .addField("User ID", `${args[0]}`)
         .addField("Reason", reason);

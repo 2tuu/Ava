@@ -5,8 +5,6 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
     if(!args[0]) return message.channel.send('Please enter a user ID or mention');
 
     try{
-
-
     sql.query(`SELECT * FROM settings WHERE serverId ='${message.guild.id}'`).then(row => {
         row = row.rows[0];
 
@@ -22,13 +20,9 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
         message.channel.send('Error: ' + err)
     });
     
-    
-    
-    
     if(!message.member.permissions.has('MANAGE_ROLES')) {
         const embed = new Discord.MessageEmbed()
-        .setColor(0xF46242)
-        .setTimestamp()
+        .setColor(`0x${client.colors.bad}`)
         .setTitle("Sorry, you don't have permission to use this. (MANAGE_ROLES Required)")
         return message.channel.send({embed});
     } else {
@@ -49,22 +43,20 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
     
                 if(!tossedRole){
                     const embed = new Discord.MessageEmbed()
-                    .setColor(0xF46242)
-                    .setTimestamp() //Write to JSON
+                    .setColor(`0x${client.colors.bad}`)
                     .setTitle("A role with this name was not found")
                     return message.channel.send({embed});
                 } else {
     
                 sql.query(`UPDATE settings SET banId = '${tossedRole.id}' WHERE serverId = '${message.guild.id}'`).then(()=>{
                     const embed = new Discord.MessageEmbed()
-
-                .setDescription("Role added")
+                    .setColor(`0x${client.colors.good}`)
+                    .setDescription("Role added")
                  message.channel.send({embed});
                 }).catch((err)=>{
     
                     const embed = new Discord.MessageEmbed()
-                    .setColor(0xF46242)
-                    .setTimestamp() //Write to JSON
+                    .setColor(`0x${client.colors.bad}`)
                     .setTitle("An error occured")
                     .setFooter(err)
                     return message.channel.send({embed});
@@ -93,6 +85,7 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
                         if(member.roles.cache.map(r=>r.id).includes(db.banid)){ //already has role, remove
                             //Removed role
                             const embed = new Discord.MessageEmbed()
+                                .setColor(`0x${client.colors.good}`)
                                 .setDescription(member.user.tag + " has been unmuted")
                             message.channel.send({embed});
 
@@ -100,6 +93,7 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
                         } else {
                             //Added role
                             const embed = new Discord.MessageEmbed()
+                                .setColor(`0x${client.colors.bad}`)
                                 .setDescription(member.user.tag + " has been muted")
                             message.channel.send({embed});
                             member.roles.add(db.banid);

@@ -2,15 +2,6 @@ const { jsonfy } = require("booru/dist/Utils");
 
 exports.run = async (client, message, args, deletedMessage, sql) => {
 
-    function msToTime(ms) {
-        let minutes = (ms / (1000 * 60)).toFixed(1);
-        let hours = (ms / (1000 * 60 * 60)).toFixed(1);
-        let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
-        if (minutes < 60) return minutes + "m";
-        else if (hours < 24) return hours + "h";
-        else return days + "d"
-      }
-
     var user = message.author.id;
     var channel = message.channel.id;
 

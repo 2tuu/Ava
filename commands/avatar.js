@@ -19,23 +19,21 @@ exports.run = (client, message, args) => {
 		userID = args[0];
 	} else {
 
-			const embed = new Discord.MessageEmbed()
-				.setColor(0xF46242)
-				.setTimestamp() 
-				.setTitle("Error: Invalid User ID or argument")
-			message.channel.send({embed});
-			return;
+		const embed = new Discord.MessageEmbed()
+			.setColor(`0x${client.colors.bad}`)
+			.setTitle("Error: Invalid User ID or argument")
+		message.channel.send({embed});
+		return;
 		
 	}
+
+
 	if(userID === ""){
 		const embed = new Discord.MessageEmbed()
-			.setColor(0xF46242)
-			.setTimestamp()
+			.setColor(`0x${client.colors.bad}`)
 			.setTitle("Error: Invalid User ID, Username or Mention (Use exact display name)")
 		message.channel.send({embed});
 	} else {
-
-
 		client.users.fetch(userID).then(myUser => {
 			const embed = new Discord.MessageEmbed()
 				.setDescription("[Link](" + myUser.avatarURL('jpg') + ")")
@@ -43,8 +41,7 @@ exports.run = (client, message, args) => {
 			message.channel.send({embed});
 		}).catch((err)=>{
 			const embed = new Discord.MessageEmbed()
-				.setColor(0xF46242)
-				.setTimestamp()
+				.setColor(`0x${client.colors.bad}`)
 				.setTitle("Error: Invalid User ID, Username or Mention (Use exact display name)")
 				.setFooter(err)
 			message.channel.send({embed});

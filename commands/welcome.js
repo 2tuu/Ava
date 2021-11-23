@@ -12,7 +12,7 @@ if(message.member.permissions.has('BAN_MEMBERS')){
 		if(isNaN(channelID) || channelID.length > 23 || channelID.length < 15){
 	
 			const embed = new Discord.MessageEmbed()
-			.setColor(0xF46242)
+			.setColor(`0x${client.colors.bad}`)
 			.setDescription("Invalid channel ID")
 			return message.channel.send({embed});
 	
@@ -35,13 +35,13 @@ if(message.member.permissions.has('BAN_MEMBERS')){
 			
 			if(row.shouldwelcome === "true"){
 				const embed = new Discord.MessageEmbed()
-		.setColor(0xF46242)
+		.setColor(`0x${client.colors.bad}`)
 		.setDescription("Welcome messages disabled")
 		message.channel.send({embed});
 		sql.query(`UPDATE prefixes SET shouldWelcome = 'false' WHERE serverId = '${message.guild.id}'`);
 			} else {
 				const embed = new Discord.MessageEmbed()
-		.setColor(0x32ff58)
+		.setColor(`0x${client.colors.good}`)
 		.setDescription("Welcome messages enabled")
 		message.channel.send({embed});
 		sql.query(`UPDATE prefixes SET shouldWelcome = 'true' WHERE serverId = '${message.guild.id}'`);
@@ -55,7 +55,7 @@ if(message.member.permissions.has('BAN_MEMBERS')){
 	} else {
 		//invalid sub-command
 		const embed = new Discord.MessageEmbed()
-      .setColor(0xF46242)
+      .setColor(`0x${client.colors.bad}`)
 	  .setDescription("Invalid sub-command")
 	  .setFooter("Use k?help welcome")
       message.channel.send({embed});
@@ -63,7 +63,7 @@ if(message.member.permissions.has('BAN_MEMBERS')){
 
 } else {
 	const embed = new Discord.MessageEmbed()
-			.setColor(0xF46242)
+			.setColor(`0x${client.colors.bad}`)
 			.setDescription("You don't have permission to do this")
 			message.channel.send({embed});
 }

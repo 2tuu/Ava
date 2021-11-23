@@ -36,8 +36,7 @@ async function evalCMD(){
 
     } else {
       const embed = new Discord.MessageEmbed()
-        .setColor(0xF46242)
-        .setTimestamp()
+        .setColor(`0x${client.colors.bad}`)
         .setTitle("You do not have permission to do this. (Bot Owner required)")
       message.channel.send({embed});
     }
