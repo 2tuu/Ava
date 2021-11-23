@@ -31,6 +31,7 @@ exports.run = (client, message, args) => {
 
             const embed1 = new Discord.MessageEmbed()
                 .setTitle("Error ID: " + errID)
+                .setColor(`0x${client.colors.bad}`)
                 .setThumbnail(message.author.avatarURL)
                 .addField("From", message.author.id + " (" + message.author.username + "#" + message.author.discriminator + ")")
                 .addField("Sent in", message.guild.name + " (" + message.guild.id + ")")
