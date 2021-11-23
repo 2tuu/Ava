@@ -45,6 +45,7 @@ exports.run = (deletedMessage, sql, client, member) => {
   
     sql.query(`SELECT * FROM prefixes WHERE serverid ='${member.guild.id}'`).then(row => {
       row = row.rows[0];
+      if(!row) return;
       if(!row.welcomemessage) return;
   
       const guild = member.guild;
