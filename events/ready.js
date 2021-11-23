@@ -73,7 +73,7 @@ exports.run = async (deletedMessage, pool, client) => {
 				client.channels.fetch(e.channelcreated)
 				.then(channel => {
 					channel.send(`<@${e.user}>, earlier you reminded me to tell you \`${e.message.replace(/[`]/g, '')}\`` + status);
-					pool.query(`DELETE FROM timer WHERE "user" ='${e.user}'`);
+					pool.query(`DELETE FROM timer WHERE "endtime" ='${e.endtime}'`);
 				})
 				.catch(console.error);	
 			}
