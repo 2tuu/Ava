@@ -29,7 +29,7 @@ exports.run = (deletedMessage, sql, client, member) => {
           if(row.enabled === "yes" && row.logleaves === "yes"){
              var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
              const embed = new Discord.MessageEmbed()
-             .setColor(0x00FFA6)
+             .setColor(`0x${client.colors.good}`)
              .setDescription("```diff\n+Member Joined: " + member.user.tag + "\nCurrent Count:" + member.guild.memberCount + "\n```")
              return ch.send({embed});
           }

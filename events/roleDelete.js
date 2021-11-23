@@ -14,7 +14,7 @@ exports.run = (deletedMessage, sql, client, role) => {
             if(row.enabled === "yes" && row.logroles === "yes"){
                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
                const embed = new Discord.MessageEmbed()
-               .setColor(0xFF4D00)
+               .setColor(`0x${client.colors.bad}`)
                .setDescription("```diff\n-Role Deleted:\n" + `Color: ${role.color} | Name: ${role.name}`  + "```")
                return ch.send({embed});
             }

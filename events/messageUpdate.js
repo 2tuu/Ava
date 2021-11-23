@@ -48,7 +48,7 @@ exports.run = async (deletedMessage, sql, client, oldMessage, newMessage) => {
             if(row.enabled === "yes" && row.logmessages === "yes" && oldMessage.author.bot === false){
                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
                const embed = new Discord.MessageEmbed()
-                .setColor(0xFFF200)
+                .setColor(`0x${client.colors.neutral}`)
                 .setDescription("```diff\n+Message Updated in " + oldMessage.channel.name + ':\n' + `${oldMessage.author.tag}: ${oldMessage.content} => ${newMessage.content}` + "\nMessage ID: " + oldMessage.id + "\n```")
                 return ch.send({embed});
             }

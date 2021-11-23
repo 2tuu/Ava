@@ -48,14 +48,14 @@ exports.run = async (deletedMessage, sql, client, message) => {
 
                if(Attachment[0]){
                 const embed = new Discord.MessageEmbed()
-                .setColor(0xFF4D00)
+                .setColor(`0x${client.colors.bad}`)
                 .setDescription("```diff\n-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + "\nMessage ID: " + message.id + "\n```\n"+
                             "```diff\n+Attachments:\n" + Attachment + "\n```")
                 return ch.send({embed});
 
                } else {
                 const embed = new Discord.MessageEmbed()
-                .setColor(0xFF4D00)
+                .setColor(`0x${client.colors.bad}`)
                 .setDescription("```diff\n-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + "\nMessage ID: " + message.id + "\n```")
                 return ch.send({embed});
                }

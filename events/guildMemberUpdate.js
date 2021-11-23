@@ -18,7 +18,7 @@ exports.run = (deletedMessage, sql, client, oldMember, newMember) => {
             if(row.enabled === "yes" && row.logmembers === "yes"){
                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
                const embed = new Discord.MessageEmbed()
-               .setColor(0xFFF200)
+               .setColor(`0x${client.colors.neutral}`)
                .setDescription("```diff\n+" + oldMember.user.tag + 
                   " changed their nickname:\n" + oldMember.nickname + " => " + newMember.nickname + "\n```")
                return ch.send({embed});

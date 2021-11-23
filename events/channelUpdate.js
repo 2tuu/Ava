@@ -20,7 +20,7 @@ exports.run = async (deletedMessage, sql, client, newChannel, oldChannel) => {
             } else {
            var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
            const embed = new Discord.MessageEmbed()
-           .setColor(0xFFF200)
+           .setColor(`0x${client.colors.neutral}`)
            .setDescription("```diff\n+Channel Updated``````diff\n" + 
            "-Old Channel:\nName: " + newChannel.name +
            "\nTopic: " + newChannel.topic + 

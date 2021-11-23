@@ -14,7 +14,7 @@ exports.run = async (deletedMessage, sql, client, channel) => {
         if(row.enabled === "yes" && row.logchannels === "yes"){
             var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
             const embed = new Discord.MessageEmbed()
-            .setColor(0xFFF200)
+            .setColor(`0x${client.colors.bad}`)
             .setDescription("```diff\n-Channel Deleted\n" + channel.name + " (" + channel.id + ")\n```")
             return ch.send({embed});
         }
