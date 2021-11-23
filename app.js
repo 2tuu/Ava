@@ -5,6 +5,7 @@ const client = new Discord.Client({
 
 const fs = require(`fs`);
 const config = require(`./config.json`);
+const colors = require('./JSON/colors.json');
 const { Pool } = require('pg')
 const pool = new Pool({
   user: config.dbuser,
@@ -20,6 +21,7 @@ const pool = new Pool({
       client.aliases = new Map();
       client.help = new Map();
       client.commandStats = {};
+      client.colors = colors;
 const deletedMessage = new Set();
 const roles = new Set();
 const tossedSet = new Set();
