@@ -40,7 +40,7 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
               wasRecent = true;
             }
       
-            if(audit.entries.first().target.id === member.id && wasRecent === true){
+            if(audit.entries.first().target.id === user.id && wasRecent === true){
               wasKick = true;
             } else {
               wasKick = false;
