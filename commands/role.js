@@ -1,5 +1,4 @@
 const Discord = require(`discord.js`);
-const { distance, closestMatch } = require("closest-match");
 
 exports.run = async (client, message, args, deletedMessage, sql) => {
 

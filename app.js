@@ -121,7 +121,7 @@ client.on("message", async message => {
 
     if(message.content === `<@${client.user.id}>`
     || message.content === `<@!${client.user.id}>`){
-        return message.channel.send('Need help? Try `<@' + client.user.id + '> help`');
+        return message.channel.send('Need help? Try `<@' + client.user.username + '> help`');
     }
 
     if (message.author.bot) return; //No bots
