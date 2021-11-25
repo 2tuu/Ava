@@ -1,10 +1,30 @@
-const { jsonfy } = require("booru/dist/Utils");
-
+const Discord = require(`discord.js`);
 exports.run = async (client, message, args, deletedMessage, sql) => {
 
     var user = message.author.id;
     var channel = message.channel.id;
 
+    if(args[0].toLowerCase() === 'list' && !args[1]){
+        var row = await sql.query(`SELECT * FROM timer WHERE "user" ='${user}'`);
+            row = row.rows;
+        
+        if(row.length < 1){
+        const embed = new Discord.MessageEmbed()
+            .setColor(`0x${client.colors.bad}`)
+            .setDescription('No reminders found')
+        return message.channel.send({embed});
+        }
+
+            var list = [];
+
+            row.forEach(e => {
+                list.push(`${e.message} - <t:${Math.round(e.endtime/1000)}:R>`)
+            });
+
+        const embed = new Discord.MessageEmbed()
+            .setDescription(list)
+        return message.channel.send({embed});
+    }
 
     if(args.join(' ').match(/-t (.*)/g)){
 
