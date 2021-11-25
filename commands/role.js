@@ -134,30 +134,21 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         row = row.rows[0];
 
 
-        if(!res || !row.rolearray.includes(res.id)){ 
-            var names = [];
+        if(!res || !row.rolearray.includes(res.id)){
             var friendlynames = [];
             roleArray.forEach(a=>{
                 var res = message.guild.roles.cache.find(r => r.id === a);
-
-                if(res){
+                if(res.name.toLowerCase().includes(args[0].toLowerCase())){
                     friendlynames.push(res);
                 }
-
-                friendlynames = friendlynames.filter(e => e.name.includes(args[0].toLowerCase()));
-                names = friendlynames.map(a=>a.name);
-                names = closestMatch(args.join(' ').toLowerCase(), names);
-                friendlynames = friendlynames.filter(e => e.name === names);
-
-
             });
 
             if(friendlynames.length < 1){
                 return message.channel.send("Sorry, that role isn't on the list");
             } else {
+                friendlynames = friendlynames.sort((a,b) => a.name.length - b.name.length);
                 res = friendlynames[0];
             }
-            
         }
 
 
@@ -187,6 +178,6 @@ exports.conf = {
     help: "Give yourself a role from a pre-determined list",
     format: "k?role list\nk?role <role> <- gives and removes role\nk?roll add <role ID / @role / role name>\nk?role delete/remove <role name>\n\nDoes a role on the list not exist anymore? Use 'k?role delete missing'",
     DM: false,
-    OwnerOnly: false,
+    OwnerOnly: true,
     alias: ['giveme', 'gimme', 'roles']
 }
