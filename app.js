@@ -210,7 +210,12 @@ client.on("message", async message => {
       }
     
       //Return if the user isn't allowed to use the command - non-dm in dm or owner by non-owner
-      if(commandFile.conf.OwnerOnly === true && !config.evalAllow.includes(message.author.id)) return;
+      if(commandFile.conf.OwnerOnly === true && !config.evalAllow.includes(message.author.id)){
+        const embed = new Discord.MessageEmbed()
+        .setColor(`0x${client.colors.bad}`)
+        .setDescription("This command is either locked, or currently undergoing changes")
+        return message.channel.send({embed});
+      }
       if(commandFile.conf.DM === false && !message.guild) return;
       if(client.blacklist.includes(message.author.id)) return;
     
