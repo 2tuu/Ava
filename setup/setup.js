@@ -19,7 +19,7 @@ const connection = new Pool({
 
 connection.query('CREATE TABLE announce (guild TEXT, channel TEXT);').then(row=>{
   console.log('Created "announce" table successfully');
-});
+}).catch(err=>{console.log('Already exists or another error occured')});
 
 connection.query('CREATE TABLE blacklist (userid TEXT, reason TEXT);').then(row=>{
   console.log('Created "blacklist" table successfully');
@@ -27,23 +27,19 @@ connection.query('CREATE TABLE blacklist (userid TEXT, reason TEXT);').then(row=
 
 connection.query('CREATE TABLE modlog (logkicks TEXT, logreactions TEXT, logchannels TEXT, logemojis TEXT, logbans TEXT, logleaves TEXT, logmembers TEXT, logmessages TEXT, logroles TEXT, serverid TEXT, enabled TEXT, channel TEXT, ignore TEXT);', function(err, rows){
   console.log('Created "modlog" table successfully');
-});
+}).catch(err=>{console.log('Already exists or another error occured')});
 
 connection.query('CREATE TABLE note (note TEXT, ownerid TEXT);').then(row=>{
   console.log('Created "note" table successfully');
-});
+}).catch(err=>{console.log('Already exists or another error occured')});
 
 connection.query('CREATE TABLE nsfw (id TEXT, birthyear TEXT);').then(row=>{
   console.log('Created "nsfw" table successfully');
-});
+}).catch(err=>{console.log('Already exists or another error occured')});
 
 connection.query('CREATE TABLE prefixes (prefix TEXT, welcomeMessage TEXT, welcomeChannel TEXT, shouldWelcome TEXT, serverId TEXT);').then(row=>{
   console.log('Created "prefixes" table successfully');
-});
-
-connection.query('CREATE TABLE profile (prefix TEXT);').then(row=>{
-  console.log('Created "profile" table successfully');
-});
+}).catch(err=>{console.log('Already exists or another error occured')});
 
 connection.query('CREATE TABLE prefix (prefix TEXT, welcomeMessage TEXT, welcomeChannel TEXT, shouldWelcome TEXT, serverId TEXT);').then(row=>{
   console.log('Created "prefixes" table successfully');
@@ -51,23 +47,27 @@ connection.query('CREATE TABLE prefix (prefix TEXT, welcomeMessage TEXT, welcome
 
 connection.query('CREATE TABLE settings (serverid TEXT, banid TEXT);').then(row=>{
   console.log('Created "settings" table successfully');
-});
+}).catch(err=>{console.log('Already exists or another error occured')});
 
 connection.query('CREATE TABLE tags (serverID TEXT, tagName TEXT, tagContent TEXT, ownerID TEXT, selfDelete TEXT);').then(row=>{
   console.log('Created "tags" table successfully');
-});
+}).catch(err=>{console.log('Already exists or another error occured')});
                                             //user is a reserved term
 connection.query('CREATE TABLE timer (endtime TEXT, "user" TEXT, channelcreated TEXT, message TEXT);').then(row=>{
   console.log('Created "time" table successfully');
-});
+}).catch(err=>{console.log('Already exists or another error occured')});
 
 connection.query('CREATE TABLE giverole (serverid TEXT, rolearray TEXT);').then(row=>{
   console.log('Created "giverole" table successfully');
-});
+}).catch(err=>{console.log('Already exists or another error occured')});
 
 connection.query('CREATE TABLE xban (serverid TEXT, userarray TEXT);').then(row=>{
   console.log('Created "xban" table successfully');
-});
+}).catch(err=>{console.log('Already exists or another error occured')});
+
+connection.query('CREATE TABLE profile (userid TEXT, dob TEXT, subtitle TEXT, bio TEXT, badges TEXT, background TEXT, color TEXT, cmds TEXT, coins TEXT);').then(row=>{
+  console.log('Created "profile" table successfully');
+}).catch(err=>{console.log('Already exists or another error occured')});
 
 
 console.log('SQL database setup successful');
