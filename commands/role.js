@@ -177,6 +177,6 @@ exports.conf = {
     help: "Give yourself a role from a pre-determined list",
     format: "k?role list\nk?role <role> <- gives and removes role\nk?roll add <role ID / @role / role name>\nk?role delete/remove <role name>\n\nDoes a role on the list not exist anymore? Use 'k?role delete missing'",
     DM: false,
-    OwnerOnly: true,
+    OwnerOnly: false,
     alias: ['giveme', 'gimme', 'roles']
 }
