@@ -11,8 +11,8 @@ const pool = new Pool({
   user: config.dbuser,
   database: config.dbname,
   password: config.dbpass,
-  idleTimeoutMillis: 100,
-  connectionTimeoutMillis: 100,
+  idleTimeoutMillis: 1000,
+  connectionTimeoutMillis: 1000,
   max: 0
 });
 
@@ -119,6 +119,16 @@ client.on("message", async message => {
         }
     }
 
+    //check user for profile
+    var dbResult = await pool.query(`SELECT * FROM profile WHERE userid ='${message.author.id}'`);
+    dbResult = dbResult.rows[0];
+
+    if(!dbResult){
+      message.author.hasProfile = false;
+    } else {
+      message.author.hasProfile = true;
+    }
+
     if(message.content === `<@${client.user.id}>`
     || message.content === `<@!${client.user.id}>`){
         return message.channel.send('Need help? Try `@' + client.user.username + ' help`');
@@ -154,9 +164,10 @@ client.on("message", async message => {
         if(row[0] === undefined){
           var customPrefix = config.prefix;
         } else {
-          //console.log(row);
           var customPrefix = row[0].prefix;
         }
+
+        message.isCommand = true;
     
       if(message.guild){ //TODO: Clean this up
         var content = message.content.toLowerCase();
@@ -164,8 +175,46 @@ client.on("message", async message => {
         if((content.indexOf(config.prefix.toLowerCase()) !== 0) && 
             (content.indexOf(customPrefix.toLowerCase()) !== 0) &&
               (content.indexOf(botMention.toLowerCase()) !== 0) &&
-              (content.indexOf(botMentionX.toLowerCase()) !== 0 ))  return;
-      }
+              (content.indexOf(botMentionX.toLowerCase()) !== 0 )){
+                message.isCommand = false;
+          }
+        }
+
+        if(message.author.hasProfile){
+          if(message.isCommand){
+            var exp = parseInt(dbResult.cmds);
+                exp = exp + 2;
+            var lvl = parseInt(dbResult.cmds)/1000;
+            
+            var oldLevel = Math.round(lvl);
+            var newLevel = Math.round((parseInt(dbResult.cmds)+2)/1000);
+
+            if(oldLevel < newLevel){
+              var coins = parseInt(dbResult.coins);
+                  coins = coins + 25;
+              pool.query(`UPDATE profile SET coins = '${coins}' WHERE userid = '${message.author.id}'`);
+            }
+
+            pool.query(`UPDATE profile SET cmds = '${exp}' WHERE userid = '${message.author.id}'`);
+          } else {
+            var exp = parseInt(dbResult.cmds);
+                exp = exp + 1;
+            var lvl = parseInt(dbResult.cmds)/800;
+            
+            var oldLevel = Math.round(lvl);
+            var newLevel = Math.round((parseInt(dbResult.cmds)+1)/1000);
+
+            if(oldLevel < newLevel){
+              var coins = parseInt(dbResult.coins);
+                  coins = coins + 25;
+              pool.query(`UPDATE profile SET coins = '${coins}' WHERE userid = '${message.author.id}'`);
+            }
+
+            pool.query(`UPDATE profile SET cmds = '${exp}' WHERE userid = '${message.author.id}'`);
+            return;
+          }
+        }
+
     
       var handledPrefix; //Which prefix is being used
 
@@ -190,12 +239,15 @@ client.on("message", async message => {
       //Find command file from alias
       for (const key of Object.keys(client.aliases)) if (client.aliases[key].aliases.includes(command)) command = key;
     
+      
+
       //Continue command loading - woo yea baby nested try/catch
       try{
         commandFile = require(`./commands/${command}.js`);
       } catch(err){try{
         commandFile = require(`./commands-locked/${command}.js`);
       }catch(err){
+        message.isCommand = false;
         return; //oops
       }}
     
