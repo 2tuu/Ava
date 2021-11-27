@@ -539,7 +539,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 }
 
 exports.conf = {
-    category: "In Development",
+    category: "Fun",
     name: "[BETA] Profile",
     help: "Create, edit or view someone else's profile",
     format: "k?profile {@user/ID}\nk?profile bio [bio text]\nk?profile subtitle [subtitle text]\nk?profile birthday [ie. m-d-yyyy]\nk?profile badge set [1/2] [name from list]\nk?profile badge list",
