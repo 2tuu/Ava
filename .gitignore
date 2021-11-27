@@ -8,6 +8,7 @@ node_modules/
 backup/
 commands-locked/
 discontinued/
+logs/
 
 #visual studio
 .vs
