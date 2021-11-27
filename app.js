@@ -39,8 +39,6 @@ const cooldown = new Set();
   return formattedTime;
 }
 
-process.on('uncaughtException', function(err) { client.logchannel.send('Caught exception: ' + err); });
-
 //Module loaders
 fs.readdir(`./events/`, (err, files) => {
     if (err) return console.error(err);
@@ -288,6 +286,8 @@ client.on("message", async message => {
       }
     
       });
+
+
 });
 
 client.on("error", async error => {
