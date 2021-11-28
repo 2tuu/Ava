@@ -43,10 +43,9 @@ exports.run = async (deletedMessage, sql, client, messages) => {
     
         var row = await sql.query(`SELECT * FROM modlog WHERE serverid ='${guildID}'`);
             row = row.rows[0];
-
-            if(row.ignore.split(',').includes(channelID)) return;
     
             if(!row) return;
+            if(row.ignore.split(',').includes(channelID)) return;
     
             if(row.enabled === "yes" && row.logmessages === "yes"){
                var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
