@@ -18,7 +18,7 @@ exports.run = async (deletedMessage, pool, client) => {
 
 	console.log ('\x1b[32m', `Loaded ${client.totalCommands} modules - ${client.failedCommands.length} failed`);
 	console.log('\x1b[34m%s\x1b[0m', "======================");
-	if(parseInt(current) > parseInt(client.version) && parseInt(client.version) !== 0){
+	if((current > client.version) && parseInt(client.version) !== 0){
 		console.error('Your framework is out of date');
 		console.error(`The current Github version is: ` + current + '\n');
 		console.error(`Your version is: ` + client.version + '\n');
