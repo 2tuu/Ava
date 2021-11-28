@@ -3,7 +3,7 @@ exports.run = async (deletedMessage, sql, client, oldMessage, newMessage) => {
     if(oldMessage.author.bot) return;
 
     var channelID = oldMessage.channel.id;
-  
+
     var oldMessageVar = await oldMessage.content;
     var newMessageVar = await newMessage;
   
@@ -16,8 +16,8 @@ exports.run = async (deletedMessage, sql, client, oldMessage, newMessage) => {
         )
   
   
-    if(!deletedMessage[oldMessage.guild.id + "-" + channelID]){
-        deletedMessage[oldMessage.guild.id + "-" + channelID] = {
+    if(!deletedMessage[oldMessage.channel.guild.id + "-" + channelID]){
+        deletedMessage[oldMessage.channel.guild.id + "-" + channelID] = {
             message: oldMessage,
             author: oldMessage.author.tag,
             avatar: oldMessage.author.avatarURL,
@@ -26,15 +26,15 @@ exports.run = async (deletedMessage, sql, client, oldMessage, newMessage) => {
         };
     }
         
-    deletedMessage[oldMessage.guild.id + "-" + channelID].message = oldMessageVar + " ⇨ " + newMessageVar.content;
-    deletedMessage[oldMessage.guild.id + "-" + channelID].author = oldMessage.author.username + '#' + oldMessage.author.discriminator;
-    deletedMessage[oldMessage.guild.id + "-" + channelID].avatar = newMessage.author.avatarURL();
+    deletedMessage[oldMessage.channel.guild.id + "-" + channelID].message = oldMessageVar + " ⇨ " + newMessageVar.content;
+    deletedMessage[oldMessage.channel.guild.id + "-" + channelID].author = oldMessage.author.username + '#' + oldMessage.author.discriminator;
+    deletedMessage[oldMessage.channel.guild.id + "-" + channelID].avatar = newMessage.author.avatarURL();
 
     //Dana's mod log
     if(oldMessage.content === newMessage.content) return;
 
     try{
-        var guildID = oldMessage.guild.id;
+        var guildID = oldMessage.channel.guild.id;
         } catch(err){
             console.error(err);
         }
