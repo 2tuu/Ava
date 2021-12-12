@@ -1,16 +1,35 @@
 var scalc = require('scalc');
 exports.run = (client, message, args) => {
-    try{
-        if(!args[0]){
-            message.channel.send('No arguments');
-        } else {
-            var result = scalc(args.join(' '));
-            if(!result) return message.channel.send('An error occured');
-            message.channel.send('Result: `' + result + '`');
+    //todo: figure this out
+
+    //pemdas - maybe look for ÷ and x as alternatives
+
+    async function math(m){
+
+        if(m.parenthesis){
+
         }
-    } catch(err){
-        message.channel.send('An error occured: `' + err + '`');
+
     }
+
+    var calc = args.join(' ');
+    if(args.length < 1) return; //no args error here
+
+    //Parenthesis ()
+    var parenthesis = calc.match(/\((.*?)\)/g);
+
+    console.log(`p = ${parenthesis}`);
+    console.log(`c = ${calc}`);
+
+    //Exponents #^power
+
+
+    //Multiplication *
+
+
+    //Division /
+
+
 }
 
 exports.conf = {
@@ -19,6 +38,6 @@ exports.conf = {
     help: "It's a calculator",
     format: "k?calc [mathematical function]",
     DM: true,
-    OwnerOnly: false,
+    OwnerOnly: true,
     alias: []
 }
