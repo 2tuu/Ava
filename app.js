@@ -231,7 +231,7 @@ client.on("message", async message => {
       }
     
       args = message.content.slice(handledPrefix.length).trim().match(/[^\s"]+|"([^"]*)"/g);
-      if(!args) args = [];
+      if(!args[0]) args = [];
       command = args.shift().toLowerCase();
     
       //Find command file from alias
