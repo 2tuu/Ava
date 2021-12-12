@@ -68,6 +68,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
         timerMessage = args.join(' ').split('-t')[0];
         timerMessage = timerMessage.substring(0, timerMessage.length - 1);
+        timerMessage = timerMessage.replace(/(')/g, "’");
 
         if(timerMessage.length > 1921){
             return message.channel.send("Please give me a message below 1,920 characters");
@@ -100,6 +101,6 @@ exports.conf = {
     help: "Remind yourself of something in the future",
     format: "k?remind <message> -t #h #m",
     DM: true,
-    OwnerOnly: true,
+    OwnerOnly: false,
     alias: []
 }
