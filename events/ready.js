@@ -56,7 +56,7 @@ exports.run = async (deletedMessage, pool, client) => {
 		console.error(`Problem fetching blacklist: ${err}`);
 	}
 
-	cron.schedule('* * * * *', async function() {
+	cron.schedule("*/30 * * * * *", async function() {
 
 		var currenttime = Date.now();
 		var remind = await pool.query(`SELECT * FROM timer`);
