@@ -1,6 +1,7 @@
 const Discord = require(`discord.js`);
 exports.run = async (deletedMessage, sql, client, oldMessage, newMessage) => {
     if(oldMessage.author.bot) return;
+    if(!oldMessage.channel.guild) return; //bugfix for console error, might need to be undone
 
     var channelID = oldMessage.channel.id;
 
@@ -15,6 +16,7 @@ exports.run = async (deletedMessage, sql, client, oldMessage, newMessage) => {
         new RegExp(/(?:discord(?:(?:.|.?dot.?)(?:gg|me|li|to)|app(?:.|.?dot.?)com\/invite)|(invite|disco)(?:.|.?dot.?)gg)\/[\da-z]+/igm), "[INVITE]"
         )
   
+    
   
     if(!deletedMessage[oldMessage.channel.guild.id + "-" + channelID]){
         deletedMessage[oldMessage.channel.guild.id + "-" + channelID] = {
