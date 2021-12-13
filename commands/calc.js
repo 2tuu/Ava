@@ -1,4 +1,4 @@
-var scalc = require('scalc');
+var scalc = require('mathjs');
 exports.run = (client, message, args) => {
     //todo: figure this out
 
