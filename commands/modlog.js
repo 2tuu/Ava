@@ -153,7 +153,7 @@ const Discord = require('discord.js');
         category: "Moderation",
         name: "Modlog",
         help: "Manage the mod logging modules",
-        format: "k?modlog toggle [logKicks/logChannels/logLeaves/logBans/logMembers/logMessages]\nk?modlog toggle\nk?modlog setchannel [#channel]",
+        format: "k?modlog toggle [logKicks/logChannels/logLeaves/logBans/logMembers/logMessages]\nk?modlog toggle\nk?modlog setchannel [#channel]\nk?modlog ignore #channel",
         DM: false,
         OwnerOnly: false,
         alias: []
