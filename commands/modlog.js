@@ -5,7 +5,7 @@ const Discord = require('discord.js');
             //continue
         }else{
             const embed = new Discord.MessageEmbed()
-            .setColor(0xF46242)
+            .setColor(`0x${client.colors.bad}`)
             .setDescription("You don't have permission to use this\n```KICK_MEMBERS Required```")
             return message.channel.send({embed});
         }
