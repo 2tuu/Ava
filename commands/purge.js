@@ -106,7 +106,7 @@ exports.conf = {
   name: "Purge",
   help: "Purge a bunch of messages, of a number, from a specific user, bots, or up to 100\nThis only works on messages that're less than 2 weeks old",
   format: "k?purge [all/u [ID]/bots/#]",
-  DM: true,
+  DM: false,
   OwnerOnly: false,
   alias: []
 }
