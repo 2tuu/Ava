@@ -7,6 +7,8 @@ exports.run = async (deletedMessage, sql, client, message) => {
     var messageContent = (message.content.trim().replace(new RegExp(/(?:discord(?:(?:.|.?dot.?)(?:gg|me|li|to)|app(?:.|.?dot.?)com\/invite)|(invite|disco)(?:.|.?dot.?)gg)\/[\da-z]+/igm), "[INVITE]"));
   
     var channelID = message.channel.id;
+
+    if(!message.guild) return; //ignore dms
   
     if(!deletedMessage[message.guild.id + "-" + channelID]){
       deletedMessage[message.guild.id + "-" + channelID] = {
