@@ -222,4 +222,4 @@ needToUpdate.forEach(e=>{
 }
 
 firstStage();
-console.log('\nupdate complete.')
+console.log('\nupdate complete. - remember to delete the contents of /update if you don\'t need them anymore')
