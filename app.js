@@ -5,7 +5,7 @@ const client = new Discord.Client({
 
 const fs = require(`fs`);
 const config = require(`./config.json`);
-const colors = require('./JSON/colors.json');
+const colors = require('./plugins/colors.json');
 const { Pool } = require('pg')
 const pool = new Pool({
   user: config.dbuser,
