@@ -1,3 +1,0 @@
-0xFF4D00    bad
-0xFFF200    neutral
-0x00FFA6      good
