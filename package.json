@@ -1,5 +1,6 @@
 {
     "dependencies": {
+        "adm-zip": "^0.5.9",
         "ascii-fullwidth-halfwidth-convert": "^0.1.1",
         "axios": "^0.21.1",
         "booru": "^2.4.0",
@@ -12,6 +13,7 @@
         "mathjs": "^10.0.0",
         "mysql": "^2.18.1",
         "nekocurl": "^1.5.1",
+        "node-downloader-helper": "^1.0.19",
         "os": "^0.1.1",
         "pg": "^8.6.0",
         "weather-js": "^2.0.0",
