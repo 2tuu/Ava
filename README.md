@@ -12,7 +12,9 @@ The install script is a work in progress, and may not work properly
 
 Additionally, the bot is only designed to work with a postgresql database, make sure it is installed, set up and it's credentials are entered into `config.json` before setting up
 
-After filling out config.json, run `install.sh` (or `install.bat`) - While these installation scripts are not designed to be used on windows, the bot itself should still work with manual setup (make sure you know what you're doing)
+After filling out config.json, run `install.sh` - While these installation scripts are not designed to be used on windows, the bot itself should still work with manual setup (make sure you know what you're doing)
+
+To install all node dependencies, run `npm i` while in the main folder, and it should install everything on it's own
 
 Once everything is configured, just run `app.js` with node (to keep it from staying closed if it crashes or stops, use a program like pm2 to run it)
 
