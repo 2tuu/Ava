@@ -19,7 +19,7 @@ exports.run = async (deletedMessage, pool, client) => {
 	console.log ('\x1b[32m', `Loaded ${client.totalCommands} modules - ${client.failedCommands.length} failed`);
 	console.log('\x1b[34m%s\x1b[0m', "======================");
 	if((current > client.version) && parseInt(client.version) !== 0){
-		console.error('Your framework is out of date');
+		console.error('Your framework is out of date - To update, either download and overwrite the contents of my folder, or run \'node update\' in this folder');
 		console.error(`The current Github version is: ` + current + '\n');
 		console.error(`Your version is: ` + client.version + '\n');
 		console.error('\x1b[36m%s\x1b[0m','\n To disable this notice, set your version number in /plugins/update.json to 0');
