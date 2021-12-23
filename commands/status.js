@@ -1,7 +1,7 @@
 const config = require("./../config.json");
 const Discord = require("discord.js");
 const fs = require('fs');
-let data = JSON.parse(fs.readFileSync("./JSON/data.json", "utf8"));
+let data = JSON.parse(fs.readFileSync("./plugins/data.json", "utf8"));
 
 exports.run = (client, message, args) => {
   if(config.evalAllow.includes(message.author.id)){
@@ -11,7 +11,7 @@ exports.run = (client, message, args) => {
       .setTitle("Complete bot status changed: " + data.status)
     message.channel.send({embed});
 
-    fs.writeFile("./JSON/data.json", JSON.stringify(data, null, 2), (err) => {
+    fs.writeFile("./plugins/data.json", JSON.stringify(data, null, 2), (err) => {
       if (err) console.error(err)
     });
 

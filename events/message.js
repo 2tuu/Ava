@@ -1,5 +1,5 @@
 const fs = require('fs');
-let data = JSON.parse(fs.readFileSync("./JSON/data.json", "utf8"));
+let data = JSON.parse(fs.readFileSync("./plugins/data.json", "utf8"));
 let config = JSON.parse(fs.readFileSync("./config.json", "utf8"));
 
 exports.run = async (deletedMessage, pool, client, message) => {

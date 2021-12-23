@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const data = require('./../JSON/data.json');
+const data = require('./../plugins/data.json');
 
 exports.run = async (client, message) => {
 	var stats = [];
