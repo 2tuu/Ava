@@ -87,6 +87,14 @@ Where a is the variable's name, and b is it's value
 {set;a;b};      -   Set's the value 'b' to a variable called 'a'
 {var.a};        -   Assuming 'a' is set to 'b', this will be replaced with 'b'
 ```
+## If Statements
+Only parses code inside the if statement if it's true
+```
+Where a and b are the variables to be compared (these cn be replaced with {var.#} variables), and 'code' is what will be parsed if the statement is true
+
+{if;a==b;code}; <-- equals
+{if;a=!b;code}; <-- does not equal
+```
 ## Misc
 ```
 {n}             -   The equivilent of pressing enter, adds a new line
