@@ -6,6 +6,8 @@ exports.run = (client, message, args) => {
     var list = {};
 
     Object.keys(client.help).forEach(function(key) {
+        if(client.help[key].category === "Admin") return; //ignore administration commands
+
         if(list[client.help[key].category]){
             list[client.help[key].category].push(client.help[key].filename);
         } else {
