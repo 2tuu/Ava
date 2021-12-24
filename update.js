@@ -158,7 +158,7 @@ var needToAdd = [];
 downloadedFiles.forEach(e=>{
 
     if(files.includes(e)){
-        if(!downloadedFiles.includes(e)) return console.log('missing from downloads: ' + e + ': ignoring');
+        if(!downloadedFiles.includes(e)) return console.log('!! missing from downloads: ' + e + ': delete this if you don\'t need it anymore !!');
         function compareFiles(a){
             if(!fs.existsSync(`./update/Kit-master/${a.replace('./','')}`)) return console.log('not applicable: ' + e + ': ignoring');
 
