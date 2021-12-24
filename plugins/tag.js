@@ -7,7 +7,6 @@ Last revision: 12/25/19
 */
 exports.read = (taggerContent, message, args) => {
 
-
     //{set;;}; and {var.*};
     var variables = {}; //Object for variable saving
 
@@ -182,6 +181,51 @@ exports.read = (taggerContent, message, args) => {
             }
             
         });
+    }
+
+    //if-statements
+    //equals ==
+    var ifEqualsVar = taggerContent.match(/{if;(.*?)==(.*?);(.*?)};/g);
+    if(!ifEqualsVar){
+        //ignore
+    } else if(ifEqualsVar[0]){
+        ifEqualsVar.forEach(e=>{
+            var logic = e.match(/{if;(.*?);/); //{if;a=b;
+            var toEval = e.replace(logic[0], '') //<eval>};
+
+            if(!toEval[0] || !logic[0]) return;
+
+            logic = logic[0].replace('{if;','').slice(0,-1).split('=='); // ['a','b']
+            toEval = toEval.slice(0,-2); //<eval>
+
+            if(logic[0] == logic[1]){
+                taggerContent = taggerContent.replace(e,toEval);
+            } else {
+                taggerContent = taggerContent.replace(e,'');
+            }
+        })
+    }
+
+    //does not equal =!
+    ifEqualsVar = taggerContent.match(/{if;(.*?)=!(.*?);(.*?)};/g);
+    if(!ifEqualsVar){
+        //ignore
+    } else if(ifEqualsVar[0]){
+        ifEqualsVar.forEach(e=>{
+            var logic = e.match(/{if;(.*?);/); //{if;a=b;
+            var toEval = e.replace(logic[0], '') //<eval>};
+
+            if(!toEval[0] || !logic[0]) return;
+
+            logic = logic[0].replace('{if;','').slice(0,-1).split('=!'); // ['a','b']
+            toEval = toEval.slice(0,-2); //<eval>
+
+            if(logic[0] !== logic[1]){
+                taggerContent = taggerContent.replace(e,toEval);
+            } else {
+                taggerContent = taggerContent.replace(e,'');
+            }
+        })
     }
 
     return taggerContent;
