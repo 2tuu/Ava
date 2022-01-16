@@ -1,7 +1,7 @@
 exports.run = (client, message, args) => {
 var v = args.join(' ');
 
-let owoify = function (v) {
+var owoify = function (v) {
   
     //This command is the bane of my existence
 
@@ -14,7 +14,7 @@ let owoify = function (v) {
     v = v.replace(/\?+/g, " owo;;?? ");
 
     var count = (v.match(/!/g) || []).length;
-    let faces = [";;w;;","owo","uwu",">w<","=w="];
+    var faces = [";;w;;","owo","uwu",">w<","=w="];
     var i;
 
     for(i = 0; i < count; i++){
