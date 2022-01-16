@@ -544,6 +544,19 @@ exports.conf = {
     help: "Create, edit or view someone else's profile",
     format: "k?profile {@user/ID}\nk?profile bio [bio text]\nk?profile subtitle [subtitle text]\nk?profile birthday [ie. m-d-yyyy]\nk?profile badge set [1/2] [name from list]\nk?profile badge list",
     DM: true,
-    OwnerOnly: false,
+    OwnerOnly: true,
+    /*
+    Locking to re-work birthday setting:
+    
+    Initially planned to be used as an age gate for NSFW
+    commands, but forgot the discord client already has an
+    age gate implimented on NSFW channels, and since those
+    commands only work in NSFW channels, it doesn't need a
+    second age gate.
+
+    The birthday option will remain in place, but will only
+    store month/day, and not year, to avoid holding any
+    sort of identifying information.
+    */
     alias: []
 }
