@@ -30,6 +30,7 @@ exports.run = async (client, message) => {
             "\n\n-BOT:" + "\nBot-Reaction: " + `${m.createdTimestamp - message.createdTimestamp}ms` + 
             '\nAPI-Reaction: ' + client.ws.ping + 'ms' +
             "\n\nPROCESS UPTIME: " + uptimeVar +
+            "\n" + "(~" + Math.round(hours/24) + " days)"+
             "\n```")
             .then(message.channel.stopTyping());
         });
