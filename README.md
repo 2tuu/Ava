@@ -57,6 +57,7 @@ exports.conf = {
 Event files are automatically loaded on their associated events (ie. an event named `message.js` will be triggered on the message event) from the /events/ folder, and must be formatted like this:
 ```js
 //imports depend on which event is being used (refer to the discord.js documentation), this example in particular is the message event
+//(async is optional)
 exports.run = async (deletedMessage, pool, client, message) => {
     //code to be run on message event
 }
