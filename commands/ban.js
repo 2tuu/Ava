@@ -4,7 +4,23 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
     
   if(!message.member.permissions.has('BAN_MEMBERS')) return message.reply("Sorry, you don't have permission to use this.");
 
-  let member = message.mentions.members.first();
+  if(!args[0]){
+    const embed = new Discord.MessageEmbed()
+      .setColor(`0x${client.colors.bad}`)
+      .setTitle("I need a member to ban")
+    message.channel.send({embed});
+    return;
+  } else {
+    if(!args[0].startsWith('<@')){
+      const embed = new Discord.MessageEmbed()
+        .setColor(`0x${client.colors.bad}`)
+        .setTitle("Please use the format `ban @user`")
+      message.channel.send({embed});
+      return;
+    }
+  }
+
+  var member = message.guild.members.cache.find(user => user.id === args[0].replace('<@','').replace('>','').replace('!',''))
 
   if(!member){
       const embed = new Discord.MessageEmbed()
