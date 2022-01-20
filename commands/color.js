@@ -26,7 +26,7 @@ exports.run = (client, message, args) => {
 		.setFooter(args[0])
 		message.channel.send({embed});
 	} else if(args[0]){
-		var usr = message.guild.members.cache.get(message.mentions.members.first());
+		var usr = message.guild.members.cache.find(user => user.id === args[0].replace('<@','').replace('>','').replace('!',''))
 		if(!usr){
 			message.channel.send("Please mention a valid user");
 		} else {
