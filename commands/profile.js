@@ -544,19 +544,18 @@ exports.conf = {
     help: "Create, edit or view someone else's profile",
     format: "k?profile {@user/ID}\nk?profile bio [bio text]\nk?profile subtitle [subtitle text]\nk?profile birthday [ie. m-d-yyyy]\nk?profile badge set [1/2] [name from list]\nk?profile badge list",
     DM: true,
-    OwnerOnly: true,
+    OwnerOnly: false,
     /*
-    Locking to re-work birthday setting:
-    
-    Initially planned to be used as an age gate for NSFW
-    commands, but forgot the discord client already has an
-    age gate implimented on NSFW channels, and since those
-    commands only work in NSFW channels, it doesn't need a
-    second age gate.
+        Birthday setting has not been reworked, as full DOB is not
+        defined as personally identifying information, and is
+        necessary for calculating the date
 
-    The birthday option will remain in place, but will only
-    store month/day, and not year, to avoid holding any
-    sort of identifying information.
+        But as NSFW commands are only available in NSFW channels,
+        birthdays set in profile command will not be used to age
+        gate the commands, as the Discord client already does
+
+        It will remain purely cosmetic, maybe at some point being
+        used to send people birthday messages automatically
     */
     alias: []
 }
