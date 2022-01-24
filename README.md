@@ -2,8 +2,8 @@
 ## In addition, this project is not finished, and will likely not be updated frequently.
 
 
-## Kit Bot
-Kit is a general use moderation bot with a bunch of fun commands - She's built in Node JS with Discord.js, currently running in version v14.16.1
+## Bot
+Ava is a general use moderation bot with a bunch of fun commands - She's built in Node JS with Discord.js, currently running in version v14.16.1
 
 
 ## Initial Configuration
@@ -23,7 +23,9 @@ Once everything is configured, just run `app.js` with node (to keep it from stay
 All commands are automatically loaded from the /commands/ folder, and must be formatted like this:
 ```js
 /*
-possible imports are; client, message, args, deletedMessage, pool, tossedSet, roles
+possible options are; client, message, args, deletedMessage, pool, tossedSet, roles
+
+must be used in that order
 
 variables:
 client - client variable, includes the client's information, user attached to client, etc.
