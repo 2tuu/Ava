@@ -3,10 +3,16 @@
 /*
 K-Tag v1.3
 (c) Avery W. 2018 (Github: 2tuu)
-Last revision: 12/25/19
-*/
-exports.read = (taggerContent, message, args) => {
+Last revision: 1/24/2022
 
+Changelog:
+
+    - Added simple if statements
+        + Going to add OR and AND modfiers next
+    - Cleaned up code
+*/
+
+exports.read = (taggerContent, message, args) => {
     //{set;;}; and {var.*};
     var variables = {}; //Object for variable saving
 
@@ -17,22 +23,24 @@ exports.read = (taggerContent, message, args) => {
             var array = setAr[g].replace('{set;', '').replace('};', '');
             taggerContent = taggerContent.replace(new RegExp(setAr[g], 'g'), '');
             array = array.split(';');
-            if(array){
-                if(array[1]){
-                    variables[array[0]] = array[1];
-                }
+            if(array && array[1]){
+                variables[array[0]] = array[1];
             }
         });
     }
 
-    //console.log(variables);
 
     for (var key in variables) {
         taggerContent = taggerContent.replace(new RegExp("{var." + key + "};", 'g'), variables[key]);
     }
 
 
+    //mention removers
+    taggerContent = taggerContent.replace(new RegExp("@everyone", 'g'), 'everyone');
+    taggerContent = taggerContent.replace(new RegExp("@here", 'g'), 'here');
 
+
+    //{time.*}
     var d = new Date();
     var time = {
         hour: d.getHours(),
@@ -40,23 +48,17 @@ exports.read = (taggerContent, message, args) => {
         year: d.getFullYear(),
         day: d.getDay()
     };
-    
-    //mention removers
-        taggerContent = taggerContent.replace(new RegExp("@everyone", 'g'), 'everyone');
-        taggerContent = taggerContent.replace(new RegExp("@here", 'g'), 'here');
 
-    //{time.*}
     for (var key in time) {
         taggerContent = taggerContent.replace(new RegExp("{time." + key + "}", 'g'), time[key]);
     }
 
 
-
     //{caller.*}
     var caller = message.author;
     delete caller.lastMessage;
-    caller.discrim = caller.discriminator;
-    caller.uname = caller.username;
+        caller.discrim = caller.discriminator;
+        caller.uname = caller.username;
 
     for (var key in caller) {
         taggerContent = taggerContent.replace(new RegExp("{caller." + key + "}", 'g'), caller[key]);
@@ -74,7 +76,6 @@ exports.read = (taggerContent, message, args) => {
     }
 
 
-
     //{channel.*}
     var chan = message.channel;
     delete chan.lastMessage;
@@ -87,6 +88,7 @@ exports.read = (taggerContent, message, args) => {
 
     //{guild.*}
     var guild = message.guild;
+
     //remove objects that can't be used/shouldn't be accessed
     delete guild.features;
     delete guild.applicationID;
@@ -97,7 +99,6 @@ exports.read = (taggerContent, message, args) => {
     for (var key in guild) {
         taggerContent = taggerContent.replace(new RegExp("{guild." + key + "}", 'g'), guild[key]);
     }
-
 
 
     //{num;*}
@@ -118,8 +119,7 @@ exports.read = (taggerContent, message, args) => {
     }
 
 
-
-    //misc
+    //misc (newline, tag, space, arguments)
     taggerContent = taggerContent.replace(new RegExp("{n}", 'g'), "\n");
     taggerContent = taggerContent.replace(new RegExp("{t}", 'g'), "\t");
     taggerContent = taggerContent.replace(new RegExp("{space}", 'g'), " ");
@@ -127,15 +127,19 @@ exports.read = (taggerContent, message, args) => {
 
     var i = 0;
 
+
+    //arguments {arg#}
     args.forEach(a => {
         taggerContent = taggerContent.replace(new RegExp("{arg" + i + "}", 'g'), args[i]);
         i = i+1;
     });
-    //c-arguments
+
+
+    //c-arguments {carg#}
     var f = 1;
     while(f < 1000){
         var argF;
-        
+
         if(!args[f]){
             argF = message.author.username;
         } else {
@@ -147,21 +151,21 @@ exports.read = (taggerContent, message, args) => {
     }
 
 
-    
-        //{choose;*}
-        var argAr = taggerContent.match(/{choose;(.*?)}/g);
-        if(argAr){
-            var g = 0;
-            argAr.forEach(a => {
-                var array = argAr[g].replace('{choose;', '').replace('}', '');
-                array = array.split(';');
-                taggerContent = taggerContent.replace(new RegExp(argAr[g], 'g'), array[Math.floor(Math.random() * array.length)]);
-            });
-        }
+
+    //{choose;*}
+    var argAr = taggerContent.match(/{choose;(.*?)}/g);
+    if(argAr){
+        var g = 0;
+        argAr.forEach(a => {
+            var array = argAr[g].replace('{choose;', '').replace('}', '');
+            array = array.split(';');
+            taggerContent = taggerContent.replace(new RegExp(argAr[g], 'g'), array[Math.floor(Math.random() * array.length)]);
+        });
+    }
 
 
 
-        //{repeat;*;}
+    //{repeat;*;}
     var repAr = taggerContent.match(/{repeat;(.*?)}/g);
     if(repAr){
         var g = 0;
@@ -179,55 +183,51 @@ exports.read = (taggerContent, message, args) => {
                     }
                 }
             }
-            
         });
     }
 
-    //if-statements
+
+    //if statements
+
     //equals ==
     var ifEqualsVar = taggerContent.match(/{if;(.*?)==(.*?);(.*?)};/g);
-    if(!ifEqualsVar){
-        //ignore
-    } else if(ifEqualsVar[0]){
+    if(ifEqualsVar && ifEqualsVar[0]){
         ifEqualsVar.forEach(e=>{
             var logic = e.match(/{if;(.*?);/); //{if;a=b;
             var toEval = e.replace(logic[0], '') //<eval>};
 
-            if(!toEval[0] || !logic[0]) return;
+            if(toEval[0] && logic[0]){
+                logic = logic[0].replace('{if;','').slice(0,-1).split('=='); // ['a','b']
+                toEval = toEval.slice(0,-2); //<eval>
 
-            logic = logic[0].replace('{if;','').slice(0,-1).split('=='); // ['a','b']
-            toEval = toEval.slice(0,-2); //<eval>
-
-            if(logic[0] == logic[1]){
-                taggerContent = taggerContent.replace(e,toEval);
-            } else {
-                taggerContent = taggerContent.replace(e,'');
+                if(logic[0] == logic[1]){
+                    taggerContent = taggerContent.replace(e,toEval);
+                } else {
+                    taggerContent = taggerContent.replace(e,'');
+                }
             }
         })
     }
 
     //does not equal =!
     ifEqualsVar = taggerContent.match(/{if;(.*?)=!(.*?);(.*?)};/g);
-    if(!ifEqualsVar){
-        //ignore
-    } else if(ifEqualsVar[0]){
+    if(ifEqualsVar && ifEqualsVar[0]){
         ifEqualsVar.forEach(e=>{
             var logic = e.match(/{if;(.*?);/); //{if;a=b;
             var toEval = e.replace(logic[0], '') //<eval>};
 
-            if(!toEval[0] || !logic[0]) return;
+            if(toEval[0] && logic[0]){
+                logic = logic[0].replace('{if;','').slice(0,-1).split('=!'); // ['a','b']
+                toEval = toEval.slice(0,-2); //<eval>
 
-            logic = logic[0].replace('{if;','').slice(0,-1).split('=!'); // ['a','b']
-            toEval = toEval.slice(0,-2); //<eval>
-
-            if(logic[0] !== logic[1]){
-                taggerContent = taggerContent.replace(e,toEval);
-            } else {
-                taggerContent = taggerContent.replace(e,'');
+                if(logic[0] !== logic[1]){
+                    taggerContent = taggerContent.replace(e,toEval);
+                } else {
+                    taggerContent = taggerContent.replace(e,'');
+                }
             }
         })
     }
 
     return taggerContent;
 }
-
