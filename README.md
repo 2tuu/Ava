@@ -3,7 +3,7 @@
 
 
 ## Bot
-Ava is a general use moderation bot with a bunch of fun commands - She's built in Node JS with Discord.js, currently running in version v14.16.1
+Kit is a general use moderation bot with a bunch of fun commands - She's built in Node JS with Discord.js, currently running in version v14.16.1
 
 
 ## Initial Configuration
