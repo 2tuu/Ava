@@ -35,12 +35,13 @@ exports.run = async (client, message) => {
 
             `-Reaction times:\n` + 
             `Bot: ${m.createdTimestamp - message.createdTimestamp}ms\n` + 
-            `API: ${client.ws.ping}ms\n\n` +
+            `API: ${client.ws.ping}ms\n` +
+            `+Adjusted: ${(m.createdTimestamp - message.createdTimestamp) - client.ws.ping}ms\n\n` +
 
             `PROCESS UPTIME: ${uptimeVar}\n` +
             `+(~${Math.round(hours/24)} days)\n\n`+
 
-            `-Process completed in ${Math.round(seconds*1000)}ms` +
+            `-Completed in ${Math.round(seconds*1000)}ms` +
             '\n```')
             m.edit({embed});
             message.channel.stopTyping();
