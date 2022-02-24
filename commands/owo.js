@@ -1,5 +1,5 @@
-exports.run = (client, message, args) => {
-var v = args.join(' ');
+exports.run = (client, message, args, deletedMessage, pool, tossedSet, roles, messageContent) => {
+var v = messageContent;
 
 var owoify = function (v) {
   
