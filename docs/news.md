@@ -5,7 +5,7 @@ To anyone reading this; If you are currently using Kit's modlog functionality or
 
 Discord is currently imposing a new restriction on message content access, to prevent any bad actors from violating the privacy of their users
 
-While Kit does fall under the umbrella of moderation bots and is likely to be accepted, due to a mistake with the first application for this acceptance the application had to be re-submitted. Since the dealine is coming soon (April 30th), and Kit is just on the edge of being in 100 guilds, these may not function until Discord replies to my second request
+While Kit does fall under the umbrella of moderation bots and is likely to be accepted, due to a mistake with the first application, it had to be re-submitted. Since the dealine is coming soon (April 30th), and Kit is just on the edge of being in 100 guilds, these may not function until Discord replies to my second request
 
 Until then, all bot functions that do not involve monitoring messages will work perfectly fine (Kick/ban commands, mute etc.), while commands and functions that do require it will not (Any modlog functionality, some of the Profile functionality, and server passwords)
 
