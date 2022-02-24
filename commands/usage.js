@@ -15,6 +15,21 @@ exports.run = async (client, message) => {
     const used = process.memoryUsage().heapUsed / 1024 / 1024;
     const total = process.memoryUsage().heapTotal / 1024 / 1024;
 
+    var memPercent = (Math.round(os.totalmem/1000000000))/(Math.round((os.totalmem - os.freemem)/1000000000));
+    var lumpPercent = (Math.round(used * 100) / 100)/(Math.round(total * 100) / 100);
+
+    if(memPercent < 1){
+        memPercent = '<1';
+    } else {
+        memPercent = Math.round(memPercent);
+    }
+
+    if(lumpPercent < 1){
+        lumpPercent = '<1';
+    } else {
+        lumpPercent = Math.round(lumpPercent);
+    }
+
     async function usageMeter(){
         var m = await message.channel.send('Loading metrics...');
         message.channel.startTyping();
@@ -30,8 +45,8 @@ exports.run = async (client, message) => {
             `CPU USAGE: ${Math.round(percent)}%\n` +
             `+Load: ${os.loadavg()}\n\n` +
 
-            `MEM (G): ${Math.round((os.totalmem - os.freemem)/1000000000)}gb/ ${Math.round(os.totalmem/1000000000)}gb\n` +
-            `MEM (P): ${(Math.round(used * 100) / 100)}/${(Math.round(total * 100) / 100)}mb\n\n` +
+            `MEM (G): ${Math.round((os.totalmem - os.freemem)/1000000000)}gb/ ${Math.round(os.totalmem/1000000000)}gb (${memPercent}%)\n` +
+            `MEM (P): ${(Math.round(used * 100) / 100)}/${(Math.round(total * 100) / 100)}mb (${lumpPercent}%)\n\n` +
 
             `-Reaction times:\n` + 
             `Bot: ${m.createdTimestamp - message.createdTimestamp}ms\n` + 
@@ -39,7 +54,7 @@ exports.run = async (client, message) => {
             `+Adjusted: ${(m.createdTimestamp - message.createdTimestamp) - client.ws.ping}ms\n\n` +
 
             `PROCESS UPTIME: ${uptimeVar}\n` +
-            `+(~${Math.round(hours/24)} days)\n\n`+
+            `+(~${Math.round(hours/24)}d)\n\n`+
 
             `-Completed in ${Math.round(seconds*1000)}ms` +
             '\n```')
