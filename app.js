@@ -229,7 +229,7 @@ client.on("message", async message => {
       } else {
         return;
       }
-    
+
       args = message.content.slice(handledPrefix.length).trim().match(/[^\s"]+|"([^"]*)"/g);
       if(!args || !args[0]) args = [];
       command = args.shift().toLowerCase();
@@ -271,7 +271,9 @@ client.on("message", async message => {
     
     
       try{
-        commandFile.run(client, message, args, deletedMessage, pool, tossedSet, roles);
+        var messageContent = message.content.slice(handledPrefix.length).slice(command.length+2);
+
+        commandFile.run(client, message, args, deletedMessage, pool, tossedSet, roles, messageContent);
         var cName = commandFile.conf.name;
 
         if(client.commandStats[cName]){
