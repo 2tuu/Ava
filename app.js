@@ -158,6 +158,11 @@ client.on('interactionCreate', async interaction => {
 
 	command = require(`./commands/${interaction.commandName.toLowerCase()}.js`);
   client.isInteraction = true;
+  if(!interaction.guild && command.conf.DM === false) return interaction.reply('Not allowed in DMs');
+  if(command.ownerOnly === true && !config.evalAllow.includes(interaction.user.id)){
+    return interaction.reply('Disabled for testing or owner-only command');
+  }
+
   command.run(client, interaction, args, deletedMessage, pool, tossedSet, roles, messageContent)
 });
 
