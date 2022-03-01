@@ -1,6 +1,6 @@
 const Discord = require(`discord.js`);
 const { Client, Intents } = require('discord.js');
-const client = new Client({intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS]});
+const client = new Client({ intents: ["GUILDS", "GUILD_MESSAGES", "DIRECT_MESSAGES"], partials: ["CHANNEL"] });
 
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
@@ -8,7 +8,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 const fs = require(`fs`);
 const config = require(`./config.json`);
-const token = config.token_beta;
+const token = config.token_prod;
 const colors = require('./plugins/colors.json');
 const { Pool } = require('pg')
 const pool = new Pool({
