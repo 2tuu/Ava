@@ -17,10 +17,6 @@ const connection = new Pool({
   password: config.dbpass
 });
 
-connection.query('CREATE TABLE announce (guild TEXT, channel TEXT);').then(row=>{
-  console.log('Created "announce" table successfully');
-})
-
 connection.query('CREATE TABLE blacklist (userid TEXT, reason TEXT);').then(row=>{
   console.log('Created "blacklist" table successfully');
 });
@@ -33,17 +29,9 @@ connection.query('CREATE TABLE note (note TEXT, ownerid TEXT);').then(row=>{
   console.log('Created "note" table successfully');
 })
 
-connection.query('CREATE TABLE nsfw (id TEXT, birthyear TEXT);').then(row=>{
-  console.log('Created "nsfw" table successfully');
-})
-
 connection.query('CREATE TABLE prefixes (prefix TEXT, welcomeMessage TEXT, welcomeChannel TEXT, shouldWelcome TEXT, serverId TEXT);').then(row=>{
   console.log('Created "prefixes" table successfully');
 })
-
-connection.query('CREATE TABLE prefix (prefix TEXT, welcomeMessage TEXT, welcomeChannel TEXT, shouldWelcome TEXT, serverId TEXT);').then(row=>{
-  console.log('Created "prefixes" table successfully');
-});
 
 connection.query('CREATE TABLE settings (serverid TEXT, banid TEXT);').then(row=>{
   console.log('Created "settings" table successfully');
