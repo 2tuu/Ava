@@ -6,7 +6,7 @@ exports.run = async (client, message) => {
                 .setColor(`0x${client.colors.neutral}`)
                 .setTitle("Process restarting...")
 
-        await message.channel.send({embed});
+        await client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         process.exit(0);
 };
 
@@ -14,8 +14,9 @@ exports.conf = {
         category: "Admin",
         name: "N/A (dev command)",
         help: "N/A",
+        shortHelp: "[N/A]",
         format: "N/A",
         DM: true,
-        OwnerOnly: true,
+        ownerOnly: true,
         alias: ['die']
 }

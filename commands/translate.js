@@ -16,8 +16,8 @@ exports.run = (client, message, args) => {
 
     var types = ['tob64', 'fromb64', 'tobinary', 'frombinary']; //String type list
 
-    if(!type || type.length < 1 || !types.includes(type)) return message.channel.send('Invalid type, use `' + types.join(', ') + '`');
-    if(!text || text.length < 1) return message.channel.send('No text was given to translate');
+    if(!type || type.length < 1 || !types.includes(type)) return client.messageHandler(message, client.isInteraction, 'Invalid type, use `' + types.join(', ') + '`');
+    if(!text || text.length < 1) return client.messageHandler(message, client.isInteraction, 'No text was given to translate');
 
     if(type === "tob64"){
         result = Buffer.from(text).toString('base64');
@@ -29,9 +29,9 @@ exports.run = (client, message, args) => {
         result = parseInt(text,2).toString(10);
     }
 
-    if(!result || result.length < 1) return message.channel.send('Invalid response, make sure your code is correct');
+    if(!result || result.length < 1) return client.messageHandler(message, client.isInteraction, 'Invalid response, make sure your code is correct');
 
-    message.channel.send(`Result: \`${result}\``);
+    client.messageHandler(message, client.isInteraction, `Result: \`${result}\``);
 
 }
 
@@ -39,8 +39,10 @@ exports.conf = {
     category: "Fun",
     name: "Translate",
     help: "Translate anything to or from base64 or binary",
+    shortHelp: "Base64/Binary converter",
     format: "k?translate [fromb64/frombinary/tob64/tobinary] [text to be translated]",
     DM: true,
-    OwnerOnly: false,
-    alias: []
+    ownerOnly: false,
+    alias: [],
+  slashCommand: true
 }

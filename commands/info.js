@@ -14,15 +14,16 @@ exports.run = async (client, message) => {
 	)
 	.setFooter('v.' + `${client.version} ${client.codename}` + ' (current repo version: ' + client.currentVersion + ')')
 
-	message.channel.send({embed})
+	client.messageHandler(message, client.isInteraction, { embeds: [embed] })
  }
  
  exports.conf = {
 	category: "Admin",
 	name: "N/A (dev command)",
     help: "View my version information, the artist for my avatar, and other statistics",
+	shortHelp: "[N/A]",
     format: "k?info",
     DM: true,
-    OwnerOnly: true,
+    ownerOnly: true,
     alias: ['stats']
 }

@@ -8,9 +8,9 @@ exports.run = (client, message, args) => {
 
     
 if(!args[0]){
-	message.channel.send("Field is blank");
+	client.messageHandler(message, client.isInteraction, "Field is blank");
 } else {
-	message.channel.send(reverseString(args.join(' ')));
+	client.messageHandler(message, client.isInteraction, reverseString(args.join(' ')));
 	  }
     
 }
@@ -19,8 +19,10 @@ exports.conf = {
     category: "Fun",
     name: "Reverse",
     help: "Reverse the given text",
+    shortHelp: "Reverse the given text",
     format: "k?reverse [text]",
     DM: true,
-    OwnerOnly: false,
-    alias: []
+    ownerOnly: false,
+    alias: [],
+  slashCommand: true
 }

@@ -13,15 +13,17 @@ const responses = [
 
 exports.run = (client, message, args) => {
     var response = responses[Math.floor(Math.random()*responses.length)];
-    message.channel.send(response).then().catch(console.error);
+    client.messageHandler(message, client.isInteraction, response)
 }
 
 exports.conf = {
     category: "Fun",
     name: "8ball",
     help: "Ask a yes or no question and get a response",
+    shortHelp: "Answers yes/no questions",
     format: "k?8ball [question]",
     DM: true,
-    OwnerOnly: false,
-    alias: ["am", "are", "is", "can", "do", "will", "does"]
+    ownerOnly: false,
+    alias: ["am", "are", "is", "can", "do", "will", "does"],
+    slashCommand: true
 }

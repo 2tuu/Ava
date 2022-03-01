@@ -29,16 +29,16 @@ async function evalCMD(){
               res = res.replace(new RegExp(config.youtube, 'g'), '[REDACTED]');
               res = res.replace(new RegExp(config.imgur, 'g'), '[REDACTED]');
 
-        message.channel.send(res, {code:"xl"});
+        client.messageHandler(message, client.isInteraction, res, {code:"xl"});
       } catch (err) {
-        message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+        client.messageHandler(message, client.isInteraction, `\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
       }
 
     } else {
       const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
         .setTitle("You do not have permission to do this. (Bot Owner required)")
-      message.channel.send({embed});
+      client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
   }
 
@@ -49,8 +49,9 @@ exports.conf = {
   category: "Admin",
   name: "N/A (dev command)",
   help: "You can't use this",
+  shortHelp: "[N/A]",
   format: "N/A",
   DM: true,
-  OwnerOnly: true,
+  ownerOnly: true,
   alias: []
 }

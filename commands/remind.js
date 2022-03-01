@@ -12,7 +12,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         const embed = new Discord.MessageEmbed()
             .setColor(`0x${client.colors.bad}`)
             .setDescription('No reminders found')
-        return message.channel.send({embed});
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
 
             var list = [];
@@ -22,8 +22,8 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             });
 
         const embed = new Discord.MessageEmbed()
-            .setDescription(list)
-        return message.channel.send({embed});
+            .setDescription(list.join('\n').toString())
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
     if(args.join(' ').match(/-t (.*)/g)){
@@ -47,7 +47,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         var num = args.join(' ').match(/-t (.*)/g)[0].replace('-t ', '');
         num = getSeconds(num.toString());
     } else {
-        return message.channel.send("The time wasn't set correctly, please refer to `k?help remind` for proper format")
+        return client.messageHandler(message, client.isInteraction, "The time wasn't set correctly, please refer to `k?help remind` for proper format")
     }
 
 
@@ -60,7 +60,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         var time = minutes+hours+days;
 
         if(time < 59999 || time > 604800001){
-            return message.channel.send("Please enter a time between 1 minute and 7 days");
+            return client.messageHandler(message, client.isInteraction, "Please enter a time between 1 minute and 7 days");
         }
 
         var endtime = Date.now() + time;
@@ -71,14 +71,14 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         timerMessage = timerMessage.replace(/(')/g, "’");
 
         if(timerMessage.length > 1921){
-            return message.channel.send("Please give me a message below 1,920 characters");
+            return client.messageHandler(message, client.isInteraction, "Please give me a message below 1,920 characters");
         }
 
         if(timerMessage.length < 1){
             timerMessage = '[No Label]';
-            message.channel.send(`I will remind you <t:${Math.round(endtime/1000)}:R>`);
+            client.messageHandler(message, client.isInteraction, `I will remind you <t:${Math.round(endtime/1000)}:R>`);
         } else {
-            message.channel.send(`I will tell you: \`${timerMessage}\` <t:${Math.round(endtime/1000)}:R>`);
+            client.messageHandler(message, client.isInteraction, `I will tell you: \`${timerMessage}\` <t:${Math.round(endtime/1000)}:R>`);
         }
 
 
@@ -88,7 +88,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             row = row.rows;
 
             if(row.length > 14){
-                return message.channel.send('Sorry, you have too many reminders (Limit 15)');
+                return client.messageHandler(message, client.isInteraction, 'Sorry, you have too many reminders (Limit 15)');
             }
 
             sql.query(`INSERT INTO timer (endtime, "user", channelcreated, message) VALUES ('${endtime}', '${user}', '${channel}', '${timerMessage}')`);
@@ -99,8 +99,10 @@ exports.conf = {
     category: "Utility",
     name: "Remind",
     help: "Remind yourself of something in the future",
+    shortHelp: "Set a reminder",
     format: "k?remind <message> -t #h #m",
     DM: true,
-    OwnerOnly: false,
-    alias: []
+    ownerOnly: false,
+    alias: [],
+  slashCommand: true
 }

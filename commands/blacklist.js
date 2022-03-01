@@ -10,15 +10,15 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription("No results")
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             } else {
                 const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.neutral}`)
                 .setDescription(`${row.userid} was blacklisted for "${row.reason}"`)
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
         }).catch((err) => {
-            return message.channel.send('Database error:\n```js\n' + err + '\n```');
+            return client.messageHandler(message, client.isInteraction, 'Database error:\n```js\n' + err + '\n```');
         });
     } else if (args[0].toLowerCase() === "list"){
         sql.query(`SELECT * FROM blacklist`).then(row=>{
@@ -27,7 +27,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription("No results")
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             } else {
                 var res = [];
 
@@ -38,10 +38,10 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.neutral}`)
                 .setDescription(res)
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
         }).catch((err) => {
-            return message.channel.send('Database error:\n```js\n' + err + '\n```');
+            return client.messageHandler(message, client.isInteraction, 'Database error:\n```js\n' + err + '\n```');
         });
     } else if(args[0].toLowerCase() === "delete"){
         sql.query(`DELETE FROM blacklist WHERE userid ='${args[1]}'`).then(row=>{
@@ -49,9 +49,9 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.neutral}`)
                 .setDescription(`Deleting ${args[1]} from blacklist`)
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }).catch((err) => {
-            return message.channel.send('Database error:\n```js\n' + err + '\n```');
+            return client.messageHandler(message, client.isInteraction, 'Database error:\n```js\n' + err + '\n```');
         });
     } else {
 
@@ -65,10 +65,10 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         .setDescription('User added to blacklist')
         .addField("User ID", `${args[0]}`)
         .addField("Reason", reason);
-    message.channel.send({embed});
+    client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     
     sql.query(`INSERT INTO blacklist (userid, reason) VALUES (${args[0]}, '${reason}')`).catch((err) => {
-        return message.channel.send('Database error:\n```js\n' + err + '\n```');
+        return client.messageHandler(message, client.isInteraction, 'Database error:\n```js\n' + err + '\n```');
     });
     }
     
@@ -78,8 +78,9 @@ exports.conf = {
     category: "Admin",
     name: "N/A (dev command)",
     help: "Add a user to the blacklist",
+    shortHelp: "[N/A]",
     format: "This is not for you",
     DM: true,
-    OwnerOnly: true,
+    ownerOnly: true,
     alias: ['blist']
 }

@@ -1,8 +1,8 @@
 exports.run = (client, message) => {
   setTimeout(() => {
-    message.channel.send("boop");
+    client.messageHandler(message, client.isInteraction, "boop");
   setTimeout(() => {
-    message.channel.send("meow");
+    client.messageHandler(message, client.isInteraction, "meow");
   }, 3000);
   }, 1000);
 }
@@ -11,8 +11,9 @@ exports.conf = {
   category: "Fun",
   name: "Beep",
   help: "boop",
+  shortHelp: "meow",
   format: "meow",
   DM: true,
-  OwnerOnly: false,
+  ownerOnly: true, //fix edit behavior
   alias: []
 }

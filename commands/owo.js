@@ -24,18 +24,20 @@ var owoify = function (v) {
   }
 
   if(!args[0]){
-      return message.channel.send("Whats this? (ERR: No arguments)")
+      return client.messageHandler(message, client.isInteraction, "Whats this? (ERR: No arguments)")
   }
 
-  message.channel.send(owoify(v));
+  client.messageHandler(message, client.isInteraction, owoify(v));
 }
 
 exports.conf = {
     category: "Fun",
     name: "OWO/UWU",
     help: "What's this?",
+    shortHelp: "uwu",
     format: "k?owo [text]",
     DM: true,
-    OwnerOnly: false,
-    alias: ['uwu']
+    ownerOnly: false,
+    alias: ['uwu'],
+  slashCommand: true
 }

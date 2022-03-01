@@ -5,15 +5,17 @@ exports.run = (client, message, args) => {
     } else {
         var response = "Heads"
     }
-    message.channel.send(`You got ${response}`);
+    client.messageHandler(message, client.isInteraction, `You got ${response}`);
 }
     
 exports.conf = {
     category: "Fun",
     name: "Flip",
     help: "Flip an imaginary coin",
+    shortHelp: "Flip a coin",
     format: "k?flip",
     DM: true,
-    OwnerOnly: false,
-    alias: ['coin']
+    ownerOnly: false,
+    alias: ['coin'],
+  slashCommand: true
 }

@@ -19,15 +19,17 @@ exports.run = (client, message) => {
     }
 
     finalWord = finalWord.join('');
-    message.channel.send(finalWord);
+    client.messageHandler(message, client.isInteraction, finalWord);
 }
 
 exports.conf = {
     category: "Fun",
     name: "Randomword",
     help: "Generate something that's technically a word",
+    shortHelp: "\"Word\" generator",
     format: "k?randomword",
     DM: true,
-    OwnerOnly: false,
-    alias: []
+    ownerOnly: false,
+    alias: [],
+  slashCommand: true
 }
