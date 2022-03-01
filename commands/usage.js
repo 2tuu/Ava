@@ -41,6 +41,9 @@ exports.run = async (client, message) => {
             `CPU(s): x${os.cpus().length}\n`+
             `OS: ${os.platform()} ${os.release()}\n\n` +
 
+            `Node: ${process.version}\n` +
+            `App: v${client.version}\n\n` +
+
             `CPU USAGE: ${Math.round(percent)}%\n` +
             `+Load: ${os.loadavg()}\n\n` +
 
