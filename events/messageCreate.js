@@ -72,12 +72,6 @@ exports.run = async (deletedMessage, pool, client, message) => {
     
       });
 
-      pool.query(`SELECT * FROM announce WHERE guild ='${message.guild.id}'`).then(row => {
-        if(!row.rows[0]){
-          pool.query(`INSERT INTO announce (guild, channel) VALUES ('${message.guild.id}', null)`);
-        }
-      });
-
       var currentStatus = await client.presence.activities;
       if(!currentStatus[0]){
         client.user.setActivity(data.status);
