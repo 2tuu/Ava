@@ -1,10 +1,14 @@
 const Discord = require(`discord.js`);
-const client = new Discord.Client({
-  disableMentions: 'everyone'
-});
+const { Client, Intents } = require('discord.js');
+const client = new Client({intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS]});
+
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 const fs = require(`fs`);
 const config = require(`./config.json`);
+const token = config.token_beta;
 const colors = require('./plugins/colors.json');
 const { Pool } = require('pg')
 const pool = new Pool({
@@ -16,12 +20,29 @@ const pool = new Pool({
   max: 0
 });
 
+const clientId = config.clientId;
+
+const rest = new REST({ version: '9' }).setToken(token);
+
       client.blacklist = [];
       client.blist = [];
       client.aliases = new Map();
       client.help = new Map();
       client.commandStats = {};
       client.colors = colors;
+      client.isInteraction = false;
+      client.messageHandler = function m(message, isInteraction, content){
+        var reply;
+        if(isInteraction){
+          reply = message.reply(content);
+        } else {
+          reply = message.channel.send(content);
+        }
+        return reply;
+      };
+      client.messageHandler.editReply = function r(content, reply){
+        reply.editReply(content);
+      }
 const deletedMessage = new Set();
 const roles = new Set();
 const tossedSet = new Set();
@@ -51,23 +72,38 @@ fs.readdir(`./events/`, (err, files) => {
 
 client.failedCommands = [];
 client.totalCommands = 0;
+client.slashCommands = [];
 
 fs.readdir('./commands', (err, commands) => {
     function cLoader(c){
-      const cmd = require(`./commands/${c}`);
-      var cmdName = c.substring(0, c.length-3);
+      var cmd;
 
-        try {
-            client.aliases[cmdName] = {aliases: []};
-            client.help[cmdName] = {help: cmd.conf.help, format: cmd.conf.format, category: cmd.conf.category, filename: cmdName};
+      try {
+        cmd = require(`./commands/${c}`);
+      } catch (err){
+        client.failedCommands.push(c.replace('.js',''));
+        return console.error(`Loading Error (${c}): ${err}`);
+      }
+      var cmdName = c.substring(0, c.length-3); //-.js
 
-            cmd.conf.alias.forEach((alias) => { client.aliases[cmdName].aliases.push(alias); });
-            
-            return false;
-        } catch (err) {
-            return console.error(`Loading Error (${cmdName}): ${err}`);
-            client.failedCommands.push(c);
-        }
+      client.aliases[cmdName] = {aliases: []};
+      client.help[cmdName] = {help: cmd.conf.help, format: cmd.conf.format, category: cmd.conf.category, filename: cmdName};
+      
+      if(cmd.conf.ownerOnly === false && cmd.conf.slashCommand){
+        const data = new SlashCommandBuilder()
+        .setName(cmdName)
+        .setDescription(cmd.conf.shortHelp)
+        .addStringOption(option =>
+          option.setName('arguments')
+            .setDescription('Command arguments')
+            .setRequired(false));
+
+        client.slashCommands.push(data.toJSON());
+      }
+
+      cmd.conf.alias.forEach((alias) => { client.aliases[cmdName].aliases.push(alias); });
+      
+      return false;
     }
     console.log('\x1b[32m','Loading commands...');
     commands.forEach((m) => { cLoader(m); client.totalCommands = client.totalCommands + 1;});
@@ -83,16 +119,12 @@ if(config.toggle_beta === "y"){
             const cmd = require(`./commands-locked/${c}`);
             var cmdName = c.substring(0, c.length-3);
 
-            //ignore for help file
-            //client.aliases[cmdName] = {aliases: []};
-            //client.help[cmdName] = {help: cmd.conf.help, format: cmd.conf.format};
-
             cmd.conf.alias.forEach((alias) => { client.aliases[cmdName].aliases.push(alias); });
             
             return false;
         } catch (err) {
             console.error(`Beta Loading Error: ${err}`);
-            client.failedCommands.push(c);
+            client.failedCommands.push(cmd);
         }
     }
     console.log('\x1b[32m','Loading beta commands...');
@@ -105,9 +137,33 @@ if(config.toggle_beta === "y"){
 
 console.log('\x1b[32m','Starting...');
 
+//slash command handler
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isCommand()) return;
+  var options = await interaction.options;
+  var args = [];
+  var messageContent ='';
+
+  if(options._hoistedOptions[0]){
+    args = options._hoistedOptions[0].value;
+
+    if(!args){
+      args = [];
+    }
+
+    messageContent = args;
+    args = args.match(/[^\s"]+|"([^"]*)"/g);
+  }
+  interaction.author = interaction.user;
+
+	command = require(`./commands/${interaction.commandName.toLowerCase()}.js`);
+  client.isInteraction = true;
+  command.run(client, interaction, args, deletedMessage, pool, tossedSet, roles, messageContent)
+});
+
 
 //Message event
-client.on("message", async message => {
+client.on("messageCreate", async message => {
     function dmCheck(){
         if(message.guild){
           return message.guild.id;
@@ -260,7 +316,7 @@ client.on("message", async message => {
       }
     
       //Return if the user isn't allowed to use the command - non-dm in dm or owner by non-owner
-      if(commandFile.conf.OwnerOnly === true && !config.evalAllow.includes(message.author.id)){
+      if(commandFile.conf.ownerOnly === true && !config.evalAllow.includes(message.author.id)){
         const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
         .setDescription("This command is either locked, or currently undergoing changes")
@@ -273,6 +329,7 @@ client.on("message", async message => {
       try{
         var messageContent = message.content.slice(handledPrefix.length).slice(command.length+2);
 
+        client.isInteraction = false;
         commandFile.run(client, message, args, deletedMessage, pool, tossedSet, roles, messageContent);
         var cName = commandFile.conf.name;
 
@@ -301,4 +358,19 @@ client.on("error", async error => {
                         + error + '\n```');
 });
 
-client.login(config.token_prod);
+client.on("ready", ()=>{
+  (async () => {
+    try {
+      console.log(' Loading global interactions....');
+          await rest.put(
+              Routes.applicationCommands(client.user.id),
+              { body: client.slashCommands },
+          );
+      console.log(' Interactions loaded');
+    } catch (error) {
+      console.error(error);
+    }
+  })();
+})
+
+client.login(token);
