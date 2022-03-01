@@ -1,3 +1,10 @@
+## Note
+Due to the implimentation of slash commands requiring extra authorization, any server currently using Kit who wishes to enable them will need to authorize it
+
+You can do this by simply clicking the invite link provided by the k?invite command again, or using the link on https://2tu.dev/kit
+
+This will also authorize Kit with any permissions it requires to function normally, so if you're having any permissions related issues this will fix it
+
 ## Current State of Development
 Hi all,
 
