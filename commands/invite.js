@@ -4,15 +4,17 @@ const Discord = require("discord.js");
 exports.run = (client, message, args) => {
     const embed = new Discord.MessageEmbed()
         .setDescription(`Invite me to your server [here](${config.invite})`)
-    message.channel.send({embed});
+    client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 }
 
 exports.conf = {
     category: "Utility",
     name: "Invite",
     help: "Print out my invite",
+    shortHelp: "Invite me",
     format: "k?invite",
     DM: true,
-    OwnerOnly: false,
-    alias: []
+    ownerOnly: false,
+    alias: [],
+  slashCommand: true
 }

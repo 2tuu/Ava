@@ -17,7 +17,7 @@ exports.run = (client, message, args, deletedMessage, pool) => {
 
       const embed = new Discord.MessageEmbed()
         .setTitle("Server prefix changed to: \"" + args[0].replace("\"", "").replace("\"", "") + "\"")
-      message.channel.send({embed});
+      client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 
       console.log('\x1b[36m%s\x1b[0m', "Server prefix for GUILD ID: " + message.guild.id);
       console.log('\x1b[36m%s\x1b[0m', "Changed to: " + args[0]);
@@ -26,7 +26,7 @@ exports.run = (client, message, args, deletedMessage, pool) => {
       const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
         .setTitle("You do not have permission to do this. (Admin required)")
-      message.channel.send({embed});
+      client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 
     }
 
@@ -41,8 +41,9 @@ exports.conf = {
   category: "Moderation",
   name: "Prefix",
   help: "Set my prefix to be used in this server",
+  shortHelp: "Set this server's prefix",
   format: "k?prefix [prefix]",
   DM: false,
-  OwnerOnly: false,
+  ownerOnly: false,
   alias: ['setprefix']
 }

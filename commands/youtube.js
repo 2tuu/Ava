@@ -9,11 +9,11 @@ exports.run = (client, message, args) => {
   if(args[0]){
     searchTerms = args.join(' ');
   } else {
-    return message.channel.send('Please give me something to look for')
+    return client.messageHandler(message, client.isInteraction, 'Please give me something to look for')
   }
 
   ySearch( searchTerms, function ( err, r ) {
-    if ( err ) return message.channel.send('An error occured:\n```js' + err + '```');
+    if ( err ) return client.messageHandler(message, client.isInteraction, 'An error occured:\n```js' + err + '```');
 
     const videos = r.videos
 
@@ -22,10 +22,12 @@ exports.run = (client, message, args) => {
       const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
         .setDescription(`**${v.title}**`)
-      message.channel.send({embed});
-      message.channel.send(`${v.url}`);
+      if(!client.isInteraction){
+        client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+      }
+      client.messageHandler(message, client.isInteraction, `${v.url}`);
     } else {
-      message.channel.send('No results.');
+      client.messageHandler(message, client.isInteraction, 'No results.');
     }
   });
 }
@@ -34,8 +36,10 @@ exports.conf = {
   category: "Fun",
   name: "Youtube",
   help: "Search youtube for something",
+  shortHelp: "Youtube search",
   format: "k?youtube [search terms]",
   DM: true,
-  OwnerOnly: false,
-  alias: ['yt']
+  ownerOnly: false,
+  alias: ['yt'],
+  slashCommand: true
 }

@@ -13,7 +13,7 @@ exports.run = (client, message, args) => {
       try{
         delete require.cache[require.resolve(`./../commands-locked/${args[0]}.js`)];
       } catch(err){
-        return message.channel.send('Can\'t: \n```js' + err + '\n```');
+        return client.messageHandler(message, client.isInteraction, 'Can\'t: \n```js' + err + '\n```');
       }
     }
     console.log('Reloaded module: ' + args[0]);
@@ -21,7 +21,7 @@ exports.run = (client, message, args) => {
     let embedVar = new Discord.MessageEmbed()
       .setColor(`0x${client.colors.neutral}`)
       .setDescription(`The module \`${args[0]}\` has been reloaded`)
-      message.channel.send({embed: embedVar});
+      client.messageHandler(message, client.isInteraction, { embeds: [embedVar] })
 
   }
 }
@@ -30,8 +30,9 @@ exports.conf = {
   category: "Admin",
    name: "N/A (dev command)",
     help: "N/A",
+    shortHelp: "[N/A]",
     format: "N/A",
     DM: true,
-    OwnerOnly: true,
+    ownerOnly: true,
     alias: ['r']
 }

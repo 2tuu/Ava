@@ -10,7 +10,7 @@ exports.run = (client, message, args, deletedMessage) => {
 					.setAuthor(deletedMessage[message.guild.id + "-" + args[0].replace("<#", "").replace(">", "")].author + " (" + type + ")", deletedMessage[message.guild.id + "-" + channelIDVar].avatar)
 					.setDescription(deletedMessage[message.guild.id + "-" + args[0].replace("<#", "").replace(">", "")].message)
 					.setFooter("Message was sniped by " + message.author.tag)
-				message.channel.send({embed});
+				client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 				delete deletedMessage[message.guild.id + "-" + args[0].replace("<#", "").replace(">", "")];
 			} else {
 				var type = deletedMessage[message.guild.id + "-" + channelIDVar].type;
@@ -18,7 +18,7 @@ exports.run = (client, message, args, deletedMessage) => {
 					.setAuthor(deletedMessage[message.guild.id + "-" + channelIDVar].author, deletedMessage[message.guild.id + "-" + channelIDVar].avatar)
 					.setDescription(deletedMessage[message.guild.id + "-" + channelIDVar].message)
 					.setFooter("Message was sniped by " + message.author.tag)
-				message.channel.send({embed});
+				client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 				delete deletedMessage[message.guild.id + "-" + channelIDVar];
 			}
 		} 
@@ -26,7 +26,7 @@ exports.run = (client, message, args, deletedMessage) => {
 			const embed = new Discord.MessageEmbed()
 			.setColor(`0x${client.colors.bad}`)
 			.setTitle("No deleted messages in this channel")
-			message.channel.send({embed});
+			client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 		}
 	}
 }
@@ -35,8 +35,9 @@ exports.conf = {
 	category: "Moderation",
 	name: "Snipe",
     help: "Show the last message that was deleted or edited",
+	shortHelp: "Show last deletion/edit",
     format: "k?snipe",
     DM: false,
-    OwnerOnly: false,
+    ownerOnly: true, //fix attachment behavior
     alias: []
 }

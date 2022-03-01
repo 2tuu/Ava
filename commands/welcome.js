@@ -14,19 +14,19 @@ if(message.member.permissions.has('BAN_MEMBERS')){
 			const embed = new Discord.MessageEmbed()
 			.setColor(`0x${client.colors.bad}`)
 			.setDescription("Invalid channel ID")
-			return message.channel.send({embed});
+			return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 	
 		} else {
 			const embed = new Discord.MessageEmbed()
 		.setDescription("Welcome channel set to Channel ID: " + channelID)
-		message.channel.send({embed});
+		client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 		sql.query(`UPDATE prefixes SET welcomeChannel = '${channelID}' WHERE serverId = '${message.guild.id}'`);
 		}
 
 	} else if(args[0] === "edit"){
 		const embed = new Discord.MessageEmbed()
 		.setDescription("Welcome message set to: " + args.slice(1).join(' '))
-		message.channel.send({embed});
+		client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 		sql.query(`UPDATE prefixes SET welcomeMessage = '${args.slice(1).join(' ')}' WHERE serverId = '${message.guild.id}'`);
 	} else if(args[0] === "toggle"){
 
@@ -37,13 +37,13 @@ if(message.member.permissions.has('BAN_MEMBERS')){
 				const embed = new Discord.MessageEmbed()
 		.setColor(`0x${client.colors.bad}`)
 		.setDescription("Welcome messages disabled")
-		message.channel.send({embed});
+		client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 		sql.query(`UPDATE prefixes SET shouldWelcome = 'false' WHERE serverId = '${message.guild.id}'`);
 			} else {
 				const embed = new Discord.MessageEmbed()
 		.setColor(`0x${client.colors.good}`)
 		.setDescription("Welcome messages enabled")
-		message.channel.send({embed});
+		client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 		sql.query(`UPDATE prefixes SET shouldWelcome = 'true' WHERE serverId = '${message.guild.id}'`);
 			}
 				
@@ -58,14 +58,14 @@ if(message.member.permissions.has('BAN_MEMBERS')){
       .setColor(`0x${client.colors.bad}`)
 	  .setDescription("Invalid sub-command")
 	  .setFooter("Use k?help welcome")
-      message.channel.send({embed});
+      client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 	}
 
 } else {
 	const embed = new Discord.MessageEmbed()
 			.setColor(`0x${client.colors.bad}`)
 			.setDescription("You don't have permission to do this")
-			message.channel.send({embed});
+			client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 }
 
 	}
@@ -74,10 +74,12 @@ exports.conf = {
 	category: "Moderation",
 	name: "Welcome",
 	help: "Configure guild welcome messages",
+	shortHelp: "Welcome message configuration",
 	format: "k?welcome toggle\nk?welcome edit\nk?welcome setchannel\n\n{member} is replaced with @user\n{member.username} is replaced with the user's username\n{guild} is replaced with the server's name",
 	DM: false,
-	OwnerOnly: false,
-	alias: []
+	ownerOnly: false,
+	alias: [],
+  slashCommand: true
 }
 
 //Needs fixed

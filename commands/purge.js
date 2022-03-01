@@ -13,12 +13,12 @@ exports.run = (client, message, args) => {
           
           message.channel.messages.fetch({limit: deleteCount}).then(messages => {
             const botMessages = messages.filter(msg => msg.author.bot);
-            message.channel.bulkDelete(botMessages, true).catch((err) => {message.channel.send("Error: " + err);} );
+            message.channel.bulkDelete(botMessages, true).catch((err) => {client.messageHandler(message, client.isInteraction, "Error: " + err);} );
             messagesDeleted = botMessages.array().length; 
         
-            message.channel.send('Deleted **' + messagesDeleted + '** bot messages')
+            client.messageHandler(message, client.isInteraction, 'Deleted **' + messagesDeleted + '** bot messages')
         }).catch(err => {
-            message.channel.send('Error: ' + err);
+            client.messageHandler(message, client.isInteraction, 'Error: ' + err);
         });
         
           }
@@ -36,12 +36,12 @@ exports.run = (client, message, args) => {
   
   message.channel.fetchMessages().then(messages => {
     const botMessages = messages;
-    message.channel.bulkDelete(botMessages, true).catch((err) => {message.channel.send("Error: " + err);} );
+    message.channel.bulkDelete(botMessages, true).catch((err) => {client.messageHandler(message, client.isInteraction, "Error: " + err);} );
     messagesDeleted = botMessages.array().length; 
 
-    message.channel.send('Deleted **' + messagesDeleted + '** messages')
+    client.messageHandler(message, client.isInteraction, 'Deleted **' + messagesDeleted + '** messages')
 }).catch(err => {
-    message.channel.send('Error: ' + err);
+    client.messageHandler(message, client.isInteraction, 'Error: ' + err);
 });
 
   }
@@ -61,12 +61,12 @@ exports.run = (client, message, args) => {
           message.channel.fetchMessages().then(messages => {
             const botMessages = messages.filter(msg => msg.author.id === userID);
         
-            message.channel.bulkDelete(botMessages, true).catch(error => message.channel.send(`Couldn't delete messages because of: ${error}`));
+            message.channel.bulkDelete(botMessages, true).catch(error => client.messageHandler(message, client.isInteraction, `Couldn't delete messages because of: ${error}`));
             messagesDeleted = botMessages.array().length; 
             
-            message.channel.send('Deleted **' + messagesDeleted + '** messages from user id: '+ userID);
+            client.messageHandler(message, client.isInteraction, 'Deleted **' + messagesDeleted + '** messages from user id: '+ userID);
         }).catch(err => {
-            message.channel.send('Error: ' + err + " **Please specify a valid user ID**");
+            client.messageHandler(message, client.isInteraction, 'Error: ' + err + " **Please specify a valid user ID**");
         });
         
           }
@@ -85,7 +85,9 @@ exports.run = (client, message, args) => {
         return message.reply("Please provide a number between 2 and 100 for the number of messages to delete (" + parseInt(args[0], 10) + ")");
       }
 
-      deleteCount = deleteCount + 1;
+      if(!client.isInteraction){
+        deleteCount = deleteCount + 1;
+      }
 
       while(deleteCount > 100){
         message.channel.bulkDelete(100, true);
@@ -95,6 +97,9 @@ exports.run = (client, message, args) => {
       .catch(error => {
         return message.reply(`Couldn't delete messages because of: \`\`\`${error}\`\`\``);
       });
+      if(client.isInteraction){
+        message.reply("Purge command sent")
+      }
       }
       purge();
     }
@@ -105,8 +110,10 @@ exports.conf = {
   category: "Moderation",
   name: "Purge",
   help: "Purge a bunch of messages, of a number, from a specific user, bots, or up to 100\nThis only works on messages that're less than 2 weeks old",
+  shortHelp: "Mass delete messages",
   format: "k?purge [all/u [ID]/bots/#]",
   DM: false,
-  OwnerOnly: false,
-  alias: []
+  ownerOnly: false,
+  alias: [],
+  slashCommand: true
 }

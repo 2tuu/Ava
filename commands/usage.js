@@ -15,7 +15,7 @@ exports.run = async (client, message) => {
     const used = process.memoryUsage().heapUsed / 1024 / 1024;
     const total = process.memoryUsage().heapTotal / 1024 / 1024;
 
-    var memPercent = (Math.round(os.totalmem/1000000000))/(Math.round((os.totalmem - os.freemem)/1000000000));
+    var memPercent = ((Math.round((os.totalmem - os.freemem)/1000000000)/Math.round(os.totalmem/1000000000)));
     var lumpPercent = (Math.round(used * 100) / 100)/(Math.round(total * 100) / 100);
 
     if(memPercent < 1){
@@ -31,8 +31,7 @@ exports.run = async (client, message) => {
     }
 
     async function usageMeter(){
-        var m = await message.channel.send('Loading metrics...');
-        message.channel.startTyping();
+        var m = await client.messageHandler(message, client.isInteraction, 'Loading metrics...');
     
         cpuStat.usagePercent(function(err, percent, seconds) {
 
@@ -58,8 +57,7 @@ exports.run = async (client, message) => {
 
             `-Completed in ${Math.round(seconds*1000)}ms` +
             '\n```')
-            m.edit({embed});
-            message.channel.stopTyping();
+            m.edit({ embeds: [embed] });
         });
     }
 
@@ -72,8 +70,9 @@ exports.conf = {
     category: 'Admin',
     name: 'N/A (dev command)',
     help: 'N/A',
+    shortHelp: "N/A",
     format: 'N/A',
     DM: true,
-    OwnerOnly: true,
+    ownerOnly: true,
     alias: []
 }

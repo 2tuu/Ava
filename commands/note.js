@@ -17,12 +17,12 @@ exports.run = (client, message, args, deletedMessage, sql) => {
               sql.query(`INSERT INTO note (note, ownerId) VALUES ('', ${message.author.id})`);
               const embed = new Discord.MessageEmbed()
               .setDescription("Note created")
-              return message.channel.send({embed});
+              return client.messageHandler(message, client.isInteraction, {embed});
               } else {
                 const embed = new Discord.MessageEmbed()
                    .setColor(0xF46242)
                    .setDescription("You already have a note")
-                   return message.channel.send({embed});
+                   return client.messageHandler(message, client.isInteraction, {embed});
               }
         
     
@@ -38,17 +38,17 @@ exports.run = (client, message, args, deletedMessage, sql) => {
               const embed = new Discord.MessageEmbed()
                    .setColor(0xF46242)
                    .setDescription("You don't have a note")
-                   return message.channel.send({embed});
+                   return client.messageHandler(message, client.isInteraction, {embed});
               } else {
 
                 if(`${row.note + "\n" + argV.slice(1).join(' ').replace(new RegExp(`"`, `g`), `''`)}`.length > 2000){
                   const embed = new Discord.MessageEmbed()
                    .setColor(0xF46242)
                    .setDescription("Appended note exceeds character limit (2000 characters)")
-                   return message.channel.send({embed});
+                   return client.messageHandler(message, client.isInteraction, {embed});
                 } else {
                 sql.query(`UPDATE note SET note = '${row.note + "\n" + argV.slice(1).join(' ').replace(new RegExp(`"`, `g`), `''`)}' WHERE ownerId = '${message.author.id}'`);
-                message.channel.send(`\`${argV.slice(1).join(' ')}\` Added to note`)
+                client.messageHandler(message, client.isInteraction, `\`${argV.slice(1).join(' ')}\` Added to note`)
                 }
               }     
           }).catch((err) => {
@@ -65,13 +65,13 @@ exports.run = (client, message, args, deletedMessage, sql) => {
               const embed = new Discord.MessageEmbed()
                    .setColor(`0x${client.colors.bad}`)
                    .setDescription("You don't have a note")
-                   return message.channel.send({embed});
+                   return client.messageHandler(message, client.isInteraction, {embed});
               } else {
                 sql.query(`UPDATE note SET note = '${argV.slice(1).join(' ').replace(new RegExp("{n}", 'g'), "\n").replace(new RegExp(`"`, 'g'), `''`)}' WHERE ownerId ='${message.author.id}'`);
                  const embed = new Discord.MessageEmbed()
                   .setColor(`0x${client.colors.good}`)
                   .setDescription("Note updated")
-                  return message.channel.send({embed});
+                  return client.messageHandler(message, client.isInteraction, {embed});
               }
 
           }).catch((err) => {
@@ -88,13 +88,13 @@ exports.run = (client, message, args, deletedMessage, sql) => {
               const embed = new Discord.MessageEmbed()
                   .setColor(`0x${client.colors.bad}`)
                   .setDescription("You don't have a note")
-                  return message.channel.send({embed});
+                  return client.messageHandler(message, client.isInteraction, {embed});
               } else {
 
                 sql.query(`UPDATE note SET note = '' WHERE ownerid ='${message.author.id}'`);
                  const embed = new Discord.MessageEmbed()
                    .setDescription("Note cleared")
-                   return message.channel.send({embed});
+                   return client.messageHandler(message, client.isInteraction, {embed});
               } 
     
           }).catch((err) => {
@@ -111,7 +111,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
               const embed = new Discord.MessageEmbed()
                    .setColor(`0x${client.colors.bad}`)
                    .setDescription("You don't have a note")
-                   return message.channel.send({embed});
+                   return client.messageHandler(message, client.isInteraction, {embed});
               } else {
 
                 if(row.note.length > 0){
@@ -119,8 +119,8 @@ exports.run = (client, message, args, deletedMessage, sql) => {
                 } else {
                     var rowNote = "Note is empty";
                 }
-                message.channel.send('```py\nNote: ' + message.author.tag + '\n```');
-                message.channel.send('```md\n' + rowNote + '\n```');
+                client.messageHandler(message, client.isInteraction, '```py\nNote: ' + message.author.tag + '\n```');
+                client.messageHandler(message, client.isInteraction, '```md\n' + rowNote + '\n```');
               } 
     
           }).catch((err) => {
@@ -139,8 +139,10 @@ exports.conf = {
   category: "Utility",
   name: "Note",
   help: "Create a note, view a note or edit it",
+  shortHelp: "View or edit your notepad",
   format: "k?note {append/edit}",
   DM: true,
-  OwnerOnly: false,
-  alias: []
+  ownerOnly: false,
+  alias: [],
+  slashCommand: false
 }

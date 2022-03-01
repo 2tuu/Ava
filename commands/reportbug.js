@@ -9,7 +9,7 @@ exports.run = (client, message, args) => {
         let embedVar = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
         .setTitle("Please wait at least 4 hours before reporting another error")
-        return message.channel.send({embed: embedVar});
+        return client.messageHandler(message, client.isInteraction, {embed: embedVar});
       } else {
         reportedRecently.add(message.author.id);
         setTimeout(() => {
@@ -56,7 +56,7 @@ exports.run = (client, message, args) => {
         let embedVar = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.good}`)
         .setTitle("Error has been reported, make sure to enable DMs on this server so that a follow-up message can be sent.")
-        message.channel.send({embed: embedVar});
+        client.messageHandler(message, client.isInteraction, {embed: embedVar});
         
         }).then().catch(console.error);
 
@@ -66,8 +66,9 @@ exports.conf = {
     category: "Utility",
     name: "N/A (dev command)",
     help: "Report a bug to the bot; please include a detailed description of what triggered said bug",
+    shortHelp: "Read 'help' entry",
     format: "k?reportbug [description]",
     DM: false,
-    OwnerOnly: false,
+    ownerOnly: false,
     alias: []
 }

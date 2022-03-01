@@ -25,26 +25,29 @@ exports.run = (client, message, args) => {
       var windDirectionRawVar = windDirection.replace("mph", "");
       var windDirectionRaw = windDirectionRawVar.replace(windSpeedRaw, "");
 
-      message.channel.send({embed: {
-      title: "Weather information for " + info.location.name,
-        "footer": {
-        "icon_url": "https://kitk.us/bot/images/micro.png",
-        "text": "Powered by MSN Weather"
-      },
-      "thumbnail": {
-        "url": info.current.imageUrl
-      },
-      fields: [
-        { name: "Weather Stats", value: "Temp: " + info.current.temperature + "°F • " + (Math.ceil(((info.current.temperature - 32) * (0.5556)) / 1) * 1) + "°C" + "\nFeels like: " + info.current.feelslike + "°F • " + (Math.ceil(((info.current.feelslike - 32) * (0.5556)) / 1) * 1) + "°C\n" + "Humidity: " + info.current.humidity + "%", inline: true},
-        { name: "Wind", value: windSpeedRaw + "mph • " + (Math.ceil((windSpeedRaw) * 1.61) * 1) + " km/h\n" + "Direction: " + windDirectionRaw , inline: true}]}
-      });
+      const embed = new Discord.MessageEmbed()
+      
+      client.messageHandler(message, client.isInteraction, 
+        {embeds: [{
+          title: "Weather information for " + info.location.name,
+            "footer": {
+            "icon_url": "https://kitk.us/bot/images/micro.png",
+            "text": "Powered by MSN Weather"
+          },
+          "thumbnail": {
+            "url": info.current.imageUrl
+          },
+          fields: [
+            { name: "Weather Stats", value: "Temp: " + info.current.temperature + "°F • " + (Math.ceil(((info.current.temperature - 32) * (0.5556)) / 1) * 1) + "°C" + "\nFeels like: " + info.current.feelslike + "°F • " + (Math.ceil(((info.current.feelslike - 32) * (0.5556)) / 1) * 1) + "°C\n" + "Humidity: " + info.current.humidity + "%", inline: true},
+            { name: "Wind", value: windSpeedRaw + "mph • " + (Math.ceil((windSpeedRaw) * 1.61) * 1) + " km/h\n" + "Direction: " + windDirectionRaw , inline: true}]}
+          ] });
     }
     catch(err){
     const embed = new Discord.MessageEmbed()
     .setColor(0xF46242)
     .setTitle("This search turned up blank")
     .setFooter(err)
-    message.channel.send({embed});
+    client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
   });
 }
@@ -53,8 +56,10 @@ exports.conf = {
   category: "Fun",
   name: "Weather",
   help: "View the weather based on city",
+  shortHelp: "View weather information",
   format: "k?weather [city]",
   DM: false,
-  OwnerOnly: false,
-  alias: []
+  ownerOnly: false,
+  alias: [],
+  slashCommand: true
 }

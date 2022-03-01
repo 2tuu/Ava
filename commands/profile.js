@@ -2,9 +2,12 @@ const Discord = require(`discord.js`);
 const Canvas = require("canvas");
 const neko = require('nekocurl');
 const fs = require("fs");
+const config = require('./../config.json');
 
 exports.run = async (client, message, args, deletedMessage, sql) => {
-    var staff = ['378769654942007299'];
+
+    //todo: move this to db or config
+    var staff = config.staff;
 
     async function profileGenerator(row){
         try{
@@ -177,17 +180,17 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             }
 
             //print profile card
-            message.channel.send(`Profile for **${user.tag}**`, {
+            client.messageHandler(message, client.isInteraction, (`Profile for **${user.tag}**`, {
                 files: [{
                     attachment: canvas.toBuffer(),
                     name: 'profile.jpg'
                 }]
-            });
+            }));
         } catch(err){
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription('ERR:\n```js\n' + err.stack + '\n```')
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
 
     }
@@ -205,7 +208,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.good}`)
                 .setDescription('Profile created')
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
 
         try{
@@ -217,7 +220,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         const embed = new Discord.MessageEmbed()
             .setColor(dbResult.background)
             .setDescription(`ID: ${dbResult.userid}\nDOB: ${dbResult.dob}\nSubtitle: ${dbResult.subtitle}\nBio: ${dbResult.bio}\nBadges: ${dbResult.badges}\nColor: ${dbResult.background}`)
-        return message.channel.send({embed});
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         */
        return;
     } else if(!existingCommands.includes(args[0].toLowerCase())){
@@ -231,7 +234,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription('No profile found')
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
 
         try{
@@ -255,23 +258,23 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setDescription('I need more information than that')
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             } else if(bio.length > 231){
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setDescription('Use 230 characters or less (' + bio.length + ' characters)')
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
             sql.query(`UPDATE profile SET bio = '${bio}' WHERE userid = '${message.author.id}'`);
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.good}`)
                 .setDescription('Bio updated')
-            message.channel.send({embed});
+            client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         } catch(err){ 
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription('An error occured, please try again')
-            message.channel.send({embed});
+            client.messageHandler(message, client.isInteraction, { embeds: [embed] });
          }
         break;
 
@@ -284,14 +287,14 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription('Please try again with a valid format (try mm-dd-yyyy)')
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
 
         if(dbResult.dob !== 'Not Set'){
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription('Your birthdate has already been set')
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
 
         var bd = args.slice(1).join(' ');
@@ -301,7 +304,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription('Please try again with a valid format (try mm-dd-yyyy)')
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
 
         var formattedDate = new Date(bd).toString().split('GMT')[0];
@@ -315,7 +318,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription('Please enter a valid date')
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
 
         try{
@@ -324,7 +327,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.neutral}`)
                 .setDescription(`Are you sure you want to set your birthday to:\n\`\`\`${formattedDate}\`\`\`\n**This cannot be edited**\n(yes/no)`)
-            message.channel.send({embed}).then(() => {
+            client.messageHandler(message, client.isInteraction, { embeds: [embed] }).then(() => {
                 message.channel.awaitMessages(filter, {
                     max: 1,
                     time: 15000,
@@ -339,32 +342,32 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                         const embed = new Discord.MessageEmbed()
                             .setColor(`0x${client.colors.good}`)
                             .setDescription('Your birthday has been set to ' + new Date(bd).toLocaleDateString('en-us'))
-                        message.channel.send({embed});
+                        client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                     } else if (message.content.toUpperCase() == 'NO' || message.content.toUpperCase() == 'N') {
                         //cancel
                         const embed = new Discord.MessageEmbed()
                             .setColor(`0x${client.colors.bad}`)
                             .setDescription('Canceled')
-                        message.channel.send({embed});
+                        client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                     } else {
                         const embed = new Discord.MessageEmbed()
                             .setColor(`0x${client.colors.bad}`)
                             .setDescription('Canceled, invalid respose')
-                        message.channel.send({embed});
+                        client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                     }
                 })
                 .catch(err => {
                     const embed = new Discord.MessageEmbed()
                         .setColor(`0x${client.colors.bad}`)
                         .setDescription('Canceled, no respose')
-                    message.channel.send({embed});
+                    client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                 });
             })
         } catch(err){
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription('An error occured, please try again')
-            message.channel.send({embed});
+            client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
         break;
 
@@ -379,23 +382,23 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setDescription('I need more information than that')
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             } else if(bio.length > 14){
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setDescription('Use 13 characters or less')
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
             sql.query(`UPDATE profile SET subtitle = '${bio}' WHERE userid = '${message.author.id}'`);
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.good}`)
                 .setDescription('Subtitle updated')
-            message.channel.send({embed});
+            client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         } catch(err){
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription('An error occured, please try again')
-            message.channel.send({embed});
+            client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
         break;
 
@@ -410,13 +413,13 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription('I need more information')
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
         if(!choices.includes(args[1].toLowerCase())){
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription('Please refer to k?help profile')
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
 
         if(args[1].toLowerCase() === 'list'){
@@ -429,13 +432,13 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
             const embed = new Discord.MessageEmbed()
                 .setDescription(`<:badge:${badgeUrls.join('> <:badge:')}>`)
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         } else if(args[1].toLowerCase() === 'delete'){
             if(!dbResult){
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setDescription('Please create a profile first')
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
 
             if(args[2].toLowerCase() === '1'){
@@ -446,7 +449,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.neutral}`)
                     .setDescription('Badge removed')
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             } else if(args[2].toLowerCase() === '2'){
                 var res = dbResult.badges.split(',');
                 res[1] = 'null';
@@ -455,12 +458,12 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.neutral}`)
                     .setDescription('Badge removed')
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             } else {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setDescription('Please refer to k?help profile')
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
         } else if(args[1].toLowerCase() === 'set'){
             var firstOptions = ['1','2'];
@@ -474,13 +477,13 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setDescription('Please refer to k?help profile')
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
             if(!firstOptions.includes(args[2]) || !secondOptions.includes(args[3].toLowerCase())){
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setDescription('Please refer to k?help profile')
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
 
             if(args[2].toLowerCase() === '1'){
@@ -491,7 +494,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.neutral}`)
                     .setDescription('Badge updated')
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             } else if(args[2].toLowerCase() === '2'){
                 var res = dbResult.badges.split(',');
                 res[1] = args[3].toLowerCase();
@@ -500,7 +503,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.neutral}`)
                     .setDescription('Badge updated')
-                return message.channel.send({embed});
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
         }
         break;
@@ -514,7 +517,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription('Please enter a valid hex code')
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
 
         var color = args[1].replace('#','');
@@ -525,12 +528,12 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${color}`)
                 .setDescription('Profile color changed')
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         } else {
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription('Please enter a valid hex code')
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
         break;
         default:
@@ -542,9 +545,10 @@ exports.conf = {
     category: "Fun",
     name: "[BETA] Profile",
     help: "Create, edit or view someone else's profile",
+    shortHelp: "View a profile",
     format: "k?profile {@user/ID}\nk?profile bio [bio text]\nk?profile subtitle [subtitle text]\nk?profile birthday [ie. m-d-yyyy]\nk?profile badge set [1/2] [name from list]\nk?profile badge list",
     DM: true,
-    OwnerOnly: false,
+    ownerOnly: false,
     /*
         Birthday setting has not been reworked, as full DOB is not
         defined as personally identifying information, and is
@@ -557,5 +561,6 @@ exports.conf = {
         It will remain purely cosmetic, maybe at some point being
         used to send people birthday messages automatically
     */
-    alias: []
+    alias: [],
+  slashCommand: true
 }

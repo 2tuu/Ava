@@ -8,14 +8,14 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
     const embed = new Discord.MessageEmbed()
       .setColor(`0x${client.colors.bad}`)
       .setTitle("I need a member to ban")
-    message.channel.send({embed});
+    client.messageHandler(message, client.isInteraction, { embeds: [embed] })
     return;
   } else {
     if(!args[0].startsWith('<@')){
       const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
         .setTitle("Please use the format `ban @user`")
-      message.channel.send({embed});
+      client.messageHandler(message, client.isInteraction, { embeds: [embed] })
       return;
     }
   }
@@ -26,7 +26,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
       const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
         .setTitle("Please mention a valid member of this server")
-      message.channel.send({embed});
+      client.messageHandler(message, client.isInteraction, { embeds: [embed] })
       return;
   }
 
@@ -34,7 +34,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
       const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
         .setTitle("This user is not bannable")
-      message.channel.send({embed});
+      client.messageHandler(message, client.isInteraction, { embeds: [embed] })
       return;
   }
 
@@ -46,7 +46,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
       .setColor(`0x${client.colors.bad}`)
       .setTitle("An error occured")
       .setFooter(error)
-    message.channel.send({embed});
+    client.messageHandler(message, client.isInteraction, { embeds: [embed] })
 
     console.error(error.stack);
     return;
@@ -55,7 +55,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
   const embed = new Discord.MessageEmbed()
     .setColor(`0x${client.colors.good}`)
     .addField("Member Banned", `${member.user.tag} has been banned by ${message.author.tag} because: ${reason}`)
-    message.channel.send({embed});
+    client.messageHandler(message, client.isInteraction, { embeds: [embed] })
   return;
 }
  
@@ -63,8 +63,10 @@ exports.conf = {
   category: "Moderation",
   name: "Ban",
   help: "Ban the mentioned user from the server",
+  shortHelp: "Ban a user",
   format: "k?ban [@user]",
   DM: false,
-  OwnerOnly: false,
-  alias: ['bean']
+  ownerOnly: false,
+  alias: ['bean'],
+  slashCommand: true
 }

@@ -35,21 +35,26 @@ exports.run = (client, message, args) => {
         final = final + '```\n'
     });
 
+    final = final.slice(9);
+    if(client.failedCommands.length > 0){
+        final = final + "\nThe following commands are broken: `" + client.failedCommands.join(', ') + "`"
+    }
+
     
     if(!args[0]){
         const embed = new Discord.MessageEmbed()
         .setTitle("Command documentation")
-        .setDescription("Use this command to view what a command does\n\nArguments surrounded by [] are required, ones surrounded by {} are optional\n"+
-                        "\n" + final.slice(9))
-        message.channel.send({embed});
+        .setDescription("Use this command to view what a command does\n`[required argument]` `{optional argument}`\n"+
+                        "\n" + final)
+        client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     } else if(commandList.includes(args[0].toLowerCase())){
         const embed = new Discord.MessageEmbed()
         .setTitle("Command documentation")
         .addField("Description", client.help[args[0].toLowerCase()].help)
         .addField("Usage", '```' + client.help[args[0].toLowerCase()].format + '```')
-        message.channel.send({embed}); 
+        client.messageHandler(message, client.isInteraction, { embeds: [embed] }); 
     } else {
-        return message.channel.send("That's not a command, try again");
+        return client.messageHandler(message, client.isInteraction, "That's not a command, try again");
     }
 
 }
@@ -58,8 +63,10 @@ exports.conf = {
     category: "Utility",
     name: "Help",
     help: "Why do you need help with this one?",
+    shortHelp: "View command help",
     format: "k?help [command]",
     DM: true,
-    OwnerOnly: false,
-    alias: []
+    ownerOnly: false,
+    alias: [],
+  slashCommand: true
 }

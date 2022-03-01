@@ -6,15 +6,17 @@ exports.run = (client, message, args) => {
     const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.neutral}`)
         .setDescription(`Latest announcement can be found [here](${link})`)
-    return message.channel.send({embed});
+    return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 }
 
 exports.conf = {
     category: "Utility",
     name: "News",
     help: "View the most recent bot announcement",
+    shortHelp: "View bot news",
     format: "k?news",
     DM: true,
-    OwnerOnly: false,
-    alias: []
+    ownerOnly: false,
+    alias: [],
+  slashCommand: true
 }

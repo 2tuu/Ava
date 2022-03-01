@@ -46,13 +46,13 @@ exports.run = async (client, message, args) => {
 			+ "\n**Joined Server:** " + '<t:'+age+':R>'
 			+ "\n**Joined Discord:** " + '<t:'+Math.round(Date.parse(new Date(searchUser.id /4194304 + 1420070400000))/1000)+':R>'
 			+ "\n \n**Roles:**\n" + roleList)
-			message.channel.send({embed});
+			client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 
 	}catch(err){
 		const embed = new Discord.MessageEmbed()
 		.setColor(0xF46242)
 		.setDescription("No user found")
-		return message.channel.send({embed});
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 	}
 
 }
@@ -60,9 +60,11 @@ exports.run = async (client, message, args) => {
 exports.conf = {
 	category: "Utility",
 	name: "Uinfo",
-    help: "",
-    format: "",
+    help: "View information about yourself or another user",
+	shortHelp: "View user info",
+    format: "k?uinfo {@user}",
     DM: false,
-    OwnerOnly: false,
-    alias: ['userinfo']
+    ownerOnly: false,
+    alias: ['userinfo'],
+  slashCommand: true
 }

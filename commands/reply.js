@@ -12,11 +12,11 @@ exports.run = async (client, message, args) => {
         
     try{
         user.send({embed: embed1});
-        message.channel.send("Reply sent:\nPreview:")
-        message.channel.send({embed: embed1});
+        client.messageHandler(message, client.isInteraction, "Reply sent:\nPreview:")
+        client.messageHandler(message, client.isInteraction, {embed: embed1});
     }
     catch(err){
-        message.channel.send("ERROR: " + err);
+        client.messageHandler(message, client.isInteraction, "ERROR: " + err);
     }
 }
 
@@ -24,8 +24,9 @@ exports.conf = {
     category: "Admin",
     name: "N/A (dev command)",
     help: "N/A",
+    shortHelp: "[N/A]",
     format: "N/A",
     DM: true,
-    OwnerOnly: true,
+    ownerOnly: true,
     alias: []
 }

@@ -3,12 +3,12 @@ const converter = new AFHConvert();
 
 exports.run = (client, message, args) => {
     if(!args[0]){
-        message.channel.send("Field is blank");
+        client.messageHandler(message, client.isInteraction, "Field is blank");
     }else if(args[0].toLowerCase() === "dong" && !args[1]){
-        message.channel.send("https://i.imgur.com/65ldTm4.png");
+        client.messageHandler(message, client.isInteraction, "https://i.imgur.com/65ldTm4.png");
     } else {
         var messageStr = args.join(' ');
-        message.channel.send(converter.toFullWidth(messageStr));
+        client.messageHandler(message, client.isInteraction, converter.toFullWidth(messageStr));
     }
 }
 
@@ -16,8 +16,10 @@ exports.conf = {
     category: "Fun",
     name: "Expand",
     help: "Convert the text to fullwidth font",
+    shortHelp: "Fullwidth font converter",
     format: "k?expand [text]",
     DM: true,
-    OwnerOnly: false,
-    alias: ['vapor', 'vapour'] //innit
+    ownerOnly: false,
+    alias: ['vapor', 'vapour'], //innit
+  slashCommand: true
 }

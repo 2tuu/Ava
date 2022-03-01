@@ -8,14 +8,14 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
     const embed = new Discord.MessageEmbed()
       .setColor(`0x${client.colors.bad}`)
       .setTitle("I need a member to kick")
-    message.channel.send({embed});
+    client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     return;
   } else {
     if(!args[0].startsWith('<@')){
       const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
         .setTitle("Please use the format `kick @user`")
-      message.channel.send({embed});
+      client.messageHandler(message, client.isInteraction, { embeds: [embed] });
       return;
     }
   }
@@ -26,7 +26,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
       const embed = new Discord.MessageEmbed()
       .setColor(`0x${client.colors.bad}`)
       .setTitle("Please mention a valid member of this server")
-      message.channel.send({embed});
+      client.messageHandler(message, client.isInteraction, { embeds: [embed] });
       return;
   }
 
@@ -34,7 +34,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
       const embed = new Discord.MessageEmbed()
       .setColor(`0x${client.colors.bad}`)
       .setTitle("This user is not kickable")
-      message.channel.send({embed});
+      client.messageHandler(message, client.isInteraction, { embeds: [embed] });
       return;
   }
 
@@ -46,14 +46,14 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
       .setColor(`0x${client.colors.bad}`)
       .setTitle("An error occured")
       .setFooter(error)
-      message.channel.send({embed});
+      client.messageHandler(message, client.isInteraction, { embeds: [embed] });
       return;
     });
 
     const embed = new Discord.MessageEmbed()
     .setColor(`0x${client.colors.good}`)
     .addField("Member Kicked", `${member.user.tag} has been kicked by ${message.author.tag} because: ${reason}`)
-    message.channel.send({embed});
+    client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     return;
  }
  
@@ -61,8 +61,10 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
   category: "Moderation",
   name: "Kick",
   help: "Kick the mentioned user from the server",
+  shortHelp: "Kick a user",
   format: "k?kick [@user]",
   DM: false,
-  OwnerOnly: false,
-  alias: []
+  ownerOnly: false,
+  alias: [],
+  slashCommand: true
 }

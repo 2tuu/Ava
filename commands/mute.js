@@ -2,40 +2,40 @@ const Discord = require("discord.js");
 
 exports.run = async (client, message, args, deletedMessage, sql, tossedSet, roles) => {
 
-    if(!args[0]) return message.channel.send('Please enter a user ID or mention');
+    if(!args[0]) return client.messageHandler(message, client.isInteraction, 'Please enter a user ID or mention');
 
     try{
-    sql.query(`SELECT * FROM settings WHERE serverId ='${message.guild.id}'`).then(row => {
+    sql.query(`SELECT * FROM settings WHERE serverId ='${message.member.guild.id}'`).then(row => {
         row = row.rows[0];
 
         async function profileA(){
         if (!row) {
-            await sql.query(`INSERT INTO settings (serverId, banId) VALUES (${message.guild.id}, 'null')`);
+            await sql.query(`INSERT INTO settings (serverId, banId) VALUES (${message.member.guild.id}, 'null')`);
         } 
     }
     
     profileA();
     
     }).catch((err) => {
-        message.channel.send('Error: ' + err)
+        client.messageHandler(message, client.isInteraction, 'Error: ' + err)
     });
     
     if(!message.member.permissions.has('MANAGE_ROLES')) {
         const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
         .setTitle("Sorry, you don't have permission to use this. (MANAGE_ROLES Required)")
-        return message.channel.send({embed});
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     } else {
     
         if(args[0] === "roleadd"){
     
-            sql.query(`SELECT * FROM settings WHERE serverId ='${message.guild.id}'`).then(row => {
+            sql.query(`SELECT * FROM settings WHERE serverId ='${message.member.guild.id}'`).then(row => {
                 
                 if (!row) {
-                    sql.query(`INSERT INTO settings (serverId, banId) VALUES (${message.guild.id}, 'null')`);
+                    sql.query(`INSERT INTO settings (serverId, banId) VALUES (${message.member.guild.id}, 'null')`);
                 } 
                 
-                var roleList = message.guild.roles.cache; 
+                var roleList = message.member.guild.roles.cache; 
                 roleList = roleList.map(r=> ({name: r.name, id: r.id}));
                 
                 var tossedRole = roleList.filter(r => r.name.toLowerCase() === args[1].toLowerCase());
@@ -45,21 +45,21 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
                     const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setTitle("A role with this name was not found")
-                    return message.channel.send({embed});
+                    return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                 } else {
     
-                sql.query(`UPDATE settings SET banId = '${tossedRole.id}' WHERE serverId = '${message.guild.id}'`).then(()=>{
+                sql.query(`UPDATE settings SET banId = '${tossedRole.id}' WHERE serverId = '${message.member.guild.id}'`).then(()=>{
                     const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.good}`)
                     .setDescription("Role added")
-                 message.channel.send({embed});
+                 client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                 }).catch((err)=>{
     
                     const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setTitle("An error occured")
                     .setFooter(err)
-                    return message.channel.send({embed});
+                    return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                 });
                 
             }
@@ -68,16 +68,16 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
             });
         } else {
             var argVar = args[0].replace("<@", "").replace("!", "").replace(">", "");
-            var  member = message.guild.members.cache.get(argVar);
+            var  member = message.member.guild.members.cache.get(argVar);
             
             if(!member){
                 //invalid ID
             } else {
-                var db = await sql.query(`SELECT * FROM settings WHERE serverId ='${message.guild.id}'`);
+                var db = await sql.query(`SELECT * FROM settings WHERE serverId ='${message.member.guild.id}'`);
                     db = db.rows[0];
 
-                if(!db.banid || !db || !message.guild.roles.cache.get(db.banid)){
-                    message.channel.send('A muted role is not set, or the one you did set is invalid');
+                if(!db.banid || !db || !message.member.guild.roles.cache.get(db.banid)){
+                    client.messageHandler(message, client.isInteraction, 'A muted role is not set, or the one you did set is invalid');
                 } else {
                     //add role or remove role
                     try{
@@ -87,7 +87,7 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
                             const embed = new Discord.MessageEmbed()
                                 .setColor(`0x${client.colors.good}`)
                                 .setDescription(member.user.tag + " has been unmuted")
-                            message.channel.send({embed});
+                            client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 
                             member.roles.remove(db.banid);
                         } else {
@@ -95,7 +95,7 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
                             const embed = new Discord.MessageEmbed()
                                 .setColor(`0x${client.colors.bad}`)
                                 .setDescription(member.user.tag + " has been muted")
-                            message.channel.send({embed});
+                            client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                             member.roles.add(db.banid);
                         }
 
@@ -116,7 +116,7 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
                             var num = args.join(' ').match(/-t (.*)/g)[0].replace('-t ', '');
                             num = getSeconds(num.toString());
                             if(isNaN(num) || num < 1){
-                                return message.channel.send('The time given was invalid, use `-t #h #m`\nThe member was muted normally');
+                                return client.messageHandler(message, client.isInteraction, 'The time given was invalid, use `-t #h #m`\nThe member was muted normally');
                             } else {
                                 //help me
                                 setTimeout(() => {
@@ -127,7 +127,7 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
         
                     } catch(err){
                         //error giving or taking role
-                        message.channel.send('There was an error muting this member, do I have permission?\n```js\n' + err + '\n```')
+                        client.messageHandler(message, client.isInteraction, 'There was an error muting this member, do I have permission?\n```js\n' + err + '\n```')
                     }
                 }
             }
@@ -137,7 +137,7 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
     }
 
 } catch(err){
-    message.channel.send(`An error occured, please report this to the developers: \`\`\`js\n${err.stack}\`\`\``)
+    client.messageHandler(message, client.isInteraction, `An error occured, please report this to the developers: \`\`\`js\n${err.stack}\`\`\``)
 }
 
     }
@@ -146,8 +146,10 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
         category: "Moderation",
         name: "Mute",
         help: "Mute the mentioned user",
+        shortHelp: "Mute a user",
         format: "k?mute [@user]\nk?mute roleadd [role-name]",
         DM: false,
-        OwnerOnly: false,
-        alias: []
+        ownerOnly: false,
+        alias: [],
+  slashCommand: true
     }

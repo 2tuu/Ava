@@ -6,7 +6,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
         .setTitle("Sorry, you don't have permission to use this. (MANAGE_ROLES Required)")
-        return message.channel.send({embed});
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     } 
 
     var row = await sql.query(`SELECT * FROM password WHERE serverid ='${message.guild.id}'`);
@@ -20,7 +20,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         const embed = new Discord.MessageEmbed()
             .setColor(`0x${client.colors.bad}`)
             .setTitle("Please check k?help password")
-        return message.channel.send({embed});
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
     //arg switch/case
@@ -38,7 +38,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setTitle("Please check k?help password")
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
     //setpass argument
@@ -47,7 +47,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setTitle("Please check k?help password")
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
 
         sql.query(`UPDATE password SET password = '${pass}' WHERE serverid = '${message.guild.id}'`);
@@ -56,7 +56,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             .setColor(`0x${client.colors.good}`)
             .setTitle(`Updated password to '${pass}'`)
             .setFooter(`Make sure it works!`)
-        return message.channel.send({embed});
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
     //setchan argument
@@ -75,7 +75,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setTitle("No channel found")
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
 
         sql.query(`UPDATE password SET channel = '${res.id}' WHERE serverid = '${message.guild.id}'`);
@@ -84,7 +84,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             .setColor(`0x${client.colors.good}`)
             .setTitle(`Updated role to '${res.name}'`)
             .setFooter(`Make sure it works!`)
-        return message.channel.send({embed});
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
     //setrole argument
@@ -103,7 +103,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setTitle("No role found")
-            return message.channel.send({embed});
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
 
         sql.query(`UPDATE password SET role = '${res.id}' WHERE serverid = '${message.guild.id}'`);
@@ -112,7 +112,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             .setColor(`0x${client.colors.good}`)
             .setTitle(`Updated role to '${res.name}'`)
             .setFooter(`Make sure it works!`)
-        return message.channel.send({embed});
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
 }
@@ -121,8 +121,10 @@ exports.conf = {
     category: "Moderation",
     name: "Password",
     help: "Set a server password and a channel for it to be typed in\nThis can be used for accepting ToS or showing a user has read the rules\n(ie. put the password at the end of the rules and have a user type it in the password channel to gain access)",
+    shortHelp: "Server password configuration",
     format: "k?password setpass <passphrase here>\nk?password setchan <channel to type passwords in>\nk?password setrole <name of role to be given>",
     DM: false,
-    OwnerOnly: false,
-    alias: ["pass"]
+    ownerOnly: false,
+    alias: ["pass"],
+  slashCommand: true
 }

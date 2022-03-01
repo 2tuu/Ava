@@ -13,7 +13,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
     const embed = new Discord.MessageEmbed()
       .setColor(`0x${client.colors.good}`)
       .setTitle("This server: " + prefix)
-    message.channel.send({embed});
+      client.messageHandler(message, client.isInteraction, { embeds: [embed] })
   });
 }
 
@@ -21,8 +21,10 @@ exports.conf = {
   category: "Utility",
   name: "Checkprefix",
   help: "View this server's prefix",
+  shortHelp: "View this server's prefix",
   format: "k?checkprefix / @kit checkprefix",
   DM: false,
-  OwnerOnly: false,
-  alias: []
+  ownerOnly: false,
+  alias: [],
+  slashCommand: true
 }
