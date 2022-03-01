@@ -53,6 +53,6 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
     const embed = new Discord.MessageEmbed()
       .setColor(`0x${client.colors.bad}`)
       .setDescription("```diff\n-Member Banned: " + user.tag + `\nReason: ${reason}` + "\nExecutor: " + executor + "```")
-    return ch.send({embed});
+    return ch.send({ embeds: [embed] });
   }
 }

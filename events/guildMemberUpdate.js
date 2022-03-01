@@ -21,7 +21,7 @@ exports.run = (deletedMessage, sql, client, oldMember, newMember) => {
                .setColor(`0x${client.colors.neutral}`)
                .setDescription("```diff\n+" + oldMember.user.tag + 
                   " changed their nickname:\n" + oldMember.nickname + " => " + newMember.nickname + "\n```")
-               return ch.send({embed});
+               return ch.send({ embeds: [embed] });
             }
     
         });

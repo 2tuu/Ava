@@ -52,7 +52,7 @@ exports.run = async (deletedMessage, sql, client, oldMessage, newMessage) => {
                const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.neutral}`)
                 .setDescription("```diff\n+Message Updated in " + oldMessage.channel.name + ':\n' + `${oldMessage.author.tag}: ${oldMessage.content} => ${newMessage.content}` + "\nMessage ID: " + oldMessage.id + "\n```")
-                return ch.send({embed});
+                return ch.send({ embeds: [embed] });
             }
     
         });

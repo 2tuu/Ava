@@ -17,7 +17,7 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
            const embed = new Discord.MessageEmbed()
            .setColor(`0x${client.colors.good}`)
            .setDescription("```diff\n+Member Unbanned: " + user.tag + "\n```")
-           return ch.send({embed});
+           return ch.send({ embeds: [embed] });
         }
 
     });

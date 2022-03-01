@@ -48,14 +48,14 @@ if(!row) return;
                 const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription("```diff\n-Member Kicked/Banned\nExecutor: " + auditLog.executor.tag + "\nReason: '" + auditLog.reason + "'\nMember: " + member.user.tag + "\n```")
-                return ch.send({embed});
+                return ch.send({ embeds: [embed] });
                }
 
               var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
               const embed = new Discord.MessageEmbed()
               .setColor(`0x${client.colors.bad}`)
               .setDescription("```diff\n-Member Left: " + member.user.tag + "\nCurrent Count:" + member.guild.memberCount + "\n```")
-              return ch.send({embed});
+              return ch.send({ embeds: [embed] });
                
 
             }

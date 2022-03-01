@@ -16,7 +16,7 @@ exports.run = (deletedMessage, sql, client, role) => {
                const embed = new Discord.MessageEmbed()
                .setColor(`0x${client.colors.bad}`)
                .setDescription("```diff\n-Role Deleted:\n" + `Color: ${role.color} | Name: ${role.name}`  + "```")
-               return ch.send({embed});
+               return ch.send({ embeds: [embed] });
             }
     
         });

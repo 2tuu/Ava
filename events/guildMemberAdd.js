@@ -31,18 +31,12 @@ exports.run = (deletedMessage, sql, client, member) => {
              const embed = new Discord.MessageEmbed()
              .setColor(`0x${client.colors.good}`)
              .setDescription("```diff\n+Member Joined: " + member.user.tag + "\nCurrent Count:" + member.guild.memberCount + "\n```")
-             return ch.send({embed});
+             return ch.send({ embeds: [embed] });
           }
   
       });
 
-    sql.query(`SELECT * FROM announce WHERE guild ='${member.guild.id}'`).then(row => {
-      row = row.rows[0];
-      if(!row){
-        sql.query(`INSERT INTO announce (guild, channel) VALUES (${member.guild.id}, null)`);
-      }
-    });
-  
+
     sql.query(`SELECT * FROM prefixes WHERE serverid ='${member.guild.id}'`).then(row => {
       row = row.rows[0];
       if(!row) return;

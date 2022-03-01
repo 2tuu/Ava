@@ -30,7 +30,7 @@ exports.run = async (deletedMessage, sql, client, newChannel, oldChannel) => {
            "\nTopic: " + oldChannel.topic + 
            "\nNSFW: " + oldChannel.nsfw + 
            "\nCategory: " + oldChannel.parent.name + "\n```\n")
-           return ch.send({embed});
+           return ch.send({ embeds: [embed] });
            }
         }
     });

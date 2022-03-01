@@ -16,7 +16,7 @@ exports.run = async (deletedMessage, sql, client, channel) => {
             const embed = new Discord.MessageEmbed()
             .setColor(`0x${client.colors.bad}`)
             .setDescription("```diff\n-Channel Deleted\n" + channel.name + " (" + channel.id + ")\n```")
-            return ch.send({embed});
+            return ch.send({ embeds: [embed] });
         }
     });
 }

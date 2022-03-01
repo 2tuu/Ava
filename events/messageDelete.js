@@ -38,7 +38,7 @@ exports.run = async (deletedMessage, sql, client, message) => {
            
 
             if(message.attachments){
-            Attachment = message.attachments.array().map(m => m.url);
+            Attachment = message.attachments.map(m => m.url);
             Attachment = Attachment.join(', ');
             }
     
@@ -53,13 +53,13 @@ exports.run = async (deletedMessage, sql, client, message) => {
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription("```diff\n-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + "\nMessage ID: " + message.id + "\n```\n"+
                             "```diff\n+Attachments:\n" + Attachment + "\n```")
-                return ch.send({embed});
+                return ch.send({ embeds: [embed] });
 
                } else {
                 const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription("```diff\n-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + "\nMessage ID: " + message.id + "\n```")
-                return ch.send({embed});
+                return ch.send({ embeds: [embed] });
                }
             }
 
