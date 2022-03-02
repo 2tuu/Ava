@@ -8,7 +8,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 const fs = require(`fs`);
 const config = require(`./config.json`);
-const token = config.token_prod;
+const token = config.token_beta;
 const colors = require('./plugins/colors.json');
 const { Pool } = require('pg')
 const pool = new Pool({
@@ -20,29 +20,29 @@ const pool = new Pool({
   max: 0
 });
 
-const clientId = config.clientId;
-
 const rest = new REST({ version: '9' }).setToken(token);
 
-      client.blacklist = [];
-      client.blist = [];
-      client.aliases = new Map();
-      client.help = new Map();
-      client.commandStats = {};
-      client.colors = colors;
-      client.isInteraction = false;
-      client.messageHandler = function m(message, isInteraction, content){
-        var reply;
-        if(isInteraction){
-          reply = message.reply(content);
-        } else {
-          reply = message.channel.send(content);
-        }
-        return reply;
-      };
-      client.messageHandler.editReply = function r(content, reply){
-        reply.editReply(content);
-      }
+//global variables
+client.failedCommands = [];
+client.totalCommands = 0;
+client.slashCommands = [];
+client.blacklist = [];
+client.blist = [];
+client.aliases = new Map();
+client.help = new Map();
+client.commandStats = {};
+client.colors = colors;
+client.isInteraction = false;
+client.messageHandler = async function m(message, isInteraction, mContent){
+  var reply;
+  if(isInteraction){
+    reply = await message.reply(mContent);
+  } else {
+    reply = message.channel.send(mContent);
+  }
+  return reply;
+};
+
 const deletedMessage = new Set();
 const roles = new Set();
 const tossedSet = new Set();
@@ -60,7 +60,7 @@ const cooldown = new Set();
   return formattedTime;
 }
 
-//Module loaders
+//event loader
 fs.readdir(`./events/`, (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
@@ -70,10 +70,7 @@ fs.readdir(`./events/`, (err, files) => {
     });
 });
 
-client.failedCommands = [];
-client.totalCommands = 0;
-client.slashCommands = [];
-
+//command loader (text based / interactions)
 fs.readdir('./commands', (err, commands) => {
     function cLoader(c){
       var cmd;
@@ -82,7 +79,7 @@ fs.readdir('./commands', (err, commands) => {
         cmd = require(`./commands/${c}`);
       } catch (err){
         client.failedCommands.push(c.replace('.js',''));
-        return console.error(`Loading Error (${c}): ${err}`);
+        return console.error(`Loading Error (${c}): ${err.stack}`);
       }
       var cmdName = c.substring(0, c.length-3); //-.js
 
@@ -90,15 +87,12 @@ fs.readdir('./commands', (err, commands) => {
       client.help[cmdName] = {help: cmd.conf.help, format: cmd.conf.format, category: cmd.conf.category, filename: cmdName};
       
       if(cmd.conf.ownerOnly === false && cmd.conf.slashCommand){
-        const data = new SlashCommandBuilder()
-        .setName(cmdName)
-        .setDescription(cmd.conf.shortHelp)
-        .addStringOption(option =>
-          option.setName('arguments')
-            .setDescription('Command arguments')
-            .setRequired(false));
 
-        client.slashCommands.push(data.toJSON());
+        console.log(cmdName)
+
+        const data = cmd.conf.data;
+        client.slashCommands.push(data);
+        console.log(data)
       }
 
       cmd.conf.alias.forEach((alias) => { client.aliases[cmdName].aliases.push(alias); });
@@ -111,7 +105,7 @@ fs.readdir('./commands', (err, commands) => {
     
 });
 
-//beta command loader - ignore this block if self-hosting
+//beta command loader
 if(config.toggle_beta === "y"){
   fs.readdir('./commands-locked', (err, commands) => {
     function cLoader(c){
@@ -123,7 +117,7 @@ if(config.toggle_beta === "y"){
             
             return false;
         } catch (err) {
-            console.error(`Beta Loading Error: ${err}`);
+            console.error(`Beta Loading Error: ${err.stack}`);
             client.failedCommands.push(cmd);
         }
     }
@@ -133,20 +127,18 @@ if(config.toggle_beta === "y"){
     
   });
 }
-//end of block
 
-console.log('\x1b[32m','Starting...');
-
-//slash command handler
+//command loader (slash commands)
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
   var options = await interaction.options;
+  //console.log(options)
   var args = [];
   var messageContent ='';
 
   if(options._hoistedOptions[0]){
-    args = options._hoistedOptions[0].value;
-
+    args = options._hoistedOptions.map(e=>e.value).join(' ');
+    console.log(args)
     if(!args){
       args = [];
     }
@@ -158,7 +150,9 @@ client.on('interactionCreate', async interaction => {
 
 	command = require(`./commands/${interaction.commandName.toLowerCase()}.js`);
   client.isInteraction = true;
+
   if(!interaction.guild && command.conf.DM === false) return interaction.reply('Not allowed in DMs');
+  
   if(command.ownerOnly === true && !config.evalAllow.includes(interaction.user.id)){
     return interaction.reply('Disabled for testing or owner-only command');
   }
@@ -219,141 +213,139 @@ client.on("messageCreate", async message => {
 
     //Database required section
     pool.query(`SELECT * FROM prefixes WHERE serverId ='${dmCheck()}'`).then(row => {
-        row = row.rows;
-        if(row[0] === undefined){
-          var customPrefix = config.prefix;
-        } else {
-          var customPrefix = row[0].prefix;
-        }
-
-        message.isCommand = true;
-    
-      if(message.guild){ //TODO: Clean this up
-        var content = message.content.toLowerCase();
-
-        if((content.indexOf(config.prefix.toLowerCase()) !== 0) && 
-            (content.indexOf(customPrefix.toLowerCase()) !== 0) &&
-              (content.indexOf(botMention.toLowerCase()) !== 0) &&
-              (content.indexOf(botMentionX.toLowerCase()) !== 0 )){
-                message.isCommand = false;
-          }
-        }
-
-        if(message.author.hasProfile){
-          if(message.isCommand){
-            var exp = parseInt(dbResult.cmds);
-                exp = exp + 2;
-            var lvl = parseInt(dbResult.cmds)/1000;
-            
-            var oldLevel = Math.round(lvl);
-            var newLevel = Math.round((parseInt(dbResult.cmds)+2)/1000);
-
-            if(oldLevel < newLevel){
-              var coins = parseInt(dbResult.coins);
-                  coins = coins + 25;
-              pool.query(`UPDATE profile SET coins = '${coins}' WHERE userid = '${message.author.id}'`);
-            }
-
-            pool.query(`UPDATE profile SET cmds = '${exp}' WHERE userid = '${message.author.id}'`);
-          } else {
-            var exp = parseInt(dbResult.cmds);
-                exp = exp + 1;
-            var lvl = parseInt(dbResult.cmds)/800;
-            
-            var oldLevel = Math.round(lvl);
-            var newLevel = Math.round((parseInt(dbResult.cmds)+1)/1000);
-
-            if(oldLevel < newLevel){
-              var coins = parseInt(dbResult.coins);
-                  coins = coins + 25;
-              pool.query(`UPDATE profile SET coins = '${coins}' WHERE userid = '${message.author.id}'`);
-            }
-
-            pool.query(`UPDATE profile SET cmds = '${exp}' WHERE userid = '${message.author.id}'`);
-            return;
-          }
-        }
-
-    
-      var handledPrefix; //Which prefix is being used
-
-      if(message.content.startsWith(customPrefix)){
-        handledPrefix = customPrefix;
-      } else if(message.content.startsWith(botMention)){
-        handledPrefix = botMention;
-      } else if(message.content.startsWith(botMentionX)){
-        handledPrefix = botMentionX;
-      } else if(message.content.startsWith(config.prefix)){
-        handledPrefix = config.prefix;
-      } else if(!message.guild){
-        handledPrefix = '';
+      row = row.rows;
+      if(row[0] === undefined){
+        var customPrefix = config.prefix;
       } else {
-        return;
+        var customPrefix = row[0].prefix;
       }
 
-      args = message.content.slice(handledPrefix.length).trim().match(/[^\s"]+|"([^"]*)"/g);
-      if(!args || !args[0]) args = [];
-      command = args.shift().toLowerCase();
-    
-      //Find command file from alias
-      for (const key of Object.keys(client.aliases)) if (client.aliases[key].aliases.includes(command)) command = key;
-    
-      
+      message.isCommand = true;
+  
+    if(message.guild){ //TODO: Clean this up
+      var content = message.content.toLowerCase();
 
-      //Continue command loading - woo yea baby nested try/catch
-      try{
-        commandFile = require(`./commands/${command}.js`);
-      } catch(err){try{
-        commandFile = require(`./commands-locked/${command}.js`);
-      }catch(err){
-        message.isCommand = false;
-        return; //oops
-      }}
-    
-      //Cooldown checker
-      if (cooldown.has(message.author.id)) {
-        return message.channel.send(`Please don't spam commands, ${message.author}.`);
-      } else {
-        cooldown.add(message.author.id);
-        setTimeout(() => {
-          cooldown.delete(message.author.id);
-        }, 1000);
-      }
-    
-      //Return if the user isn't allowed to use the command - non-dm in dm or owner by non-owner
-      if(commandFile.conf.ownerOnly === true && !config.evalAllow.includes(message.author.id)){
-        const embed = new Discord.MessageEmbed()
-        .setColor(`0x${client.colors.bad}`)
-        .setDescription("This command is either locked, or currently undergoing changes")
-        return message.channel.send({embed});
-      }
-      if(commandFile.conf.DM === false && !message.guild) return;
-      if(client.blacklist.includes(message.author.id)) return;
-    
-    
-      try{
-        var messageContent = message.content.slice(handledPrefix.length).slice(command.length+2);
-
-        client.isInteraction = false;
-        commandFile.run(client, message, args, deletedMessage, pool, tossedSet, roles, messageContent);
-        var cName = commandFile.conf.name;
-
-        if(client.commandStats[cName]){
-          client.commandStats[cName] = client.commandStats[cName]+1
-        } else {
-          client.commandStats[cName] = 1;
+      if((content.indexOf(config.prefix.toLowerCase()) !== 0) && 
+          (content.indexOf(customPrefix.toLowerCase()) !== 0) &&
+            (content.indexOf(botMention.toLowerCase()) !== 0) &&
+            (content.indexOf(botMentionX.toLowerCase()) !== 0 )){
+              message.isCommand = false;
         }
       }
-      catch(err){
-        console.error(err);
-        client.logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***COMMAND ERROR:***\n```js\nERR: ' + err + '\n```');
+
+      if(message.author.hasProfile){
+        if(message.isCommand){
+          var exp = parseInt(dbResult.cmds);
+              exp = exp + 2;
+          var lvl = parseInt(dbResult.cmds)/1000;
+          
+          var oldLevel = Math.round(lvl);
+          var newLevel = Math.round((parseInt(dbResult.cmds)+2)/1000);
+
+          if(oldLevel < newLevel){
+            var coins = parseInt(dbResult.coins);
+                coins = coins + 25;
+            pool.query(`UPDATE profile SET coins = '${coins}' WHERE userid = '${message.author.id}'`);
+          }
+
+          pool.query(`UPDATE profile SET cmds = '${exp}' WHERE userid = '${message.author.id}'`);
+        } else {
+          var exp = parseInt(dbResult.cmds);
+              exp = exp + 1;
+          var lvl = parseInt(dbResult.cmds)/800;
+          
+          var oldLevel = Math.round(lvl);
+          var newLevel = Math.round((parseInt(dbResult.cmds)+1)/1000);
+
+          if(oldLevel < newLevel){
+            var coins = parseInt(dbResult.coins);
+                coins = coins + 25;
+            pool.query(`UPDATE profile SET coins = '${coins}' WHERE userid = '${message.author.id}'`);
+          }
+
+          pool.query(`UPDATE profile SET cmds = '${exp}' WHERE userid = '${message.author.id}'`);
+          return;
+        }
       }
-    
-      });
+
+  
+    var handledPrefix; //Which prefix is being used
+
+    if(message.content.startsWith(customPrefix)){
+      handledPrefix = customPrefix;
+    } else if(message.content.startsWith(botMention)){
+      handledPrefix = botMention;
+    } else if(message.content.startsWith(botMentionX)){
+      handledPrefix = botMentionX;
+    } else if(message.content.startsWith(config.prefix)){
+      handledPrefix = config.prefix;
+    } else if(!message.guild){
+      handledPrefix = '';
+    } else {
+      return;
+    }
+
+    args = message.content.slice(handledPrefix.length).trim().match(/[^\s"]+|"([^"]*)"/g);
+    if(!args || !args[0]) args = [];
+    command = args.shift().toLowerCase();
+  
+    //Find command file from alias
+    for (const key of Object.keys(client.aliases)) if (client.aliases[key].aliases.includes(command)) command = key;
+  
+    //Continue command loading - woo yea baby nested try/catch
+    try{
+      commandFile = require(`./commands/${command}.js`);
+    } catch(err){try{
+      commandFile = require(`./commands-locked/${command}.js`);
+    }catch(err){
+      message.isCommand = false;
+      return; //oops
+    }}
+  
+    //Cooldown checker
+    if (cooldown.has(message.author.id)) {
+      return message.channel.send(`Please don't spam commands, ${message.author}.`);
+    } else {
+      cooldown.add(message.author.id);
+      setTimeout(() => {
+        cooldown.delete(message.author.id);
+      }, 1000);
+    }
+  
+    //Return if the user isn't allowed to use the command - non-dm in dm or owner by non-owner
+    if(commandFile.conf.ownerOnly === true && !config.evalAllow.includes(message.author.id)){
+      const embed = new Discord.MessageEmbed()
+      .setColor(`0x${client.colors.bad}`)
+      .setDescription("This command is either locked, or currently undergoing changes")
+      return message.channel.send({embed});
+    }
+    if(commandFile.conf.DM === false && !message.guild) return;
+    if(client.blacklist.includes(message.author.id)) return;
+  
+    try{
+      var messageContent = message.content.slice(handledPrefix.length).slice(command.length+2);
+
+      client.isInteraction = false;
+      commandFile.run(client, message, args, deletedMessage, pool, tossedSet, roles, messageContent);
+      var cName = commandFile.conf.name;
+
+      if(client.commandStats[cName]){
+        client.commandStats[cName] = client.commandStats[cName]+1
+      } else {
+        client.commandStats[cName] = 1;
+      }
+    }
+    catch(err){
+      console.error(err);
+      client.logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***COMMAND ERROR:***\n```js\nERR: ' + err + '\n```');
+    }
+  
+  });
 
 
 });
 
+//error catcher
 client.on("error", async error => {
     console.error(error);
     var logChannel = client.channels.resolve(config.logChannel);
@@ -363,6 +355,7 @@ client.on("error", async error => {
                         + error + '\n```');
 });
 
+//interaction loader
 client.on("ready", ()=>{
   (async () => {
     try {
