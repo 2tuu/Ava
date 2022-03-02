@@ -7,6 +7,7 @@ exports.run = (client, message, args) => {
 
     Object.keys(client.help).forEach(function (key) {
         if (client.help[key].category === "Admin") return; //ignore administration commands
+        if (client.help[key].category == "NSFW" && message.channel.nsfw == false) return; //ignore nsfw outside of nsfw channels
 
         if (list[client.help[key].category]) {
             list[client.help[key].category].push(client.help[key].filename);
