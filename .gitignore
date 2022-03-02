@@ -16,6 +16,7 @@ logs/
 #extra detrious
 npm-debug.log
 package-lock.json
+notes.txt
 
 #macbook detrious
 .DS_Store
