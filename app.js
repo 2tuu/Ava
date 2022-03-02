@@ -46,10 +46,14 @@ client.help = new Map();
 client.commandStats = {};
 client.colors = colors;
 client.isInteraction = false;
-client.messageHandler = async function m(message, isInteraction, mContent) {
+client.messageHandler = async function m(message, isInteraction, mContent, edit) {
   var reply;
   if (isInteraction) {
-    reply = await message.reply(mContent);
+    if(edit){
+      reply = await message.editReply(mContent);
+    } else {
+      reply = await message.reply(mContent);
+    }
   } else {
     reply = message.channel.send(mContent);
   }
