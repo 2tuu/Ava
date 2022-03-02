@@ -22,7 +22,7 @@ exports.conf = {
     slashCommand: true,
     data: {
         name: "calc",
-        description: "Calculatorr",
+        description: "Calculator",
         options: [
             {
                 choices: undefined,
