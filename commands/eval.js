@@ -28,8 +28,9 @@ exports.run = (client, message, args) => {
         res = res.replace(new RegExp(config.kitk_token, 'g'), '[REDACTED]');
         res = res.replace(new RegExp(config.youtube, 'g'), '[REDACTED]');
         res = res.replace(new RegExp(config.imgur, 'g'), '[REDACTED]');
+        res = res.replace(new RegExp(config.githubToken, 'g'), '[REDACTED]');
 
-        client.messageHandler(message, client.isInteraction, res, { code: "xl" });
+        client.messageHandler(message, client.isInteraction, `\`\`\`\n${res}\n\`\`\``);
       } catch (err) {
         client.messageHandler(message, client.isInteraction, `\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
       }
