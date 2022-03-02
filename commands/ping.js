@@ -1,6 +1,12 @@
 exports.run = async (client, message, args) => {
     m = await client.messageHandler(message, client.isInteraction, "Ping?");
-    m.edit(`Pong \`${Math.floor((m.createdTimestamp - message.createdTimestamp) - client.ws.ping)}ms\``);
+    var time = Date.now();
+
+    if (client.isInteraction) {
+        client.messageHandler(message, client.isInteraction, `Pong \`${Math.floor((time - message.createdTimestamp) - client.ws.ping)}ms\``, true);
+    } else {
+        m.edit(`Pong \`${Math.floor((m.createdTimestamp - message.createdTimestamp) - client.ws.ping)}ms\``);
+    }
 }
 
 exports.conf = {
@@ -12,5 +18,11 @@ exports.conf = {
     DM: true,
     ownerOnly: false,
     alias: ['pong'],
-    slashCommand: false
+    slashCommand: true,
+    data: {
+        name: "ping",
+        description: "pong",
+        options: [],
+        default_permission: undefined
+    }
 }

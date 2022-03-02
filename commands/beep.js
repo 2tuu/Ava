@@ -2,7 +2,7 @@ exports.run = (client, message) => {
   setTimeout(() => {
     client.messageHandler(message, client.isInteraction, "boop");
     setTimeout(() => {
-      client.messageHandler(message, client.isInteraction, "meow");
+      client.messageHandler(message, client.isInteraction, "meow", true);
     }, 3000);
   }, 1000);
 }
@@ -13,6 +13,13 @@ exports.conf = {
   help: "boop",
   format: "meow",
   DM: true,
-  ownerOnly: true, //fix edit behavior
-  alias: []
+  ownerOnly: false,
+  alias: [],
+  slashCommand: true,
+  data: {
+    name: "beep",
+    description: "meow",
+    options: [],
+    default_permission: undefined
+  }
 }

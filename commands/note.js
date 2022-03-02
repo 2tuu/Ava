@@ -119,8 +119,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
         } else {
           var rowNote = "Note is empty";
         }
-        client.messageHandler(message, client.isInteraction, '```py\nNote: ' + message.author.tag + '\n```');
-        client.messageHandler(message, client.isInteraction, '```md\n' + rowNote + '\n```');
+        client.messageHandler(message, client.isInteraction, '```py\nNote: ' + message.author.tag + '\n```\n```md\n' + rowNote + '\n```');
       }
 
     }).catch((err) => {
@@ -143,5 +142,31 @@ exports.conf = {
   DM: true,
   ownerOnly: false,
   alias: [],
-  slashCommand: false //fix output
+  slashCommand: true,
+  data: {
+      name: 'note',
+      description: 'Edit or create your note',
+      options: [
+          {
+              choices: [
+                  { name: 'append-to-note', value: 'append' },
+                  { name: 'edit-note', value: 'edit' },
+              ],
+              autocomplete: undefined,
+              type: 3,
+              name: 'choice',
+              description: 'Note editing options',
+              required: false
+          },
+          {
+              choices: undefined,
+              autocomplete: false,
+              type: 3,
+              name: 'content',
+              description: 'What to append or set the note to',
+              required: false
+          }
+      ],
+      default_permission: undefined
+  }
 }
