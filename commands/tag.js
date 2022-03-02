@@ -24,7 +24,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         case 'create':
             if (!args[1]) return;
             var tagContentVar = args.slice(2).join(' ');
-            var Attachment = (message.attachments).array();
+            var Attachment = (message.attachments).map(e=>e);
             tagContentVar = tagContentVar + Attachment.map(r => r.url).join(', ');
 
             if (tagContentVar.length < 1) {

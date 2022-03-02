@@ -229,5 +229,5 @@ exports.read = (taggerContent, message, args) => {
         })
     }
 
-    return taggerContent;
+    return taggerContent.replace(new RegExp('@everyone', 'g'), '[REMOVED]');
 }
