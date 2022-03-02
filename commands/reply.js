@@ -9,13 +9,13 @@ exports.run = async (client, message, args) => {
         .addField("From", message.author.id + " (" + message.author.username + "#" + message.author.discriminator + ")")
         .addField("Reply", args.slice(1).join(' '))
         .setFooter("DO NOT REPLY, THIS WORKS ONE WAY")
-        
-    try{
-        user.send({embed: embed1});
+
+    try {
+        user.send({ embed: embed1 });
         client.messageHandler(message, client.isInteraction, "Reply sent:\nPreview:")
-        client.messageHandler(message, client.isInteraction, {embed: embed1});
+        client.messageHandler(message, client.isInteraction, { embed: embed1 });
     }
-    catch(err){
+    catch (err) {
         client.messageHandler(message, client.isInteraction, "ERROR: " + err);
     }
 }
@@ -24,7 +24,6 @@ exports.conf = {
     category: "Admin",
     name: "N/A (dev command)",
     help: "N/A",
-    shortHelp: "[N/A]",
     format: "N/A",
     DM: true,
     ownerOnly: true,

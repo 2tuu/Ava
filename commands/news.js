@@ -13,16 +13,15 @@ exports.conf = {
     category: "Utility",
     name: "News",
     help: "View the most recent bot announcement",
-    shortHelp: "View bot news",
     format: "k?news",
     DM: true,
     ownerOnly: false,
     alias: [],
-  slashCommand: true,
-  data: {
-    name: "news",
-    description: "View bot announcements",
-    options: [],
-    default_permission: undefined
-  }
+    slashCommand: true,
+    data: {
+        name: "news",
+        description: "View bot announcements",
+        options: [],
+        default_permission: undefined
+    }
 }

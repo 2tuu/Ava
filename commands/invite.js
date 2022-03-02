@@ -11,16 +11,15 @@ exports.conf = {
     category: "Utility",
     name: "Invite",
     help: "Print out my invite",
-    shortHelp: "Invite me",
     format: "k?invite",
     DM: true,
     ownerOnly: false,
     alias: [],
-  slashCommand: true,
-  data: {
-    name: "invite",
-    description: "Print my invite link",
-    options: [],
-    default_permission: undefined
-  }
+    slashCommand: true,
+    data: {
+        name: "invite",
+        description: "Print my invite link",
+        options: [],
+        default_permission: undefined
+    }
 }

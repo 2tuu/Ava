@@ -14,7 +14,6 @@ exports.conf = {
         category: "Admin",
         name: "N/A (dev command)",
         help: "N/A",
-        shortHelp: "[N/A]",
         format: "N/A",
         DM: true,
         ownerOnly: true,

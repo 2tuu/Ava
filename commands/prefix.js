@@ -3,14 +3,14 @@ const Discord = require("discord.js");
 exports.run = (client, message, args, deletedMessage, pool) => {
 
   pool.query(`SELECT * FROM prefixes WHERE serverId ='${message.guild.id}'`).then(row => {
-  row = row.rows;
-    if(!row[0]){
+    row = row.rows;
+    if (!row[0]) {
       sql.query(`INSERT INTO prefixes (prefix, welcomeMessage, welcomeChannel, shouldWelcome, serverId) VALUES ('k?', 'This is a placeholder', 'null', 'false', '${message.guild.id}')`);
     }
 
-    if(message.member.permissions.has('ADMINISTRATOR') || message.author.id === "378769654942007299"){
-      if(args.length === 0){
-        
+    if (message.member.permissions.has('ADMINISTRATOR') || message.author.id === "378769654942007299") {
+      if (args.length === 0) {
+
       }
 
       pool.query(`UPDATE prefixes SET prefix = '${args[0].replace("\"", "").replace("\"", "")}' WHERE serverId = '${message.guild.id}'`);
@@ -41,7 +41,6 @@ exports.conf = {
   category: "Moderation",
   name: "Prefix",
   help: "Set my prefix to be used in this server",
-  shortHelp: "Set this server's prefix",
   format: "k?prefix [prefix]",
   DM: false,
   ownerOnly: false,

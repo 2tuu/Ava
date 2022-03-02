@@ -1,16 +1,16 @@
 const config = require(`./../config.json`);
 
 exports.run = (client, message, args) => {
-async function evalCMD(){
+  async function evalCMD() {
 
     function clean(text) {
-      if (typeof(text) === "string")
-      return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
-    else
-      return text;
+      if (typeof (text) === "string")
+        return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+      else
+        return text;
     }
 
-    if(config.evalAllow.includes(message.author.id)){
+    if (config.evalAllow.includes(message.author.id)) {
 
       try {
         const code = args.join(" ");
@@ -19,17 +19,17 @@ async function evalCMD(){
         if (typeof evaled !== "string")
           evaled = require("util").inspect(evaled);
 
-          var res = clean(evaled);
-              res = res.replace(new RegExp(config.token_prod, 'g'), '[TOKEN]');
-              res = res.replace(new RegExp(config.token_beta, 'g'), '[TOKEN]');
+        var res = clean(evaled);
+        res = res.replace(new RegExp(config.token_prod, 'g'), '[TOKEN]');
+        res = res.replace(new RegExp(config.token_beta, 'g'), '[TOKEN]');
 
-              res = res.replace(new RegExp(config.dbpass, 'g'), '[REDACTED]');
-              res = res.replace(new RegExp(config.e6apikey, 'g'), '[REDACTED]');
-              res = res.replace(new RegExp(config.kitk_token, 'g'), '[REDACTED]');
-              res = res.replace(new RegExp(config.youtube, 'g'), '[REDACTED]');
-              res = res.replace(new RegExp(config.imgur, 'g'), '[REDACTED]');
+        res = res.replace(new RegExp(config.dbpass, 'g'), '[REDACTED]');
+        res = res.replace(new RegExp(config.e6apikey, 'g'), '[REDACTED]');
+        res = res.replace(new RegExp(config.kitk_token, 'g'), '[REDACTED]');
+        res = res.replace(new RegExp(config.youtube, 'g'), '[REDACTED]');
+        res = res.replace(new RegExp(config.imgur, 'g'), '[REDACTED]');
 
-        client.messageHandler(message, client.isInteraction, res, {code:"xl"});
+        client.messageHandler(message, client.isInteraction, res, { code: "xl" });
       } catch (err) {
         client.messageHandler(message, client.isInteraction, `\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
       }
@@ -49,7 +49,6 @@ exports.conf = {
   category: "Admin",
   name: "N/A (dev command)",
   help: "You can't use this",
-  shortHelp: "[N/A]",
   format: "N/A",
   DM: true,
   ownerOnly: true,

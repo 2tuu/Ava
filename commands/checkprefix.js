@@ -4,7 +4,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
   sql.query(`SELECT * FROM prefixes WHERE serverId ='${message.guild.id}'`).then(row => {
     row = row.rows;
 
-    if(!row[0]){
+    if (!row[0]) {
       var prefix = "k?";
     } else {
       var prefix = row[0].prefix;
@@ -13,7 +13,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
     const embed = new Discord.MessageEmbed()
       .setColor(`0x${client.colors.good}`)
       .setTitle("This server: " + prefix)
-      client.messageHandler(message, client.isInteraction, { embeds: [embed] })
+    client.messageHandler(message, client.isInteraction, { embeds: [embed] })
   });
 }
 
@@ -21,7 +21,6 @@ exports.conf = {
   category: "Utility",
   name: "Checkprefix",
   help: "View this server's prefix",
-  shortHelp: "View this server's prefix",
   format: "k?checkprefix / @kit checkprefix",
   DM: false,
   ownerOnly: false,

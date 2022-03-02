@@ -12,17 +12,16 @@ exports.run = async (client, message, args) => {
 exports.conf = {
 	category: "Fun",
 	name: "Inspirobot",
-    help: "Generate an image from insprobot.me",
-	shortHelp: "Inspirobot",
-    format: "k?inspirobot",
-    DM: true,
-    ownerOnly: false,
-    alias: [],
-  slashCommand: true,
-  data: {
-    name: "inspirobot",
-    description: "Pull an image from Inspirobot",
-    options: [],
-    default_permission: undefined
-  }
+	help: "Generate an image from insprobot.me",
+	format: "k?inspirobot",
+	DM: true,
+	ownerOnly: false,
+	alias: [],
+	slashCommand: true,
+	data: {
+		name: "inspirobot",
+		description: "Pull an image from Inspirobot",
+		options: [],
+		default_permission: undefined
+	}
 }
