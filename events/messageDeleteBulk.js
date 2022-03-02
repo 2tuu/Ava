@@ -5,7 +5,6 @@ exports.run = async (deletedMessage, sql, client, messages) => {
   var channelID;
 
   messages.forEach(m => {
-
     channelID = m.channel.id;
 
     if (!m.attachments) {
@@ -25,9 +24,6 @@ exports.run = async (deletedMessage, sql, client, messages) => {
       if (a.time > b.time) return 1;
       return 0;
     });
-
-
-
   })
 
 
@@ -50,7 +46,10 @@ exports.run = async (deletedMessage, sql, client, messages) => {
   if (row.enabled === "yes" && row.logmessages === "yes") {
     var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
 
-    ch.send('Mass deletion logged - All deleted messages available to me are in the text file below:')
+    const embed = new Discord.MessageEmbed()
+    .setColor(`0x${client.colors.bad}`)
+    .setDescription("```diff\n-Mass Message Deletion:\n```")
+    ch.send({ embeds: [embed] });
     ch.send({
       files: [
         {
