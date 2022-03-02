@@ -39,5 +39,20 @@ exports.conf = {
     DM: true,
     ownerOnly: false,
     alias: ['uwu'],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "owo",
+    description: "uwu",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'text',
+        description: 'Text to translate',
+        required: true
+      }
+    ],
+    default_permission: undefined
+  }
 }

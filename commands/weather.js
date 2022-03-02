@@ -61,5 +61,20 @@ exports.conf = {
   DM: false,
   ownerOnly: false,
   alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "weather",
+    description: "Weather",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'location',
+        description: 'The location to search for',
+        required: true
+      }
+    ],
+    default_permission: undefined
+  }
 }

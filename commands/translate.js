@@ -44,5 +44,33 @@ exports.conf = {
     DM: true,
     ownerOnly: false,
     alias: [],
-  slashCommand: true
+  slashCommand: true,
+    data:{
+            name: 'translate',
+            description: 'Translates to or from Base64 and Binary',
+            options: [
+                {
+                    choices: [
+                        { name: 'to-base64', value: 'tob64' },
+                        { name: 'from-base64', value: 'fromb64' },
+                        { name: 'to-binary', value: 'tobinary' },
+                        { name: 'from-binary', value: 'frombinary' }
+                    ],
+                    autocomplete: undefined,
+                    type: 3,
+                    name: 'translation',
+                    description: 'How to translate the text',
+                    required: true
+                },
+                {
+                    choices: undefined,
+                    autocomplete: undefined,
+                    type: 3,
+                    name: 'string',
+                    description: 'The text you want to translate',
+                    required: true
+                  }
+            ],
+            default_permission: undefined
+        }
 }

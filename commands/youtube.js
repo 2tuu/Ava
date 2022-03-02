@@ -41,5 +41,20 @@ exports.conf = {
   DM: true,
   ownerOnly: false,
   alias: ['yt'],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "youtube",
+    description: "Search youtube for a video",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'search',
+        description: 'Search terms',
+        required: true
+      }
+    ],
+    default_permission: undefined
+  }
 }

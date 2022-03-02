@@ -51,5 +51,44 @@ exports.conf = {
     DM: true,
     ownerOnly: false,
     alias: ['temperature'],
-  slashCommand: true
+  slashCommand: true,
+  data:{
+          name: 'temp',
+          description: 'Convert temperatures',
+          options: [
+              {
+                  choices: [
+                      { name: 'to-celcius', value: 'toc' },
+                      { name: 'to-fahrenheit', value: 'tof' },
+                      { name: 'to-kelvin', value: 'tok' }
+                  ],
+                  autocomplete: undefined,
+                  type: 3,
+                  name: 'starting-temp',
+                  description: 'The temperature to translate from',
+                  required: true
+              },
+              {
+                choices: [
+                    { name: 'from-celcius', value: 'c' },
+                    { name: 'from-fahrenheit', value: 'f' },
+                    { name: 'from-kelvin', value: 'k' }
+                ],
+                autocomplete: undefined,
+                type: 3,
+                name: 'to-temp',
+                description: 'The temperature to translate to',
+                required: true
+            },
+              {
+                choices: undefined,
+                autocomplete: undefined,
+                type: 4,
+                name: 'temperature',
+                description: 'The temperature to translate',
+                required: true
+            }
+          ],
+          default_permission: undefined
+      }
 }

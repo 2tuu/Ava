@@ -2,7 +2,7 @@
 
 /*
 K-Tag v1.3
-(c) Avery W. 2018 (Github: 2tuu)
+Avery W. 2018 (Github: 2tuu)
 Last revision: 1/24/2022
 
 Changelog:

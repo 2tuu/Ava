@@ -66,5 +66,20 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
   DM: false,
   ownerOnly: false,
   alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "kick",
+    description: "Kick a user",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'user',
+        description: '@ the user you want to kick',
+        required: true
+      }
+    ],
+    default_permission: undefined
+  }
 }

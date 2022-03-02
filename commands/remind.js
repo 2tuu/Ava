@@ -104,5 +104,20 @@ exports.conf = {
     DM: true,
     ownerOnly: false,
     alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "remind",
+    description: "Set a reminder",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'arguments',
+        description: 'Arguments',
+        required: true
+      }
+    ],
+    default_permission: undefined
+  }
 }

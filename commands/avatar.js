@@ -52,10 +52,24 @@ exports.conf = {
 	category: "Fun",
 	name: "Avatar",
     help: "View your avatar, the server's icon or someone else's avatar",
-	shortHelp: "View an avatar",
     format: "k?avatar {@user/User ID/'server'}",
     DM: false,
     ownerOnly: false,
     alias: ['avy'],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+	name: "avatar",
+	description: "View an avatar",
+	options: [
+	  {
+		choices: undefined,
+		autocomplete: undefined,
+		type: 3,
+		name: 'user',
+		description: 'Enter "server" or @ another user',
+		required: false
+	  }
+	],
+	default_permission: undefined
+}
 }

@@ -18,5 +18,11 @@ exports.conf = {
     DM: true,
     ownerOnly: false,
     alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "inspirobot",
+    description: "Pull an image from Inspirobot",
+    options: [],
+    default_permission: undefined
+  }
 }

@@ -180,5 +180,20 @@ exports.conf = {
     DM: false,
     ownerOnly: false,
     alias: ['giveme', 'gimme', 'roles'],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "role",
+    description: "Server roles",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'option',
+        description: 'Type arguments here',
+        required: true
+      }
+    ],
+    default_permission: undefined
+  }
 }

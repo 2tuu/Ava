@@ -44,5 +44,20 @@ exports.conf = {
     DM: true,
     ownerOnly: false,
     alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "enlarge",
+    description: "Enlarge any emote",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'emote',
+        description: 'Put an emote here',
+        required: true
+      }
+    ],
+    default_permission: undefined
+  }
 }

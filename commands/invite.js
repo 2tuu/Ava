@@ -16,5 +16,11 @@ exports.conf = {
     DM: true,
     ownerOnly: false,
     alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "invite",
+    description: "Print my invite link",
+    options: [],
+    default_permission: undefined
+  }
 }

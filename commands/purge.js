@@ -115,5 +115,20 @@ exports.conf = {
   DM: false,
   ownerOnly: false,
   alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "purge",
+    description: "Purge messages",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'arguments',
+        description: 'Arguments',
+        required: true
+      }
+    ],
+    default_permission: undefined
+  }
 }

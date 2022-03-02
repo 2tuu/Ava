@@ -68,5 +68,20 @@ exports.conf = {
     DM: true,
     ownerOnly: false,
     alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "help",
+    description: "View command documentation",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'cmd',
+        description: 'Command',
+        required: false
+      }
+    ],
+    default_permission: undefined
+  }
 }

@@ -40,5 +40,20 @@ exports.conf = {
     DM: true,
     ownerOnly: false,
     alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "roll",
+    description: "Roll a virtual RPG die",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'dice',
+        description: 'ie. 1d20',
+        required: true
+      }
+    ],
+    default_permission: undefined
+  }
 }

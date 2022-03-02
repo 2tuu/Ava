@@ -24,5 +24,20 @@ exports.conf = {
     DM: true,
     ownerOnly: false,
     alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "reverse",
+    description: "Reverse the given text",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'text',
+        description: 'Text to reverse',
+        required: true
+      }
+    ],
+    default_permission: undefined
+  }
 }

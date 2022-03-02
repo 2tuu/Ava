@@ -151,5 +151,20 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
         DM: false,
         ownerOnly: false,
         alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "mute",
+    description: "Mute a user",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'user',
+        description: '@ the user you want to mute',
+        required: true
+      }
+    ],
+    default_permission: undefined
+  }
     }

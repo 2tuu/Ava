@@ -21,5 +21,20 @@ exports.conf = {
     DM: true,
     ownerOnly: false,
     alias: ['vapor', 'vapour'], //innit
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "expand",
+    description: "Convert text to fullwidth",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'string',
+        description: 'Text to be translated',
+        required: true
+      }
+    ],
+    default_permission: undefined
+  }
 }

@@ -20,10 +20,24 @@ exports.conf = {
     category: "Fun",
     name: "8ball",
     help: "Ask a yes or no question and get a response",
-    shortHelp: "Answers yes/no questions",
     format: "k?8ball [question]",
     DM: true,
     ownerOnly: false,
     alias: ["am", "are", "is", "can", "do", "will", "does"],
-    slashCommand: true
+    slashCommand: true,
+    data: {
+        name: "8ball",
+        description: "Answers yes or no questions",
+        options: [
+          {
+            choices: undefined,
+            autocomplete: undefined,
+            type: 3,
+            name: 'question',
+            description: 'What will you ask?',
+            required: false
+          }
+        ],
+        default_permission: undefined
+    }
 }

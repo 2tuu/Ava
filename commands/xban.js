@@ -43,5 +43,20 @@ exports.conf = {
   DM: false,
   ownerOnly: true,
   alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "xban",
+    description: "Ban a user preemptively",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'user',
+        description: 'ID of the user to ban',
+        required: true
+      }
+    ],
+    default_permission: undefined
+  }
 }

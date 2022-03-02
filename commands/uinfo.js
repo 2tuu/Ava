@@ -66,5 +66,20 @@ exports.conf = {
     DM: false,
     ownerOnly: false,
     alias: ['userinfo'],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "uinfo",
+    description: "User information",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'user',
+        description: 'The user to view (if not yourself)',
+        required: false
+      }
+    ],
+    default_permission: undefined
+  }
 }

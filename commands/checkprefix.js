@@ -26,5 +26,12 @@ exports.conf = {
   DM: false,
   ownerOnly: false,
   alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "checkprefix",
+    description: "Check this server's prefix",
+    options: [
+    ],
+    default_permission: undefined
+  }
 }

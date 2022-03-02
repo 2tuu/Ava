@@ -63,10 +63,24 @@ exports.conf = {
   category: "Moderation",
   name: "Ban",
   help: "Ban the mentioned user from the server",
-  shortHelp: "Ban a user",
   format: "k?ban [@user]",
   DM: false,
   ownerOnly: false,
   alias: ['bean'],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "ban",
+    description: "Ban a user",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'user',
+        description: '@ the user you want to ban',
+        required: true
+      }
+    ],
+    default_permission: undefined
+  }
 }

@@ -149,13 +149,18 @@ const Discord = require('discord.js');
                             //confirmation
                             const embed = new Discord.MessageEmbed()
                             .setColor(`0x${client.colors.good}`)
-			                .setDescription(`Public log set to <#${channelID}> (${channelID})`)
+			                .setDescription(`Mod log set to <#${channelID}> (${channelID})`)
 			                client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                         }
                 });
             }
 
     }
+
+    /*k?modlog toggle [logKicks/logChannels/logLeaves/logBans/logMembers/logMessages]
+k?modlog toggle
+k?modlog setchannel [#channel]
+k?modlog ignore #channel*/
 
     exports.conf = {
         category: "Moderation",
@@ -166,5 +171,37 @@ const Discord = require('discord.js');
         DM: false,
         ownerOnly: false,
         alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data:{
+          name: 'modlog',
+          description: 'Modlog module configuration',
+          options: [
+              {
+                  choices: [
+                      { name: 'toggle-ban-logging', value: 'toggle logbans' },
+                      { name: 'toggle-kick-logging', value: 'toggle logkicks' },
+                      { name: 'toggle-channel-logging', value: 'toggle logchannels' },
+                      { name: 'toggle-leave-logging', value: 'toggle logleaves' },
+                      { name: 'toggle-member-logging', value: 'toggle logmembers' },
+                      { name: 'toggle-message-logging', value: 'toggle logmessages' },
+                      { name: 'set-channel', value: 'setchannel' },
+                      { name: 'ignore-channel', value: 'ignore' },
+                  ],
+                  autocomplete: undefined,
+                  type: 3,
+                  name: 'setting',
+                  description: 'What setting to change',
+                  required: true
+              },
+              {
+                  choices: undefined,
+                  autocomplete: false,
+                  type: 3,
+                  name: 'channel',
+                  description: 'Channel to ignore or use as the mod log',
+                  required: false
+                }
+          ],
+          default_permission: undefined
+      }
     }

@@ -31,5 +31,11 @@ exports.conf = {
     DM: true,
     ownerOnly: false,
     alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "randomword",
+    description: "Generate a \"word\"",
+    options: [],
+    default_permission: undefined
+  }
 }

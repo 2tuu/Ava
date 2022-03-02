@@ -49,5 +49,20 @@ exports.conf = {
     DM: false,
     ownerOnly: false,
     alias: ['colour'], //innit
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "color",
+    description: "Generate or visualize a hex code",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'arguments',
+        description: 'Arguments',
+        required: false
+      }
+    ],
+    default_permission: undefined
+  }
 }

@@ -18,5 +18,11 @@ exports.conf = {
     DM: true,
     ownerOnly: false,
     alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "news",
+    description: "View bot announcements",
+    options: [],
+    default_permission: undefined
+  }
 }

@@ -562,5 +562,20 @@ exports.conf = {
         used to send people birthday messages automatically
     */
     alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "profile",
+    description: "View a profile",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'user',
+        description: '@ a user to view their profile',
+        required: false
+      }
+    ],
+    default_permission: undefined
+  }
 }

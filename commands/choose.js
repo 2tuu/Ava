@@ -16,5 +16,20 @@ exports.conf = {
     DM: true,
     ownerOnly: false,
     alias: [],
-  slashCommand: true
+  slashCommand: true,
+  data: {
+    name: "choose",
+    description: "Choose between multiple things",
+    options: [
+      {
+        choices: undefined,
+        autocomplete: undefined,
+        type: 3,
+        name: 'choices',
+        description: 'What you want the bot to choose between',
+        required: true
+      }
+    ],
+    default_permission: undefined
+  }
 }
