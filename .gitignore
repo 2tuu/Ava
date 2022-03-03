@@ -17,6 +17,8 @@ logs/
 npm-debug.log
 package-lock.json
 notes.txt
+.gitignore
+.gitattributes
 
 #macbook detrious
 .DS_Store
