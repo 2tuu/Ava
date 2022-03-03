@@ -16,21 +16,21 @@ exports.run = async (deletedMessage, pool, client) => {
 	client.version = version.version;
 	client.codename = version.codename;
 
-	console.log('\x1b[32m', `Loaded ${client.totalCommands} modules - ${client.failedCommands.length} failed`);
-	console.log('\x1b[34m%s\x1b[0m', "======================");
+	console.log(`Loaded ${client.totalCommands} modules - ${client.failedCommands.length} failed`);
+	console.log("======================");
 	if ((current > client.version) && parseInt(client.version) !== 0) {
 		console.error('Your framework is out of date - To update, either download and overwrite the contents of my folder, or run \'node update\' in this folder');
 		console.error(`The current Github version is: ` + current + '\n');
 		console.error(`Your version is: ` + client.version + '\n');
-		console.error('\x1b[36m%s\x1b[0m', '\n To disable this notice, set your version number in /plugins/update.json to 0');
-		console.log('\x1b[34m%s\x1b[0m', "======================");
+		console.error('\n To disable this notice, set your version number in /plugins/update.json to 0');
+		console.log("======================");
 	} else if (client.version == '0') {
 		//disable version report
 	} else {
-		console.log('\x1b[36m%s\x1b[0m', `Version: ` + client.version + ' - ' + client.codename);
+		console.log(`Version: ` + client.version + ' - ' + client.codename);
 	}
-	console.log('\x1b[36m%s\x1b[0m', `${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.cache.size} guilds`);
-	console.log('\x1b[34m%s\x1b[0m', "=========log==========");
+	console.log(`${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.cache.size} guilds`);
+	console.log("=========log==========");
 
 	//client.user.setStatus('dnd');
 
@@ -51,7 +51,7 @@ exports.run = async (deletedMessage, pool, client) => {
 	try {
 		client.blacklist = await pool.query(`SELECT * FROM blacklist`);
 		client.blacklist = client.blacklist.rows.map(g => g.userid);
-		console.log('\x1b[32m', 'Fetched blacklist');
+		console.log('Fetched blacklist');
 	} catch (err) {
 		console.error(`Problem fetching blacklist: ${err}`);
 	}

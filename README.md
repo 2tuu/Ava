@@ -1,22 +1,11 @@
-## This project is not yet prepared to be installed by anyone else, once I have completed the installation scripts this message will be removed. Until then, only install this if you know what you're doing.
-## In addition, this project is not finished, and will likely not be updated frequently.
+## Kit (Name change pending)
+Kit is a general use moderation bot with a bunch of fun commands - She's built in Node JS with Discord.js, currently running in version v16.14.0
 
 
-## Bot
-Kit is a general use moderation bot with a bunch of fun commands - She's built in Node JS with Discord.js, currently running in version v14.16.1
+## Before Using
+Kit is not designed to be installed or used by anyone but me, as such I haven't really made any sort of functioning installation script, nor will I in the future
 
-
-## Initial Configuration
-Warning: Before running the script, please fill out `config.example.json` with the proper information, and rename it `config.json`
-The install script is a work in progress, and may not work properly
-
-Additionally, the bot is only designed to work with a postgresql database, make sure it is installed, set up and it's credentials are entered into `config.json` before setting up
-
-After filling out config.json, run `install.sh` - While these installation scripts are not designed to be used on windows, the bot itself should still work with manual setup (make sure you know what you're doing)
-
-To install all node dependencies, run `npm i` while in the main folder, and it should install everything on it's own
-
-Once everything is configured, just run `app.js` with node (to keep it from staying closed if it crashes or stops, use a program like pm2 to run it)
+I will not be providing support in installing this yourself outside of the information stated below, the rest is for you
 
 
 ## Command Structure
@@ -37,20 +26,48 @@ exports.run = (client, message, args) => {
 }
 
 exports.conf = {
-    category: "Fun",
-    //the category for the command to be placed in for the k?help command
     name: "Command",
-    //the name of the command to be placed in the help command, and logged in the usage list
-    help: "What the command does",
-    //a description of what the command does
+    //Name of the command - only gets used for the simple statistics command
+    help: "This is what the command does",
+    //Summary that appears in the help command
     format: "k?command [argument]",
-    //a brief summary of how the command should be used
-    DM: true,
-    //can this command be used in DMs?
-    OwnerOnly: false,
-    //can this command only be used by devs?
-    alias: ["command1", "command2"]
-    //aliases for the command (ie. this command will respond to 'k?command1' and 'k?command2' as well as it's own name)
+    //Usage instructions for the help command
+    DM: false,
+    //Toggles ability to use the command in DMs
+    ownerOnly: false,
+    //Marks the command to only be used by the bot owner
+    alias: ["command1", "command2"],
+    //Aliases for the command to respond to (ie. 'k?command', 'k?command1' and 'k?command2' will all trigger this command)
+    slashCommand: true,
+    //Whether or not the command is designed to be a slash command (The 'data' block is not required if this is set to false)
+    data: {
+        name: 'command',
+        description: 'Short summary',
+        options: [
+            {
+                choices: [
+                    { name: 'first option', value: 'first' },
+                    { name: 'second option', value: 'second' },
+                    { name: 'third option', value: 'third' }
+                ],
+                autocomplete: undefined,
+                type: 3,
+                name: 'option',
+                description: 'Name of the option',
+                required: true
+            },
+            {
+                choices: undefined,
+                autocomplete: false,
+                type: 3,
+                name: 'channel',
+                description: 'Channel to ignore or use as the mod log',
+                required: false
+            }
+        ],
+        default_permission: undefined
+    }
+    //The data to be ent to the discord API for the slash command
 }
 ```
 

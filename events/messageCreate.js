@@ -75,7 +75,7 @@ exports.run = async (deletedMessage, pool, client, message) => {
   var currentStatus = await client.presence.activities;
   if (!currentStatus[0]) {
     client.user.setActivity(data.status);
-    console.log('\x1b[32m', 'Automatically set status to: ' + data.status);
+    console.log('Automatically set status to: ' + data.status);
   }
 
 }

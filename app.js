@@ -46,16 +46,20 @@ client.help = new Map();
 client.commandStats = {};
 client.colors = colors;
 client.isInteraction = false;
-client.messageHandler = async function m(message, isInteraction, mContent, edit) {
+client.messageHandler = async function m(message, isInteraction, mContent, edit, channel) {
   var reply;
   if (isInteraction) {
-    if(edit){
+    if (edit) {
       reply = await message.editReply(mContent);
     } else {
       reply = await message.reply(mContent);
     }
   } else {
-    reply = message.channel.send(mContent);
+    if(channel){
+      reply = channel.send(mContent);
+    } else {
+      reply = message.channel.send(mContent);
+    }
   }
   return reply;
 };
@@ -88,34 +92,36 @@ fs.readdir(`./events/`, (err, files) => {
 });
 
 //command loader (text based / interactions)
-fs.readdir('./commands', (err, commands) => {
-  function cLoader(c) {
-    var cmd;
+fs.readdir('./commands', (err, folders) => {
+  folders.forEach(f => {
+    fs.readdir(`./commands/${f}`, (err, commands) => {
+      function cLoader(c) {
+        var cmd;
 
-    try {
-      cmd = require(`./commands/${c}`);
-    } catch (err) {
-      client.failedCommands.push(c.replace('.js', ''));
-      return console.error(`Loading Error (${c}): ${err.stack}`);
-    }
-    var cmdName = c.substring(0, c.length - 3); //-.js
+        try {
+          cmd = require(`./commands/${f}/${c}`);
+        } catch (err) {
+          client.failedCommands.push(c.replace('.js', ''));
+          return console.error(`Loading Error (${c}): ${err.stack}`);
+        }
+        var cmdName = c.substring(0, c.length - 3); //-.js
 
-    client.aliases[cmdName] = { aliases: [] };
-    client.help[cmdName] = { help: cmd.conf.help, format: cmd.conf.format, category: cmd.conf.category, filename: cmdName };
+        client.aliases[cmdName] = { aliases: [] };
+        client.help[cmdName] = { help: cmd.conf.help, format: cmd.conf.format, category: f, filename: cmdName };
 
-    if (cmd.conf.ownerOnly === false && cmd.conf.slashCommand) {
-      const data = cmd.conf.data;
-      client.slashCommands.push(data);
-    }
+        if (cmd.conf.ownerOnly === false && cmd.conf.slashCommand) {
+          const data = cmd.conf.data;
+          client.slashCommands.push(data);
+        }
 
-    cmd.conf.alias.forEach((alias) => { client.aliases[cmdName].aliases.push(alias); });
+        cmd.conf.alias.forEach((alias) => { client.aliases[cmdName].aliases.push(alias); });
 
-    return false;
-  }
-  console.log('\x1b[32m', 'Loading commands...');
-  commands.forEach((m) => { cLoader(m); client.totalCommands = client.totalCommands + 1; });
-
-
+        return false;
+      }
+      console.log(`Loading '${f}' commands... (${commands.length})`);
+      commands.forEach((m) => { cLoader(m); client.totalCommands = client.totalCommands + 1; });
+    })
+  })
 });
 
 //beta command loader
@@ -134,7 +140,7 @@ if (config.toggle_beta === "y") {
         client.failedCommands.push(cmd);
       }
     }
-    console.log('\x1b[32m', 'Loading beta commands...');
+    console.log('Loading beta commands...');
     commands.forEach((m) => { cLoader(m); client.totalCommands = client.totalCommands + 1; });
 
 
@@ -158,8 +164,9 @@ client.on('interactionCreate', async interaction => {
     args = args.match(/[^\s"]+|"([^"]*)"/g);
   }
   interaction.author = interaction.user;
+  var command = interaction.commandName.toLowerCase();
 
-  command = require(`./commands/${interaction.commandName.toLowerCase()}.js`);
+  command = require(`./commands/${client.help[command].category}/${command}.js`);
   client.isInteraction = true;
 
   if (!interaction.guild && command.conf.DM === false) return interaction.reply('Not allowed in DMs');
@@ -305,7 +312,7 @@ client.on("messageCreate", async message => {
 
     //Continue command loading - woo yea baby nested try/catch
     try {
-      commandFile = require(`./commands/${command}.js`);
+      commandFile = require(`./commands/${client.help[command].category}/${command}.js`);
     } catch (err) {
       try {
         commandFile = require(`./commands-locked/${command}.js`);
@@ -336,7 +343,7 @@ client.on("messageCreate", async message => {
     if (client.blacklist.includes(message.author.id)) return;
 
     try {
-      var messageContent = message.content.slice(handledPrefix.length).slice(command.length + 2);
+      var messageContent = message.content.slice(handledPrefix.length).slice(command.length + 1);
 
       client.isInteraction = false;
       commandFile.run(client, message, args, deletedMessage, pool, tossedSet, roles, messageContent);
@@ -352,10 +359,7 @@ client.on("messageCreate", async message => {
       console.error(err);
       client.logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***COMMAND ERROR:***\n```js\nERR: ' + err + '\n```');
     }
-
   });
-
-
 });
 
 //error catcher
@@ -372,14 +376,14 @@ client.on("error", async error => {
 client.on("ready", () => {
   (async () => {
     try {
-      console.log(' Loading global interactions....');
+      console.log('Loading global interactions....');
       await rest.put(
         Routes.applicationCommands(client.user.id),
         { body: client.slashCommands },
       );
-      console.log(' Interactions loaded');
+      console.log('Interactions loaded');
     } catch (error) {
-      console.error(error);
+      console.error(JSON.stringify(error));
     }
   })();
 })
