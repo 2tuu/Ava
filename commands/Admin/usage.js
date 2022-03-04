@@ -15,8 +15,10 @@ exports.run = async (client, message) => {
     const used = process.memoryUsage().heapUsed / 1024 / 1024;
     const total = process.memoryUsage().heapTotal / 1024 / 1024;
 
-    var memPercent = ((Math.round((os.totalmem - os.freemem) / 1000000000) / Math.round(os.totalmem / 1000000000)));
-    var lumpPercent = (Math.round(used * 100) / 100) / (Math.round(total * 100) / 100);
+    var memPercent = (os.totalmem - os.freemem)/os.totalmem;
+        memPercent = memPercent*100;
+    var lumpPercent = used/total;
+        lumpPercent = lumpPercent*100;
 
     if (memPercent < 1) {
         memPercent = '<1';
@@ -37,7 +39,7 @@ exports.run = async (client, message) => {
 
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
-                .setDescription('```diff\n-Statistics:\n' +
+                .setDescription('```diff\n' +
                     `CPU(s): x${os.cpus().length}\n` +
                     `OS: ${os.platform()} ${os.release()}\n\n` +
 
@@ -60,7 +62,7 @@ exports.run = async (client, message) => {
 
                     `-Completed in ${Math.round(seconds * 1000)}ms` +
                     '\n```')
-            m.edit('', { embeds: [embed] });
+            m.edit({content:'Statistics:', embeds: [embed] });
         });
     }
 
