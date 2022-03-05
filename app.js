@@ -1,3 +1,18 @@
+var startup = 'prod';
+
+if(process.argv.slice(2)[0]){
+  var option = process.argv.slice(2)[0];
+
+  if(option.toLowerCase() == 'beta'){
+    console.log('Using beta token\n======================')
+    startup = 'beta';
+  } else {
+    console.log('Incorrect startup option, using production token\n======================')
+  }
+} else {
+  console.log('Using production token\n======================')
+}
+
 const Discord = require(`discord.js`);
 const { Client } = require('discord.js');
 const client = new Client({
@@ -21,8 +36,12 @@ const { Routes } = require('discord-api-types/v9');
 
 const fs = require(`fs`);
 const config = require(`./config.json`);
-const token = config.token_prod;
-const colors = require('./plugins/colors.json');
+
+var token = config.token_prod;
+if(option == 'beta'){
+  token = config.token_beta;
+}
+
 const { Pool } = require('pg')
 const pool = new Pool({
   user: config.dbuser,
@@ -40,12 +59,12 @@ client.failedCommands = [];
 client.totalCommands = 0;
 client.slashCommands = [];
 client.blacklist = [];
-client.blist = [];
 client.aliases = new Map();
 client.help = new Map();
-client.commandStats = {};
-client.colors = colors;
-client.isInteraction = false;
+client.colors = require('./plugins/colors.json');
+client.isInteraction = false; //default
+
+//message send handler
 client.messageHandler = async function m(message, isInteraction, mContent, edit, channel) {
   var reply;
   if (isInteraction) {
@@ -56,27 +75,27 @@ client.messageHandler = async function m(message, isInteraction, mContent, edit,
     }
   } else {
     if(channel){
-      reply = channel.send(mContent);
+      reply = await channel.send(mContent);
     } else {
-      reply = message.channel.send(mContent);
+      reply = await message.channel.send(mContent);
     }
   }
   return reply;
 };
 
+//temporary sets - these die when the process does
 const deletedMessage = new Set();
 const roles = new Set();
 const tossedSet = new Set();
 const cooldown = new Set();
 
-client.timeCon = function timeCon(time) {
-  let unix_timestamp = time;
-  var date = new Date(unix_timestamp);
+client.timeCon = function timeCon(timestamp) {
+  var date = new Date(timestamp);
   var hours = date.getHours();
   var minutes = "0" + date.getMinutes();
   var seconds = "0" + date.getSeconds();
 
-  var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+  var formattedTime = hours + ':' + minutes.substring(-2) + ':' + seconds.substring(-2);
 
   return formattedTime;
 }
@@ -131,7 +150,6 @@ if (config.toggle_beta === "y") {
       try {
         const cmd = require(`./commands-locked/${c}`);
         var cmdName = c.substring(0, c.length - 3);
-
         cmd.conf.alias.forEach((alias) => { client.aliases[cmdName].aliases.push(alias); });
 
         return false;
@@ -348,12 +366,6 @@ client.on("messageCreate", async message => {
       client.isInteraction = false;
       commandFile.run(client, message, args, deletedMessage, pool, tossedSet, roles, messageContent);
       var cName = commandFile.conf.name;
-
-      if (client.commandStats[cName]) {
-        client.commandStats[cName] = client.commandStats[cName] + 1
-      } else {
-        client.commandStats[cName] = 1;
-      }
     }
     catch (err) {
       console.error(err);
