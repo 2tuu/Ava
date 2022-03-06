@@ -58,7 +58,6 @@ const rest = new REST({ version: '9' }).setToken(token);
 client.failedCommands = [];
 client.totalCommands = 0;
 client.slashCommands = [];
-client.blacklist = [];
 client.aliases = new Map();
 client.help = new Map();
 client.colors = require('./plugins/colors.json');
@@ -99,6 +98,15 @@ client.timeCon = function timeCon(timestamp) {
 
   return formattedTime;
 }
+
+//blacklist loader
+client.blacklist = [];
+async function loadBlist(){
+  var res = await pool.query(`SELECT * FROM blacklist`);
+  client.blacklist = res.rows.map(e=>e.userid);
+  console.log('Loaded blacklist')
+}
+loadBlist();
 
 //event loader
 fs.readdir(`./events/`, (err, files) => {
@@ -168,6 +176,7 @@ if (config.toggle_beta === "y") {
 //command loader (slash commands)
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
+  if (client.blacklist.includes(interaction.user.id)) return interaction.reply({content: 'Not allowed', ephemeral: true});
   var options = await interaction.options;
   var args = [];
   var messageContent = '';
