@@ -9,16 +9,14 @@ exports.run = (client, message, args, deletedMessage, sql) => {
         return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
-    if (message.member.permissions.has('KICK_MEMBERS') || message.author.id === '378769654942007299') {
-        //continue
-    } else {
+    if (!message.member.permissions.has('KICK_MEMBERS')) {
         const embed = new Discord.MessageEmbed()
             .setColor(`0x${client.colors.bad}`)
             .setDescription("You don't have permission to use this\n```KICK_MEMBERS Required```")
         return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
-    if (args[1]) { args[1] = args[1].toLowerCase(); }
+    if (args[1]) {args[1] = args[1].toLowerCase()}
 
     function optionApply(option, setting) {
         option = option.toLowerCase();
@@ -87,13 +85,12 @@ exports.run = (client, message, args, deletedMessage, sql) => {
             sql.query(`SELECT * FROM modlog WHERE serverid ='${message.guild.id}'`).then(row => {
                 row = row.rows[0];
                 if (!row) return;
-                //set channel variable here, but only if enabled
             });
         } else if (option === "toggleoption") {
             sql.query(`SELECT * FROM modlog WHERE serverid ='${message.guild.id}'`).then(row => {
                 row = row.rows[0];
                 if (!row) return;
-                //remember to feed this option if args[1] exists, top if only args[0]
+
                 var optionlist = [
                     'logkicks',
                     'logchannels',
@@ -102,17 +99,15 @@ exports.run = (client, message, args, deletedMessage, sql) => {
                     'logmembers',
                     'logmessages',
                     'logroles'];
-                //toggle individual options
+
                 if (optionlist.includes(setting)) {
                     if (row[setting] === 'no') {
-                        //set yes
                         const embed = new Discord.MessageEmbed()
                             .setColor(`0x${client.colors.good}`)
                             .setDescription(setting + " module enabled.")
                         client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                         sql.query(`UPDATE modlog SET ${setting} = 'yes' WHERE serverId = '${message.guild.id}'`);
                     } else {
-                        //set no
                         const embed = new Discord.MessageEmbed()
                             .setColor(`0x${client.colors.bad}`)
                             .setDescription(setting + " module disabled.")
@@ -128,7 +123,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
             });
         }
     }
-    //end script
+
     if (args[0].toLowerCase() === "toggle") {
         if (!args[1]) {
             optionApply('toggle', 'n/a');
@@ -146,7 +141,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
             if (args[1]) {
                 var channelID = args[1].replace("<#", "").replace(">", "");
                 sql.query(`UPDATE modlog SET channel = '${channelID}' WHERE serverId = '${message.guild.id}'`);
-                //confirmation
+
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.good}`)
                     .setDescription(`Mod log set to <#${channelID}> (${channelID})`)
