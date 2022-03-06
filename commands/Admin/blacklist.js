@@ -20,29 +20,6 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         }).catch((err) => {
             return client.messageHandler(message, client.isInteraction, 'Database error:\n```js\n' + err + '\n```');
         });
-    } else if (args[0].toLowerCase() === "list") {
-        sql.query(`SELECT * FROM blacklist`).then(row => {
-            row = row.rows;
-            if (row.length < 1) {
-                const embed = new Discord.MessageEmbed()
-                    .setColor(`0x${client.colors.bad}`)
-                    .setDescription("No results")
-                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
-            } else {
-                var res = [];
-
-                row.forEach(e => {
-                    res.push(`${e.userid} - ${e.reason}`)
-                });
-
-                const embed = new Discord.MessageEmbed()
-                    .setColor(`0x${client.colors.neutral}`)
-                    .setDescription(res)
-                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
-            }
-        }).catch((err) => {
-            return client.messageHandler(message, client.isInteraction, 'Database error:\n```js\n' + err + '\n```');
-        });
     } else if (args[0].toLowerCase() === "delete") {
         sql.query(`DELETE FROM blacklist WHERE userid ='${args[1]}'`).then(row => {
             row = row.rows;
