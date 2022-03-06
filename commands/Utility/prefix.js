@@ -8,11 +8,7 @@ exports.run = (client, message, args, deletedMessage, pool) => {
       sql.query(`INSERT INTO prefixes (prefix, welcomeMessage, welcomeChannel, shouldWelcome, serverId) VALUES ('k?', 'This is a placeholder', 'null', 'false', '${message.guild.id}')`);
     }
 
-    if (message.member.permissions.has('ADMINISTRATOR') || message.author.id === "378769654942007299") {
-      if (args.length === 0) {
-
-      }
-
+    if (message.member.permissions.has('ADMINISTRATOR')) {
       pool.query(`UPDATE prefixes SET prefix = '${args[0].replace("\"", "").replace("\"", "")}' WHERE serverId = '${message.guild.id}'`);
 
       const embed = new Discord.MessageEmbed()
