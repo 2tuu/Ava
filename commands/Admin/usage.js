@@ -3,9 +3,6 @@ var cpuStat = require('cpu-stat');
 const Discord = require(`discord.js`);
 
 exports.run = async (client, message) => {
-    var arr = [1, 2, 3, 4, 5, 6, 9, 7, 8, 9, 10];
-    arr.reverse();
-
     var totalSeconds = await process.uptime();
     let hours = Math.floor(totalSeconds / 3600);
     totalSeconds %= 3600;
@@ -34,9 +31,7 @@ exports.run = async (client, message) => {
 
     async function usageMeter() {
         var m = await client.messageHandler(message, client.isInteraction, 'Loading metrics...');
-
         cpuStat.usagePercent(function (err, percent, seconds) {
-
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
                 .setDescription('```diff\n' +
@@ -65,10 +60,7 @@ exports.run = async (client, message) => {
             m.edit({content:'Statistics:', embeds: [embed] });
         });
     }
-
     usageMeter();
-
-
 }
 
 exports.conf = {

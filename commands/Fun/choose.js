@@ -1,9 +1,7 @@
 exports.run = (client, message, args) => {
   if (!args[1]) return client.messageHandler(message, client.isInteraction, "You didn't give me enough things to choose");
   var response = args[Math.floor(Math.random() * args.length)];
-  response = response.replace("\"", "");
-  response = response.replace("\"", "");
-
+  response = response.replace(new RegExp('"', 'g'), '');
   client.messageHandler(message, client.isInteraction, "I choose **" + response + "**")
 }
 

@@ -1,6 +1,6 @@
 const config = require(`./../../config.json`);
 
-exports.run = (client, message, args) => {
+exports.run = (client, message, args, deletedMessage, sql) => {
   async function evalCMD() {
 
     function clean(text) {

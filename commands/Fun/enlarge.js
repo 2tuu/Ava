@@ -2,11 +2,10 @@ const Discord = require('discord.js');
 
 const config = require("./../../config.json");
 exports.run = (client, message, args) => {
-    if (!args[0]) {
-        return client.messageHandler(message, client.isInteraction, "Invalid emote");
-    } else if (!args[0].startsWith('<')) {
+    if (!args[0] || !args[0].startsWith('<')) {
         return client.messageHandler(message, client.isInteraction, "Invalid emote");
     }
+    
     if (args[0]) {
         var duArgs = args[0].match(/[^\s:]+|:([^:]*):/g);
         if (duArgs[0] === "<a") {
@@ -17,15 +16,11 @@ exports.run = (client, message, args) => {
         var emojiID = duArgs[2].replace(">", "");
     }
 
-    if (!emojiID) {
+    if (!emojiID || !args[0] || args[0].length < 1) {
         return client.messageHandler(message, client.isInteraction, "Invalid emote");
     }
 
-    if (!args[0]) {
-        return client.messageHandler(message, client.isInteraction, "Invalid emote");
-    } else if (args[0].length < 1) {
-        return client.messageHandler(message, client.isInteraction, "Invalid emote");
-    } else if (15 < emojiID.length < 20) {
+    if (15 < emojiID.length < 20) {
         const embed = new Discord.MessageEmbed()
             .setImage('https://cdn.discordapp.com/emojis/' + emojiID + '.' + fileType + '?v=1)')
             .setDescription('[Link](https://cdn.discordapp.com/emojis/' + emojiID + '.' + fileType + '?v=1)')

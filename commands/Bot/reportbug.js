@@ -12,22 +12,17 @@ exports.run = (client, message, args) => {
     return client.messageHandler(message, client.isInteraction, { embeds: [embedVar] });
   } else {
     reportedRecently.add(message.author.id);
-    setTimeout(() => {
-      reportedRecently.delete(message.author.id);
-    }, 14400000);
+    setTimeout(() => {reportedRecently.delete(message.author.id)}, 14400000);
   }
 
   if (!args[0]) return;
-  // get client from message's channel
-  let clientVar = message.channel.client;
 
-  // fetch user via given user id
   let user = client.users.fetch(config.owner)
     .then(user => {
       var letterAR = ["A", "B", "C", "D"];
       var rand = letterAR[Math.floor(Math.random() * letterAR.length)];
 
-      var errID = `${rand}-${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}-1`;
+      var errID = `${rand}-${(Math.random()).toString().replace('0.','').substring(-5,5)}-1`;
 
       const embed1 = new Discord.MessageEmbed()
         .setTitle("Report ID: " + errID)

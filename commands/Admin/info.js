@@ -7,12 +7,11 @@ exports.run = async (client, message) => {
 	stats = stats.join('\n');
 
 	const embed = new Discord.MessageEmbed()
-		.setAuthor(client.user.username, client.user.avatarURL)
 		.setDescription(
 			"**Guilds/Users: **" + `${client.guilds.cache.size}/${client.users.cache.size}` + "\n" +
-			"**Stats:**\n" + stats
+			"**Stats:**\n" + stats + "\n\n" +
+			'v.' + `${client.version} ${client.codename}` + ' (current repo version: ' + client.currentVersion + ')'
 		)
-		.setFooter('v.' + `${client.version} ${client.codename}` + ' (current repo version: ' + client.currentVersion + ')')
 
 	client.messageHandler(message, client.isInteraction, { embeds: [embed] })
 }

@@ -8,7 +8,7 @@ exports.run = (client, message, args) => {
     var message2 = args.join(" ");
     data.status = message2;
     const embed = new Discord.MessageEmbed()
-      .setTitle("Complete bot status changed: " + data.status)
+      .setTitle("Bot status changed: " + data.status)
     client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 
     fs.writeFile("./plugins/data.json", JSON.stringify(data, null, 2), (err) => {
