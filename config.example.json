@@ -1,17 +1,20 @@
 {
-    "token_prod": "bot token here",
-    "suggestions": "suggestion channel id here",
-    "reports": "bug report channel here",
+    "token_prod": "Discord Token Here",
+    
+    "suggestions": "123456789098765432",
+    "reports": "123456789098765432",
+    "logChannel": "123456789098765432",
+
     "prefix": "k?",
-    "owner": "your user id here",
-    "logChannel": "login log and whatnot channel id here",
-    "evalAllow": ["anyone you trust enough to use the eval command here"],
-    "imgur": "Imgur app id here",
-    "youtube": "youtube API token here",
-    "kitk_token": "hug api token here (request one from kab#9488)",
-    "invite": "link to the bot's invite here",
-    "dbuser": "database username (probably postgres/root)",
-    "dbname": "the name of the database you want Kit to use",
-    "dbpass": "the password for the user you want Kit to use",
+    
+    "owner": "123456789098765432",
+    "staff": ["123456789098765432"],
+    "evalAllow": ["123456789098765432"],
+    
+    "youtube": "Youtube API Token",
+
+    "dbuser": "Postgre Username",
+    "dbpass": "Postgre User Password",
+    "dbname": "Postgre Database Name",
     "toggle_beta": "n"
 }
