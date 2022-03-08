@@ -16,6 +16,8 @@ A profile includes the following information:
 - 2 Custom fields (Bio and Subtitle)
 - Birthday (Day and Month)
 
+Day, month and year of the set birthday are stored due to the way Kit needs to interpret entered dates, but only day and month are actually visible outside the timestamp entered into the database by Kit
+
 Of these fields, only the bio and subtitle may be edited, while the birthday can be set once. Username/discriminator and point balance are all fetched and managed by the bot automatically.
 
 Any errors in something like a birthday can be easily reset by an admin, and profiles may be removed entirely upon request. (This request can be made in the support server listed in Kit's Discord bio)
