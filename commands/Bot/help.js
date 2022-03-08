@@ -46,7 +46,7 @@ exports.run = (client, message, args) => {
         const embed = new Discord.MessageEmbed()
             .setTitle("Command documentation")
             .setDescription("Use this command to view what a command does\n`[required argument]` `{optional argument}`\n" +
-                "\n" + final)
+                "\n" + final + '[Privacy Policy](https://github.com/2tuu/Kit/blob/master/docs/privacy.md)')
         client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     } else if (commandList.includes(args[0].toLowerCase())) {
         const embed = new Discord.MessageEmbed()
