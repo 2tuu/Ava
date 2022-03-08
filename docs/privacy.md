@@ -74,3 +74,8 @@ A user's snowflake is only used to associate a database entry with their account
 Users may create a 'tag' using Kit's rudimentary language KTag. These tags may include any code a user decides to put into them. These tags may be deleted and modified only by the user who created them, and server staff, but may be summoned by any user.
 
 The only data stored by this module is the code within the tag itself. Any text given to the tag is taken in, interpreted according to the code within the tag, and passed back to discord.
+
+# Information Removal
+As stated before, any information that cannot be completely removed by a user (D/M birthday set in profile and profile point balance, or an empty note) can be removed at the request of an admin by asking in Kit's support Discord server.
+
+This Discord server's current link will be available in Kit's user profile, under the bio section, along with a Trello board containing any current bugs and future addition progress.
