@@ -1,5 +1,5 @@
 # Data Usage Statement / Privacy Policy
-## Last updated: 3/7/2022
+## Last updated: 3/9/2022
 
 By using my Bot, you agree that you have read and agree to this policy.
 
@@ -7,6 +7,8 @@ This is our "Privacy Policy" which sets out the policy which governs our use of 
 
 
 # What Data is Stored Permanently
+In short, no data is stored *forever*. Some data can be deleted by the users, other things, like profiles can be reset and made empty by a user. But regardless of whether or not the user themselves can delete it from the bot's database, it can be deleted entirely at the request of an admin.
+
 ## Profiles
 Kit allows for the creation and storage of a customizeable user profile. This profile is visible to all users, but can only be modified by the user who created it.
 
@@ -70,14 +72,14 @@ These IDs are used for:
 - Identifying creators of server tags (to determine whether or not they are allowed to modify or remove them)
 - Identifying owners of notes or profiles
 
-A user's snowflake is only used to associate a database entry with their account
+A user's snowflake is only used to associate a database entry with their account.
 
 ## Tags
 Users may create a 'tag' using Kit's rudimentary language KTag. These tags may include any code a user decides to put into them. These tags may be deleted and modified only by the user who created them, and server staff, but may be summoned by any user.
 
 The only data stored by this module is the code within the tag itself. Any text given to the tag is taken in, interpreted according to the code within the tag, and passed back to discord.
 
-# Information Removal
+# Information Removal Requests
 As stated before, any information that cannot be completely removed by a user (D/M birthday set in profile and profile point balance, or an empty note) can be removed at the request of an admin by asking in Kit's support Discord server.
 
 This Discord server's current link will be available in Kit's user profile, under the bio section, along with a Trello board containing any current bugs and future addition progress.
