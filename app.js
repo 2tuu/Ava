@@ -1,9 +1,9 @@
 var startup = 'prod';
 
-if(process.argv.slice(2)[0]){
+if (process.argv.slice(2)[0]) {
   var option = process.argv.slice(2)[0];
 
-  if(option.toLowerCase() == 'beta'){
+  if (option.toLowerCase() == 'beta') {
     console.log('Using beta token\n======================')
     startup = 'beta';
   } else {
@@ -38,7 +38,7 @@ const fs = require(`fs`);
 const config = require(`./config.json`);
 
 var token = config.token_prod;
-if(option == 'beta'){
+if (option == 'beta') {
   token = config.token_beta;
 }
 
@@ -73,7 +73,7 @@ client.messageHandler = async function m(message, isInteraction, mContent, edit,
       reply = await message.reply(mContent);
     }
   } else {
-    if(channel){
+    if (channel) {
       reply = await channel.send(mContent);
     } else {
       reply = await message.channel.send(mContent);
@@ -101,9 +101,9 @@ client.timeCon = function timeCon(timestamp) {
 
 //blacklist loader
 client.blacklist = [];
-async function loadBlist(){
+async function loadBlist() {
   var res = await pool.query(`SELECT * FROM blacklist`);
-  client.blacklist = res.rows.map(e=>e.userid);
+  client.blacklist = res.rows.map(e => e.userid);
   console.log('Loaded blacklist')
 }
 loadBlist();
@@ -176,7 +176,7 @@ if (config.toggle_beta === "y") {
 //command loader (slash commands)
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
-  if (client.blacklist.includes(interaction.user.id)) return interaction.reply({content: 'Not allowed', ephemeral: true});
+  if (client.blacklist.includes(interaction.user.id)) return interaction.reply({ content: 'Not allowed', ephemeral: true });
   var options = await interaction.options;
   var args = [];
   var messageContent = '';
@@ -332,7 +332,11 @@ client.on("messageCreate", async message => {
 
     args = message.content.slice(handledPrefix.length).trim().match(/[^\s"]+|"([^"]*)"/g);
     if (!args || !args[0]) args = [];
-    command = args.shift().toLowerCase();
+    try {
+      command = args.shift().toLowerCase();
+    } catch (err) {
+      command = null;
+    }
 
     //Find command file from alias
     for (const key of Object.keys(client.aliases)) if (client.aliases[key].aliases.includes(command)) command = key;
