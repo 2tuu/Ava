@@ -1,9 +1,9 @@
 # Data Usage Statement / Privacy Policy
-## Last updated: 3/9/2022
+## Last updated: 3/10/2022
 
-By using my Bot, you agree that you have read and agree to this policy.
+Below is the best summary I could write of the data Kit collects, and what it's used for. By using Kit you aknowledge all statements below.
 
-This is our "Privacy Policy" which sets out the policy which governs our use of information you provide in connection with Kit.
+Any data used and collected by Kit is not shared with a third party (besides Discord obviously) unless absolutely necessary.
 
 
 # What Data is Stored Permanently
