@@ -24,11 +24,10 @@ exports.run = (client, message, args, deletedMessage, sql) => {
         res = res.replace(new RegExp(config.token_beta, 'g'), '[TOKEN]');
 
         res = res.replace(new RegExp(config.dbpass, 'g'), '[REDACTED]');
-        res = res.replace(new RegExp(config.e6apikey, 'g'), '[REDACTED]');
+        res = res.replace(new RegExp(config.dbuser, 'g'), '[REDACTED]');
         res = res.replace(new RegExp(config.kitk_token, 'g'), '[REDACTED]');
         res = res.replace(new RegExp(config.youtube, 'g'), '[REDACTED]');
-        res = res.replace(new RegExp(config.imgur, 'g'), '[REDACTED]');
-        res = res.replace(new RegExp(config.githubToken, 'g'), '[REDACTED]');
+        
 
         client.messageHandler(message, client.isInteraction, `\`\`\`\n${res}\n\`\`\``);
       } catch (err) {
