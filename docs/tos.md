@@ -1,7 +1,9 @@
 # Terms and Rules
+## Last updated: 3/11/2022
+
 While Kit controls most rate limits and usage independantly, some terms still apply when using the bot.
 
-By using Kit, you aknowledge all terms written out in the [Privacy Policy](https://github.com/2tuu/Kit/blob/master/docs/privacy.md) to do with data usage.
+By using Kit, you aknowledge all terms written out in the [Privacy Policy](https://github.com/2tuu/Kit/blob/master/docs/privacy.md).
 
 # Usage
 As stated before, most improper usage is rendered impossible by safeguards built into Kit itself, but this doesn't mean no rules apply to it.
