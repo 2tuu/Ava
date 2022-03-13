@@ -1,3 +1,5 @@
+const Discord = require("discord.js");
+
 exports.run = (client, message, args, deletedMessage, pool, tossedSet, roles, messageContent) => {
   var v = messageContent;
 
@@ -24,7 +26,10 @@ exports.run = (client, message, args, deletedMessage, pool, tossedSet, roles, me
   }
 
   if (!args[0]) {
-    return client.messageHandler(message, client.isInteraction, "Whats this? (ERR: No arguments)")
+    const embed = new Discord.MessageEmbed()
+      .setTitle("What's this? (No arguments)")
+      .setColor(`0x${client.colors.bad}`)
+    return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
   }
 
   client.messageHandler(message, client.isInteraction, owoify(v));

@@ -2,7 +2,12 @@ const Discord = require("discord.js");
 
 exports.run = async (client, message, args, deletedMessage, sql, tossedSet, roles) => {
 
-    if (!args[0]) return client.messageHandler(message, client.isInteraction, 'Please enter a user ID or mention');
+    if (!args[0]) {
+        const embed = new Discord.MessageEmbed()
+            .setColor(`0x${client.colors.bad}`)
+            .setTitle('Please enter a user ID or mention them')
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+    }
 
     try {
         sql.query(`SELECT * FROM settings WHERE serverId ='${message.member.guild.id}'`).then(row => {
@@ -17,7 +22,10 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
             profileA();
 
         }).catch((err) => {
-            client.messageHandler(message, client.isInteraction, 'Error: ' + err)
+            const embed = new Discord.MessageEmbed()
+                .setColor(`0x${client.colors.bad}`)
+                .setTitle('Error: ' + err)
+            client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         });
 
         if (!message.member.permissions.has('MANAGE_ROLES')) {
@@ -77,7 +85,10 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
                     db = db.rows[0];
 
                     if (!db.banid || !db || !message.member.guild.roles.cache.get(db.banid)) {
-                        client.messageHandler(message, client.isInteraction, 'A muted role is not set, or the one you did set is invalid');
+                        const embed = new Discord.MessageEmbed()
+                        .setColor(`0x${client.colors.bad}`)
+                        .setTitle('A mute role isn\'t set, or the one you set isn\'t valid')
+                    client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                     } else {
                         //add role or remove role
                         try {
@@ -116,7 +127,10 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
                                 var num = args.join(' ').match(/-t (.*)/g)[0].replace('-t ', '');
                                 num = getSeconds(num.toString());
                                 if (isNaN(num) || num < 1) {
-                                    return client.messageHandler(message, client.isInteraction, 'The time given was invalid, use `-t #h #m`\nThe member was muted normally');
+                                    const embed = new Discord.MessageEmbed()
+                                    .setColor(`0x${client.colors.bad}`)
+                                    .setTitle('The time given was invalid, use `-t #h #m`\nThe member was muted normally')
+                                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                                 } else {
                                     //help me
                                     setTimeout(() => {
@@ -127,7 +141,10 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
 
                         } catch (err) {
                             //error giving or taking role
-                            client.messageHandler(message, client.isInteraction, 'There was an error muting this member, do I have permission?\n```js\n' + err + '\n```')
+                            const embed = new Discord.MessageEmbed()
+                                    .setColor(`0x${client.colors.bad}`)
+                                    .setTitle('There was an error muting this member, do I have permission?\n```js\n' + err + '\n```')
+                            client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                         }
                     }
                 }
@@ -137,7 +154,10 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
         }
 
     } catch (err) {
-        client.messageHandler(message, client.isInteraction, `An error occured, please report this to the developers: \`\`\`js\n${err.stack}\`\`\``)
+        const embed = new Discord.MessageEmbed()
+            .setColor(`0x${client.colors.bad}`)
+            .setTitle(`An error occured, please report this to the developers: \`\`\`js\n${err.stack}\`\`\``)
+        client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
 }

@@ -1,3 +1,5 @@
+const Discord = require("discord.js");
+
 exports.run = (client, message, args) => {
 
     function stringToBinary(str, spaceSeparatedOctets) {
@@ -16,8 +18,18 @@ exports.run = (client, message, args) => {
 
     var types = ['tob64', 'fromb64', 'tobinary', 'frombinary']; //String type list
 
-    if (!type || type.length < 1 || !types.includes(type)) return client.messageHandler(message, client.isInteraction, 'Invalid type, use `' + types.join(', ') + '`');
-    if (!text || text.length < 1) return client.messageHandler(message, client.isInteraction, 'No text was given to translate');
+    if (!type || type.length < 1 || !types.includes(type)) {
+        const embed = new Discord.MessageEmbed()
+            .setTitle('Invalid type, use `' + types.join(', ') + '`')
+            .setColor(`0x${client.colors.bad}`)
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+    }
+    if (!text || text.length < 1) {
+        const embed = new Discord.MessageEmbed()
+            .setTitle("No text was given to translate")
+            .setColor(`0x${client.colors.bad}`)
+        client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+    }
 
     if (type === "tob64") {
         result = Buffer.from(text).toString('base64');
@@ -29,7 +41,12 @@ exports.run = (client, message, args) => {
         result = parseInt(text, 2).toString(10);
     }
 
-    if (!result || result.length < 1) return client.messageHandler(message, client.isInteraction, 'Invalid response, make sure your code is correct');
+    if (!result || result.length < 1) {
+        const embed = new Discord.MessageEmbed()
+            .setTitle("An error occured")
+            .setColor(`0x${client.colors.bad}`)
+        client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+    }
 
     client.messageHandler(message, client.isInteraction, `Result: \`${result}\``);
 

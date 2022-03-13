@@ -3,9 +3,12 @@ const Discord = require('discord.js');
 const config = require("./../../config.json");
 exports.run = (client, message, args) => {
     if (!args[0] || !args[0].startsWith('<')) {
-        return client.messageHandler(message, client.isInteraction, "Invalid emote");
+        const embed = new Discord.MessageEmbed()
+            .setTitle("Please provide a valid emote")
+            .setColor(`0x${client.colors.bad}`)
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
-    
+
     if (args[0]) {
         var duArgs = args[0].match(/[^\s:]+|:([^:]*):/g);
         if (duArgs[0] === "<a") {
@@ -17,7 +20,10 @@ exports.run = (client, message, args) => {
     }
 
     if (!emojiID || !args[0] || args[0].length < 1) {
-        return client.messageHandler(message, client.isInteraction, "Invalid emote");
+        const embed = new Discord.MessageEmbed()
+            .setTitle("Please provide a valid emote")
+            .setColor(`0x${client.colors.bad}`)
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
     if (15 < emojiID.length < 20) {
@@ -26,7 +32,10 @@ exports.run = (client, message, args) => {
             .setDescription('[Link](https://cdn.discordapp.com/emojis/' + emojiID + '.' + fileType + '?v=1)')
         return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     } else {
-        return client.messageHandler(message, client.isInteraction, "Invalid emote (" + emojiID.length + ")");
+        const embed = new Discord.MessageEmbed()
+            .setTitle("Please provide a valid emote")
+            .setColor(`0x${client.colors.bad}`)
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 }
 

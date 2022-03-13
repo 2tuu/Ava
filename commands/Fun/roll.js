@@ -5,10 +5,16 @@ exports.run = (client, message, args) => {
 	if (args[0]) {
 		var numbers = args[0].match(/\d+/g);
 		if (parseInt(numbers[0]) > 120) {
-			return client.messageHandler(message, client.isInteraction, "One number was too high");
+			const embed = new Discord.MessageEmbed()
+				.setTitle("One number was too high")
+				.setColor(`0x${client.colors.bad}`)
+			return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 		} else if (numbers[1]) {
 			if (parseInt(numbers[1]) > 250) {
-				return client.messageHandler(message, client.isInteraction, "One number was too high");
+				const embed = new Discord.MessageEmbed()
+					.setTitle("One number was too high")
+					.setColor(`0x${client.colors.bad}`)
+				return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 			} else {
 				var result = rpgdice.roll(numbers[0] + "d" + numbers[1]);
 				return client.messageHandler(message, client.isInteraction, "Result: " + result);
@@ -17,17 +23,35 @@ exports.run = (client, message, args) => {
 			if (numbers.length === 1) {
 				var result = rpgdice.roll("1d" + args.join(' '));
 				if (!result)
-					if (result.length > 50) return client.messageHandler(message, client.isInteraction, "Too many dice");
+					if (result.length > 50) {
+						const embed = new Discord.MessageEmbed()
+							.setTitle("Too many dice")
+							.setColor(`0x${client.colors.bad}`)
+						return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+					}
 				client.messageHandler(message, client.isInteraction, "Result: " + result);
 			} else {
 				var result = rpgdice.roll(args.join(' '));
-				if (!result) return client.messageHandler(message, client.isInteraction, "Incorrect syntax");
-				if (result.length > 50) return client.messageHandler(message, client.isInteraction, "Too many dice");
+				if (!result) {
+					const embed = new Discord.MessageEmbed()
+						.setTitle("Incorrect syntax")
+						.setColor(`0x${client.colors.bad}`)
+					return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+				}
+				if (result.length > 50) {
+					const embed = new Discord.MessageEmbed()
+						.setTitle("Too many dice")
+						.setColor(`0x${client.colors.bad}`)
+					return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+				}
 				client.messageHandler(message, client.isInteraction, "Result: " + result);
 			}
 		}
 	} else {
-		return client.messageHandler(message, client.isInteraction, "Incorrect syntax");
+		const embed = new Discord.MessageEmbed()
+			.setTitle("Incorrect syntax")
+			.setColor(`0x${client.colors.bad}`)
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 	}
 }
 

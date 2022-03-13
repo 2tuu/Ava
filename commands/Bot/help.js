@@ -56,7 +56,10 @@ exports.run = (client, message, args) => {
             .addField("Usage", '```' + client.help[args[0].toLowerCase()].format + '```')
         client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     } else {
-        return client.messageHandler(message, client.isInteraction, "That's not a command, try again");
+        const embed = new Discord.MessageEmbed()
+            .setTitle("Sorry, that isn't a command")
+            .setColor(`0x${client.colors.bad}`)
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
 }

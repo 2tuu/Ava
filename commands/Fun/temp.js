@@ -1,3 +1,5 @@
+const Discord = require("discord.js");
+
 exports.run = (client, message, args) => {
 
     if (args[0] === "toc") {
@@ -8,9 +10,15 @@ exports.run = (client, message, args) => {
             result = Math.round(args[2] - 273.15);
             client.messageHandler(message, client.isInteraction, args[2] + "K is " + result + "°C")
         } else if (args[1] === "c") {
-            client.messageHandler(message, client.isInteraction, "What are you trying to accomplish?")
+            const embed = new Discord.MessageEmbed()
+            .setTitle("Can't translate Celcius to Celcius")
+            .setColor(`0x${client.colors.bad}`)
+          client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         } else {
-            client.messageHandler(message, client.isInteraction, "Invalid structure (ie. k?temp toc f 100)")
+            const embed = new Discord.MessageEmbed()
+            .setTitle("Incorrect syntax (ie. k?temp toc f 100)")
+            .setColor(`0x${client.colors.bad}`)
+          client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
     } else if (args[0] === "tok") {
         if (args[1] === "c") {
@@ -20,9 +28,15 @@ exports.run = (client, message, args) => {
             result = Math.round(((args[2] - 32) * 0.555) + 273.15);
             client.messageHandler(message, client.isInteraction, args[2] + "°F is " + result + "K")
         } else if (args[1] === "k") {
-            client.messageHandler(message, client.isInteraction, "What are you trying to accomplish?")
+            const embed = new Discord.MessageEmbed()
+            .setTitle("Can't translate Kelvin to Kelvin")
+            .setColor(`0x${client.colors.bad}`)
+          client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         } else {
-            client.messageHandler(message, client.isInteraction, "Invalid structure (ie. k?temp toc f 100)")
+            const embed = new Discord.MessageEmbed()
+            .setTitle("Incorrect syntax (ie. k?temp toc f 100)")
+            .setColor(`0x${client.colors.bad}`)
+          client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
     } else if (args[0] === "tof") {
         if (args[1] === "c") {
@@ -32,12 +46,21 @@ exports.run = (client, message, args) => {
             result = Math.round((9 / 5) * (args[2] - 273.15) + 32);
             client.messageHandler(message, client.isInteraction, args[2] + "K is " + result + "°F")
         } else if (args[1] === "f") {
-            client.messageHandler(message, client.isInteraction, "What are you trying to accomplish?")
+            const embed = new Discord.MessageEmbed()
+            .setTitle("Can't translate Kelvin to Kelvin")
+            .setColor(`0x${client.colors.bad}`)
+          client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         } else {
-            client.messageHandler(message, client.isInteraction, "Invalid structure (ie. k?temp toc f 100)")
+            const embed = new Discord.MessageEmbed()
+            .setTitle("Incorrect syntax (ie. k?temp toc f 100)")
+            .setColor(`0x${client.colors.bad}`)
+          client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
     } else {
-        client.messageHandler(message, client.isInteraction, "Invalid arguments");
+        const embed = new Discord.MessageEmbed()
+        .setTitle("Invalid arguments")
+        .setColor(`0x${client.colors.bad}`)
+      client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
 }

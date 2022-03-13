@@ -26,7 +26,10 @@ exports.run = (client, message, args) => {
 	} else if (args[0]) {
 		var usr = message.guild.members.cache.find(user => user.id === args[0].replace('<@', '').replace('>', '').replace('!', ''))
 		if (!usr) {
-			client.messageHandler(message, client.isInteraction, "Please mention a valid user");
+			const embed = new Discord.MessageEmbed()
+				.setTitle("Please mention a valid user")
+				.setColor(`0x${client.colors.bad}`)
+			return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 		} else {
 			var randomColor = usr.displayHexColor;
 			const embed = new Discord.MessageEmbed()
@@ -35,7 +38,10 @@ exports.run = (client, message, args) => {
 			client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 		}
 	} else {
-		client.messageHandler(message, client.isInteraction, "Please provide a valid hex color code");
+		const embed = new Discord.MessageEmbed()
+			.setTitle("Please provide a valid hex code")
+			.setColor(`0x${client.colors.bad}`)
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 	}
 
 }
