@@ -21,7 +21,7 @@ exports.run = (client, message, args) => {
       var v = videos[0];
       const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
-        .setDescription(`**${v.title}**`)
+        .setTitle(`**${v.title}**`)
       if (!client.isInteraction) {
         client.messageHandler(message, client.isInteraction, { embeds: [embed] });
       }
