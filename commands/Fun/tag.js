@@ -14,7 +14,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
     if (!args[0]) {
         const embed = new Discord.MessageEmbed()
             .setColor(`0x${client.colors.bad}`)
-            .setDescription("This command needs at least 1 argument")
+            .setTitle("This command needs at least 1 argument")
         return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
@@ -30,7 +30,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             if (tagContentVar.length < 1) {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
-                    .setDescription("Give me something to put in the tag")
+                    .setTitle("Give me something to put in the tag")
                 return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
 
@@ -39,12 +39,12 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 sql.query(`INSERT INTO tags (serverId, tagName, tagContent, ownerID, selfDelete) VALUES (${message.guild.id}, '${args[1].toLowerCase()}', '${tagContentVar}', '${message.author.id}', 'false')`);
 
                 const embed = new Discord.MessageEmbed()
-                    .setDescription(`Tag '${args[1].toLowerCase()}' created`)
+                    .setTitle(`Tag '${args[1].toLowerCase()}' created`)
                 return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             } else {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
-                    .setDescription("This tag already exists")
+                    .setTitle("This tag already exists")
                 return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
             return;
@@ -54,24 +54,24 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             if (!tag.rows[0]) {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
-                    .setDescription("This tag doesn't exist")
+                    .setTitle("This tag doesn't exist")
                 return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             } else {
                 if (tag.rows[0].ownerid !== message.author.id) {
                     const embed = new Discord.MessageEmbed()
                         .setColor(`0x${client.colors.bad}`)
-                        .setDescription("This tag doesn't belong to you")
+                        .setTitle("This tag doesn't belong to you")
                     return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                 }
                 if (args.slice(2).join(' ').length < 1) {
                     const embed = new Discord.MessageEmbed()
                         .setColor(`0x${client.colors.bad}`)
-                        .setDescription("Your tag can't be empty")
+                        .setTitle("Your tag can't be empty")
                     return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                 }
                 sql.query(`UPDATE tags SET tagContent = '${args.slice(2).join(' ')}' WHERE serverId ='${message.guild.id}' AND tagName = '${args[1].toLowerCase()}'`);
                 const embed = new Discord.MessageEmbed()
-                    .setDescription("Your tag was edited")
+                    .setTitle("Your tag was edited")
                 return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
             return;
@@ -81,19 +81,19 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             if (!tag.rows[0]) {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
-                    .setDescription("This doesn't exist")
+                    .setTitle("This doesn't exist")
                 return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             } else {
                 if (tag.rows[0].ownerid !== message.author.id) {
                     const embed = new Discord.MessageEmbed()
                         .setColor(`0x${client.colors.bad}`)
-                        .setDescription("This tag doesn't belong to you")
+                        .setTitle("This tag doesn't belong to you")
                     return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                 }
                 sql.query(`DELETE FROM tags WHERE serverId ='${message.guild.id}' AND tagName = '${args[1].toLowerCase()}'`);
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
-                    .setDescription("This tag has been deleted")
+                    .setTitle("This tag has been deleted")
                 return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
             return;
@@ -104,7 +104,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             if (!tag.rows[0]) {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
-                    .setDescription("No tags were found")
+                    .setTitle("No tags were found")
                 return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             } else {
                 var results = tag.rows.map(g => g.tagname);
@@ -119,7 +119,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             if (!tag.rows[0]) {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
-                    .setDescription("No tags were found")
+                    .setTitle("No tags were found")
                 return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             } else {
                 var result = tag.rows[0].tagcontent;
@@ -137,7 +137,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             if (results.length < 1) {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
-                    .setDescription("You don't have any tags")
+                    .setTitle("You don't have any tags")
                 return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
 
@@ -162,7 +162,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             sendUser.send('List:').catch((err) => {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
-                    .setDescription("An error occured: `" + err + "`")
+                    .setTitle("An error occured: `" + err + "`")
                 return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             });
 
@@ -181,13 +181,13 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 client.messageHandler(message, client.isInteraction, t).catch((err) => {
                     const embed = new Discord.MessageEmbed()
                         .setColor(`0x${client.colors.bad}`)
-                        .setDescription("An error occured: `" + err + "`")
+                        .setTitle("An error occured: `" + err + "`")
                     return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                 });
             } else {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
-                    .setDescription("There is no tag with that name")
+                    .setTitle("There is no tag with that name")
                 return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
             return;

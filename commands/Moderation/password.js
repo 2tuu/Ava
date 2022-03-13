@@ -55,7 +55,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         const embed = new Discord.MessageEmbed()
             .setColor(`0x${client.colors.good}`)
             .setTitle(`Updated password to '${pass}'`)
-            .setFooter(`Make sure it works!`)
+            .addField(`Make sure it works!`)
         return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
@@ -83,7 +83,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         const embed = new Discord.MessageEmbed()
             .setColor(`0x${client.colors.good}`)
             .setTitle(`Updated role to '${res.name}'`)
-            .setFooter(`Make sure it works!`)
+            .addField(`Make sure it works!`)
         return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
@@ -111,7 +111,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         const embed = new Discord.MessageEmbed()
             .setColor(`0x${client.colors.good}`)
             .setTitle(`Updated role to '${res.name}'`)
-            .setFooter(`Make sure it works!`)
+            .addField(`Make sure it works!`)
         return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 

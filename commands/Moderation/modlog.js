@@ -5,14 +5,14 @@ exports.run = (client, message, args, deletedMessage, sql) => {
     if (!args || !args[0]) {
         const embed = new Discord.MessageEmbed()
             .setColor(`0x${client.colors.bad}`)
-            .setDescription("Please check the help documentation")
+            .setTitle("Please check the help documentation")
         return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
     if (!message.member.permissions.has('KICK_MEMBERS')) {
         const embed = new Discord.MessageEmbed()
             .setColor(`0x${client.colors.bad}`)
-            .setDescription("You don't have permission to use this\n```KICK_MEMBERS Required```")
+            .setTitle("You don't have permission to use this\n```KICK_MEMBERS Required```")
         return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
@@ -33,7 +33,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
                 if (args[1].toLowerCase() === 'list') {
                     res = 'Ignored Channels:\n' + row.ignore.split(',').join('\n');
                     const embed = new Discord.MessageEmbed()
-                        .setDescription("```" + res + "```")
+                        .setTitle("```" + res + "```")
                     return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                 }
 
@@ -63,19 +63,19 @@ exports.run = (client, message, args, deletedMessage, sql) => {
                     sql.query(`INSERT INTO modlog (logkicks, logreactions, logchannels, logemojis, logbans, logleaves, logmembers, logmessages, logroles, serverid, enabled, channel, ignore) VALUES ('no', 'no','no','no','no','no','no','no','no', '${message.guild.id}','yes',null,'')`);
                     const embed = new Discord.MessageEmbed()
                         .setColor(`0x${client.colors.good}`)
-                        .setDescription("Modlog module Enabled")
+                        .setTitle("Modlog module Enabled")
                     return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                 } else {
                     if (row.enabled === "yes") {
                         const embed = new Discord.MessageEmbed()
                             .setColor(`0x${client.colors.bad}`)
-                            .setDescription("Modlog module Disabled")
+                            .setTitle("Modlog module Disabled")
                         client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                         sql.query(`UPDATE modlog SET enabled = 'no' WHERE serverId = '${message.guild.id}'`);
                     } else {
                         const embed = new Discord.MessageEmbed()
                             .setColor(`0x${client.colors.good}`)
-                            .setDescription("Modlog module Enabled")
+                            .setTitle("Modlog module Enabled")
                         client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                         sql.query(`UPDATE modlog SET enabled = 'yes' WHERE serverId = '${message.guild.id}'`);
                     }
@@ -104,20 +104,20 @@ exports.run = (client, message, args, deletedMessage, sql) => {
                     if (row[setting] === 'no') {
                         const embed = new Discord.MessageEmbed()
                             .setColor(`0x${client.colors.good}`)
-                            .setDescription(setting + " module enabled.")
+                            .setTitle(setting + " module enabled.")
                         client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                         sql.query(`UPDATE modlog SET ${setting} = 'yes' WHERE serverId = '${message.guild.id}'`);
                     } else {
                         const embed = new Discord.MessageEmbed()
                             .setColor(`0x${client.colors.bad}`)
-                            .setDescription(setting + " module disabled.")
+                            .setTitle(setting + " module disabled.")
                         client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                         sql.query(`UPDATE modlog SET ${setting} = 'no' WHERE serverId = '${message.guild.id}'`);
                     }
                 } else {
                     const embed = new Discord.MessageEmbed()
                         .setColor(`0x${client.colors.bad}`)
-                        .setDescription('Invalid setting')
+                        .setTitle('Invalid setting')
                     client.messageHandler(message, client.isInteraction, { embeds: [embed] });
                 }
             });
@@ -144,7 +144,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.good}`)
-                    .setDescription(`Mod log set to <#${channelID}> (${channelID})`)
+                    .setTitle(`Mod log set to <#${channelID}> (${channelID})`)
                 client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
         });

@@ -20,7 +20,7 @@ exports.run = (client, message, args) => {
 	} else {
 		const embed = new Discord.MessageEmbed()
 			.setColor(`0x${client.colors.bad}`)
-			.setTitle("Error: Invalid User ID or argument")
+			.setTitle("Invalid User ID or argument")
 		client.messageHandler(message, client.isInteraction, { embeds: [embed] })
 		return;
 	}
@@ -29,7 +29,7 @@ exports.run = (client, message, args) => {
 	if (userID === "") {
 		const embed = new Discord.MessageEmbed()
 			.setColor(`0x${client.colors.bad}`)
-			.setTitle("Error: Invalid User ID (Use either user ID or mention them)")
+			.setTitle("Invalid User ID (Use either user ID or mention them)")
 		client.messageHandler(message, client.isInteraction, { embeds: [embed] })
 	} else {
 		client.users.fetch(userID).then(myUser => {
@@ -40,7 +40,7 @@ exports.run = (client, message, args) => {
 		}).catch((err) => {
 			const embed = new Discord.MessageEmbed()
 				.setColor(`0x${client.colors.bad}`)
-				.setTitle("Error: Invalid User ID (Use either user ID or mention them)")
+				.setTitle("Invalid User ID (Use either user ID or mention them)")
 				.setFooter(err)
 			client.messageHandler(message, client.isInteraction, { embeds: [embed] })
 		});
