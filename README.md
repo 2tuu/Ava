@@ -27,7 +27,7 @@ exports.run = (client, message, args) => {
 
 exports.conf = {
     name: "Command",
-    //Name of the command - only gets used for the simple statistics command
+    //Name of the command - only gets used for the simple statistics
     help: "This is what the command does",
     //Summary that appears in the help command
     format: "k?command [argument]",
@@ -52,22 +52,22 @@ exports.conf = {
                 ],
                 autocomplete: undefined,
                 type: 3,
-                name: 'option',
-                description: 'Name of the option',
+                name: 'option', /* lowercase */
+                description: 'Description of the required option',
                 required: true
             },
             {
                 choices: undefined,
                 autocomplete: false,
                 type: 3,
-                name: 'channel',
-                description: 'Channel to ignore or use as the mod log',
+                name: 'second-option', /* no spaces */
+                description: 'Description of the second optional option',
                 required: false
             }
         ],
         default_permission: undefined
     }
-    //The data to be ent to the discord API for the slash command
+    //The data to be sent to the discord API for the slash command
 }
 ```
 
