@@ -1,4 +1,5 @@
 const config = require(`./../../config.json`);
+const Discord = require(`discord.js`);
 
 exports.run = (client, message, args, deletedMessage, sql) => {
   async function evalCMD() {
@@ -28,8 +29,24 @@ exports.run = (client, message, args, deletedMessage, sql) => {
         res = res.replace(new RegExp(config.kitk_token, 'g'), '[REDACTED]');
         res = res.replace(new RegExp(config.youtube, 'g'), '[REDACTED]');
         
+        if(`\`\`\`\n${res}\n\`\`\``.length > 2000){
+          var buf = Buffer.from(res, 'utf8');
 
-        client.messageHandler(message, client.isInteraction, `\`\`\`\n${res}\n\`\`\``);
+          const embed = new Discord.MessageEmbed()
+          .setColor(`0x${client.colors.bad}`)
+          .setDescription("```diff\n-Output too long:\n```")
+          message.channel.send({ embeds: [embed] });
+          message.channel.send({
+            files: [
+              {
+                attachment: buf,
+                name: 'log.txt'
+              }
+            ]
+          });
+        } else {
+          client.messageHandler(message, client.isInteraction, `\`\`\`\n${res}\n\`\`\``);
+        }
       } catch (err) {
         client.messageHandler(message, client.isInteraction, `\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
       }
