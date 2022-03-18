@@ -24,7 +24,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         case 'create':
             if (!args[1]) return;
             var tagContentVar = args.slice(2).join(' ');
-            var Attachment = (message.attachments).map(e=>e);
+            var Attachment = (message.attachments).map(e => e);
             tagContentVar = tagContentVar + Attachment.map(r => r.url).join(', ');
 
             if (tagContentVar.length < 1) {
@@ -178,12 +178,40 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 results = results.rows[0];
 
                 var t = tagReader.read(results.tagcontent, message, args);
-                client.messageHandler(message, client.isInteraction, t).catch((err) => {
+
+                if (t.length > 1500) {
+                    var buf = Buffer.from(t, 'utf8');
+
                     const embed = new Discord.MessageEmbed()
                         .setColor(`0x${client.colors.bad}`)
-                        .setTitle("An error occured: `" + err + "`")
-                    return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
-                });
+                        .setDescription("```diff\n-Output too long:\n```")
+                    message.channel.send({ embeds: [embed] });
+                    message.channel.send({
+                        files: [
+                            {
+                                attachment: buf,
+                                name: 'output.txt'
+                            }
+                        ]
+                    });
+                } else if (t.length > 3000) {
+                    const embed = new Discord.MessageEmbed()
+                        .setColor(`0x${client.colors.bad}`)
+                        .setDescription("```diff\n-Output is over 3,000 character\n```")
+                    message.channel.send({ embeds: [embed] });
+                } else if (t.length === 0){
+                    const embed = new Discord.MessageEmbed()
+                        .setColor(`0x${client.colors.bad}`)
+                        .setDescription("```diff\n-Output is empty\n```")
+                    message.channel.send({ embeds: [embed] });            
+                } else {
+                    client.messageHandler(message, client.isInteraction, t).catch((err) => {
+                        const embed = new Discord.MessageEmbed()
+                            .setColor(`0x${client.colors.bad}`)
+                            .setTitle("An error occured: `" + err + "`")
+                        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                    });
+                }
             } else {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
