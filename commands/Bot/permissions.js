@@ -94,7 +94,12 @@ exports.run = async (client, message, args) => {
             .addField('Need', needsGive.join('\n'))
             .addField('Don\'t Need', needsRemove.join('\n'))
             .addField('Remove Immediately', removeNow.join('\n'))
-        client.messageHandler(message, client.isInteraction, { embeds: [embed] })
+
+        try {
+            client.messageHandler(message, client.isInteraction, { embeds: [embed] })
+        } catch (err) {
+            message.channel.send('An error occured, make sure I have permission to send embedded messages:\n```\n' + err + '\n```')
+        }
     }
 
 }
