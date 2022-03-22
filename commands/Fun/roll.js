@@ -2,6 +2,14 @@ const rpgdice = require('droll');
 const Discord = require('discord.js');
 
 exports.run = (client, message, args) => {
+
+	if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['roll'].help)
+			.addField("Usage", '```' + client.help['roll'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
+
 	if (args[0]) {
 		var numbers = args[0].match(/\d+/g);
 		if (parseInt(numbers[0]) > 120) {
@@ -58,7 +66,7 @@ exports.run = (client, message, args) => {
 exports.conf = {
 	name: "Roll/Dice",
 	help: "Roll an imaginary die, can be multi-sided if you use the #d# format",
-	format: "k?roll number",
+	format: "k?roll [#d#]\nie. k?roll 1d20 <- rolls one 20-sided die",
 	DM: true,
 	ownerOnly: false,
 	alias: [],

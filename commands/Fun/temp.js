@@ -1,6 +1,12 @@
 const Discord = require("discord.js");
 
 exports.run = (client, message, args) => {
+    if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['temp'].help)
+			.addField("Usage", '```' + client.help['temp'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
 
     if (args[0] === "toc") {
         if (args[1] === "f") {
@@ -68,7 +74,7 @@ exports.run = (client, message, args) => {
 exports.conf = {
     name: "Temp",
     help: "Convert Kelvin/Celsuis/Fahrenheit to any of those three",
-    format: "k?temp [toc/tof/tok] [f/k/c]",
+    format: "k?temp [toc/tof/tok] [f/k/c]\nie. k?temp toc f 100 -> translates 100f to celcius",
     DM: true,
     ownerOnly: false,
     alias: ['temperature'],

@@ -1,6 +1,14 @@
 const Discord = require("discord.js");
 
 exports.run = (client, message, args, deletedMessage) => {
+
+	if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['snipe'].help)
+			.addField("Usage", '```' + client.help['snipe'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
+
 	if (message.member.permissions.has('MANAGE_MESSAGES') || message.author.id === "378769654942007299") {
 		var channelIDVar = message.channel.id;
 		try {

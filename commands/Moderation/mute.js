@@ -2,12 +2,12 @@ const Discord = require("discord.js");
 
 exports.run = async (client, message, args, deletedMessage, sql, tossedSet, roles) => {
 
-    if (!args[0]) {
-        const embed = new Discord.MessageEmbed()
-            .setColor(`0x${client.colors.bad}`)
-            .setTitle('Please enter a user ID or mention them')
-        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
-    }
+    if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['mute'].help)
+			.addField("Usage", '```' + client.help['mute'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
 
     try {
         sql.query(`SELECT * FROM settings WHERE serverId ='${message.member.guild.id}'`).then(row => {

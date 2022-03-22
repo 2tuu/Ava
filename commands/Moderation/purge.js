@@ -1,12 +1,20 @@
 //fixed for new framework
+const Discord = require("discord.js");
+
 exports.run = (client, message, args) => {
+
+  if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['purge'].help)
+			.addField("Usage", '```' + client.help['purge'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
 
   try {
 
     if (args[0] === "bots") {
       async function purge() {
         if (!message.member.permissions.has('MANAGE_MESSAGES')) {
-
           return message.reply("Sorry, you don't have permission to use this.");
         }
 
@@ -122,7 +130,7 @@ exports.run = (client, message, args) => {
 exports.conf = {
   name: "Purge",
   help: "Purge a bunch of messages, of a number, from a specific user, bots, or up to 100\nThis only works on messages that're less than 2 weeks old",
-  format: "k?purge [all/u [ID]/bots/#]",
+  format: "k?purge [all/u [ID]/bots/#]\nie. k?purge u 1234567890123\n  k?purge",
   DM: false,
   ownerOnly: true, //fix edge cases
   alias: [],

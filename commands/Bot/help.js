@@ -9,6 +9,7 @@ exports.run = (client, message, args) => {
     Object.keys(client.help).forEach(function (key) {
         if (client.help[key].category === "Admin") return; //ignore administration commands
         if (client.help[key].category == "NSFW" && message.channel.nsfw == false) return; //ignore nsfw outside of nsfw channels
+        if (client.help[key].DM == false && !message.guild) return; //ignore guild-only commands in dm
 
         if (list[client.help[key].category]) {
             list[client.help[key].category].push(client.help[key].filename);
@@ -46,7 +47,7 @@ exports.run = (client, message, args) => {
     if (!args[0]) {
         const embed = new Discord.MessageEmbed()
             .setTitle("Command documentation")
-            .setDescription("Use this command to view what a command does\n`[required argument]` `{optional argument}`\n" +
+            .setDescription("Un-usable commands are not listed\n\n`k?command [required argument] {optional argument}`\n" +
                 "\n" + final + '[Privacy Policy](https://github.com/2tuu/Kit/blob/master/docs/privacy.md) • [Rules and Terms](https://github.com/2tuu/Kit/blob/master/docs/tos.md)')
         client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     } else if (commandList.includes(args[0].toLowerCase())) {
@@ -67,7 +68,7 @@ exports.run = (client, message, args) => {
 exports.conf = {
     name: "Help",
     help: "Why do you need help with this one?",
-    format: "k?help [command]",
+    format: "k?help {command}",
     DM: true,
     ownerOnly: false,
     alias: [],

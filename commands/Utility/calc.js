@@ -1,5 +1,14 @@
 var math = require('mathjs');
+const Discord = require("discord.js");
+
 exports.run = (client, message, args) => {
+
+    if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['calc'].help)
+			.addField("Usage", '```' + client.help['calc'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
 
     try {
         var res = math.evaluate(args.join(' '));
@@ -14,7 +23,7 @@ exports.run = (client, message, args) => {
 exports.conf = {
     name: "Calculator",
     help: "It's a calculator",
-    format: "k?calc [mathematical function]",
+    format: "k?calc [math]",
     DM: true,
     ownerOnly: false,
     alias: [],

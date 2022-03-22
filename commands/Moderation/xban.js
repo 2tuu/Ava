@@ -1,6 +1,14 @@
 const Discord = require("discord.js");
 
 exports.run = async (client, message, args, deletedMessage, sql) => {
+
+  if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['xban'].help)
+			.addField("Usage", '```' + client.help['xban'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
+
   var row = await sql.query(`SELECT * FROM xban WHERE serverid ='${message.guild.id}'`);
   row = row.rows[0];
   var userArray = row.userarray.split(',');

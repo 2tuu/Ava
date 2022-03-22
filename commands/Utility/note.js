@@ -17,12 +17,12 @@ exports.run = (client, message, args, deletedMessage, sql) => {
         sql.query(`INSERT INTO note (note, ownerId) VALUES ('', ${message.author.id})`);
         const embed = new Discord.MessageEmbed()
           .setDescription("Note created")
-        return client.messageHandler(message, client.isInteraction, { embed });
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
       } else {
         const embed = new Discord.MessageEmbed()
           .setColor(0xF46242)
           .setDescription("You already have a note")
-        return client.messageHandler(message, client.isInteraction, { embed });
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
       }
 
 
@@ -38,14 +38,14 @@ exports.run = (client, message, args, deletedMessage, sql) => {
         const embed = new Discord.MessageEmbed()
           .setColor(0xF46242)
           .setDescription("You don't have a note")
-        return client.messageHandler(message, client.isInteraction, { embed });
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
       } else {
 
         if (`${row.note + "\n" + argV.slice(1).join(' ').replace(new RegExp(`"`, `g`), `''`)}`.length > 2000) {
           const embed = new Discord.MessageEmbed()
             .setColor(0xF46242)
             .setDescription("Appended note exceeds character limit (2000 characters)")
-          return client.messageHandler(message, client.isInteraction, { embed });
+          return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         } else {
           sql.query(`UPDATE note SET note = '${row.note + "\n" + argV.slice(1).join(' ').replace(new RegExp(`"`, `g`), `''`)}' WHERE ownerId = '${message.author.id}'`);
           client.messageHandler(message, client.isInteraction, `\`${argV.slice(1).join(' ')}\` Added to note`)
@@ -65,13 +65,13 @@ exports.run = (client, message, args, deletedMessage, sql) => {
         const embed = new Discord.MessageEmbed()
           .setColor(`0x${client.colors.bad}`)
           .setDescription("You don't have a note")
-        return client.messageHandler(message, client.isInteraction, { embed });
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
       } else {
         sql.query(`UPDATE note SET note = '${argV.slice(1).join(' ').replace(new RegExp("{n}", 'g'), "\n").replace(new RegExp(`"`, 'g'), `''`)}' WHERE ownerId ='${message.author.id}'`);
         const embed = new Discord.MessageEmbed()
           .setColor(`0x${client.colors.good}`)
           .setDescription("Note updated")
-        return client.messageHandler(message, client.isInteraction, { embed });
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
       }
 
     }).catch((err) => {
@@ -88,13 +88,13 @@ exports.run = (client, message, args, deletedMessage, sql) => {
         const embed = new Discord.MessageEmbed()
           .setColor(`0x${client.colors.bad}`)
           .setDescription("You don't have a note")
-        return client.messageHandler(message, client.isInteraction, { embed });
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
       } else {
 
         sql.query(`UPDATE note SET note = '' WHERE ownerid ='${message.author.id}'`);
         const embed = new Discord.MessageEmbed()
           .setDescription("Note cleared")
-        return client.messageHandler(message, client.isInteraction, { embed });
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
       }
 
     }).catch((err) => {
@@ -111,7 +111,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
         const embed = new Discord.MessageEmbed()
           .setColor(`0x${client.colors.bad}`)
           .setDescription("You don't have a note")
-        return client.messageHandler(message, client.isInteraction, { embed });
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
       } else {
 
         if (row.note.length > 0) {
@@ -128,7 +128,10 @@ exports.run = (client, message, args, deletedMessage, sql) => {
     });
 
   } else {
-    //invalid sub command
+    const embed = new Discord.MessageEmbed()
+      .addField("Description", client.help['note'].help)
+      .addField("Usage", '```' + client.help['note'].format + '```')
+    return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
   }
 
 
@@ -137,7 +140,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 exports.conf = {
   name: "Note",
   help: "Create a note, view a note or edit it",
-  format: "k?note {append/edit}",
+  format: "k?note {append/edit} {content}\n\nnote: using 'k?note edit [content]' will replace all contents of the note, use 'append' to add a new line to it",
   DM: true,
   ownerOnly: false,
   alias: [],

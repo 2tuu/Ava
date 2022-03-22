@@ -1,16 +1,17 @@
 const ySearch = require('yt-search');
-const config = require('./../../config.json');
-
 const Discord = require("discord.js");
 
 exports.run = (client, message, args) => {
   var searchTerms;
 
-  if (args[0]) {
-    searchTerms = args.join(' ');
-  } else {
-    return client.messageHandler(message, client.isInteraction, 'Please give me something to look for')
-  }
+  if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['youtube'].help)
+			.addField("Usage", '```' + client.help['youtube'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
+
+  searchTerms = args.join(' ');
 
   ySearch(searchTerms, function (err, r) {
     if (err) return client.messageHandler(message, client.isInteraction, 'An error occured:\n```js' + err + '```');
@@ -35,7 +36,7 @@ exports.run = (client, message, args) => {
 exports.conf = {
   name: "Youtube",
   help: "Search youtube for something",
-  format: "k?youtube [search terms]",
+  format: "k?youtube [search-terms]",
   DM: true,
   ownerOnly: false,
   alias: ['yt'],

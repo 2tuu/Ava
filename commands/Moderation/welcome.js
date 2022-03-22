@@ -4,6 +4,13 @@ const fs = require('fs');
 
 exports.run = (client, message, args, deletedMessage, sql) => {
 
+	if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['welcome'].help)
+			.addField("Usage", '```' + client.help['welcome'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
+
 	if (message.member.permissions.has('BAN_MEMBERS')) {
 
 		if (args[0] === "setchannel") {
@@ -73,7 +80,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 exports.conf = {
 	name: "Welcome",
 	help: "Configure guild welcome messages",
-	format: "k?welcome toggle\nk?welcome edit\nk?welcome setchannel\n\n{member} is replaced with @user\n{member.username} is replaced with the user's username\n{guild} is replaced with the server's name",
+	format: "k?welcome toggle\nk?welcome edit [welcome-message]\nk?welcome setchannel [#channel]\n\n{member} is replaced with @user\n{member.username} is replaced with the user's username\n{guild} is replaced with the server's name",
 	DM: false,
 	ownerOnly: false,
 	alias: [],

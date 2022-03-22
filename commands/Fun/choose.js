@@ -1,5 +1,11 @@
+const Discord = require("discord.js");
 exports.run = (client, message, args) => {
-  if (!args[1]) return client.messageHandler(message, client.isInteraction, "You didn't give me enough things to choose");
+  if (!args[1]){
+    const embed = new Discord.MessageEmbed()
+      .addField("Description", client.help['choose'].help)
+      .addField("Usage", '```' + client.help['choose'].format + '```')
+    return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+  }
   var response = args[Math.floor(Math.random() * args.length)];
   response = response.replace(new RegExp('"', 'g'), '');
   client.messageHandler(message, client.isInteraction, "I choose **" + response + "**")

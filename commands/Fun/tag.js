@@ -3,6 +3,13 @@ const tagReader = require('./../../plugins/tag.js');
 
 exports.run = async (client, message, args, deletedMessage, sql) => {
 
+	if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['tag'].help)
+			.addField("Usage", '```' + client.help['tag'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
+
     //get all tags for appropriate server
     var tags = await sql.query(`SELECT * FROM tags WHERE serverId ='${message.guild.id}'`);
 
@@ -226,7 +233,12 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 exports.conf = {
     name: "Tag",
     help: "Create, destroy or edit a tag - For more information on how to structure a tag, click [here](https://github.com/2tuu/Kit/blob/master/docs/tags.md)",
-    format: "k?tag [tag-name/create/edit/delete/search/random]",
+    format: `k?tag [tag-name]
+k?tag [create] [tag-name] [tag-contents]
+k?tag [edit] [tag-name] [new-contents]
+k?tag [delete] [tag-name]
+k?tag [search] [search-terms]
+k?tag [random]`,
     DM: false,
     ownerOnly: false,
     alias: ['t']

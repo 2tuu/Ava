@@ -2,12 +2,12 @@ const Discord = require('discord.js');
 
 exports.run = (client, message, args, deletedMessage, sql) => {
 
-    if (!args || !args[0]) {
-        const embed = new Discord.MessageEmbed()
-            .setColor(`0x${client.colors.bad}`)
-            .setTitle("Please check the help documentation")
-        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
-    }
+    if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['modlog'].help)
+			.addField("Usage", '```' + client.help['modlog'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
 
     if (!message.member.permissions.has('KICK_MEMBERS')) {
         const embed = new Discord.MessageEmbed()
@@ -155,7 +155,15 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 exports.conf = {
     name: "Modlog",
     help: "Manage the mod logging modules",
-    format: "k?modlog toggle [logKicks/logChannels/logLeaves/logBans/logMembers/logMessages]\nk?modlog toggle\nk?modlog setchannel [#channel]\nk?modlog ignore #channel",
+    format: `k?modlog toggle [logKicks]
+        -> logChannels
+        -> logLeaves
+        -> logBans
+        -> logMembers
+        -> logMessages
+k?modlog toggle
+k?modlog setchannel [#channel]
+k?modlog ignore [#channel]`,
     DM: false,
     ownerOnly: false,
     alias: [],

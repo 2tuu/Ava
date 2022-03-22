@@ -1,6 +1,13 @@
 const Discord = require(`discord.js`);
 exports.run = async (client, message, args, deletedMessage, sql) => {
 
+    if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['remind'].help)
+			.addField("Usage", '```' + client.help['remind'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
+
     var user = message.author.id;
     var channel = message.channel.id;
 
@@ -98,7 +105,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 exports.conf = {
     name: "Remind",
     help: "Remind yourself of something in the future",
-    format: "k?remind <message> -t #h #m",
+    format: "k?remind [message] -t [time]\nie. k?remind get groceries -t 1d 17h\n\nNote: Reminder may be innacurate by ~1 minute",
     DM: true,
     ownerOnly: false,
     alias: [],

@@ -1,9 +1,13 @@
 const AFHConvert = require('ascii-fullwidth-halfwidth-convert');
 const converter = new AFHConvert();
+const Discord = require('discord.js');
 
 exports.run = (client, message, args) => {
     if (!args[0]) {
-        client.messageHandler(message, client.isInteraction, "Field is blank");
+        const embed = new Discord.MessageEmbed()
+            .addField("Description", client.help['expand'].help)
+            .addField("Usage", '```' + client.help['expand'].format + '```')
+        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     } else if (args[0].toLowerCase() === "dong" && !args[1]) {
         client.messageHandler(message, client.isInteraction, "https://i.imgur.com/65ldTm4.png");
     } else {

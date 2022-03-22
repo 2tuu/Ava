@@ -2,6 +2,13 @@ const Discord = require(`discord.js`);
 
 exports.run = async (client, message, args, deletedMessage, sql) => {
 
+    if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['role'].help)
+			.addField("Usage", '```' + client.help['role'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
+
     var dbResult = await sql.query(`SELECT * FROM giverole WHERE serverid ='${message.guild.id}'`);
     var roleArray = dbResult.rows[0].rolearray;
 
@@ -174,7 +181,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 exports.conf = {
     name: "Roles [BETA]",
     help: "Give yourself a role from a pre-determined list",
-    format: "k?role list\nk?role <role> <- gives and removes role\nk?role add <role ID / @role / role name>\nk?role delete/remove <role name>\n\nDoes a role on the list not exist anymore? Use 'k?role delete missing'",
+    format: "k?role list\nk?role [role] <- gives and removes role\nk?role add [role ID / @role / role name]\nk?role delete [role name]\n\nDoes a role on the list not exist anymore? Use 'k?role delete missing'",
     DM: false,
     ownerOnly: false,
     alias: ['giveme', 'gimme', 'roles'],

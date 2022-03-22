@@ -1,6 +1,12 @@
 const Discord = require("discord.js");
 
 exports.run = (client, message, args) => {
+    if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['translate'].help)
+			.addField("Usage", '```' + client.help['translate'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
 
     function stringToBinary(str, spaceSeparatedOctets) {
         function zeroPad(num) {
@@ -55,7 +61,7 @@ exports.run = (client, message, args) => {
 exports.conf = {
     name: "Translate",
     help: "Translate anything to or from base64 or binary",
-    format: "k?translate [fromb64/frombinary/tob64/tobinary] [text to be translated]",
+    format: "k?translate [fromb64/frombinary/tob64/tobinary] [text to be translated]\nie. k?translate fromb64 d29yZA==",
     DM: true,
     ownerOnly: false,
     alias: [],

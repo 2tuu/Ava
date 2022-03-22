@@ -4,8 +4,8 @@ const config = require("./../../config.json");
 exports.run = (client, message, args) => {
     if (!args[0] || !args[0].startsWith('<')) {
         const embed = new Discord.MessageEmbed()
-            .setTitle("Please provide a valid emote")
-            .setColor(`0x${client.colors.bad}`)
+            .addField("Description", client.help['enlarge'].help)
+            .addField("Usage", '```' + client.help['enlarge'].format + '```')
         return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 

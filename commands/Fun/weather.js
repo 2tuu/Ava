@@ -5,12 +5,13 @@ const weatheredRecently = new Set();
 
 exports.run = (client, message, args) => {
 
-  if (!args[0]) {
-    const embed = new Discord.MessageEmbed()
-      .setColor(`0x${client.colors.bad}`)
-      .setTitle("Please check the 'help' documentation")
-    return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
-  }
+  if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['weather'].help)
+			.addField("Usage", '```' + client.help['weather'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
+
 
   if (weatheredRecently.has(message.author.id)) {
     return message.reply("please wait 20 seconds before using that command again");

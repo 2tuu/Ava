@@ -2,6 +2,13 @@ const Discord = require("discord.js");
 
 exports.run = async (client, message, args, deletedMessage, sql) => {
 
+    if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['password'].help)
+			.addField("Usage", '```' + client.help['password'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
+
     if (!message.member.permissions.has('MANAGE_ROLES')) {
         const embed = new Discord.MessageEmbed()
             .setColor(`0x${client.colors.bad}`)
@@ -120,7 +127,9 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 exports.conf = {
     name: "Password",
     help: "Set a server password and a channel for it to be typed in\nThis can be used for accepting ToS or showing a user has read the rules\n(ie. put the password at the end of the rules and have a user type it in the password channel to gain access)",
-    format: "k?password setpass <passphrase here>\nk?password setchan <channel to type passwords in>\nk?password setrole <name of role to be given>",
+    format: `k?password setpass [passphrase]
+k?password setchan [password-channel]
+k?password setrole [member-role]`,
     DM: false,
     ownerOnly: false,
     alias: ["pass"],
