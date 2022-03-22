@@ -42,7 +42,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             ctx.drawImage(img, 0, 0);
 
             //badges
-            var emojis = client.emojis.cache.map(e => e).filter(e => e.guild.id === '913526839702589452');
+            var emojis = client.guilds.cache.get('913526839702589452').emojis.cache.map(e=>e);
             var badges = row.badges.split(',');
 
             var badgeUrls = [];
@@ -189,7 +189,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         } catch (err) {
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.bad}`)
-                .setTitle('ERR:\n```js\n' + err.stack + '\n```')
+                .setTitle('ERR:\n```js\n' + err + '\n```')
             return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
 
@@ -423,7 +423,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             }
 
             if (args[1].toLowerCase() === 'list') {
-                var emojis = client.emojis.cache.map(e => e).filter(e => e.guild.id === '913526839702589452');
+                var emojis = client.guilds.cache.get('913526839702589452').emojis.cache.map(e=>e).map(e=>e.id);;
                 var badgeUrls = [];
 
                 emojis.forEach(e => {
@@ -469,7 +469,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 var firstOptions = ['1', '2'];
                 var secondOptions = [];
 
-                var emojis = client.emojis.cache.map(e => e).filter(e => e.guild.id === '913526839702589452');
+                var emojis = client.guilds.cache.get('913526839702589452').emojis.cache.map(e=>e).map(e=>e.id);;
                 emojis.forEach(e => secondOptions.push(e.name.toLowerCase()))
                 var badgeUrls = [];
 
