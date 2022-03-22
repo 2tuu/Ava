@@ -13,7 +13,6 @@ exports.run = async (client, message) => {
 
     logs = logs.filter(e => (e.endsWith('.log')));
     logs = logs.reverse();
-    var log = '';
 
     fs.readFile(`./logs/${logs[0]}`, (error, data) => {
       if (error) {
@@ -26,7 +25,7 @@ exports.run = async (client, message) => {
         files: [
           {
             attachment: buf,
-            name: 'output.log'
+            name: logs[0]
           }
         ]
       });
