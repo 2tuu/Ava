@@ -379,7 +379,7 @@ client.on("messageCreate", async message => {
       client.isInteraction = false;
       commandFile.run(client, message, args, deletedMessage, pool, tossedSet, roles, messageContent);
       
-      console.log('cmd: ' + commandFile.conf.name);
+      //console.log('cmd: ' + commandFile.conf.name);
     }
     catch (err) {
       console.error(err);
