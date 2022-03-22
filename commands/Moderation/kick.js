@@ -71,7 +71,7 @@ exports.conf = {
       {
         choices: undefined,
         autocomplete: undefined,
-        type: 3,
+        type: 9,
         name: 'user',
         description: '@ the user you want to kick',
         required: true
