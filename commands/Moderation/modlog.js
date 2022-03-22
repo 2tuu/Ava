@@ -155,12 +155,14 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 exports.conf = {
     name: "Modlog",
     help: "Manage the mod logging modules",
-    format: `k?modlog toggle [logKicks]
-        -> logChannels
-        -> logLeaves
-        -> logBans
-        -> logMembers
-        -> logMessages
+    format: `k?modlog toggle [option]
+    options:
+    -> logKicks
+    -> logChannels
+    -> logLeaves
+    -> logBans
+    -> logMembers
+    -> logMessages
 k?modlog toggle
 k?modlog setchannel [#channel]
 k?modlog ignore [#channel]`,
