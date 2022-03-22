@@ -28,9 +28,12 @@ exports.run = (deletedMessage, sql, client, member) => {
 
     if (row.enabled === "yes" && row.logleaves === "yes") {
       var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
+
+      var age = Math.round((Date.now()/1000 - Date.parse(new Date(member.user.id /4194304 + 1420070400000))/1000)/60/60/24);
+
       const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.good}`)
-        .setDescription("```diff\n+Member Joined: " + member.user.tag + "\nCurrent Count:" + member.guild.memberCount + "\n```")
+        .setDescription("```diff\n+Member Joined: " + member.user.tag + "\nAccount Age: " + age.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " days (" + (Math.round(age/365)) + "y)" + "\nMember Count:" + member.guild.memberCount + "\n```")
       return ch.send({ embeds: [embed] });
     }
 
