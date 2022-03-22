@@ -182,22 +182,32 @@ k?modlog ignore [#channel]`,
                     { name: 'toggle leave logging', value: 'toggle logleaves' },
                     { name: 'toggle member logging', value: 'toggle logmembers' },
                     { name: 'toggle message logging', value: 'toggle logmessages' },
-                    { name: 'set log channel', value: 'setchannel' },
-                    { name: 'ignore channel', value: 'ignore' },
+                    { name: 'set log channel', value: 'setchannel', options: [
+                        {
+                            choices: undefined,
+                            autocomplete: false,
+                            type: 3,
+                            name: 'channel',
+                            description: 'Channel to use as mod log',
+                            required: true
+                        }
+                    ] },
+                    { name: 'ignore channel', value: 'ignore', options: [
+                        {
+                            choices: undefined,
+                            autocomplete: false,
+                            type: 3,
+                            name: 'channel',
+                            description: 'Channel to ignore',
+                            required: true
+                        }
+                    ] },
                 ],
                 autocomplete: undefined,
                 type: 3,
                 name: 'setting',
                 description: 'What setting to change',
                 required: true
-            },
-            {
-                choices: undefined,
-                autocomplete: false,
-                type: 3,
-                name: 'channel',
-                description: 'Channel to ignore or use as the mod log',
-                required: false
             }
         ],
         default_permission: undefined
