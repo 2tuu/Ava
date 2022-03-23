@@ -7,30 +7,30 @@ const cron = require('node-cron');
 
 exports.run = async (deletedMessage, pool, client) => {
 	var current = 0
-	current = await axios.get('https://raw.githubusercontent.com/2tuu/Kit/master/plugins/update.json');
+	current = await axios.get('https://raw.githubusercontent.com/2tuu/Kit/master/plugins/data.json');
 	current = current.data.version;
 
 	client.currentVersion = current;
 
-	let version = require("./../plugins/update.json");
+	let version = require("./../plugins/data.json");
 	client.version = version.version;
 	client.codename = version.codename;
 
 	console.log(`Loaded ${client.totalCommands} modules - ${client.failedCommands.length} failed`);
-	console.log("======================");
+	console.log("============================");
 	if ((current > client.version) && parseInt(client.version) !== 0) {
 		console.error('Your framework is out of date - To update, either download and overwrite the contents of my folder, or run \'node update\' in this folder');
 		console.error(`The current Github version is: ` + current + '\n');
 		console.error(`Your version is: ` + client.version + '\n');
-		console.error('\n To disable this notice, set your version number in /plugins/update.json to 0');
-		console.log("======================");
+		console.error('\n To disable this notice, set your version number in /plugins/data.json to 0');
+		console.log("============================");
 	} else if (client.version == '0') {
 		//disable version report
 	} else {
 		console.log(`Version: ` + client.version + ' - ' + client.codename);
 	}
 	console.log(`${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.cache.size} guilds`);
-	console.log("=========log==========");
+	console.log("=============log============");
 
 	//client.user.setStatus('dnd');
 
