@@ -54,7 +54,7 @@ exports.run = async (deletedMessage, sql, client, member) => {
     var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
     const embed = new Discord.MessageEmbed()
       .setColor(`0x${client.colors.bad}`)
-      .setDescription("```diff\n-Member Left: " + member.user.tag + "\nCurrent Count:" + member.guild.memberCount + "\n```")
+      .setDescription("```diff\n-Member Left: " + member.user.tag + "\nMember Count: " + member.guild.memberCount + "\n```")
     return ch.send({ embeds: [embed] });
   }
 
