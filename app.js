@@ -4,13 +4,13 @@ if (process.argv.slice(2)[0]) {
   var option = process.argv.slice(2)[0];
 
   if (option.toLowerCase() == 'beta') {
-    console.log('Using beta token\n======================')
+    console.log('Using beta token\n============================')
     startup = 'beta';
   } else {
-    console.log('Incorrect startup option, using production token\n======================')
+    console.log('Incorrect startup option, using production token\n============================')
   }
 } else {
-  console.log('Using production token\n======================')
+  console.log('Using production token\n============================')
 }
 
 const Discord = require(`discord.js`);
@@ -23,7 +23,9 @@ const client = new Client({
     "GUILD_MESSAGE_REACTIONS",
     "GUILD_MESSAGES",
     "DIRECT_MESSAGES",
-    "DIRECT_MESSAGE_REACTIONS"
+    "DIRECT_MESSAGE_REACTIONS",
+    "GUILD_BANS",
+    "GUILD_MESSAGE_TYPING"
   ], partials: [
     "CHANNEL",
     "USER"
@@ -60,7 +62,11 @@ client.totalCommands = 0;
 client.slashCommands = [];
 client.aliases = new Map();
 client.help = new Map();
-client.colors = require('./plugins/colors.json');
+client.colors = {
+  "bad":"FF4D00",
+  "neutral":"FFF200",
+  "good":"62FF00"
+}
 client.isInteraction = false; //default
 
 //message send handler
