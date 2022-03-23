@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const config = require('./../../config.json');
 
 exports.run = async (client, message) => {
+        console.log('===restart command issued===')
         const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.neutral}`)
                 .setTitle("Process restarting...")
