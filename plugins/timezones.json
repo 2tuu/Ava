@@ -1,0 +1,347 @@
+{
+    "HST": {
+        "abbr": "HST",
+        "offset": -10,
+        "text": "(UTC-10:00) Hawaii"
+    },
+    "AKDT": {
+        "abbr": "AKDT",
+        "offset": -8,
+        "text": "(UTC-09:00) Alaska"
+    },
+    "PST": {
+        "abbr": "PST",
+        "offset": -8,
+        "text": "(UTC-08:00) Pacific"
+    },
+    "UMST": {
+        "abbr": "UMST",
+        "offset": -7,
+        "text": "(UTC-07:00) Arizona"
+    },
+    "MDT": {
+        "abbr": "MDT",
+        "offset": 1,
+        "text": "(UTC) Casablanca"
+    },
+    "CAST": {
+        "abbr": "CAST",
+        "offset": 9.5,
+        "text": "(UTC+09:30) Adelaide"
+    },
+    "CDT": {
+        "abbr": "CDT",
+        "offset": -5,
+        "text": "(UTC-06:00) Guadalajara"
+    },
+    "CCST": {
+        "abbr": "CCST",
+        "offset": -6,
+        "text": "(UTC-06:00) Saskatchewan"
+    },
+    "SPST": {
+        "abbr": "SPST",
+        "offset": -5,
+        "text": "(UTC-05:00) Bogota"
+    },
+    "EST": {
+        "abbr": "EST",
+        "offset": 2,
+        "text": "(UTC+02:00) Cairo"
+    },
+    "UEDT": {
+        "abbr": "UEDT",
+        "offset": -5,
+        "text": "(UTC-05:00) Indiana"
+    },
+    "VST": {
+        "abbr": "VST",
+        "offset": 11,
+        "text": "(UTC+11:00) Vladivostok"
+    },
+    "PYT": {
+        "abbr": "PYT",
+        "offset": -4,
+        "text": "(UTC-04:00) Asuncion"
+    },
+    "ADT": {
+        "abbr": "ADT",
+        "offset": 5,
+        "text": "(UTC+04:00) Baku"
+    },
+    "CBST": {
+        "abbr": "CBST",
+        "offset": -4,
+        "text": "(UTC-04:00) Cuiaba"
+    },
+    "SWST": {
+        "abbr": "SWST",
+        "offset": -4,
+        "text": "(UTC-04:00) Georgetown"
+    },
+    "PSST": {
+        "abbr": "PSST",
+        "offset": -4,
+        "text": "(UTC-04:00) Santiago"
+    },
+    "NDT": {
+        "abbr": "NDT",
+        "offset": -2.5,
+        "text": "(UTC-03:30) Newfoundland"
+    },
+    "ESAST": {
+        "abbr": "ESAST",
+        "offset": -3,
+        "text": "(UTC-03:00) Brasilia"
+    },
+    "AST": {
+        "abbr": "AST",
+        "offset": 4.5,
+        "text": "(UTC+04:30) Kabul"
+    },
+    "SEST": {
+        "abbr": "SEST",
+        "offset": -3,
+        "text": "(UTC-03:00) Cayenne"
+    },
+    "GDT": {
+        "abbr": "GDT",
+        "offset": 3,
+        "text": "(UTC+02:00) Athens"
+    },
+    "MST": {
+        "abbr": "MST",
+        "offset": 12,
+        "text": "(UTC+12:00) Magadan"
+    },
+    "BST": {
+        "abbr": "BST",
+        "offset": 6,
+        "text": "(UTC+06:00) Dhaka"
+    },
+    "CVST": {
+        "abbr": "CVST",
+        "offset": -1,
+        "text": "(UTC-01:00) Cape Verde Is."
+    },
+    "UTC": {
+        "abbr": "UTC",
+        "offset": 0,
+        "text": "(UTC) Universal Time"
+    },
+    "GMT": {
+        "abbr": "GMT",
+        "offset": 0,
+        "text": "(UTC) London"
+    },
+    "GST": {
+        "abbr": "GST",
+        "offset": 0,
+        "text": "(UTC) Monrovia"
+    },
+    "WEDT": {
+        "abbr": "WEDT",
+        "offset": 2,
+        "text": "(UTC+01:00) Amsterdam"
+    },
+    "CEDT": {
+        "abbr": "CEDT",
+        "offset": 2,
+        "text": "(UTC+01:00) Warsaw"
+    },
+    "RDT": {
+        "abbr": "RDT",
+        "offset": 2,
+        "text": "(UTC+01:00) Copenhagen"
+    },
+    "WCAST": {
+        "abbr": "WCAST",
+        "offset": 1,
+        "text": "(UTC+01:00) Africa"
+    },
+    "NST": {
+        "abbr": "NST",
+        "offset": 5.75,
+        "text": "(UTC+05:45) Kathmandu"
+    },
+    "MEDT": {
+        "abbr": "MEDT",
+        "offset": 3,
+        "text": "(UTC+02:00) Beirut"
+    },
+    "SDT": {
+        "abbr": "SDT",
+        "offset": 3,
+        "text": "(UTC+02:00) Damascus"
+    },
+    "EEDT": {
+        "abbr": "EEDT",
+        "offset": 3,
+        "text": "(UTC+02:00) E. Europe"
+    },
+    "SAST": {
+        "abbr": "SAST",
+        "offset": 7,
+        "text": "(UTC+07:00) Bangkok"
+    },
+    "FDT": {
+        "abbr": "FDT",
+        "offset": 3,
+        "text": "(UTC+02:00) Helsinki"
+    },
+    "TDT": {
+        "abbr": "TDT",
+        "offset": 3,
+        "text": "(UTC+03:00) Istanbul"
+    },
+    "JDT": {
+        "abbr": "JDT",
+        "offset": 3,
+        "text": "(UTC+02:00) Jerusalem"
+    },
+    "LST": {
+        "abbr": "LST",
+        "offset": 2,
+        "text": "(UTC+02:00) Tripoli"
+    },
+    "JST": {
+        "abbr": "JST",
+        "offset": 9,
+        "text": "(UTC+09:00) Osaka"
+    },
+    "KST": {
+        "abbr": "KST",
+        "offset": 9,
+        "text": "(UTC+09:00) Seoul"
+    },
+    "EAST": {
+        "abbr": "EAST",
+        "offset": 10,
+        "text": "(UTC+10:00) Brisbane"
+    },
+    "MSK": {
+        "abbr": "MSK",
+        "offset": 3,
+        "text": "(UTC+03:00) Moscow"
+    },
+    "SAMT": {
+        "abbr": "SAMT",
+        "offset": 4,
+        "text": "(UTC+04:00) Samara"
+    },
+    "IDT": {
+        "abbr": "IDT",
+        "offset": 4.5,
+        "text": "(UTC+03:30) Tehran"
+    },
+    "GET": {
+        "abbr": "GET",
+        "offset": 4,
+        "text": "(UTC+04:00) Tbilisi"
+    },
+    "CST": {
+        "abbr": "CST",
+        "offset": 8,
+        "text": "(UTC+08:00) Beijing"
+    },
+    "WAST": {
+        "abbr": "WAST",
+        "offset": 8,
+        "text": "(UTC+08:00) Perth"
+    },
+    "YEKT": {
+        "abbr": "YEKT",
+        "offset": 5,
+        "text": "(UTC+05:00) Yekaterinburg"
+    },
+    "PKT": {
+        "abbr": "PKT",
+        "offset": 5,
+        "text": "(UTC+05:00) Islamabad"
+    },
+    "IST": {
+        "abbr": "IST",
+        "offset": 5.5,
+        "text": "(UTC+05:30) Chennai"
+    },
+    "SLST": {
+        "abbr": "SLST",
+        "offset": 5.5,
+        "text": "(UTC+05:30) Sri Jayawardenepura"
+    },
+    "NCAST": {
+        "abbr": "NCAST",
+        "offset": 7,
+        "text": "(UTC+07:00) Novosibirsk"
+    },
+    "NAST": {
+        "abbr": "NAST",
+        "offset": 8,
+        "text": "(UTC+08:00) Krasnoyarsk"
+    },
+    "MPST": {
+        "abbr": "MPST",
+        "offset": 8,
+        "text": "(UTC+08:00) Singapore"
+    },
+    "TST": {
+        "abbr": "TST",
+        "offset": 13,
+        "text": "(UTC+13:00) Nuku'alofa"
+    },
+    "UST": {
+        "abbr": "UST",
+        "offset": 8,
+        "text": "(UTC+08:00) Ulaanbaatar"
+    },
+    "NAEST": {
+        "abbr": "NAEST",
+        "offset": 8,
+        "text": "(UTC+08:00) Irkutsk"
+    },
+    "ACST": {
+        "abbr": "ACST",
+        "offset": 9.5,
+        "text": "(UTC+09:30) Darwin"
+    },
+    "AEST": {
+        "abbr": "AEST",
+        "offset": 10,
+        "text": "(UTC+10:00) Sydney"
+    },
+    "WPST": {
+        "abbr": "WPST",
+        "offset": 10,
+        "text": "(UTC+10:00) Guam"
+    },
+    "YST": {
+        "abbr": "YST",
+        "offset": 9,
+        "text": "(UTC+09:00) Yakutsk"
+    },
+    "CPST": {
+        "abbr": "CPST",
+        "offset": 11,
+        "text": "(UTC+11:00) Solomon Is."
+    },
+    "NZST": {
+        "abbr": "NZST",
+        "offset": 12,
+        "text": "(UTC+12:00) Auckland"
+    },
+    "FST": {
+        "abbr": "FST",
+        "offset": 12,
+        "text": "(UTC+12:00) Fiji"
+    },
+    "KDT": {
+        "abbr": "KDT",
+        "offset": 13,
+        "text": "(UTC+12:00) Petropavlovsk-Kamchatsky - Old"
+    },
+    "SST": {
+        "abbr": "SST",
+        "offset": 13,
+        "text": "(UTC+13:00) Samoa"
+    }
+}
