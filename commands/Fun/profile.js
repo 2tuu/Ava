@@ -115,7 +115,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
             coins = '$' + coins.join('.');
 
-            ctx.fillText(coins, 585, 367);
+            ctx.fillText(coins, 511, 367);
 
             //level
             var lvl = (Math.round(parseInt(row.cmds) / 1000)) + 1;
