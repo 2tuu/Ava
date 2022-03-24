@@ -57,6 +57,7 @@ const pool = new Pool({
 const rest = new REST({ version: '9' }).setToken(token);
 
 //global variables
+client.timezones = require('./plugins/timezones.json')
 client.failedCommands = [];
 client.totalCommands = 0;
 client.slashCommands = [];
@@ -257,6 +258,7 @@ client.on("messageCreate", async message => {
     pool.query(`SELECT * FROM settings WHERE serverId ='${message.guild.id}'`).then(row => {
       row = row.rows;
       if (!row) {
+        console.log(`=> Updated settings table (${message.guild.id})`)
         pool.query(`INSERT INTO settings (serverId, banId) VALUES ('${message.guild.id}', null)`);
       }
     }).catch(() => {/*console.error*/ });
