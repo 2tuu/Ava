@@ -3,13 +3,10 @@
 /*
 K-Tag v1.3
 Avery W. 2018 (Github: 2tuu)
-Last revision: 1/24/2022
+Last revision: 3/24/2022
 
 Changelog:
-
-    - Added simple if statements
-        + Going to add OR and AND modfiers next
-    - Cleaned up code
+    - Added more-than and less-than statements
 */
 
 exports.read = (taggerContent, message, args) => {
@@ -221,6 +218,46 @@ exports.read = (taggerContent, message, args) => {
                 toEval = toEval.slice(0,-2); //<eval>
 
                 if(logic[0] !== logic[1]){
+                    taggerContent = taggerContent.replace(e,toEval);
+                } else {
+                    taggerContent = taggerContent.replace(e,'');
+                }
+            }
+        })
+    }
+
+    //less than <
+    ifEqualsVar = taggerContent.match(/{if;(.*?)=!(.*?);(.*?)};/g);
+    if(ifEqualsVar && ifEqualsVar[0]){
+        ifEqualsVar.forEach(e=>{
+            var logic = e.match(/{if;(.*?);/); //{if;a<b;
+            var toEval = e.replace(logic[0], '') //<eval>};
+
+            if(toEval[0] && logic[0]){
+                logic = logic[0].replace('{if;','').slice(0,-1).split('<'); // ['a','b']
+                toEval = toEval.slice(0,-2); //<eval>
+
+                if(logic[0] < logic[1]){
+                    taggerContent = taggerContent.replace(e,toEval);
+                } else {
+                    taggerContent = taggerContent.replace(e,'');
+                }
+            }
+        })
+    }
+
+    //more than >
+    ifEqualsVar = taggerContent.match(/{if;(.*?)=!(.*?);(.*?)};/g);
+    if(ifEqualsVar && ifEqualsVar[0]){
+        ifEqualsVar.forEach(e=>{
+            var logic = e.match(/{if;(.*?);/); //{if;a>b;
+            var toEval = e.replace(logic[0], '') //<eval>};
+
+            if(toEval[0] && logic[0]){
+                logic = logic[0].replace('{if;','').slice(0,-1).split('>'); // ['a','b']
+                toEval = toEval.slice(0,-2); //<eval>
+
+                if(logic[0] > logic[1]){
                     taggerContent = taggerContent.replace(e,toEval);
                 } else {
                     taggerContent = taggerContent.replace(e,'');
