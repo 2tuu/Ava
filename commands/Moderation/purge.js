@@ -3,17 +3,18 @@ const Discord = require("discord.js");
 
 exports.run = (client, message, args) => {
 
-  if(!args[0]){
-		const embed = new Discord.MessageEmbed()
-			.addField("Description", client.help['purge'].help)
-			.addField("Usage", '```' + client.help['purge'].format + '```')
-		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
-	}
+  if (!args[0]) {
+    const embed = new Discord.MessageEmbed()
+      .addField("Description", client.help['purge'].help)
+      .addField("Usage", '```' + client.help['purge'].format + '```')
+    return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+  }
 
   try {
 
     if (args[0] === "bots") {
       async function purge() {
+        return message.reply('Sorry, this function is currently disabled.')
         if (!message.member.permissions.has('MANAGE_MESSAGES')) {
           return message.reply("Sorry, you don't have permission to use this.");
         }
@@ -33,59 +34,6 @@ exports.run = (client, message, args) => {
 
       }
       purge();
-    } else if (args[0] === "all") {
-
-      async function purge() {
-        if (!message.member.permissions.has('MANAGE_MESSAGES')) {
-
-          return message.reply("Sorry, you don't have permission to use this.");
-        }
-
-        var deleteCount = parseInt(args[1], 10);
-        deleteCount = deleteCount + 7;
-
-        message.channel.fetchMessages().then(messages => {
-          try {
-            const botMessages = messages;
-            message.channel.bulkDelete(botMessages, true).catch((err) => { client.messageHandler(message, client.isInteraction, ("Error: " + err)); });
-            messagesDeleted = botMessages.array().length;
-          } catch (err) {
-            client.messageHandler(message, client.isInteraction, ("Error: Please check my permissions"));
-          }
-
-          client.messageHandler(message, client.isInteraction, 'Deleted **' + messagesDeleted + '** messages')
-        }).catch(err => {
-          client.messageHandler(message, client.isInteraction, 'Error: ' + err);
-        });
-
-      }
-      purge();
-
-    } else if (args[0] === "user" || args[0] === "u") {
-
-      async function purge() {
-        if (!message.member.permissions.has('MANAGE_MESSAGES')) {
-
-          return message.reply("Sorry, you don't have permission to use this.");
-        }
-
-        if (!args[1]) return message.reply("Please give me a user ID");
-        var userID = args[1].replace("<@", "").replace(">", "").replace('!', "");
-
-        message.channel.fetchMessages().then(messages => {
-          const botMessages = messages.filter(msg => msg.author.id === userID);
-
-          message.channel.bulkDelete(botMessages, true).catch(error => client.messageHandler(message, client.isInteraction, `Couldn't delete messages because of: ${error}`));
-          messagesDeleted = botMessages.array().length;
-
-          client.messageHandler(message, client.isInteraction, 'Deleted **' + messagesDeleted + '** messages from user id: ' + userID);
-        }).catch(err => {
-          client.messageHandler(message, client.isInteraction, 'Error: ' + err + " **Please specify a valid user ID**");
-        });
-
-      }
-      purge();
-
     } else {
 
       async function purge() {
@@ -103,20 +51,24 @@ exports.run = (client, message, args) => {
           deleteCount = deleteCount + 1;
         }
 
-        while (deleteCount > 100) {
-          message.channel.bulkDelete(100, true)
+        while (deleteCount > 99) {
+          message.channel.bulkDelete(99, true)
             .catch(error => {
               return message.reply(`Error: \`\`\`\njs${error}\`\`\``);
             });
-          deleteCount = deleteCount - 100;
+          deleteCount = deleteCount - 99;
         }
 
-        message.channel.bulkDelete(deleteCount, true)
-          .catch(error => {
-            return message.reply(`Error: \`\`\`js\n${error}\`\`\``);
-          });
-        if (client.isInteraction) {
-          message.reply("Purge command sent")
+        try {
+          message.channel.bulkDelete(deleteCount, true)
+            .catch(error => {
+              return message.reply(`Error: \`\`\`js\n${error}\`\`\``);
+            });
+          if (client.isInteraction) {
+            message.reply("Purge command sent")
+          }
+        } catch (err) {
+          //
         }
       }
       purge();
@@ -130,7 +82,8 @@ exports.run = (client, message, args) => {
 exports.conf = {
   name: "Purge",
   help: "Purge a bunch of messages, of a number, from a specific user, bots, or up to 100\nThis only works on messages that're less than 2 weeks old",
-  format: "k?purge [all/u [ID]/bots/#]\nie. k?purge u 1234567890123\n  k?purge",
+  format: `k?purge [message count]
+k?purge bots`,
   DM: false,
   ownerOnly: true, //fix edge cases
   alias: [],
