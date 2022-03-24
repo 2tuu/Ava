@@ -15,6 +15,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             let canvas = Canvas.createCanvas(1000, 750);
             let Image = Canvas.Image;
             let ctx = canvas.getContext('2d');
+                ctx.imageSmoothingQuality = "high"
             let img = new Image();
 
             //bg color
@@ -23,7 +24,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
             //avatar
             var user = client.users.resolve(row.userid)
-            var avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpg`;
+            var avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
             img.src = await neko.get(avatarUrl, { autoString: false });
             ctx.drawImage(img, 75, 75, 310, 310);
 
@@ -42,7 +43,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             ctx.drawImage(img, 0, 0);
 
             //badges
-            var emojis = client.guilds.cache.get('913526839702589452').emojis.cache.map(e=>e);
+            var emojis = client.guilds.cache.get('913526839702589452').emojis.cache.map(e => e);
             var badges = row.badges.split(',');
 
             var badgeUrls = [];
@@ -168,7 +169,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 //console.log(row.time);
                 var tz = client.timezones[row.time.toString().toUpperCase()];
                 var offset = tz.offset;
-                if(offset > 0){
+                if (offset > 0) {
                     offset = '+' + offset;
                 }
                 var tex = `${tz.abbr} (UTC${offset})`
@@ -212,12 +213,6 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         } catch (err) {
             console.log(err);
         }
-        /* debug block
-        const embed = new Discord.MessageEmbed()
-            .setColor(dbResult.background)
-            .setTitle(`ID: ${dbResult.userid}\nDOB: ${dbResult.dob}\nSubtitle: ${dbResult.subtitle}\nBio: ${dbResult.bio}\nBadges: ${dbResult.badges}\nColor: ${dbResult.background}`)
-        return message.channel.send({ embeds: [embed] });
-        */
         return;
     } else if (!existingCommands.includes(args[0].toLowerCase())) {
         //convert search to ID
@@ -278,7 +273,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
         case 'timezone':
             try {
-                if(client.timezones[args[1].toUpperCase()]){
+                if (client.timezones[args[1].toUpperCase()]) {
                     sql.query(`UPDATE profile SET time = '${args[1].toUpperCase()}' WHERE userid = '${message.author.id}'`);
                     const embed = new Discord.MessageEmbed()
                         .setColor(`0x${client.colors.good}`)
@@ -350,16 +345,23 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             }
 
             if (args[1].toLowerCase() === 'list') {
-                var emojis = client.guilds.cache.get('913526839702589452').emojis.cache.map(e=>e).map(e=>e.id);;
-                var badgeUrls = [];
+                var badgeUrls = client.guilds.cache.get('913526839702589452').emojis.cache.map(e => `${e.name} - <:badge:${e.id}>`);
+                var middleIndex = Math.ceil(badgeUrls.length / 2);
 
-                emojis.forEach(e => {
-                    badgeUrls.push(`${e.id}`);
-                })
-
-                const embed = new Discord.MessageEmbed()
-                    .setTitle(`<:badge:${badgeUrls.join('> <:badge:')}>`)
-                return message.channel.send({ embeds: [embed] });
+                var firstHalf = badgeUrls.splice(0, middleIndex);   
+                var secondHalf = badgeUrls.splice(-middleIndex);
+                
+                try {
+                    const embed = new Discord.MessageEmbed()
+                        .addField('Badges 1', firstHalf.join('\n'), true)
+                        .addField('Badges 2', secondHalf.join('\n'), true)
+                    return message.channel.send({ embeds: [embed] });
+                } catch (err) {
+                    const embed = new Discord.MessageEmbed()
+                        .setColor(`0x${client.colors.bad}`)
+                        .setTitle(`err: \`${err}\``)
+                    return message.channel.send({ embeds: [embed] });
+                }
             } else if (args[1].toLowerCase() === 'delete') {
                 if (!dbResult) {
                     const embed = new Discord.MessageEmbed()
@@ -396,8 +398,8 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 var firstOptions = ['1', '2'];
                 var secondOptions = [];
 
-                var emojis = client.guilds.cache.get('913526839702589452').emojis.cache.map(e=>e).map(e=>e.id);;
-                emojis.forEach(e => secondOptions.push(e.name.toLowerCase()))
+                var emojis = client.guilds.cache.get('913526839702589452').emojis.cache.map(e => e).map(e => e.name);
+                emojis.forEach(e => secondOptions.push(e.toLowerCase()))
                 var badgeUrls = [];
 
                 if (!args[2] || !args[3]) {
@@ -473,24 +475,12 @@ exports.conf = {
     format: `k?profile {@user/ID}
 k?profile bio [bio text]
 k?profile subtitle [subtitle text]
-k?profile birthday [ie. m-d-yyyy]
+k?profile timezone [ie. PST]
 k?profile badge set [1/2] [name from list]
 k?profile badge list
 k?profile color #hexcode`,
     DM: true,
-    ownerOnly: true,
-    /*
-        Birthday setting has not been reworked, as full DOB is not
-        defined as personally identifying information, and is
-        necessary for calculating the date
-
-        But as NSFW commands are only available in NSFW channels,
-        birthdays set in profile command will not be used to age
-        gate the commands, as the Discord client already does
-
-        It will remain purely cosmetic, maybe at some point being
-        used to send people birthday messages automatically
-    */
+    ownerOnly: false,
     alias: [],
     slashCommand: false
 }
