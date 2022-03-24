@@ -33,7 +33,11 @@ exports.run = (deletedMessage, sql, client, member) => {
 
       const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.good}`)
-        .setDescription("```diff\n+Member Joined: " + member.user.tag + "\nAccount Age: " + age.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " days (~" + (Math.round(age/365)) + "y)" + "\nMember Count: " + member.guild.memberCount + "\n```")
+        .setDescription("```diff\n"+
+          `+Member Joined: ${member.user.tag}\n`+
+          `Account Age: ${age.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} days (~${(Math.round(age/365))}y)\n`+
+          `Member Count: ${member.guild.memberCount}\n`+
+          "```")
       return ch.send({ embeds: [embed] });
     }
 

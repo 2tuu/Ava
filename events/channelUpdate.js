@@ -11,10 +11,15 @@ exports.run = async (deletedMessage, sql, client, newChannel, oldChannel) => {
     sql.query(`SELECT * FROM modlog WHERE serverid ='${guildID}'`).then(row => {
         row = row.rows[0];
         if (!row) return;
-        if (newChannel.nsfw === oldChannel.nsfw && newChannel.topic === oldChannel.topic && oldChannel.name === newChannel.name) return;
+
+        //ignore if no difference found
+        if (newChannel.nsfw === oldChannel.nsfw && 
+            newChannel.topic === oldChannel.topic && 
+            oldChannel.name === newChannel.name) {
+                return;
+            }
 
         if (row.enabled === "yes" && row.logchannels === "yes") {
-
             if (newChannel.name === oldChannel.name && newChannel.topic === oldChannel.topic && newChannel.parent.name === oldChannel.parent.name) {
                 return;
             } else {

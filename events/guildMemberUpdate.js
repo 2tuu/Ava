@@ -1,11 +1,8 @@
 const Discord = require(`discord.js`);
 
 exports.run = (deletedMessage, sql, client, oldMember, newMember) => {
-
     try {
-
         if (oldMember.nickname === newMember.nickname) return;
-
         var guildID = oldMember.guild.id;
     } catch (err) {
         console.error(err);
@@ -23,7 +20,5 @@ exports.run = (deletedMessage, sql, client, oldMember, newMember) => {
                     " changed their nickname:\n" + oldMember.nickname + " => " + newMember.nickname + "\n```")
             return ch.send({ embeds: [embed] });
         }
-
     });
-
 }

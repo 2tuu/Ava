@@ -69,6 +69,7 @@ exports.conf = {
   data: {
     name: "ban",
     description: "Ban a user",
+    permission: "4",
     options: [
       {
         choices: undefined,

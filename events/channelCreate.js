@@ -1,11 +1,10 @@
 const Discord = require(`discord.js`);
 
 exports.run = async (deletedMessage, sql, client, channel) => {
-
     try {
         var guildID = channel.guild.id;
     } catch (err) {
-        return; //return on dm
+        return;
     }
 
     sql.query(`SELECT * FROM modlog WHERE serverid ='${guildID}'`).then(row => {
@@ -20,5 +19,4 @@ exports.run = async (deletedMessage, sql, client, channel) => {
             return ch.send({ embeds: [embed] });
         }
     });
-
 }

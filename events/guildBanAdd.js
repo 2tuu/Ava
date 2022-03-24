@@ -12,8 +12,8 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
     }
 
     var row = await sql.query(`SELECT * FROM modlog WHERE serverid ='${guildID}'`);
-
     var audit = await guild.fetchAuditLogs(22);
+    
     try {
       var auditLog = await audit.entries.first();
     }
@@ -24,10 +24,8 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
 
     var currentTime = Date.now();
     var auditTime = audit.entries.first().createdTimestamp;
-
     var wasKick = false;
     var wasRecent = false;
-
     var diffe = currentTime - auditTime;
 
     if (diffe > 1000) {
@@ -52,7 +50,11 @@ exports.run = async (deletedMessage, sql, client, guild, user) => {
     var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
     const embed = new Discord.MessageEmbed()
       .setColor(`0x${client.colors.bad}`)
-      .setDescription("```diff\n-Member Banned: " + user.tag + `\nReason: ${reason}` + "\nExecutor: " + executor + "```")
+      .setDescription("```diff\n" +
+        `-Member Banned: ${user.tag}\n` +
+        `Reason: ${reason}\n` +
+        `Executor: ${executor}\n` +
+        "\n```")
     return ch.send({ embeds: [embed] });
   }
 }

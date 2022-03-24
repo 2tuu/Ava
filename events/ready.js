@@ -1,8 +1,6 @@
 const fs = require('fs');
-let data = JSON.parse(fs.readFileSync("./plugins/data.json", "utf8"));
 let config = JSON.parse(fs.readFileSync("./config.json", "utf8"));
 const axios = require('axios');
-
 const cron = require('node-cron');
 
 exports.run = async (deletedMessage, pool, client) => {
@@ -46,14 +44,6 @@ exports.run = async (deletedMessage, pool, client) => {
 		logChannel.send(`\`\`\`js
 		ERROR LOADING COMMANDS: ${client.failedCommands}
 		\`\`\``)
-	}
-
-	try {
-		client.blacklist = await pool.query(`SELECT * FROM blacklist`);
-		client.blacklist = client.blacklist.rows.map(g => g.userid);
-		console.log('Fetched blacklist');
-	} catch (err) {
-		console.error(`Problem fetching blacklist: ${err}`);
 	}
 
 	cron.schedule("*/30 * * * * *", async function () {
