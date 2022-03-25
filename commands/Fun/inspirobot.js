@@ -5,7 +5,7 @@ exports.run = async (client, message, args) => {
 	var request = await axios.get("http://inspirobot.me/api?generate=true");
 	const embed = new Discord.MessageEmbed()
 		.setImage(request.data)
-		.setDescription("Powered by Inspirobot")
+		.setDescription("Powered by [Inspirobot](https://inspirobot.me/)")
 	client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 }
 
