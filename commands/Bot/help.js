@@ -51,10 +51,17 @@ exports.run = (client, message, args) => {
                 "\n" + final + '[Privacy Policy](https://github.com/2tuu/Kit/blob/master/docs/privacy.md) • [Rules and Terms](https://github.com/2tuu/Kit/blob/master/docs/tos.md)')
         client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     } else if (commandList.includes(args[0].toLowerCase())) {
+        var aliases = client.help[args[0].toLowerCase()].alias;
+        if(aliases.length === 0){
+            aliases = '(none)'
+        } else {
+            aliases = aliases.join(', ');
+        }
         const embed = new Discord.MessageEmbed()
             .setTitle("Command documentation")
             .addField("Description", client.help[args[0].toLowerCase()].help)
             .addField("Usage", '```' + client.help[args[0].toLowerCase()].format + '```')
+            .addField("Aliases", '```' + aliases + '```')
         client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     } else {
         const embed = new Discord.MessageEmbed()
