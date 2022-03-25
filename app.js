@@ -141,7 +141,7 @@ fs.readdir('./commands', (err, folders) => {
         var cmdName = c.substring(0, c.length - 3); //-.js
 
         client.aliases[cmdName] = { aliases: [] };
-        client.help[cmdName] = { help: cmd.conf.help, format: cmd.conf.format, category: f, filename: cmdName, DM: cmd.conf.DM };
+        client.help[cmdName] = { help: cmd.conf.help, format: cmd.conf.format, alias: cmd.conf.alias, category: f, filename: cmdName, DM: cmd.conf.DM };
 
         if (cmd.conf.ownerOnly === false && cmd.conf.slashCommand) {
           const data = cmd.conf.data;
