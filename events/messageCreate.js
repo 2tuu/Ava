@@ -42,11 +42,18 @@ exports.run = async (deletedMessage, pool, client, message) => {
     });
   }
 
+  //database checkers
   if (!message.guild) return;
   pool.query(`SELECT * FROM prefixes WHERE serverId ='${message.guild.id}'`).then(row => {
     if (!row.rows[0]) {
       console.log(`=> Updated prefixes table (${message.guild.id})`)
       pool.query(`INSERT INTO prefixes (prefix, welcomeMessage, welcomeChannel, shouldWelcome, serverId) VALUES ('${config.prefix}', 'This is a placeholder welcome message', 'null', 'false', '${message.guild.id}')`);
+    }
+  });
+  pool.query(`SELECT * FROM reactionroles WHERE serverid ='${message.guild.id}'`).then(row => {
+    if (!row.rows[0]) {
+      console.log(`=> Updated reactionroles table (${message.guild.id})`)
+      pool.query(`INSERT INTO reactionroles (serverid, roles, messageid) VALUES ('${message.guild.id}','{}','null')`);
     }
   });
   pool.query(`SELECT * FROM giverole WHERE serverid ='${message.guild.id}'`).then(row => {
