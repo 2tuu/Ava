@@ -1,5 +1,7 @@
 # Data Usage Statement / Privacy Policy
-## Last updated: 3/24/2022
+
+## View most recent commit to see recent changes
+**Last updated: 3/28/2022**
 
 Below is the best summary I could write of the data Kit collects, and what it's used for. By using Kit you aknowledge all statements below.
 
@@ -11,6 +13,8 @@ In short, no data is stored *forever*. Some data can be deleted by the users, ot
 
 ## Profiles
 Kit allows for the creation and storage of a customizeable user profile. This profile is visible to all users, but can only be modified by the user who created it.
+
+**By creating a profile you provide consent for your profile image to be modified (cropped into a circle and placed in a profile card) and reuploaded in it's modified form.** This image will not be stored within Kit's database, as it is only used to create the profile upon being summoned.
 
 A profile includes the following information:
 - Username (+ discriminator)
