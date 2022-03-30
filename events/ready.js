@@ -27,9 +27,11 @@ exports.run = async (deletedMessage, pool, client) => {
 	} else {
 		console.log(`Version: ` + client.version + ' - ' + client.codename);
 	}
-	console.log(`${client.users.cache.size} users - ${client.channels.cache.size} channels - ${client.guilds.cache.size} guilds`);
+	console.log(`${client.channels.cache.size} channels - ${client.guilds.cache.size} guilds`);
 	console.log("=============log============");
 
+	client.emojiPile = client.emojis.cache.toJSON().map(e=>e).map(e=>e.id)
+	console.log('Loaded emoji cache')
 	//client.user.setStatus('dnd');
 
 	const logChannel = client.channels.resolve(config.logChannel);
