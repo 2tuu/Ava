@@ -69,7 +69,7 @@ k?id me
 k?id server
 k?id emote [:emote:]`,
     DM: false,
-    ownerOnly: true,
+    ownerOnly: false,
     alias: [],
     slashCommand: false
 }
