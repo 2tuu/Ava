@@ -18,7 +18,11 @@ exports.run = (client, message, args) => {
         }
     });
 
+    var lockedCommands = [];
+
     client.help.forEach(e => {
+        if(e.locked) lockedCommands.push(e.fileName);
+
         if (list[e.category]) {
             list[e.category].push(e.filename);
         } else {
@@ -40,9 +44,12 @@ exports.run = (client, message, args) => {
 
     final = final.slice(9);
     if (client.failedCommands.length > 0) {
-        final = final + "\nThe following commands are broken: `" + client.failedCommands.join(', ') + "`"
+        final = final + "\nThe following commands are broken:\n```\n" + client.failedCommands.join(', ') + "\n```\n"
     }
 
+    if (lockedCommands.length > 0) {
+        final = final + "\nThe following commands are under maintainence:\n```\n" + client.failedCommands.join(', ') + "\n```\n"
+    }
 
     if (!args[0]) {
         const embed = new Discord.MessageEmbed()
