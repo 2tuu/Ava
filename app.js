@@ -25,7 +25,8 @@ const client = new Client({
     "DIRECT_MESSAGES",
     "DIRECT_MESSAGE_REACTIONS",
     "GUILD_BANS",
-    "GUILD_MESSAGE_TYPING"
+    "GUILD_MESSAGE_TYPING",
+    "GUILD_EMOJIS_AND_STICKERS"
   ], partials: [
     "CHANNEL",
     "USER"
@@ -57,6 +58,7 @@ const pool = new Pool({
 const rest = new REST({ version: '9' }).setToken(token);
 
 //global variables
+client.emojiPile;
 client.timezones = require('./plugins/timezones.json')
 client.failedCommands = [];
 client.totalCommands = 0;
@@ -141,7 +143,7 @@ fs.readdir('./commands', (err, folders) => {
         var cmdName = c.substring(0, c.length - 3); //-.js
 
         client.aliases[cmdName] = { aliases: [] };
-        client.help[cmdName] = { help: cmd.conf.help, format: cmd.conf.format, alias: cmd.conf.alias, category: f, filename: cmdName, DM: cmd.conf.DM };
+        client.help[cmdName] = { help: cmd.conf.help, format: cmd.conf.format, alias: cmd.conf.alias, category: f, filename: cmdName, DM: cmd.conf.DM, locked: cmd.conf.ownerOnly};
 
         if (cmd.conf.ownerOnly === false && cmd.conf.slashCommand) {
           const data = cmd.conf.data;
@@ -375,23 +377,22 @@ client.on("messageCreate", async message => {
     if (commandFile.conf.ownerOnly === true && !config.evalAllow.includes(message.author.id)) {
       const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
-        .setDescription("This command is either locked, or currently undergoing changes")
-      return message.channel.send({ embed });
-    }
-    if (commandFile.conf.DM === false && !message.guild) return;
-    if (client.blacklist.includes(message.author.id)) return;
+        .setTitle("This command is either locked, or currently undergoing changes")
+      return message.channel.send({embeds: [embed]});
+    } else {
+      if (commandFile.conf.DM === false && !message.guild) return;
+      if (client.blacklist.includes(message.author.id)) return;
 
-    try {
-      var messageContent = message.content.slice(handledPrefix.length).slice(command.length + 1);
+      try {
+        var messageContent = message.content.slice(handledPrefix.length).slice(command.length + 1);
 
-      client.isInteraction = false;
-      commandFile.run(client, message, args, deletedMessage, pool, tossedSet, roles, messageContent);
-      
-      //console.log('cmd: ' + commandFile.conf.name);
-    }
-    catch (err) {
-      console.error(err);
-      client.logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***COMMAND ERROR:***\n```js\nERR: ' + err + '\n```');
+        client.isInteraction = false;
+        commandFile.run(client, message, args, deletedMessage, pool, tossedSet, roles, messageContent);
+      }
+      catch (err) {
+        console.error(err);
+        client.logChannel.send("```js\n" + Date(Date.now()) + '\n```\n***COMMAND ERROR:***\n```js\nERR: ' + err + '\n```');
+      }
     }
   });
 });
