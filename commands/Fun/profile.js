@@ -22,6 +22,28 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             ctx.fillStyle = '#' + row.background;
             ctx.fillRect(0, 0, 1000, 750);
 
+            //card color is dark
+            function hexBright(color) {
+                var rgb = parseInt(color, 16);   // convert rrggbb to decimal
+                var r = (rgb >> 16) & 0xff;  // extract red
+                var g = (rgb >>  8) & 0xff;  // extract green
+                var b = (rgb >>  0) & 0xff;  // extract blue
+                
+                var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
+                
+                return luma > 50;
+            }
+
+            var isBright = false;
+
+            if(!row.brightness || row.brightness === 'default'){
+                isBright = hexBright(row.background);
+            } else {
+                if(row.brightness === 'dark'){
+                    isBright = true;
+                }
+            }
+
             //avatar
             var user = client.users.resolve(row.userid)
             var avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
@@ -30,16 +52,25 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
             //badge back part
             img.src = fs.readFileSync(`./images/badge-back.png`);
+            if(isBright){
+                img.src = fs.readFileSync(`./images/badge-back-dark.png`);
+            }
             ctx.drawImage(img, 0, 0);
 
             //staff marker
             if (staff.includes(user.id)) {
                 img.src = fs.readFileSync(`./images/staff.jpg`);
+                if(isBright){
+                    img.src = fs.readFileSync(`./images/staff-dark.jpg`);
+                }
                 ctx.drawImage(img, 828, 77);
             }
 
             //profile card
             img.src = fs.readFileSync(`./images/card.png`);
+            if(isBright){
+                img.src = fs.readFileSync(`./images/card-dark.png`);
+            }
             ctx.drawImage(img, 0, 0);
 
             //badges
@@ -81,22 +112,34 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
             //badge back part
             img.src = fs.readFileSync(`./images/card-badge-face.png`);
+            if(isBright){
+                img.src = fs.readFileSync(`./images/card-badge-face-dark.png`);
+            }
             ctx.drawImage(img, 0, 0);
 
 
             ctx.font = `bold 53px Ubuntu`;
             //username
             ctx.fillStyle = '#494949';
+            if(isBright){
+                ctx.fillStyle = '#EEEEEE';
+            }
             ctx.textAlign = "start";
             ctx.fillText(user.username, 511, 146);
 
             //subtitle
             ctx.fillStyle = '#494949';
+            if(isBright){
+                ctx.fillStyle = '#EEEEEE';
+            }
             ctx.textAlign = "start";
             ctx.fillText(row.subtitle, 511, 250);
 
             //coins
             ctx.fillStyle = '#494949';
+            if(isBright){
+                ctx.fillStyle = '#EEEEEE';
+            }
             ctx.textAlign = "start";
 
             var coins = row.coins;
@@ -124,6 +167,9 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             }
             ctx.font = `bold 48px Ubuntu`;
             ctx.fillStyle = '#494949';
+            if(isBright){
+                ctx.fillStyle = '#EEEEEE';
+            }
             ctx.textAlign = "center";
             ctx.fillText(lvl, 440, 255);
 
@@ -156,6 +202,9 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
             ctx.font = `35px Ubuntu`;
             ctx.fillStyle = '#494949';
+            if(isBright){
+                ctx.fillStyle = '#EEEEEE';
+            }
             ctx.textAlign = "start";
             ctx.fillText(combinedBio.join('\n'), 90, 465);
 
@@ -164,6 +213,9 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             //timezone
             if (!row.time || row.time === "Not Set") {
                 ctx.fillStyle = '#494949';
+                if(isBright){
+                    ctx.fillStyle = '#EEEEEE';
+                }
                 ctx.fillText('Not Set', 785, 670);
             } else {
                 //console.log(row.time);
@@ -192,7 +244,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
     }
 
-    var existingCommands = ['bio', 'timezone', 'subtitle', 'badge', 'color'];
+    var existingCommands = ['bio', 'timezone', 'subtitle', 'badge', 'color', 'mode'];
 
     if (!args[0]) {
         //show author's profile here
@@ -201,7 +253,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
         if (!dbResult) {
             //create profile
-            sql.query(`INSERT INTO profile (userid, subtitle, bio, badges, background, color, cmds, coins, time) VALUES ('${message.author.id}', 'Not Set', 'No bio yet', 'null,null', 'FCBA03', 'null', '0', '0', 'Not Set')`);
+            sql.query(`INSERT INTO profile (userid, subtitle, bio, badges, background, color, cmds, coins, time, brightness) VALUES ('${message.author.id}', 'Not Set', 'No bio yet', 'null,null', 'FCBA03', 'null', '0', '0', 'Not Set', 'default')`);
             const embed = new Discord.MessageEmbed()
                 .setColor(`0x${client.colors.good}`)
                 .setTitle('Profile created')
@@ -321,6 +373,37 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                     .setColor(`0x${client.colors.bad}`)
                     .setTitle('An error occured, please try again')
                 message.channel.send({ embeds: [embed] });
+            }
+            break;
+
+
+
+        case 'mode':
+            if(!args[1]){
+                const embed = new Discord.MessageEmbed()
+                    .setColor(`0x${client.colors.bad}`)
+                    .setTitle("Use 'dark' or 'light'")
+                return message.channel.send({ embeds: [embed] });
+            } else {
+                option = args[1].toLowerCase();
+                if(option === 'dark'){
+                    sql.query(`UPDATE profile SET brightness = 'dark' WHERE userid = '${message.author.id}'`);
+                    const embed = new Discord.MessageEmbed()
+                        .setColor(`0x${client.colors.good}`)
+                        .setTitle("Set profile to dark mode")
+                    return message.channel.send({ embeds: [embed] });
+                } else if (option === 'light'){
+                    sql.query(`UPDATE profile SET brightness = 'light' WHERE userid = '${message.author.id}'`);
+                    const embed = new Discord.MessageEmbed()
+                        .setColor(`0x${client.colors.good}`)
+                        .setTitle("Set profile to light mode")
+                    return message.channel.send({ embeds: [embed] });
+                } else {
+                    const embed = new Discord.MessageEmbed()
+                        .setColor(`0x${client.colors.bad}`)
+                        .setTitle("Use 'dark' or 'light'")
+                    return message.channel.send({ embeds: [embed] });
+                }
             }
             break;
 
