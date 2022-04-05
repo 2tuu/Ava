@@ -1,5 +1,6 @@
 const fs = require('fs');
 let config = JSON.parse(fs.readFileSync("./config.json", "utf8"));
+let data = JSON.parse(fs.readFileSync("./plugins/data.json", "utf8"));
 const axios = require('axios');
 const cron = require('node-cron');
 
@@ -50,6 +51,13 @@ exports.run = async (deletedMessage, pool, client) => {
 
 	cron.schedule("*/30 * * * * *", async function () {
 
+		var status = client.user.presence.toJSON();
+
+		if(status.status.length = 0){
+			console.log(`Resetting status (${data.status})`)
+			client.user.setStatus(data.status)
+		}
+
 		var currenttime = Date.now();
 		var remind = await pool.query(`SELECT * FROM timer`);
 		remind = remind.rows;
@@ -64,8 +72,12 @@ exports.run = async (deletedMessage, pool, client) => {
 
 				client.channels.fetch(e.channelcreated)
 					.then(channel => {
-						channel.send(`<@${e.user}>, earlier you reminded me to tell you \`${e.message.replace(/[`]/g, '')}\`` + status);
 						pool.query(`DELETE FROM timer WHERE "endtime" ='${e.endtime}'`);
+						try {
+							channel.send(`<@${e.user}>, earlier you reminded me to tell you \`${e.message.replace(/[`]/g, '')}\`` + status);
+						} catch (err) {
+							client.logChannel.send('```Error sending a reminder (' + channel.id + ')')
+						}
 					})
 					.catch(console.error);
 			}
