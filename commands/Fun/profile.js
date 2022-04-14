@@ -24,13 +24,11 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
             //card color is dark
             function hexBright(color) {
-                var rgb = parseInt(color, 16);   // convert rrggbb to decimal
-                var r = (rgb >> 16) & 0xff;  // extract red
-                var g = (rgb >>  8) & 0xff;  // extract green
-                var b = (rgb >>  0) & 0xff;  // extract blue
-                
-                var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
-                
+                var rgb = parseInt(color, 16);
+                var r = (rgb >> 16) & 0xff;
+                var g = (rgb >>  8) & 0xff;
+                var b = (rgb >>  0) & 0xff;
+                var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
                 return luma > 50;
             }
 
@@ -47,6 +45,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             //avatar
             var user = client.users.resolve(row.userid)
             var avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
+
             img.src = await neko.get(avatarUrl, { autoString: false });
             ctx.drawImage(img, 75, 75, 310, 310);
 
