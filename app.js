@@ -175,7 +175,7 @@ if (config.toggle_beta === "y") {
         client.failedCommands.push(cmd);
       }
     }
-    console.log('Loading beta commands...');
+    console.log('Loading beta commands... (' + commands.length + ')');
     commands.forEach((m) => { cLoader(m); client.totalCommands = client.totalCommands + 1; });
 
 
