@@ -5,6 +5,29 @@ const axios = require('axios');
 const cron = require('node-cron');
 
 exports.run = async (deletedMessage, pool, client) => {
+
+	/*
+	var reactCount = 0;
+
+	row = await pool.query(`select * from reactionroles`);
+		row = row.rows;
+		console.log(row);
+		row.forEach(entry => {
+			console.log('entry: ' + JSON.stringify(entry))
+			var guildID = entry.serverid;
+			var channelID = JSON.parse(entry.messageid).channelid;
+			var messageID = JSON.parse(entry.messageid).messageid;
+
+			client.guilds.fetch(guildID).then(guild=>{
+				guild.channels.fetch(channelID).then(channel=>{
+					channel.messages.fetch(messageID);
+					reactCount = reactCount+1;
+				}).catch(err=>{})
+			}).catch(err=>{})
+		})
+
+	console.log(`Loaded ${reactCount} reaction messages`)
+*/
 	var current = 0
 	current = await axios.get('https://raw.githubusercontent.com/2tuu/Kit/master/plugins/data.json');
 	current = current.data.version;

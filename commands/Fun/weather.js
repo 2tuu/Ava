@@ -14,7 +14,7 @@ exports.run = (client, message, args) => {
 
 
   if (weatheredRecently.has(message.author.id)) {
-    return message.reply("please wait 20 seconds before using that command again");
+    return message.reply("Please wait 20 seconds before using that command again");
   } else {
     weatheredRecently.add(message.author.id);
     setTimeout(() => {
