@@ -32,10 +32,10 @@ exports.run = (client, message, args) => {
 			.setTitle("Invalid User ID (Use either user ID or mention them)")
 		client.messageHandler(message, client.isInteraction, { embeds: [embed] })
 	} else {
-		client.users.fetch(userID).then(myUser => {
+		message.guild.members.fetch(userID).then(myUser => {
 			const embed = new Discord.MessageEmbed()
-				.setDescription("[Link](" + myUser.avatarURL('jpg') + ")")
-				.setImage(`${myUser.avatarURL('jpg')}`)
+				.setDescription("[Link](" + myUser.displayAvatarURL('jpg') + ")")
+				.setImage(`${myUser.displayAvatarURL('jpg')}`)
 			client.messageHandler(message, client.isInteraction, { embeds: [embed] })
 		}).catch((err) => {
 			const embed = new Discord.MessageEmbed()
@@ -44,7 +44,6 @@ exports.run = (client, message, args) => {
 				.setFooter(err)
 			client.messageHandler(message, client.isInteraction, { embeds: [embed] })
 		});
-
 	}
 }
 
