@@ -49,17 +49,55 @@ exports.run = async (deletedMessage, sql, client, message) => {
     var ch = client.guilds.cache.get(guildID).channels.cache.get(row.channel);
 
     if (Attachment[0]) {
+      var desc = "-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + "\nMessage ID: " + message.id + "\n```\n" +"```diff\n+Attachments:\n" + Attachment;
       const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
-        .setDescription("```diff\n-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + "\nMessage ID: " + message.id + "\n```\n" +
-          "```diff\n+Attachments:\n" + Attachment + "\n```")
-      return ch.send({ embeds: [embed] });
+        .setDescription('```diff\n' + desc + '\n```')
+
+      if (desc.length > 2000) {
+        var buf = Buffer.from(desc, 'utf8');
+
+        const embed = new Discord.MessageEmbed()
+          .setColor(`0x${client.colors.bad}`)
+          .setDescription("```diff\n-Message deleted - Output too long:\n```")
+        ch.send({ embeds: [embed] });
+        return ch.send({
+          files: [
+            {
+              attachment: buf,
+              name: 'log.txt'
+            }
+          ]
+        });
+      } else {
+        return ch.send({ embeds: [embed] });
+      }
 
     } else {
+
+      var desc = "-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + "\nMessage ID: " + message.id;
       const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
-        .setDescription("```diff\n-Message Deleted in " + message.channel.name + ':\n' + `${message.author.tag}: ${message.content}` + "\nMessage ID: " + message.id + "\n```")
-      return ch.send({ embeds: [embed] });
+        .setDescription('```diff\n' + desc + '\n```')
+
+      if (desc.length > 2000) {
+        var buf = Buffer.from(desc, 'utf8');
+
+        const embed = new Discord.MessageEmbed()
+          .setColor(`0x${client.colors.bad}`)
+          .setDescription("```diff\n-Message deleted - Output too long:\n```")
+        ch.send({ embeds: [embed] });
+        return ch.send({
+          files: [
+            {
+              attachment: buf,
+              name: 'log.txt'
+            }
+          ]
+        });
+      } else {
+        return ch.send({ embeds: [embed] });
+      }
     }
   }
 
