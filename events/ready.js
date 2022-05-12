@@ -55,7 +55,7 @@ exports.run = async (deletedMessage, pool, client) => {
 	console.log("=============log============");
 
 	client.emojiPile = client.emojis.cache.toJSON().map(e=>e).map(e=>e.id)
-	console.log('Loaded emoji cache')
+	console.log('Loaded local emote cache')
 	//client.user.setStatus('dnd');
 
 	const logChannel = client.channels.resolve(config.logChannel);
