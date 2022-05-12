@@ -1,7 +1,7 @@
 # Data Usage Statement / Privacy Policy
 
 ## View most recent commit to see recent changes
-**Last updated: 3/28/2022**
+**Last updated: 5/12/2022**
 
 Below is the best summary I could write of the data Kit collects, and what it's used for. By using Kit you aknowledge all statements below.
 
@@ -26,6 +26,12 @@ A profile includes the following information:
 These fields (except points and username) can be edited at will by the profile's creator at any time.
 
 For removal of information, refer to the clause at the bottom of this statement.
+
+## Profile Points
+Profile points are used to calculate a user's level, and decide when to increase it and award the appropriate number of quarters.
+In order to iterate this value, Kit will keep an eye on messages, and will iterate that value differently depending on whether or not this message is a command.
+
+These messages are not saved by Kit, merely monitored and counted at most once per minute.
 
 ## Notes
 Kit allows for the creation and storage of a note, which acts like a small text file. The user may input any information they want into this note, but unlike a profile this note cannot be accessed by anyone other than the user who created it. It can also be reset at will by the user who created it.
