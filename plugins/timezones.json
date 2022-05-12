@@ -46,6 +46,11 @@
     },
     "EST": {
         "abbr": "EST",
+        "offset": -5,
+        "text": "(UTC-5:00) New York"
+    },
+    "EET": {
+        "abbr": "EST",
         "offset": 2,
         "text": "(UTC+02:00) Cairo"
     },
