@@ -107,9 +107,9 @@ exports.read = (taggerContent, message, args) => {
             array = array.split(';');
             if(array){
                 if(array[1]){
-                    taggerContent = taggerContent.replace(new RegExp(argAr[g], 'g'),  parseInt(array[0]) + Math.floor(Math.random()*(parseInt(array[0]) - parseInt(array[1]))));
+                    taggerContent = taggerContent.replace(new RegExp(argAr[g]),  parseInt(array[0]) + Math.floor(Math.random()*(parseInt(array[0]) - parseInt(array[1]))));
                 } else {
-                    taggerContent = taggerContent.replace(new RegExp(argAr[g], 'g'), Math.floor(Math.random()*parseInt(array[0])));
+                    taggerContent = taggerContent.replace(new RegExp(argAr[g]), Math.floor(Math.random()*parseInt(array[0])));
                 }
             }
         });
@@ -156,7 +156,7 @@ exports.read = (taggerContent, message, args) => {
         argAr.forEach(a => {
             var array = argAr[g].replace('{choose;', '').replace('}', '');
             array = array.split(';');
-            taggerContent = taggerContent.replace(new RegExp(argAr[g], 'g'), array[Math.floor(Math.random() * array.length)]);
+            taggerContent = taggerContent.replace(new RegExp(argAr[g]), array[Math.floor(Math.random() * array.length)]);
         });
     }
 
