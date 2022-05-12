@@ -66,11 +66,12 @@ client.slashCommands = [];
 client.aliases = new Map();
 client.help = new Map();
 client.colors = {
-  "bad":"FF4D00",
-  "neutral":"FFF200",
-  "good":"62FF00"
+  "bad": "FF4D00",
+  "neutral": "FFF200",
+  "good": "62FF00"
 }
 client.isInteraction = false; //default
+const countedRecently = new Set();
 
 //message send handler
 client.messageHandler = async function m(message, isInteraction, mContent, edit, channel) {
@@ -143,7 +144,7 @@ fs.readdir('./commands', (err, folders) => {
         var cmdName = c.substring(0, c.length - 3); //-.js
 
         client.aliases[cmdName] = { aliases: [] };
-        client.help[cmdName] = { help: cmd.conf.help, format: cmd.conf.format, alias: cmd.conf.alias, category: f, filename: cmdName, DM: cmd.conf.DM, locked: cmd.conf.ownerOnly};
+        client.help[cmdName] = { help: cmd.conf.help, format: cmd.conf.format, alias: cmd.conf.alias, category: f, filename: cmdName, DM: cmd.conf.DM, locked: cmd.conf.ownerOnly };
 
         if (cmd.conf.ownerOnly === false && cmd.conf.slashCommand) {
           const data = cmd.conf.data;
@@ -289,37 +290,45 @@ client.on("messageCreate", async message => {
     }
 
     if (message.author.hasProfile) {
-      if (message.isCommand) {
-        var exp = parseInt(dbResult.cmds);
-        exp = exp + 2;
-        var lvl = parseInt(dbResult.cmds) / 1000;
+      //only iterate at most once a minute
+      if (!countedRecently.has(message.author.id)) {
+        countedRecently.add(message.author.id);
+        setTimeout(() => {
+          countedRecently.delete(message.author.id);
+        }, 60000);
 
-        var oldLevel = Math.round(lvl);
-        var newLevel = Math.round((parseInt(dbResult.cmds) + 2) / 1000);
+        if (message.isCommand) {
+          var exp = parseInt(dbResult.cmds);
+          exp = exp + 2;
+          var lvl = parseInt(dbResult.cmds) / 1000;
 
-        if (oldLevel < newLevel) {
-          var coins = parseInt(dbResult.coins);
-          coins = coins + 25;
-          pool.query(`UPDATE profile SET coins = '${coins}' WHERE userid = '${message.author.id}'`);
+          var oldLevel = Math.round(lvl);
+          var newLevel = Math.round((parseInt(dbResult.cmds) + 2) / 1000);
+
+          if (oldLevel < newLevel) {
+            var coins = parseInt(dbResult.coins);
+            coins = coins + 25;
+            pool.query(`UPDATE profile SET coins = '${coins}' WHERE userid = '${message.author.id}'`);
+          }
+
+          pool.query(`UPDATE profile SET cmds = '${exp}' WHERE userid = '${message.author.id}'`);
+        } else {
+          var exp = parseInt(dbResult.cmds);
+          exp = exp + 1;
+          var lvl = parseInt(dbResult.cmds) / 800;
+
+          var oldLevel = Math.round(lvl);
+          var newLevel = Math.round((parseInt(dbResult.cmds) + 1) / 1000);
+
+          if (oldLevel < newLevel) {
+            var coins = parseInt(dbResult.coins);
+            coins = coins + 25;
+            pool.query(`UPDATE profile SET coins = '${coins}' WHERE userid = '${message.author.id}'`);
+          }
+
+          pool.query(`UPDATE profile SET cmds = '${exp}' WHERE userid = '${message.author.id}'`);
+          return;
         }
-
-        pool.query(`UPDATE profile SET cmds = '${exp}' WHERE userid = '${message.author.id}'`);
-      } else {
-        var exp = parseInt(dbResult.cmds);
-        exp = exp + 1;
-        var lvl = parseInt(dbResult.cmds) / 800;
-
-        var oldLevel = Math.round(lvl);
-        var newLevel = Math.round((parseInt(dbResult.cmds) + 1) / 1000);
-
-        if (oldLevel < newLevel) {
-          var coins = parseInt(dbResult.coins);
-          coins = coins + 25;
-          pool.query(`UPDATE profile SET coins = '${coins}' WHERE userid = '${message.author.id}'`);
-        }
-
-        pool.query(`UPDATE profile SET cmds = '${exp}' WHERE userid = '${message.author.id}'`);
-        return;
       }
     }
 
@@ -378,7 +387,7 @@ client.on("messageCreate", async message => {
       const embed = new Discord.MessageEmbed()
         .setColor(`0x${client.colors.bad}`)
         .setTitle("This command is either locked, or currently undergoing changes")
-      return message.channel.send({embeds: [embed]});
+      return message.channel.send({ embeds: [embed] });
     } else {
       if (commandFile.conf.DM === false && !message.guild) return;
       if (client.blacklist.includes(message.author.id)) return;
