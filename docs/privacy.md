@@ -33,6 +33,8 @@ In order to iterate this value, Kit will keep an eye on messages, and will itera
 
 These messages are not saved by Kit, merely monitored and counted at most once per minute.
 
+This monitor is completely inactive if the user does not have a profile.
+
 ## Notes
 Kit allows for the creation and storage of a note, which acts like a small text file. The user may input any information they want into this note, but unlike a profile this note cannot be accessed by anyone other than the user who created it. It can also be reset at will by the user who created it.
 
