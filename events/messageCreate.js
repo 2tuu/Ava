@@ -25,7 +25,7 @@ exports.run = async (deletedMessage, pool, client, message) => {
                   message.delete();
                 } else {
                   //if role is missing
-                  message.channel.send('It looks like the role is missing, please let a moderator know');
+                  message.channel.send('It looks like the role is missing from the server, please let a moderator know');
                   message.delete();
                 }
               } else {
