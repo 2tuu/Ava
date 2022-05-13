@@ -7,6 +7,101 @@ const usedRecently = new Set();
 
 exports.run = async (client, message, args) => {
 
+	async function frameGenerator(colors, average) {
+		try {
+			//check for profile before even generating the image
+			let canvas = Canvas.createCanvas(153, 299);
+			let Image = Canvas.Image;
+			let ctx = canvas.getContext('2d');
+			ctx.imageSmoothingQuality = "high"
+			let img = new Image();
+
+			//card color is dark
+			function hexBright(color) {
+				var rgb = parseInt(color, 16);
+				var r = (rgb >> 16) & 0xff;
+				var g = (rgb >> 8) & 0xff;
+				var b = (rgb >> 0) & 0xff;
+				var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+				return luma > 120;
+			}
+
+			ctx.textAlign = "center";
+			ctx.font = `15px Ubuntu`;
+
+			ctx.fillStyle = colors[0]; //#hex code
+			ctx.fillRect(11, 11, 131, 38);
+			if (hexBright(colors[0].replace('#', ''))) {
+				ctx.fillStyle = '#000000';
+			} else {
+				ctx.fillStyle = '#FFFFFF';
+			}
+			ctx.fillText(colors[0], 76, 35);
+
+			ctx.fillStyle = colors[1]; //#hex code
+			ctx.fillRect(11, 59, 131, 38);
+			if (hexBright(colors[1].replace('#', ''))) {
+				ctx.fillStyle = '#000000';
+			} else {
+				ctx.fillStyle = '#FFFFFF';
+			}
+			ctx.fillText(colors[1], 76, (35 + 48 * 1));
+
+			ctx.fillStyle = colors[2]; //#hex code
+			ctx.fillRect(11, 107, 131, 38);
+			if (hexBright(colors[2].replace('#', ''))) {
+				ctx.fillStyle = '#000000';
+			} else {
+				ctx.fillStyle = '#FFFFFF';
+			}
+			ctx.fillText(colors[2], 76, (35 + 48 * 2));
+
+			ctx.fillStyle = colors[3]; //#hex code
+			ctx.fillRect(11, 155, 131, 38);
+			if (hexBright(colors[3].replace('#', ''))) {
+				ctx.fillStyle = '#000000';
+			} else {
+				ctx.fillStyle = '#FFFFFF';
+			}
+			ctx.fillText(colors[3], 76, (35 + 48 * 3));
+
+			ctx.fillStyle = colors[4]; //#hex code
+			ctx.fillRect(11, 203, 131, 38);
+			if (hexBright(colors[4].replace('#', ''))) {
+				ctx.fillStyle = '#000000';
+			} else {
+				ctx.fillStyle = '#FFFFFF';
+			}
+			ctx.fillText(colors[4], 76, (35 + 48 * 4));
+
+			ctx.fillStyle = average; //#hex code
+			ctx.fillRect(11, 251, 131, 38);
+			if (hexBright(average.replace('#', ''))) {
+				ctx.fillStyle = '#000000';
+			} else {
+				ctx.fillStyle = '#FFFFFF';
+			}
+			ctx.fillText(average, 76, (35 + 48 * 5));
+
+			img.src = fs.readFileSync(`./images/color-frame.png`);
+			ctx.drawImage(img, 0, 0);
+
+			message.channel.send((`**Colors:**`, {
+				files: [{
+					attachment: canvas.toBuffer(),
+					name: 'colors.png'
+				}]
+			}));
+
+		} catch (err) {
+			const embed = new Discord.MessageEmbed()
+				.setColor(`0x${client.colors.bad}`)
+				.setTitle('ERR:\n```js\n' + err + '\n```')
+			return message.channel.send({ embeds: [embed] });
+		}
+
+	}
+
 	const hex = /^#?[0-9A-F]{6}$/i;
 
 	if (!args[0]) {
@@ -34,7 +129,7 @@ exports.run = async (client, message, args) => {
 		ctx.fillRect(0, 0, 121, 121);
 
 		var avatarUrl = `https://cdn.discordapp.com/avatars/${message.member.id}/${message.member.user.avatar}.png`;
-		
+
 		img.src = await neko.get(avatarUrl, { autoString: false });
 		ctx.drawImage(img, 0, 0, 121, 121);
 
@@ -48,47 +143,33 @@ exports.run = async (client, message, args) => {
 		}
 
 		var color1 = ctx.getImageData(24, 24, 1, 1);
-			color1 = '#' + rgb(color1.data[0], color1.data[1], color1.data[2])
-
 		var color2 = ctx.getImageData(24, 96, 1, 1);
-			color2 = '#' + rgb(color2.data[0], color2.data[1], color2.data[2])
-
 		var color3 = ctx.getImageData(61, 61, 1, 1);
-			color3 = '#' + rgb(color3.data[0], color3.data[1], color3.data[2])
-
 		var color4 = ctx.getImageData(96, 24, 1, 1);
-			color4 = '#' + rgb(color4.data[0], color4.data[1], color4.data[2])
-
 		var color5 = ctx.getImageData(96, 96, 1, 1);
-			color5 = '#' + rgb(color5.data[0], color5.data[1], color5.data[2])
 
-		const embed1 = new Discord.MessageEmbed()
-			.setColor("0x" + color1.replace("#", ""))
-			.setDescription(color1)
-		const embed2 = new Discord.MessageEmbed()
-			.setColor("0x" + color2.replace("#", ""))
-			.setDescription(color2)
-		const embed3 = new Discord.MessageEmbed()
-			.setColor("0x" + color3.replace("#", ""))
-			.setDescription(color3)
-		const embed4 = new Discord.MessageEmbed()
-			.setColor("0x" + color4.replace("#", ""))
-			.setDescription(color4)
-		const embed5 = new Discord.MessageEmbed()
-			.setColor("0x" + color5.replace("#", ""))
-			.setDescription(color5)
+		var averageColor = rgb(
+			Math.round((color1.data[0] + color2.data[0] + color3.data[0] + color4.data[0] + color5.data[0]) / 5),
+			Math.round((color1.data[1] + color2.data[1] + color3.data[1] + color4.data[1] + color5.data[1]) / 5),
+			Math.round((color1.data[2] + color2.data[2] + color3.data[2] + color4.data[2] + color5.data[2]) / 5)
+		);
 
 		if (usedRecently.has(message.author.id)) {
 			return message.reply("Please wait 2 minutes before using that argument again");
-			} else {
+		} else {
 			usedRecently.add(message.author.id);
 			setTimeout(() => {
 				usedRecently.delete(message.author.id);
 			}, 120000);
-			}
-		
-		client.messageHandler(message, client.isInteraction, { embeds: [embed1, embed2, embed3, embed4, embed5] });
-		
+		}
+
+		frameGenerator([
+			'#' + rgb(color1.data[0], color1.data[1], color1.data[2]),
+			'#' + rgb(color2.data[0], color2.data[1], color2.data[2]),
+			'#' + rgb(color3.data[0], color3.data[1], color3.data[2]),
+			'#' + rgb(color4.data[0], color4.data[1], color4.data[2]),
+			'#' + rgb(color5.data[0], color5.data[1], color5.data[2])
+		], ('#' + averageColor))
 
 		//console.log('colors: \n' + color1 + '\n' + color2 + '\n' + color3 + '\n' + color4 + '\n' + color5)
 	} else if (hex.test(args[0])) {
@@ -120,26 +201,11 @@ exports.run = async (client, message, args) => {
 }
 
 exports.conf = {
-	name: "Color",
+	name: "Color [BETA]",
 	help: "View a hex code's color, or generate a random one",
 	format: "k?color {random/#hex/avatar/avy}",
 	DM: false,
 	ownerOnly: false,
 	alias: ['colour'], //innit
-	slashCommand: true,
-	data: {
-		name: "color",
-		description: "Generate or visualize a hex code",
-		options: [
-			{
-				choices: undefined,
-				autocomplete: undefined,
-				type: 3,
-				name: 'arguments',
-				description: 'Arguments',
-				required: false
-			}
-		],
-		default_permission: undefined
-	}
+	slashCommand: false
 }
