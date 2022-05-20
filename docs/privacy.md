@@ -10,9 +10,9 @@ Any data used and collected by Kit is not shared with a third party (besides Dis
 # Table of Contents
  1. [Profiles](https://github.com/2tuu/Kit/blob/master/docs/privacy.md#profiles)
  2. [Profile Points](https://github.com/2tuu/Kit/blob/master/docs/privacy.md#profile-points)
- 3. [Notes](https://github.com/2tuu/Kit/blob/master/docs/privacy.md#profile-points)
+ 3. [Notes](https://github.com/2tuu/Kit/blob/master/docs/privacy.md#notes)
  4. [Monitored Information](https://github.com/2tuu/Kit/blob/master/docs/privacy.md#monitored-information)
- 5. [Non-Personal Information](https://github.com/2tuu/Kit/blob/master/docs/privacy.md#monitored-information)
+ 5. [Non-Personal Information](https://github.com/2tuu/Kit/blob/master/docs/privacy.md#non-personal-information)
  6. [Information Removal Requests](https://github.com/2tuu/Kit/blob/master/docs/privacy.md#information-removal-requests)
 
 # What Data is Stored Permanently?
