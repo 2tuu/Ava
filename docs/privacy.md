@@ -1,14 +1,21 @@
 # Data Usage Statement / Privacy Policy
 
 ## View most recent commit to see recent changes
-**Last updated: 5/12/2022**
+**Last updated: 5/20/2022**
 
 Below is the best summary I could write of the data Kit collects, and what it's used for. By using Kit you aknowledge all statements below.
 
 Any data used and collected by Kit is not shared with a third party (besides Discord obviously) unless absolutely necessary.
 
+# Table of Contents
+ 1. [Profiles](https://github.com/2tuu/Kit/blob/master/docs/privacy.md#profiles)
+ 2. [Profile Points](https://github.com/2tuu/Kit/blob/master/docs/privacy.md#profile-points)
+ 3. [Notes](https://github.com/2tuu/Kit/blob/master/docs/privacy.md#profile-points)
+ 4. [Monitored Information](https://github.com/2tuu/Kit/blob/master/docs/privacy.md#monitored-information)
+ 5. [Non-Personal Information](https://github.com/2tuu/Kit/blob/master/docs/privacy.md#monitored-information)
+ 6. [Information Removal Requests](https://github.com/2tuu/Kit/blob/master/docs/privacy.md#information-removal-requests)
 
-# What Data is Stored Permanently
+# What Data is Stored Permanently?
 In short, no data is stored *forever*. Some data can be deleted by the users, other things, like profiles can be reset and made empty by a user. But regardless of whether or not the user themselves can delete it from the bot's database, it can be deleted entirely at the request of an admin.
 
 ## Profiles
