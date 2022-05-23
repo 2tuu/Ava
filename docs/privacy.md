@@ -1,7 +1,5 @@
 # Data Usage Statement / Privacy Policy
-
-## View most recent commit to see recent changes
-**Last updated: 5/20/2022**
+**Last updated: 5/23/2022 - View most recent commit to see changes**
 
 Below is the best summary I could write of the data Kit collects, and what it's used for. By using Kit you aknowledge all statements below.
 
@@ -49,7 +47,6 @@ While information stored in a note is not accessible by any user other than the 
 
 
 # Monitored Information
-## Messages and Server Settings
 Messages may be monitored by certain modules if they are enabled, as well as the bot in general in order to determine whether or not a messages is a command.
 
 While data is not stored outside of discord some data may be reported to server staff depending on configuration of the modlog module.
@@ -69,7 +66,6 @@ No message data outside of data given to certain modules for the express purpose
 
 
 # Non-Personal Information
-## Server-Specific Settings
 Any settings set using the modlog, giverole, server password, prefix, or any future moderation module is stored alongside the rest of Kit's permanent data.
 
 This data includes:
