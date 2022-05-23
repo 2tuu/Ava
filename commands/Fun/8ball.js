@@ -22,7 +22,7 @@ exports.conf = {
   format: "k?8ball [question]",
   DM: true,
   ownerOnly: false,
-  alias: ["am", "are", "is", "can", "do", "will", "does"],
+  alias: ["am", "are", "is", "can", "do", "will", "does", "would"],
   slashCommand: true,
   data: {
     name: "8ball",
