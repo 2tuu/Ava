@@ -3,12 +3,12 @@ const tagReader = require('./../../plugins/tag.js');
 
 exports.run = async (client, message, args, deletedMessage, sql) => {
 
-	if(!args[0]){
-		const embed = new Discord.MessageEmbed()
-			.addField("Description", client.help['tag'].help)
-			.addField("Usage", '```' + client.help['tag'].format + '```')
-		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
-	}
+    if (!args[0]) {
+        const embed = new Discord.MessageEmbed()
+            .addField("Description", client.help['tag'].help)
+            .addField("Usage", '```' + client.help['tag'].format + '```')
+        return message.channel.send({ embeds: [embed] });
+    }
 
     //get all tags for appropriate server
     var tags = await sql.query(`SELECT * FROM tags WHERE serverId ='${message.guild.id}'`);
@@ -22,7 +22,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         const embed = new Discord.MessageEmbed()
             .setColor(`0x${client.colors.bad}`)
             .setTitle("This command needs at least 1 argument")
-        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+        return message.channel.send({ embeds: [embed] });
     }
 
     var arg = args[0].toLowerCase();
@@ -38,7 +38,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setTitle("Give me something to put in the tag")
-                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                return message.channel.send({ embeds: [embed] });
             }
 
             var tag = await sql.query(`SELECT * FROM tags WHERE serverid ='${message.guild.id}' AND tagname = '${args[1].toLowerCase()}'`);
@@ -47,12 +47,12 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
                 const embed = new Discord.MessageEmbed()
                     .setTitle(`Tag '${args[1].toLowerCase()}' created`)
-                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                return message.channel.send({ embeds: [embed] });
             } else {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setTitle("This tag already exists")
-                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                return message.channel.send({ embeds: [embed] });
             }
             return;
         case 'edit':
@@ -62,24 +62,24 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setTitle("This tag doesn't exist")
-                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                return message.channel.send({ embeds: [embed] });
             } else {
                 if (tag.rows[0].ownerid !== message.author.id) {
                     const embed = new Discord.MessageEmbed()
                         .setColor(`0x${client.colors.bad}`)
                         .setTitle("This tag doesn't belong to you")
-                    return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                    return message.channel.send({ embeds: [embed] });
                 }
                 if (args.slice(2).join(' ').length < 1) {
                     const embed = new Discord.MessageEmbed()
                         .setColor(`0x${client.colors.bad}`)
                         .setTitle("Your tag can't be empty")
-                    return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                    return message.channel.send({ embeds: [embed] });
                 }
                 sql.query(`UPDATE tags SET tagContent = '${args.slice(2).join(' ')}' WHERE serverId ='${message.guild.id}' AND tagName = '${args[1].toLowerCase()}'`);
                 const embed = new Discord.MessageEmbed()
                     .setTitle("Your tag was edited")
-                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                return message.channel.send({ embeds: [embed] });
             }
             return;
         case 'delete':
@@ -89,19 +89,19 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setTitle("This doesn't exist")
-                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                return message.channel.send({ embeds: [embed] });
             } else {
                 if (tag.rows[0].ownerid !== message.author.id) {
                     const embed = new Discord.MessageEmbed()
                         .setColor(`0x${client.colors.bad}`)
                         .setTitle("This tag doesn't belong to you")
-                    return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                    return message.channel.send({ embeds: [embed] });
                 }
                 sql.query(`DELETE FROM tags WHERE serverId ='${message.guild.id}' AND tagName = '${args[1].toLowerCase()}'`);
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setTitle("This tag has been deleted")
-                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                return message.channel.send({ embeds: [embed] });
             }
             return;
         case 'search':
@@ -112,7 +112,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setTitle("No tags were found")
-                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                return message.channel.send({ embeds: [embed] });
             } else {
                 var results = tag.rows.map(g => g.tagname);
                 client.messageHandler(message, client.isInteraction, 'Results:\n```' +
@@ -127,7 +127,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setTitle("No tags were found")
-                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                return message.channel.send({ embeds: [embed] });
             } else {
                 var result = tag.rows[0].tagcontent;
                 var t = tagReader.read(result, message, []);
@@ -145,7 +145,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setTitle("You don't have any tags")
-                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                return message.channel.send({ embeds: [embed] });
             }
 
             function chunkArray(myArray, chunk_size) {
@@ -170,13 +170,49 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setTitle("An error occured: `" + err + "`")
-                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                return message.channel.send({ embeds: [embed] });
             });
 
             var e = 0;
             while (e < results.length) {
                 sendUser.send(results[e].join(', ')).catch((err) => { });
                 e = e + 1;
+            }
+            return;
+        case 'raw':
+            if(!args[1]){
+                const embed = new Discord.MessageEmbed()
+                    .setColor(`0x${client.colors.bad}`)
+                    .setTitle("There is no tag with that name")
+                return message.channel.send({ embeds: [embed] });
+            }
+
+            if (tagnames.includes(args[1].toLowerCase())) {
+
+                var results = await sql.query(`SELECT * FROM tags WHERE serverId ='${message.guild.id}' AND tagname = '${args[1]}'`);
+                results = results.rows[0];
+
+                var t = results.tagcontent;
+                var buf = Buffer.from(t, 'utf8');
+
+                const embed = new Discord.MessageEmbed()
+                    .setColor(`0x${client.colors.bad}`)
+                    .setDescription("```diff\n-Raw Tag Code:\n```")
+                message.channel.send({ embeds: [embed] });
+                message.channel.send({
+                    files: [
+                        {
+                            attachment: buf,
+                            name: 'output.txt'
+                        }
+                    ]
+                });
+
+            } else {
+                const embed = new Discord.MessageEmbed()
+                    .setColor(`0x${client.colors.bad}`)
+                    .setTitle("There is no tag with that name")
+                return message.channel.send({ embeds: [embed] });
             }
             return;
         default:
@@ -206,24 +242,24 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                         .setColor(`0x${client.colors.bad}`)
                         .setDescription("```diff\n-Output is over 3,000 character\n```")
                     message.channel.send({ embeds: [embed] });
-                } else if (t.length === 0){
+                } else if (t.length === 0) {
                     const embed = new Discord.MessageEmbed()
                         .setColor(`0x${client.colors.bad}`)
                         .setDescription("```diff\n-Output is empty\n```")
-                    message.channel.send({ embeds: [embed] });            
+                    message.channel.send({ embeds: [embed] });
                 } else {
                     client.messageHandler(message, client.isInteraction, t).catch((err) => {
                         const embed = new Discord.MessageEmbed()
                             .setColor(`0x${client.colors.bad}`)
                             .setTitle("An error occured: `" + err + "`")
-                        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                        return message.channel.send({ embeds: [embed] });
                     });
                 }
             } else {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
                     .setTitle("There is no tag with that name")
-                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                return message.channel.send({ embeds: [embed] });
             }
             return;
     }
