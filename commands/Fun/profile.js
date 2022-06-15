@@ -3,6 +3,7 @@ const Canvas = require("canvas");
 const neko = require('nekocurl');
 const fs = require("fs");
 const config = require('./../../config.json');
+const usedRecently = new Set();
 
 exports.run = async (client, message, args, deletedMessage, sql) => {
 
@@ -522,6 +523,11 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
 
         case 'color':
+
+            if (usedRecently.has(message.author.id)) {
+                return message.reply("Please wait 2 minutes before using that argument again");
+            }
+
             var hex = /^#?[0-9A-F]{6}$/i;
 
             if (!args[1]) {
@@ -534,6 +540,11 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             var color = args[1].replace('#', '');
 
             if (hex.test(color)) {
+                usedRecently.add(message.author.id);
+                setTimeout(() => {
+                    usedRecently.delete(message.author.id);
+                }, 120000);
+
                 sql.query(`UPDATE profile SET background = '${color}' WHERE userid = '${message.author.id}'`);
 
                 const embed = new Discord.MessageEmbed()
