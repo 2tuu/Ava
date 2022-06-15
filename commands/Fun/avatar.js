@@ -41,7 +41,7 @@ exports.run = (client, message, args) => {
 			const embed = new Discord.MessageEmbed()
 				.setColor(`0x${client.colors.bad}`)
 				.setTitle("Invalid User ID (Use either user ID or mention them)")
-				.setFooter(err)
+				.setFooter('ERROR: ' + err)
 			client.messageHandler(message, client.isInteraction, { embeds: [embed] })
 		});
 	}
