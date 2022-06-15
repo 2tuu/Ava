@@ -6,6 +6,18 @@ const cron = require('node-cron');
 
 exports.run = async (deletedMessage, pool, client) => {
 
+	var guildCount = 0;
+
+	client.guilds.fetch().then(g=>{
+		var guildPile = g.map(e=>e.id);
+		guildPile.forEach(e=>{
+			client.guilds.fetch(e).then(fetchedGuild=>{
+				fetchedGuild.members.fetch()
+				guildCount = guildCount + 1;
+			})
+		})
+	})
+
 	/*
 	var reactCount = 0;
 
@@ -51,7 +63,7 @@ exports.run = async (deletedMessage, pool, client) => {
 	} else {
 		console.log(`Version: ` + client.version + ' - ' + client.codename);
 	}
-	console.log(`${client.channels.cache.size} channels - ${client.guilds.cache.size} guilds`);
+	console.log(`${client.channels.cache.size} channels\n${client.guilds.cache.size} guilds`);
 	console.log("=============log============");
 
 	client.emojiPile = client.emojis.cache.toJSON().map(e=>e).map(e=>e.id)
