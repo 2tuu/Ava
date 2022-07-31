@@ -1,17 +1,12 @@
-var startup = 'prod';
-
+var option = 'prod';
 if (process.argv.slice(2)[0]) {
-  var option = process.argv.slice(2)[0];
-
+  option = process.argv.slice(2)[0];
   if (option.toLowerCase() == 'beta') {
-    console.log('Using beta token\n============================')
-    startup = 'beta';
-  } else {
-    console.log('Incorrect startup option, using production token\n============================')
+    option = 'beta';
   }
-} else {
-  console.log('Using production token\n============================')
 }
+
+console.log(`Using ${option} token\n============================`)
 
 const Discord = require(`discord.js`);
 const { Client } = require('discord.js');
@@ -40,11 +35,13 @@ const { Routes } = require('discord-api-types/v9');
 const fs = require(`fs`);
 const config = require(`./config.json`);
 
+//token choice
 var token = config.token_prod;
 if (option == 'beta') {
   token = config.token_beta;
 }
 
+//postgre setup
 const { Pool } = require('pg')
 const pool = new Pool({
   user: config.dbuser,
@@ -98,14 +95,13 @@ const roles = new Set();
 const tossedSet = new Set();
 const cooldown = new Set();
 
+//timestamp formatter
 client.timeCon = function timeCon(timestamp) {
   var date = new Date(timestamp);
   var hours = date.getHours();
   var minutes = "0" + date.getMinutes();
   var seconds = "0" + date.getSeconds();
-
   var formattedTime = hours + ':' + minutes.substring(-2) + ':' + seconds.substring(-2);
-
   return formattedTime;
 }
 
@@ -128,7 +124,7 @@ fs.readdir(`./events/`, (err, files) => {
   });
 });
 
-//command loader (text based / interactions)
+//command loader (text based commands + slash interactions)
 fs.readdir('./commands', (err, folders) => {
   folders.forEach(f => {
     fs.readdir(`./commands/${f}`, (err, commands) => {
@@ -141,6 +137,7 @@ fs.readdir('./commands', (err, folders) => {
           client.failedCommands.push(c.replace('.js', ''));
           return console.error(`Loading Error (${c}): ${err.stack}`);
         }
+
         var cmdName = c.substring(0, c.length - 3); //-.js
 
         client.aliases[cmdName] = { aliases: [] };
@@ -152,7 +149,6 @@ fs.readdir('./commands', (err, folders) => {
         }
 
         cmd.conf.alias.forEach((alias) => { client.aliases[cmdName].aliases.push(alias); });
-
         return false;
       }
       console.log(`Loading '${f}' commands... (${commands.length})`);
@@ -169,7 +165,6 @@ if (config.toggle_beta === "y") {
         const cmd = require(`./commands-locked/${c}`);
         var cmdName = c.substring(0, c.length - 3);
         cmd.conf.alias.forEach((alias) => { client.aliases[cmdName].aliases.push(alias); });
-
         return false;
       } catch (err) {
         console.error(`Beta Loading Error: ${err.stack}`);
@@ -178,8 +173,6 @@ if (config.toggle_beta === "y") {
     }
     console.log('Loading beta commands... (' + commands.length + ')');
     commands.forEach((m) => { cLoader(m); client.totalCommands = client.totalCommands + 1; });
-
-
   });
 }
 
@@ -211,12 +204,11 @@ client.on('interactionCreate', async interaction => {
   if (command.ownerOnly === true && !config.evalAllow.includes(interaction.user.id)) {
     return interaction.reply('Disabled for testing or owner-only command');
   }
-
   command.run(client, interaction, args, deletedMessage, pool, tossedSet, roles, messageContent)
 });
 
 
-//Message event
+//message event
 client.on("messageCreate", async message => {
   function dmCheck() {
     if (message.guild) {
