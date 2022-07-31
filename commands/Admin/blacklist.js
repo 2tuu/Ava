@@ -1,8 +1,7 @@
 const Discord = require('discord.js');
+const { e } = require('mathjs');
 
-//TODO fix this junk
 exports.run = async (client, message, args, deletedMessage, sql) => {
-
     if (args[0].toLowerCase() === 'lookup') {
         sql.query(`SELECT * FROM blacklist WHERE userid ='${args[1]}'`).then(row => {
             row = row.rows[0];
@@ -20,6 +19,22 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         }).catch((err) => {
             return client.messageHandler(message, client.isInteraction, 'Database error:\n```js\n' + err + '\n```');
         });
+    } else if (args[0].toLowerCase() === "list") {
+        sql.query(`SELECT * FROM blacklist`).then(row => {
+            row = row.rows;
+            var formatted = []
+            for(var i in row){
+                formatted.push(row[i].userid + '\t  ' + row[i].reason)
+            }
+            var formatted = 'ID\t\t\t  REASON\n' + formatted.join('\n');
+            var buf = Buffer.from(formatted, 'utf8');
+
+            message.channel.send({
+                files: [{attachment: buf, name: 'log.txt'}]
+            });
+        }).catch((err) => {
+            return client.messageHandler(message, client.isInteraction, 'Database error:\n```js\n' + err + '\n```');
+        });
     } else if (args[0].toLowerCase() === "delete") {
         sql.query(`DELETE FROM blacklist WHERE userid ='${args[1]}'`).then(row => {
             row = row.rows;
@@ -32,6 +47,10 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         });
     } else {
 
+        if(!parseInt(args[0])){
+            return message.channel.send('Not an ID')
+        }
+        
         var reason = 'No reason';
         if (args[1]) {
             reason = args.slice(1).join(' ');
