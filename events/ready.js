@@ -1,10 +1,26 @@
 const fs = require('fs');
 let config = JSON.parse(fs.readFileSync("./config.json", "utf8"));
-let data = JSON.parse(fs.readFileSync("./plugins/data.json", "utf8"));
 const axios = require('axios');
 const cron = require('node-cron');
 
 exports.run = async (deletedMessage, pool, client) => {
+
+	var altStatus = client.config.prefix + 'help';
+	client.user.setPresence({ activities: [{ name: client.data.status }], status: 'online' });
+
+	(async function setStatus() {
+		while (true) {
+			await new Promise(resolve => setTimeout(resolve, 600000));
+
+			var currentStatus = client.user.presence.activities[0].name;
+
+			if(currentStatus === client.data.status){
+				client.user.setPresence({ activities: [{ name: altStatus }], status: 'online' });
+			} else {
+				client.user.setPresence({ activities: [{ name: client.data.status }], status: 'online' });
+			}
+		}
+	})();
 
 	var guildCount = 0;
 
@@ -68,7 +84,6 @@ exports.run = async (deletedMessage, pool, client) => {
 
 	client.emojiPile = client.emojis.cache.toJSON().map(e=>e).map(e=>e.id)
 	console.log('Loaded local emote cache')
-	//client.user.setStatus('dnd');
 
 	const logChannel = client.channels.resolve(config.logChannel);
 	logChannel.send(`\`\`\`js
@@ -85,13 +100,6 @@ exports.run = async (deletedMessage, pool, client) => {
 	}
 
 	cron.schedule("*/30 * * * * *", async function () {
-
-		var status = client.user.presence.toJSON();
-
-		if(status.status.length = 0){
-			console.log(`Resetting status (${data.status})`)
-			client.user.setStatus(data.status)
-		}
 
 		var currenttime = Date.now();
 		var remind = await pool.query(`SELECT * FROM timer`);
