@@ -86,7 +86,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 exports.conf = {
     name: "Timestamp",
     help: "Generate a timestamp relative to now, or your own local time if you have a profile",
-    format: "k?timestamp [now/#h#m/time] {#:##am|pm}",
+    format: "k?timestamp [now/#h#m/time #:##am|pm]",
     DM: true,
     ownerOnly: false,
     alias: ['time'],
