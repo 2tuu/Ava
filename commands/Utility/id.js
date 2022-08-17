@@ -17,6 +17,13 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
         }
     }
 
+    if(!args[0]){
+		const embed = new Discord.MessageEmbed()
+			.addField("Description", client.help['id'].help)
+			.addField("Usage", '```' + client.help['id'].format + '```')
+		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+	}
+
     switch (args[0].toLowerCase()) {
         case 'role':
             var role = findRole(args.slice(1).join(' ').toLowerCase());
@@ -33,7 +40,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             }
         case 'me':
             var embed = new Discord.MessageEmbed()
-                .setDescription('ID: ```' + message.author.ID + '```')
+                .setDescription('ID: ```' + message.author.id + '```')
             return message.channel.send({ embeds: [embed] });
         case 'server':
             var embed = new Discord.MessageEmbed()
