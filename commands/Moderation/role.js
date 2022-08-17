@@ -74,9 +74,13 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 final = final.join(',');
 
                 sql.query(`UPDATE giverole SET rolearray = '${final}' WHERE serverid ='${message.guild.id}'`);
-                return client.messageHandler(message, client.isInteraction, `I've added the role '${res.name}' to your list`);
+                const embed = new Discord.MessageEmbed()
+                    .setDescription(`I've added the role '${res.name}' to your list`)
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             } else {
-                return client.messageHandler(message, client.isInteraction, `This role is already on the list`);
+                const embed = new Discord.MessageEmbed()
+                    .setDescription(`This role is already on the list`)
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
 
         } else {
@@ -84,7 +88,9 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             if (!message.guild.roles.cache.find(r => r.name.toLowerCase() === res)) {
                 var friendlynames;
 
-                return client.messageHandler(message, client.isInteraction, "Sorry, I can't find that role");
+                const embed = new Discord.MessageEmbed()
+                    .setDescription("Sorry, I can't find that role")
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
             res = message.guild.roles.cache.find(r => r.name.toLowerCase() === res);
 
@@ -98,16 +104,28 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 final = final.join(',');
 
                 sql.query(`UPDATE giverole SET rolearray = '${final}' WHERE serverid ='${message.guild.id}'`);
-                return client.messageHandler(message, client.isInteraction, `I've added the role '${res.name}' to your list`);
+                const embed = new Discord.MessageEmbed()
+                    .setDescription(`I've added the role '${res.name}' to your list`)
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             } else {
-                return client.messageHandler(message, client.isInteraction, `This role is already on the list`);
+                const embed = new Discord.MessageEmbed()
+                    .setDescription(`This role is already on the list`)
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             }
 
         }
     } else if (args[0].toLowerCase() === 'delete') {
-        if (!message.member.permissions.has('MANAGE_ROLES')) return message.reply("Sorry, you don't have permission to use this.");
+        if (!message.member.permissions.has('MANAGE_ROLES')){
+            const embed = new Discord.MessageEmbed()
+                .setDescription("Sorry, you don't have permission to use this.")
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+        }
 
-        if (!args[1]) return client.messageHandler(message, client.isInteraction, "I need more information than that");
+        if (!args[1]){
+            const embed = new Discord.MessageEmbed()
+                .setDescription("I need more information than that")
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+        }
 
         var row = await sql.query(`SELECT * FROM giverole WHERE serverid ='${message.guild.id}'`);
         row = row.rows[0];
@@ -122,17 +140,29 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             });
             res = res.join(',');
             sql.query(`UPDATE giverole SET rolearray = '${res}' WHERE serverid ='${message.guild.id}'`);
-            client.messageHandler(message, client.isInteraction, "I've removed every role I couldn't find from the list");
+            const embed = new Discord.MessageEmbed()
+                .setDescription("I've removed every role I couldn't find from the list")
+            client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         } else {
 
             var res = message.guild.roles.cache.find(r => r.name.toLowerCase() === args.slice(1).join(' ').toLowerCase());
-            if (!res) return client.messageHandler(message, client.isInteraction, "Sorry, I can't find that role - Try checking 'k?help roles'");
-            if (!row.rolearray.includes(res.id)) return client.messageHandler(message, client.isInteraction, "Sorry, that role isn't on the list");
+            if (!res){
+                const embed = new Discord.MessageEmbed()
+                    .setDescription("Sorry, I can't find that role - Try checking 'k?help roles'")
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+            }
+            if (!row.rolearray.includes(res.id)){
+                const embed = new Discord.MessageEmbed()
+                    .setDescription("Sorry, that role isn't on the list")
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+            }
 
             var roleName = res.name;
             res = row.rolearray.split(',').filter(e => e !== res.id).join(',');
             sql.query(`UPDATE giverole SET rolearray = '${res}' WHERE serverid ='${message.guild.id}'`);
-            return client.messageHandler(message, client.isInteraction, `'${roleName}' has been removed from the list`);
+            const embed = new Discord.MessageEmbed()
+                .setDescription(`'${roleName}' has been removed from the list`)
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
     } else {
         var res = message.guild.roles.cache.find(r => r.name.toLowerCase() === args[0].toLowerCase());
@@ -150,7 +180,9 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             });
 
             if (friendlynames.length < 1) {
-                return client.messageHandler(message, client.isInteraction, "Sorry, that role isn't on the list");
+                const embed = new Discord.MessageEmbed()
+                    .setDescription("Sorry, that role isn't on the list")
+                return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
             } else {
                 friendlynames = friendlynames.sort((a, b) => a.name.length - b.name.length);
                 res = friendlynames[0];
@@ -164,14 +196,18 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             } catch (err) {
                 return client.messageHandler(message, client.isInteraction, "An error occured: " + err);
             }
-            client.messageHandler(message, client.isInteraction, `'${res.name}' has been removed`)
+            const embed = new Discord.MessageEmbed()
+                .setDescription(`'${res.name}' has been removed`)
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         } else {
             try {
                 message.member.roles.add(res);
             } catch (err) {
                 return client.messageHandler(message, client.isInteraction, "An error occured: " + err);
             }
-            client.messageHandler(message, client.isInteraction, `You've been given '${res.name}'`)
+            const embed = new Discord.MessageEmbed()
+                .setDescription(`You've been given '${res.name}'`)
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         }
 
     }
