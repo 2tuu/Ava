@@ -55,8 +55,10 @@ const pool = new Pool({
 const rest = new REST({ version: '9' }).setToken(token);
 
 //global variables
+client.config = config;
 client.emojiPile;
-client.timezones = require('./plugins/timezones.json')
+client.timezones = require('./plugins/timezones.json');
+client.data = require('./plugins/data.json');
 client.failedCommands = [];
 client.totalCommands = 0;
 client.slashCommands = [];
