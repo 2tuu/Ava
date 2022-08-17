@@ -196,11 +196,10 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                 chan = chan.replace('>', '')
 
                 message.guild.channels.fetch(chan).then(chanVar => {
-                    chanVar = chanVar.fetch(true);
                     //check if channel exists
                     if (args[2]) {
                         //look for message
-                        channel.messages.fetch(args[2])
+                        chanVar.messages.fetch(args[2])
                             .then(fMessage => {
                                 //update messageid in database
                                 var db = {
@@ -219,33 +218,41 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                                 var embed = new Discord.MessageEmbed()
                                     .setDescription("I can't see any messages")
                                     .setColor(`0x${client.colors.bad}`)
+                                message.channel.send('ERR: `' + err.stack + '`')
                                 return message.channel.send({ embeds: [embed] });
                             })
                     } else {
-                        //use most recent message
-                        if (chanVar.lastMessage) {
-                            var db = {
-                                channelid: chanVar.id,
-                                messageid: chanVar.lastMessage.id
-                            }
-                            db = JSON.stringify(db);
-                            sql.query(`UPDATE reactionroles SET messageid = '${db}' WHERE serverid = '${message.guild.id}'`);
+                        //last message ID here
+                        chanVar.messages.fetch({ limit: 1 })
+                            .then(fMessage => {
+                                fMessage = fMessage.first();
+                                //update messageid in database
+                                var db = {
+                                    channelid: fMessage.channel.id,
+                                    messageid: fMessage.id
+                                }
+                                db = JSON.stringify(db);
+                                sql.query(`UPDATE reactionroles SET messageid = '${db}' WHERE serverid = '${message.guild.id}'`);
 
-                            var embed = new Discord.MessageEmbed()
-                                .setDescription("Channel updated")
-                                .setColor(`0x${client.colors.good}`)
-                            return message.channel.send({ embeds: [embed] });
-                        } else {
-                            var embed = new Discord.MessageEmbed()
-                                .setDescription("I can't find the last message in that channel")
-                                .setColor(`0x${client.colors.bad}`)
-                            return message.channel.send({ embeds: [embed] });
-                        }
+                                var embed = new Discord.MessageEmbed()
+                                    .setDescription("Channel updated")
+                                    .setColor(`0x${client.colors.good}`)
+                                return message.channel.send({ embeds: [embed] });
+                            })
+                            .catch(err => {
+                                var embed = new Discord.MessageEmbed()
+                                    .setDescription("I can't see any messages")
+                                    .setColor(`0x${client.colors.bad}`)
+                                message.channel.send('ERR: `' + err.stack + '`')
+                                return message.channel.send({ embeds: [embed] });
+                            })
                     }
                 }).catch(err => {
                     var embed = new Discord.MessageEmbed()
                         .setDescription("I can't find that channel")
                         .setColor(`0x${client.colors.bad}`)
+
+                    message.channel.send('ERR: `' + err.stack + '`')
                     return message.channel.send({ embeds: [embed] });
                 })
 
