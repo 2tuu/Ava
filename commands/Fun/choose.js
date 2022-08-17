@@ -8,7 +8,9 @@ exports.run = (client, message, args) => {
   }
   var response = args[Math.floor(Math.random() * args.length)];
   response = response.replace(new RegExp('"', 'g'), '');
-  client.messageHandler(message, client.isInteraction, "I choose **" + response + "**")
+  const embed = new Discord.MessageEmbed()
+    .setDescription("I choose **" + response + "**")
+  return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 }
 
 exports.conf = {
