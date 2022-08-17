@@ -2,30 +2,19 @@ const Discord = require("discord.js");
 
 exports.run = (client, message, args, deletedMessage) => {
 
-	if(!args[0]){
-		const embed = new Discord.MessageEmbed()
-			.addField("Description", client.help['snipe'].help)
-			.addField("Usage", '```' + client.help['snipe'].format + '```')
-		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
-	}
-
 	if (message.member.permissions.has('MANAGE_MESSAGES') || message.author.id === "378769654942007299") {
 		var channelIDVar = message.channel.id;
 		try {
 			if (args[0]) {
 				var type = deletedMessage[message.guild.id + "-" + args[0].replace("<#", "").replace(">", "")].type;
 				const embed = new Discord.MessageEmbed()
-					.setAuthor(deletedMessage[message.guild.id + "-" + args[0].replace("<#", "").replace(">", "")].author + " (" + type + ")", deletedMessage[message.guild.id + "-" + channelIDVar].avatar)
-					.setDescription(deletedMessage[message.guild.id + "-" + args[0].replace("<#", "").replace(">", "")].message)
-					.setFooter("Message was sniped by " + message.author.tag)
+					.setDescription(deletedMessage[message.guild.id + "-" + channelIDVar].author + ':\n\n' + deletedMessage[message.guild.id + "-" + args[0].replace("<#", "").replace(">", "")].message)
 				client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 				delete deletedMessage[message.guild.id + "-" + args[0].replace("<#", "").replace(">", "")];
 			} else {
 				var type = deletedMessage[message.guild.id + "-" + channelIDVar].type;
 				const embed = new Discord.MessageEmbed()
-					.setAuthor(deletedMessage[message.guild.id + "-" + channelIDVar].author, deletedMessage[message.guild.id + "-" + channelIDVar].avatar)
-					.setDescription(deletedMessage[message.guild.id + "-" + channelIDVar].message)
-					.setFooter("Message was sniped by " + message.author.tag)
+					.setDescription(deletedMessage[message.guild.id + "-" + channelIDVar].author + ':\n\n' + deletedMessage[message.guild.id + "-" + channelIDVar].message)
 				client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 				delete deletedMessage[message.guild.id + "-" + channelIDVar];
 			}
