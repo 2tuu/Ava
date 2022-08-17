@@ -102,12 +102,23 @@ exports.run = async (client, message, args, deletedMessage, sql, tossedSet, role
 
                                 member.roles.remove(db.banid);
                             } else {
-                                //Added role
-                                const embed = new Discord.MessageEmbed()
-                                    .setColor(`0x${client.colors.bad}`)
-                                    .setDescription(member.user.tag + " has been muted")
-                                client.messageHandler(message, client.isInteraction, { embeds: [embed] });
-                                member.roles.add(db.banid);
+                                var worked = true;
+
+                                member.roles.add(db.banid).catch(err => {
+                                    worked = false;
+                                    const embed = new Discord.MessageEmbed()
+                                        .setColor(`0x${client.colors.bad}`)
+                                        .setDescription("An error has occured, make sure I have permission to edit roles, and your mute role is below my own role")
+                                    return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                                }).then(()=>{
+                                    if(worked){
+                                        const embed = new Discord.MessageEmbed()
+                                            .setColor(`0x${client.colors.bad}`)
+                                            .setDescription(member.user.tag + " has been muted")
+                                        client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+                                    }
+                                });
+                                
                             }
 
 
