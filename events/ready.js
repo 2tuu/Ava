@@ -6,7 +6,7 @@ const cron = require('node-cron');
 exports.run = async (deletedMessage, pool, client) => {
 
 	var altStatus = client.config.prefix + 'help';
-	client.user.setPresence({ activities: [{ name: client.data.status }], status: 'online' });
+	client.user.setPresence({ activities: [{ name: client.data.status }], status: 'dnd' });
 
 	(async function setStatus() {
 		while (true) {
@@ -15,9 +15,9 @@ exports.run = async (deletedMessage, pool, client) => {
 			var currentStatus = client.user.presence.activities[0].name;
 
 			if(currentStatus === client.data.status){
-				client.user.setPresence({ activities: [{ name: altStatus }], status: 'online' });
+				client.user.setPresence({ activities: [{ name: altStatus }], status: 'dnd' });
 			} else {
-				client.user.setPresence({ activities: [{ name: client.data.status }], status: 'online' });
+				client.user.setPresence({ activities: [{ name: client.data.status }], status: 'dnd' });
 			}
 		}
 	})();
