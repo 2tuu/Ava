@@ -107,6 +107,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             timerMessage = '[No Label]';
             client.messageHandler(message, client.isInteraction, `I will remind you <t:${Math.round(endtime / 1000)}:R>`);
         } else {
+            timerMessage = timerMessage.replace(/(`)/g, "’")
             client.messageHandler(message, client.isInteraction, `I will tell you: \`${timerMessage}\` <t:${Math.round(endtime / 1000)}:R>`);
         }
 
