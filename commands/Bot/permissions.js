@@ -84,9 +84,9 @@ exports.run = async (client, message, args) => {
             .setTitle("My permissions are correct")
         client.messageHandler(message, client.isInteraction, { embeds: [embed] })
     } else {
-        if(needsGive.length === 0){ needsGive[0] = 'none' }
-        if(needsRemove.length === 0){ needsRemove[0] = 'none' }
-        if(removeNow.length === 0){ removeNow[0] = 'none' }
+        if(needsGive.length === 0){ needsGive[0] = 'No changes needed' }
+        if(needsRemove.length === 0){ needsRemove[0] = 'No changes needed' }
+        if(removeNow.length === 0){ removeNow[0] = 'No changes needed' }
 
         const embed = new Discord.MessageEmbed()
             .setColor(`0x${client.colors.bad}`)
