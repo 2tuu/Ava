@@ -47,7 +47,7 @@ exports.run = (client, message, args) => {
                     if (!source) {
                         source = 'No Source Supplied • ' + ' [Post](' + result.posts[0].postView + ')';
                     } else {
-                        source = '[Source](' + source + ') • [Post](' + result.posts[0].postView + ')';
+                        source = '[Source](' + source.join(') [Source](') + ') • [Post](' + result.posts[0].postView + ')';
                     }
 
                     const embed = new Discord.MessageEmbed()
