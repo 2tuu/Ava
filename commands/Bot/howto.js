@@ -3,7 +3,7 @@ const config = require('./../../config.json');
 
 exports.run = (client, message, args) => {
     const embed = new Discord.MessageEmbed()
-        .addField("Setup Instructions", `[Click Here](link)`)
+        .addField("Setup Instructions", `[Click Here](https://github.com/2tuu/Kit/blob/master/docs/setup.md)`)
     client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 }
 
