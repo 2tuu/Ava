@@ -12,6 +12,10 @@
     - Prefixes
 5. [Other](https://github.com/2tuu/Kit/blob/master/docs/setup.md#other)
     - Self-assignable roles
+<br>
+
+# Sidenote
+Some of these commands are a little difficult to get through due to a number of options, and it may be easier to set them up using slash commands (especially the mod log)
 
 <br>
 
