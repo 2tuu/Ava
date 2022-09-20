@@ -67,7 +67,7 @@ exports.conf = {
 	name: "Roll/Dice",
 	help: "Roll an imaginary die, can be multi-sided if you use the #d# format",
 	format: "k?roll [#d#]\nie. k?roll 1d20 <- rolls one 20-sided die",
-	DM: true,
+	DM: false,
 	ownerOnly: false,
 	alias: [],
 	slashCommand: true,
@@ -84,6 +84,6 @@ exports.conf = {
 				required: true
 			}
 		],
-		default_permission: undefined
+		dm_permission: false
 	}
 }

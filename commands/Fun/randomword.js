@@ -26,7 +26,7 @@ exports.conf = {
     name: "Randomword",
     help: "Generate something that's technically a word",
     format: "k?randomword",
-    DM: true,
+    DM: false,
     ownerOnly: false,
     alias: [],
     slashCommand: true,
@@ -34,6 +34,6 @@ exports.conf = {
         name: "randomword",
         description: "Generate a \"word\"",
         options: [],
-        default_permission: undefined
+        dm_permission: false
     }
 }

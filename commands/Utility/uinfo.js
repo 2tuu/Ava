@@ -78,6 +78,6 @@ exports.conf = {
 				required: false
 			}
 		],
-		default_permission: undefined
+		dm_permission: false
 	}
 }

@@ -13,7 +13,7 @@ exports.conf = {
 	name: "Inspirobot",
 	help: "Generate an image from insprobot.me",
 	format: "k?inspirobot",
-	DM: true,
+	DM: false,
 	ownerOnly: false,
 	alias: [],
 	slashCommand: true,
@@ -21,6 +21,6 @@ exports.conf = {
 		name: "inspirobot",
 		description: "Pull an image from Inspirobot",
 		options: [],
-		default_permission: undefined
+		dm_permission: false
 	}
 }

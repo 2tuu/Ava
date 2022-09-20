@@ -20,7 +20,7 @@ exports.conf = {
     name: "Expand",
     help: "Convert the text to fullwidth font",
     format: "k?expand [text]",
-    DM: true,
+    DM: false,
     ownerOnly: false,
     alias: ['vapor', 'vapour'], //innit
     slashCommand: true,
@@ -37,6 +37,6 @@ exports.conf = {
                 required: true
             }
         ],
-        default_permission: undefined
+        dm_permission: false
     }
 }

@@ -30,7 +30,7 @@ exports.run = (client, message, args, deletedMessage, pool, tossedSet, roles, me
 exports.conf = {
     help: "Randomly capitalize letters in a given sentance",
     format: "k?mock [text]",
-    DM: true,
+    DM: false,
     OwnerOnly: false,
     alias: ['spongebob']
 }

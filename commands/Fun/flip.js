@@ -12,7 +12,7 @@ exports.conf = {
     name: "Flip",
     help: "Flip an imaginary coin",
     format: "k?flip",
-    DM: true,
+    DM: false,
     ownerOnly: false,
     alias: ['coin'],
     slashCommand: true,
@@ -20,6 +20,6 @@ exports.conf = {
         name: "flip",
         description: "Flip a coin",
         options: [],
-        default_permission: undefined
+        dm_permission: false
     }
 }

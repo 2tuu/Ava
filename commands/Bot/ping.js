@@ -14,7 +14,7 @@ exports.conf = {
     help: "Ping me and gauge my response time (-API response times)",
     shortHelp: "Pong",
     format: "k?ping",
-    DM: true,
+    DM: false,
     ownerOnly: false,
     alias: ['pong'],
     slashCommand: true,
@@ -22,6 +22,6 @@ exports.conf = {
         name: "ping",
         description: "pong",
         options: [],
-        default_permission: undefined
+        dm_permission: false
     }
 }

@@ -43,7 +43,7 @@ exports.conf = {
     name: "Enlarge",
     help: "View an emote's source image",
     format: "k?enlarge [:emote:]",
-    DM: true,
+    DM: false,
     ownerOnly: false,
     alias: [],
     slashCommand: true,
@@ -60,6 +60,6 @@ exports.conf = {
                 required: true
             }
         ],
-        default_permission: undefined
+        dm_permission: false
     }
 }

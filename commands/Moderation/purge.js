@@ -101,6 +101,6 @@ k?purge bots`,
         required: true
       }
     ],
-    default_permission: undefined
+    dm_permission: false
   }
 }

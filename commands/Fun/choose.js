@@ -17,7 +17,7 @@ exports.conf = {
   name: "Choose",
   help: "Choose between multiple things",
   format: "k?choose [thing1] [thing2] {thing3}...\nUse quotation marks for things with multiple words",
-  DM: true,
+  DM: false,
   ownerOnly: false,
   alias: [],
   slashCommand: true,
@@ -34,6 +34,6 @@ exports.conf = {
         required: true
       }
     ],
-    default_permission: undefined
+    dm_permission: false
   }
 }

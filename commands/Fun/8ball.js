@@ -20,7 +20,7 @@ exports.conf = {
   name: "8ball",
   help: "Ask a yes or no question and get a response",
   format: "k?8ball [question]",
-  DM: true,
+  DM: false,
   ownerOnly: false,
   alias: ["am", "are", "is", "can", "do", "will", "does", "would"],
   slashCommand: true,
@@ -37,6 +37,6 @@ exports.conf = {
         required: false
       }
     ],
-    default_permission: undefined
+    dm_permission: false
   }
 }

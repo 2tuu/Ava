@@ -39,7 +39,7 @@ exports.conf = {
   name: "OWO/UWU",
   help: "What's this?",
   format: "k?owo [text]",
-  DM: true,
+  DM: false,
   ownerOnly: false,
   alias: ['uwu'],
   slashCommand: true,
@@ -56,6 +56,6 @@ exports.conf = {
         required: true
       }
     ],
-    default_permission: undefined
+    dm_permission: false
   }
 }

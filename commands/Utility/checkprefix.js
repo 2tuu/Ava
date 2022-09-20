@@ -30,6 +30,6 @@ exports.conf = {
     description: "Check this server's prefix",
     options: [
     ],
-    default_permission: undefined
+    dm_permission: false
   }
 }

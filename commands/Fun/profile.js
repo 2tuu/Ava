@@ -573,7 +573,7 @@ k?profile badge set [1/2] [name from list]
 k?profile badge list
 k?profile color #hexcode
 k?profile mode [dark/light]`,
-    DM: true,
+    DM: false,
     ownerOnly: false,
     alias: [],
     slashCommand: false

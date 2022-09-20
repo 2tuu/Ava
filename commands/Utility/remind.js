@@ -121,7 +121,7 @@ exports.conf = {
     help: "Remind yourself of something in the future",
     format: "k?remind [message] -t [time]\nie. k?remind get groceries -t 1d 17h\n\nNote: Reminder may be innacurate by ~1 minute",
     DM: true,
-    ownerOnly: true,
+    ownerOnly: false,
     alias: [],
     slashCommand: true,
     data: {
@@ -137,6 +137,6 @@ exports.conf = {
                 required: true
             }
         ],
-        default_permission: undefined
+        dm_permission: true
     }
 }

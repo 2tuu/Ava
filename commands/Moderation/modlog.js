@@ -200,6 +200,6 @@ k?modlog ignore [#channel]`,
                 required: false
             }
         ],
-        default_permission: undefined
+        dm_permission: false
     }
 }

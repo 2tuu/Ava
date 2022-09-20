@@ -11,7 +11,7 @@ exports.conf = {
     name: "How-to",
     help: "Show my setup documentation",
     format: "k?howto",
-    DM: true,
+    DM: false,
     ownerOnly: false,
     alias: [],
     slashCommand: true,
@@ -19,6 +19,6 @@ exports.conf = {
         name: "howto",
         description: "Setup instructions",
         options: [],
-        default_permission: undefined
+        dm_permission: false
     }
 }
