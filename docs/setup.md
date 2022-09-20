@@ -10,8 +10,10 @@
     - Welcome messages
 4. [Bot Settings](https://github.com/2tuu/Kit/blob/master/docs/setup.md#bot-settings)
     - Prefixes
+5. [Other](https://github.com/2tuu/Kit/blob/master/docs/setup.md#other)
     - Self-assignable roles
 
+<br>
 
 # Inviting the Bot
 The bot can be invited through it's profile on another server, or using the link below.
@@ -19,6 +21,7 @@ If the bot is already on your server and was invited before the introduction of 
 
 [Invite Link](https://discord.com/api/oauth2/authorize?client_id=435855803363360779&permissions=1514244795590&scope=bot%20applications.commands)
 
+<br>
 
 # Setting up permissions
 Ideally you shouldn't have to change anything with the bot's permissions, it's default permissions are all it needs to function properly. The only exception to this is the position of it's role on the list; if you want Kit to be able to assign other users roles, or use the Mute function, it's highest role must be higher in the role list than the mute and/or custom roles
@@ -42,6 +45,7 @@ Kit's default permissions and their uses are listed below:
 Kit has a built-in function for confirming whether or not it's permissions are correct, in case you've accidentally removed any or given it permissions it doesn't need.
 To use this, just use `k?permissions` and the bot will let you know what it needs, doesn't need, and any permissions that should be removed immediately.
 
+<br>
 
 # Moderation Functions
 Kit has a handfull of moderation functions that need to be set up by server staff. Those functions and their setup instructions are listed below.
@@ -54,6 +58,7 @@ To add a mute role, use `k?mute roleadd <role name>`, replacing `<role name>` wi
 
 ## Mod Log
 Kit's mod log can be set up to log many things:
+
     - Kicks
     - Leaves
     - Bans
@@ -91,12 +96,16 @@ Welcome messages can contain automatically replaced tags to make personalized(-i
     - {member.username} <- Is replaced with the member's username (without the ping)
     - {guild}           <- Is replaced with the server's current name
 
+<br>
 
 # Bot Settings
 
 ## Prefixes
 Kit's prefix can be customized to whatever you want it to be, including multiple words if they're surrounded by quotation marks. While you can set this to whatver you want, Kit's default prefix (k?) will always work.
 To set a custom prefix, use `k?prefix <prefix>` or `k?prefix "<multiple word prefix>`. To check what the bot's prefix currently is, use `k?checkprefix`.
+<br>
+
+# Other
 
 ## Self-Assignable Roles
 Kit can assign other users roles from a pre-determined list. These roles can be for accessing certain channels, pronouns, colors, etc.
