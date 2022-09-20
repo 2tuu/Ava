@@ -137,16 +137,29 @@ k?password setrole [member-role]`,
     data: {
         name: "password",
         description: "Change server password configuration",
+        description: 'Modlog module configuration',
         options: [
             {
-                choices: undefined,
+                choices: [
+                    { name: 'set password', value: 'setpass' },
+                    { name: 'set channel', value: 'setchan' },
+                    { name: 'set role', value: 'setrole' }
+                ],
                 autocomplete: undefined,
                 type: 3,
-                name: 'arguments',
-                description: 'Arguments',
+                name: 'setting',
+                description: 'What setting to change',
                 required: true
+            },
+            {
+                choices: undefined,
+                autocomplete: false,
+                type: 3,
+                name: 'option',
+                description: 'Extra options',
+                required: false
             }
         ],
-        default_permission: undefined
+        dm_permission: false
     }
 }
