@@ -62,8 +62,8 @@ exports.conf = {
     name: "Translate",
     help: "Translate anything to or from base64 or binary",
     format: "k?translate [fromb64/frombinary/tob64/tobinary] [text to be translated]\nie. k?translate fromb64 d29yZA==",
-    DM: true,
-    ownerOnly: false,
+    DM: false,
+    ownerOnly: true,
     alias: [],
     slashCommand: true,
     data: {
@@ -92,6 +92,6 @@ exports.conf = {
                 required: true
             }
         ],
-        default_permission: undefined
+        dm_permission: false
     }
 }
