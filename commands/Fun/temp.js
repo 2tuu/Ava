@@ -75,7 +75,7 @@ exports.conf = {
     name: "Temp",
     help: "Convert Kelvin/Celsuis/Fahrenheit to any of those three",
     format: "k?temp [toc/tof/tok] [f/k/c]\nie. k?temp toc f 100 -> translates 100f to celcius",
-    DM: true,
+    DM: false,
     ownerOnly: false,
     alias: ['temperature'],
     slashCommand: true,
@@ -91,8 +91,8 @@ exports.conf = {
                 ],
                 autocomplete: undefined,
                 type: 3,
-                name: 'translate-from',
-                description: 'The temperature to translate from',
+                name: 'translate-to',
+                description: 'The temperature to translate to',
                 required: true
             },
             {
@@ -103,8 +103,8 @@ exports.conf = {
                 ],
                 autocomplete: undefined,
                 type: 3,
-                name: 'translate-to',
-                description: 'The temperature to translate to',
+                name: 'translate-from',
+                description: 'The temperature to translate from',
                 required: true
             },
             {
@@ -116,6 +116,6 @@ exports.conf = {
                 required: true
             }
         ],
-        default_permission: undefined
+        dm_permission: false
     }
 }
