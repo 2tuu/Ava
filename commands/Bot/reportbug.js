@@ -29,8 +29,9 @@ exports.run = (client, message, args) => {
         .setColor(`0x${client.colors.bad}`)
         .setThumbnail(message.author.avatarURL)
         .addField("From", message.author.id + " (" + message.author.username + "#" + message.author.discriminator + ")")
-        .addField("Sent in", message.guild.name + " (" + message.guild.id + ")")
+        .addField("Sent in", message.guild.id + " (" + message.guild.name + ")")
         .addField("Report", args.join(' '))
+        .addField("Attachments", ": " + message.attachments.map(e=>e.url))
       user.send({ embeds: [embed1] }).then().catch(console.error);
 
 
@@ -42,6 +43,7 @@ exports.run = (client, message, args) => {
         .addField("From", message.author.username)
         .addField("Sent in", message.guild.name)
         .addField("Report", args.join(' '))
+        .addField("Attachments", ": " + message.attachments.map(e=>e.url))
       client.messageHandler(message, client.isInteraction, { embeds: [embed2] }, false, chan);
 
       let embedVar = new Discord.MessageEmbed()
@@ -55,7 +57,7 @@ exports.run = (client, message, args) => {
 
 exports.conf = {
   name: "Report Bug",
-  help: "Report a bug to the bot; please include a detailed description of what triggered said bug",
+  help: "Report a bug to the bot; please include a detailed description of what triggered said bug\nImage attachments will be sent as well\n\nNote: Abuse of this function will result in a ban",
   format: "k?reportbug [description]",
   DM: false,
   ownerOnly: false,
