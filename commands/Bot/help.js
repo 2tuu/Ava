@@ -5,28 +5,19 @@ exports.run = (client, message, args) => {
 
     var commandList = Object.keys(client.help);
     var list = {};
+    var lockedCommands = [];
 
     Object.keys(client.help).forEach(function (key) {
         if (client.help[key].category === "Admin") return; //ignore administration commands
         if (client.help[key].category == "NSFW" && message.channel.nsfw == false) return; //ignore nsfw outside of nsfw channels
         if (client.help[key].DM == false && !message.guild) return; //ignore guild-only commands in dm
 
+        if(client.help[key].locked) lockedCommands.push(client.help[key].filename);
+
         if (list[client.help[key].category]) {
             list[client.help[key].category].push(client.help[key].filename);
         } else {
             list[client.help[key].category] = [client.help[key].filename];
-        }
-    });
-
-    var lockedCommands = [];
-
-    client.help.forEach(e => {
-        if(e.locked) lockedCommands.push(e.fileName);
-
-        if (list[e.category]) {
-            list[e.category].push(e.filename);
-        } else {
-            list[e.category] = [e.filename];
         }
     });
 
@@ -43,12 +34,13 @@ exports.run = (client, message, args) => {
     });
 
     final = final.slice(9);
+
     if (client.failedCommands.length > 0) {
         final = final + "\nThe following commands are broken:\n```\n" + client.failedCommands.join(', ') + "\n```\n"
     }
 
     if (lockedCommands.length > 0) {
-        final = final + "\nThe following commands are under maintainence:\n```\n" + client.failedCommands.join(', ') + "\n```\n"
+        final = final + "\n**Under development/maintainence**:\n```\n" + lockedCommands.join(', ') + "\n```\n"
     }
 
     if (!args[0]) {
@@ -100,6 +92,6 @@ exports.conf = {
                 required: false
             }
         ],
-        default_permission: undefined
+        dm_permission: true
     }
 }
