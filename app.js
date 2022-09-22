@@ -1,12 +1,11 @@
-var option = 'prod';
+var isBeta = false;
 if (process.argv.slice(2)[0]) {
-  option = process.argv.slice(2)[0];
-  if (option.toLowerCase() == 'beta') {
-    option = 'beta';
+  if (process.argv.slice(2)[0].toLowerCase() == 'beta') {
+    isBeta = true;
   }
 }
 
-console.log(`Using ${option} token\n============================`)
+console.log(`Beta: ${isBeta} \n============================`)
 
 const Discord = require(`discord.js`);
 const { Client } = require('discord.js');
@@ -37,7 +36,7 @@ const config = require(`./config.json`);
 
 //token choice
 var token = config.token_prod;
-if (option == 'beta') {
+if (isBeta) {
   token = config.token_beta;
 }
 
