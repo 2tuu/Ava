@@ -44,10 +44,10 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
 exports.conf = {
   name: "X-Ban",
-  help: "Add a user's ID to a list - The bot will automatically ban them if they join",
+  help: "Add a user's ID to a list - The bot will automatically ban them if they join\n\nThis is sometimes unreliable, and may delay action if the bot isn't online or able to read messages when the user joins\nDo not rely solely on this module to ban problem users",
   format: "k?xban [User ID]\nk?xban delete [User ID]\nk?xban list",
   DM: false,
-  ownerOnly: true,
+  ownerOnly: false,
   alias: [],
   slashCommand: true,
   data: {
