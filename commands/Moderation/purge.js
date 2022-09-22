@@ -85,7 +85,7 @@ exports.conf = {
   format: `k?purge [message count]
 k?purge bots`,
   DM: false,
-  ownerOnly: true, //fix edge cases
+  ownerOnly: false,
   alias: [],
   slashCommand: true,
   data: {
