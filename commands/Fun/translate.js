@@ -8,16 +8,24 @@ exports.run = (client, message, args) => {
 		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 	}
 
-    function stringToBinary(str, spaceSeparatedOctets) {
-        function zeroPad(num) {
+    function stringToBinary(str, oct) {
+        function pad(num) {
             return "00000000".slice(String(num).length) + num;
         }
 
         return str.replace(/[\s\S]/g, function (str) {
-            str = zeroPad(str.charCodeAt().toString(2));
-            return !1 == spaceSeparatedOctets ? str : str + " "
+            str = pad(str.charCodeAt().toString(2));
+            return !1 == oct ? str : str + " "
         });
     };
+
+    function stringFromBinary(str){
+        var bin = [];
+        for (i = 0; i < str.split(" ").length; i++) {
+            bin.push(String.fromCharCode(parseInt(str.split(" ")[i], 2)));
+          }
+        return bin.join("");
+    }
 
     var text = args.slice(1).join(' ');
     var type = args[0];
@@ -44,7 +52,7 @@ exports.run = (client, message, args) => {
     } else if (type === "tobinary") {
         result = stringToBinary(text);
     } else if (type === "frombinary") {
-        result = parseInt(text, 2).toString(10);
+        result = stringFromBinary(text)
     }
 
     if (!result || result.length < 1) {
@@ -54,7 +62,7 @@ exports.run = (client, message, args) => {
         client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     }
 
-    client.messageHandler(message, client.isInteraction, `Result: \`${result}\``);
+    client.messageHandler(message, client.isInteraction, `Result: \`${result.replaceAll('`','')}\``);
 
 }
 
@@ -63,7 +71,7 @@ exports.conf = {
     help: "Translate anything to or from base64 or binary",
     format: "k?translate [fromb64/frombinary/tob64/tobinary] [text to be translated]\nie. k?translate fromb64 d29yZA==",
     DM: false,
-    ownerOnly: true,
+    ownerOnly: false,
     alias: [],
     slashCommand: true,
     data: {
