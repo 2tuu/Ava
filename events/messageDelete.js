@@ -15,7 +15,8 @@ exports.run = async (deletedMessage, sql, client, message) => {
       message: messageContent,
       author: message.author.tag,
       avatar: message.author.avatarURL,
-      type: "Deleted"
+      type: "Deleted",
+      attachments: message.attachments.map(e=>e.url)
     };
   }
 

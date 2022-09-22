@@ -24,7 +24,8 @@ exports.run = async (deletedMessage, sql, client, oldMessage, newMessage) => {
             author: oldMessage.author.tag,
             avatar: oldMessage.author.avatarURL,
             newContent: oldMessage.newMessage,
-            type: "Edited"
+            type: "Edited",
+            attachments: oldMessage.attachments.map(e=>e.url)
         };
     }
 
