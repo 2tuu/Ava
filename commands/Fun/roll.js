@@ -73,7 +73,7 @@ exports.conf = {
 	slashCommand: true,
 	data: {
 		name: "roll",
-		description: "Roll a virtual RPG die",
+		description: "Virtual RPG dice",
 		options: [
 			{
 				choices: undefined,

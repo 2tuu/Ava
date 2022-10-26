@@ -93,7 +93,7 @@ exports.conf = {
     slashCommand: true,
     data: {
         name: "timestamp",
-        description: "Timestamp Generator",
+        description: "Unix timestamp generator",
         options: [
             {
                 choices: undefined,

@@ -26,7 +26,7 @@ exports.conf = {
   slashCommand: true,
   data: {
     name: "8ball",
-    description: "Answers yes or no questions",
+    description: "Magic 8-ball",
     options: [
       {
         choices: undefined,

@@ -147,7 +147,7 @@ exports.conf = {
   slashCommand: true,
   data: {
       name: 'note',
-      description: 'Edit or create your note',
+      description: 'Edit or create a note',
       options: [
           {
               choices: [

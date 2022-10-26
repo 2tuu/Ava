@@ -81,9 +81,8 @@ exports.run = (client, message, args) => {
 
 exports.conf = {
   name: "Purge",
-  help: "Purge a bunch of messages, of a number, from a specific user, bots, or up to 100\nThis only works on messages that're less than 2 weeks old",
-  format: `k?purge [message count]
-k?purge bots`,
+  help: "Purge up to 100 messages\nThis only works on messages that're less than 2 weeks old",
+  format: `k?purge [message count]`,
   DM: false,
   ownerOnly: false,
   alias: [],
@@ -96,8 +95,8 @@ k?purge bots`,
         choices: undefined,
         autocomplete: undefined,
         type: 3,
-        name: 'arguments',
-        description: 'Arguments',
+        name: 'number',
+        description: 'Number of messages',
         required: true
       }
     ],

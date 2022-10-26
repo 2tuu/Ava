@@ -136,8 +136,7 @@ k?password setrole [member-role]`,
     slashCommand: true,
     data: {
         name: "password",
-        description: "Change server password configuration",
-        description: 'Modlog module configuration',
+        description: "Server password configuration",
         options: [
             {
                 choices: [

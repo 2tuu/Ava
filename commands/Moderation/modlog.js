@@ -172,7 +172,7 @@ k?modlog ignore [#channel]`,
     slashCommand: true,
     data: {
         name: 'modlog',
-        description: 'Modlog module configuration',
+        description: 'Mod-log module configuration',
         options: [
             {
                 choices: [

@@ -224,7 +224,7 @@ exports.conf = {
     slashCommand: true,
     data: {
         name: "role",
-        description: "Server roles",
+        description: "Self-assigned roles",
         options: [
             {
                 choices: undefined,
