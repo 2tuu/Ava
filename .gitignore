@@ -1,0 +1,28 @@
+# private files
+config.json
+colorReference.txt
+temp.txt
+plugins/sanitizer.js
+
+# directories
+node_modules/
+backup/
+commands-locked/
+discontinued/
+logs/
+setup/
+
+#visual studio
+.vs
+
+#extra detrious
+npm-debug.log
+package-lock.json
+notes.txt
+.gitattributes
+build/
+
+#macbook detrious
+.DS_Store
+._.DS_Store
+._*
