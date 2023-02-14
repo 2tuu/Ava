@@ -1,0 +1,12 @@
+exports.sanitize = (txt) => {
+    //console.log('txt: ' + typeof(txt));
+    txt = txt.toString()
+
+    if(!txt || txt.length == 0){
+        txt = '';
+      }
+    
+      //filter here
+      
+      return txt;
+}
