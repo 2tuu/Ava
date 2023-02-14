@@ -1,9 +1,16 @@
-## Kit (Name change pending)
+## Kit
 Kit is a general use moderation bot with a bunch of fun commands - She's built in Node JS with Discord.js, currently running in version v16.14.0
 
 
+## Docs
+ - [Latest Announcement](https://github.com/nogegg/Kit/blob/master/docs/news.md)
+ - [Privacy Policy](https://github.com/nogegg/Kit/blob/master/docs/privacy.md)
+ - [Terms of Service](https://github.com/nogegg/Kit/blob/master/docs/tos.md)
+ - [How to Set Me Up](https://github.com/nogegg/Kit/blob/master/docs/setup.md)
+ - [Tag Documentation](https://github.com/nogegg/Kit/blob/master/docs/tags.md)
+
 ## Before Using
-Kit is not designed to be installed or used by anyone but me, as such I haven't really made any sort of functioning installation script, nor will I in the future
+Kit is not designed to be installed or used by anyone but me, as such I haven't really made any sort of functioning or documented installation script, nor will I in the future
 
 I will not be providing support in installing this yourself outside of the information stated below, the rest is for you
 
