@@ -46,7 +46,7 @@ exports.run = (client, message, args) => {
     if (!args[0]) {
         const embed = new Discord.MessageEmbed()
             .setTitle("Command documentation")
-            .setDescription("Un-usable commands are not listed\n\n`k?command [required argument] {optional argument}`\n" +
+            .setDescription("Un-usable commands are not listed • Some commands are not slash commands\n\n`k?command [required argument] {optional argument}`\n" +
                 "\n" + final + '[Privacy Policy](https://github.com/2tuu/Kit/blob/master/docs/privacy.md) • [Rules and Terms](https://github.com/2tuu/Kit/blob/master/docs/tos.md)')
         client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     } else if (commandList.includes(args[0].toLowerCase())) {
