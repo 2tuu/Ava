@@ -1,16 +1,16 @@
 # Table of Contents
- 1. [Inviting the Bot](https://github.com/2tuu/Kit/blob/master/docs/setup.md#inviting-the-bot)
- 2. [Setting Up Permissions](https://github.com/2tuu/Kit/blob/master/docs/setup.md#setting-up-permissions)
+ 1. [Inviting the Bot](#inviting-the-bot)
+ 2. [Setting Up Permissions](#setting-up-permissions)
     - Default permissions
     - Confirming permissions
- 3. [Moderation functions](https://github.com/2tuu/Kit/blob/master/docs/setup.md#moderation-functions)
+ 3. [Moderation functions](#moderation-functions)
     - Mute command and role orders
     - Mod log module
     - Server password
     - Welcome messages
-4. [Bot Settings](https://github.com/2tuu/Kit/blob/master/docs/setup.md#bot-settings)
+4. [Bot Settings](#bot-settings)
     - Prefixes
-5. [Other](https://github.com/2tuu/Kit/blob/master/docs/setup.md#other)
+5. [Other](#other)
     - Self-assignable roles
 <br>
 
