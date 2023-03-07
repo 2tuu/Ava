@@ -26,6 +26,7 @@ exports.run = (client, message, args) => {
 			var uName = member.user.username;
 				  uName = latinize(uName);
 				  uName = unidecode(uName);
+				  uName = uName.replace(/[^A-Za-z0-9 ]/g, "");
 			
 			member.setNickname(uName);
 			message.reply(`The user's nickname has been set to: ${uName}`);
