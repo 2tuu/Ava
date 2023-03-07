@@ -23,6 +23,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             ctx.fillStyle = '#' + row.background;
             ctx.fillRect(0, 0, 1000, 750);
 
+
             //card color is dark
             function hexBright(color) {
                 var rgb = parseInt(color, 16);
@@ -551,6 +552,12 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
                     .setColor(`0x${color}`)
                     .setTitle('Profile color changed')
                 return message.channel.send({ embeds: [embed] });
+            } else if(color.toLowerCase() === "default") {
+                sql.query(`UPDATE profile SET background = 'auto' WHERE userid = '${message.author.id}'`);
+
+                const embed = new Discord.MessageEmbed()
+                    .setTitle('Profile color changed')
+                return message.channel.send({ embeds: [embed] });
             } else {
                 const embed = new Discord.MessageEmbed()
                     .setColor(`0x${client.colors.bad}`)
@@ -571,7 +578,7 @@ k?profile subtitle [subtitle text]
 k?profile timezone [ie. PST]
 k?profile badge set [1/2] [name from list]
 k?profile badge list
-k?profile color #hexcode
+k?profile color [#hexcode/default]
 k?profile mode [dark/light]`,
     DM: false,
     ownerOnly: false,
