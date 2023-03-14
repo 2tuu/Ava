@@ -205,6 +205,7 @@ client.on('interactionCreate', async interaction => {
   if (command.ownerOnly === true && !config.evalAllow.includes(interaction.user.id)) {
     return interaction.reply('Disabled for testing or owner-only command');
   }
+
   command.run(client, interaction, args, deletedMessage, pool, tossedSet, roles, messageContent)
 });
 
@@ -230,8 +231,7 @@ client.on("messageCreate", async message => {
     message.author.hasProfile = true;
   }
 
-  if (message.content === `<@${client.user.id}>`
-    || message.content === `<@!${client.user.id}>`) {
+  if (message.content === `<@${client.user.id}>` || message.content === `<@!${client.user.id}>`) {
     return message.channel.send('Need help? Try `@' + client.user.username + ' help`');
   }
 
@@ -241,7 +241,6 @@ client.on("messageCreate", async message => {
 
   //Database updaters
   if (message.guild) {
-
     pool.query(`SELECT * FROM prefixes WHERE serverId ='${message.guild.id}'`).then(row => {
       row = row.rows;
       if (row) {
@@ -278,7 +277,7 @@ client.on("messageCreate", async message => {
         (content.indexOf(customPrefix.toLowerCase()) !== 0) &&
         (content.indexOf(botMention.toLowerCase()) !== 0) &&
         (content.indexOf(botMentionX.toLowerCase()) !== 0)) {
-        message.isCommand = false;
+          message.isCommand = false;
       }
     }
 
