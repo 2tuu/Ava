@@ -7,14 +7,14 @@ exports.run = async (deletedMessage, sql, client, messages) => {
   messages.forEach(m => {
     channelID = m.channel.id;
 
-    if (!m.attachments) {
+    if (m.attachments.size == 0) {
       messagesAr.push({
-        "content": `${client.timeCon(m.createdTimestamp)} ${m.author.tag} (${m.id}): ${m.content}`,
+        "content": `${client.timeCon(m.createdTimestamp)}`+'\t'+`${m.author.tag} (${m.id}): ${m.content}`,
         "time": m.createdTimestamp
       });
     } else {
       messagesAr.push({
-        "content": `${client.timeCon(m.createdTimestamp)} ${m.author.tag} (${m.id}): ${m.content} | Attachments: ${m.attachments.map(g => g.url).join(', ')}`,
+        "content": `${client.timeCon(m.createdTimestamp)}`+'\t'+`${m.author.tag} (${m.id}): ${m.content} | Attachments: ${m.attachments.map(g => g.url).join(', ')}`,
         "time": m.createdTimestamp
       });
     }
@@ -27,7 +27,7 @@ exports.run = async (deletedMessage, sql, client, messages) => {
   })
 
 
-  var messageBuf = 'Tag (Message ID): Content | Attachments: [Link to attachments if any]\r\n' + messagesAr.map(b => b.content).join('\r\n');
+  var messageBuf = 'Time\t\tTag (Message ID): Content \t| Attachments: [Link to attachments if any]\r\n' + messagesAr.map(b => b.content).join('\r\n');
   var buf = Buffer.from(messageBuf, 'utf8');
 
   try {
