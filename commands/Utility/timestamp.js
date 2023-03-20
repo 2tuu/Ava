@@ -29,13 +29,13 @@ exports.run = (client, message, args, deletedMessage, sql) => {
             function getSeconds(str) {
                 str = str.toLowerCase();
 
-                var days = str.match(/(\d+)\s*d/);
+                var days = str.match(/(|-)(\d+)\s*d/);
                 if (days) str = str.replace(days[0], '');
 
-                var hours = str.match(/(\d+)\s*h/);
+                var hours = str.match(/(|-)(\d+)\s*h/);
                 if (hours) str = str.replace(hours[0], '');
 
-                var minutes = str.match(/(\d+)\s*m/);
+                var minutes = str.match(/(|-)(\d+)\s*m/);
                 if (minutes) str = str.replace(minutes[0], '');
 
                 str.replace(new RegExp(' ', 'g'), '');
