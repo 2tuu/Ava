@@ -9,12 +9,7 @@ exports.run = (client, message, args, deletedMessage, sql) => {
 		return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
 	}
 
-    if (!message.member.permissions.has('KICK_MEMBERS')) {
-        const embed = new Discord.MessageEmbed()
-            .setColor(`0x${client.colors.bad}`)
-            .setTitle("You don't have permission to use this\n```KICK_MEMBERS Required```")
-        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
-    }
+    if (!message.member.permissions.has('MANAGE_GUILD')) return message.reply("Sorry, you don't have permission to use this.");
 
     if (args[1]) {args[1] = args[1].toLowerCase()}
 
