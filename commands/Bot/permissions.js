@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 
 exports.run = async (client, message, args) => {
+    if (!message.member.permissions.has('MANAGE_GUILD')) return message.reply("Sorry, you don't have permission to use this.");
+
     var perms = await message.guild.members.fetch(client.user.id);
     perms = perms.permissions;
 
