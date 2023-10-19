@@ -63,10 +63,27 @@ exports.run = (client, message, args) => {
             .addField("Aliases", '```' + aliases + '```')
         client.messageHandler(message, client.isInteraction, { embeds: [embed] });
     } else {
-        const embed = new Discord.MessageEmbed()
-            .setTitle("Sorry, that isn't a command")
-            .setColor(`0x${client.colors.bad}`)
-        return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+        var command = args[0].toLowerCase();
+        for (const key of Object.keys(client.aliases)) if (client.aliases[key].aliases.includes(command)) command = key;
+        if (commandList.includes(command)) {
+            var aliases = client.help[command].alias;
+            if(aliases.length === 0){
+                aliases = '(none)'
+            } else {
+                aliases = aliases.join(', ');
+            }
+            const embed = new Discord.MessageEmbed()
+                .setTitle("Command documentation")
+                .addField("Description", client.help[command].help)
+                .addField("Usage", '```' + client.help[command].format + '```')
+                .addField("Aliases", '```' + aliases + '```')
+            client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+        } else {
+            const embed = new Discord.MessageEmbed()
+                .setTitle("Sorry, that isn't a command")
+                .setColor(`0x${client.colors.bad}`)
+            return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
+        }
     }
 
 }
