@@ -22,7 +22,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
         if (roleArray.length < 1) return client.messageHandler(message, client.isInteraction, 'Sorry, it looks like this server has no roles in it\'s list\nUse k?roles add "role name" to add some');
 
-        roleArrayText = roleArray.map(a => '<@&' + a + '>').toString().replace('\n', '').replace(/,/g, ' ');
+        roleArrayText = roleArray.map(a => '<@&' + a + '>').join(' • ').toString().replace('\n', '').replace(/,/g, ' ');
 
         const embed = new Discord.MessageEmbed()
             .addField("Use 'k?role <role name>' to give yourself one", roleArrayText)
