@@ -12,6 +12,7 @@ exports.run = async (client, message) => {
     }).sort(function (a, b) { return a.time - b.time; }).map(function (v) { logs.push(v.name); });
 
     logs = logs.filter(e => (e.endsWith('.log')));
+    logs = logs.filter(e => (!e.startsWith('._')));
     logs = logs.reverse();
 
     fs.readFile(`./logs/${logs[0]}`, (error, data) => {
