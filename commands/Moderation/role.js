@@ -201,6 +201,10 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
             return client.messageHandler(message, client.isInteraction, { embeds: [embed] });
         } else {
             try {
+                //console.log(res.permissions);
+                if(res.permissions.has('ADMINISTRATOR')){
+                    return client.messageHandler(message, client.isInteraction, "I can't give you that role");
+                };
                 message.member.roles.add(res);
             } catch (err) {
                 return client.messageHandler(message, client.isInteraction, "An error occured: " + err);
