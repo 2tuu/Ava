@@ -80,7 +80,7 @@ exports.run = async (client, message, args, deletedMessage, sql) => {
 
         var time = minutes + hours + days;
 
-        if (time < 59999 || time > 604800000) {
+        if (time < 59999 || time > 1209600000) {
             return client.messageHandler(message, client.isInteraction, "Please enter a time between 1 minute and 14 days");
         }
 
