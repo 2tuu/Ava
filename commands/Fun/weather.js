@@ -40,7 +40,7 @@ exports.run = (client, message, args) => {
           embeds: [{
             title: "Weather information for " + info.location.name,
             "footer": {
-              "icon_url": "https://2tu.dev/kit/images/micro.png",
+              "icon_url": "https://eggno.gg/kit/images/micro.png",
               "text": "Powered by MSN Weather"
             },
             "thumbnail": {
