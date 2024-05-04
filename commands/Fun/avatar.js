@@ -13,7 +13,7 @@ exports.run = (client, message, args) => {
 		userID = message.author.id;
 	} else if (args[0] === "server") {
 		const embed = new Discord.MessageEmbed()
-			.setImage(message.guild.iconURL('png'))
+			.setImage(message.guild.iconURL({format: 'png'}))
 		return client.messageHandler(message, client.isInteraction, { embeds: [embed] })
 	} else if (args[0].match(/^\d/)) {
 		userID = args[0];
@@ -34,8 +34,8 @@ exports.run = (client, message, args) => {
 	} else {
 		message.guild.members.fetch(userID).then(myUser => {
 			const embed = new Discord.MessageEmbed()
-				.setDescription("[Link](" + myUser.displayAvatarURL('jpg') + ")")
-				.setImage(`${myUser.displayAvatarURL('jpg')}`)
+				.setDescription("[Link](" + myUser.displayAvatarURL({format: 'png'}) + ")")
+				.setImage(`${myUser.displayAvatarURL({format: 'png'})}`)
 			client.messageHandler(message, client.isInteraction, { embeds: [embed] })
 		}).catch((err) => {
 			const embed = new Discord.MessageEmbed()
