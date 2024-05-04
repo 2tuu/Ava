@@ -28,7 +28,7 @@ exports.conf = {
     format: "k?randomword",
     DM: false,
     ownerOnly: false,
-    alias: [],
+    alias: ['word'],
     slashCommand: true,
     data: {
         name: "randomword",
