@@ -1,3 +1,4 @@
+## This repository is no longer maintained
 ## Kit
 Kit is a general use moderation bot with a bunch of fun commands - She's built in Node JS with Discord.js, currently running in version v16.14.0
 
